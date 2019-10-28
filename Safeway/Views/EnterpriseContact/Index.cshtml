@@ -1,0 +1,14 @@
+﻿@model Safeway.ViewModel.EnterpriseContactVMs.EnterpriseContactListVM
+
+<wt:searchpanel vm="@Model" reset-btn="true">
+<wt:row items-per-row="ItemsPerRowEnum.Three">
+<wt:textbox field="Searcher.Dept" />
+<wt:textbox field="Searcher.Position" />
+<wt:textbox field="Searcher.Name" />
+<wt:textbox field="Searcher.Tele" />
+<wt:textbox field="Searcher.SchoolName" />
+<wt:textbox field="Searcher.MobilePhone" />
+<wt:textbox field="Searcher.Email" />
+</wt:row>
+</wt:searchpanel>
+<wt:grid vm="@Model" url="/EnterpriseContact/Search"/>

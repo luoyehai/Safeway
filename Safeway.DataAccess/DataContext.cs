@@ -4,14 +4,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WalkingTec.Mvvm.Core;
+using Safeway.Model.Enterprise;
 
 namespace Safeway.DataAccess
 {
     public class DataContext : FrameworkContext
     {
+        #region Enterprise
+        public DbSet<EnterpriseContact> EnterpriseContacts { get; set; }
+        #endregion
         public DataContext(string cs, DBTypeEnum dbtype)
              : base(cs, dbtype)
         {
+            
+
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            #region Enterprise Guid auto generate
+            modelBuilder.Entity<EnterpriseContact>()
+            .HasKey(c => new { c.Enterprise_Contact_Id });
+            //modelBuilder.Entity<EnterpriseContact>().Property(x => x.Enterprise_Contact_Id).HasDefaultValueSql("NEWID()");
+            #endregion
         }
 
     }
@@ -24,8 +39,9 @@ namespace Safeway.DataAccess
     {
         public DataContext CreateDbContext(string[] args)
         {
-            return new DataContext("你的完整连接字符串", DBTypeEnum.SqlServer);
+            return new DataContext("Server=SCNSZHS0016\\SHAREPOINT;Database=SafeWay_Dev;Trusted_Connection=True;MultipleActiveResultSets=true", DBTypeEnum.SqlServer);
         }
     }
+
 
 }

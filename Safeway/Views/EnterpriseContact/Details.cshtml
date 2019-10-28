@@ -1,0 +1,16 @@
+﻿@model Safeway.ViewModel.EnterpriseContactVMs.EnterpriseContactVM
+
+<wt:form vm="@Model">
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:display field="Entity.Dept" />
+<wt:display field="Entity.Position" />
+<wt:display field="Entity.Name" />
+<wt:display field="Entity.Tele" />
+<wt:display field="Entity.SchoolName" />
+<wt:display field="Entity.MobilePhone" />
+<wt:display field="Entity.Email" />
+</wt:row>
+    <wt:row align=" AlignEnum.Right">
+        <wt:closebutton />
+    </wt:row>
+</wt:form>
