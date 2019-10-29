@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Safeway.DataAccess.Migrations
 {
-    public partial class InitialCreat : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,28 +32,52 @@ namespace Safeway.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EnterpriseContacts",
+                name: "EnterpriseBasicInfos",
                 columns: table => new
                 {
-                    Enterprise_Contact_Id = table.Column<Guid>(nullable: false),
                     ID = table.Column<Guid>(nullable: false),
                     CreateTime = table.Column<DateTime>(nullable: true),
                     CreateBy = table.Column<string>(maxLength: 50, nullable: true),
                     UpdateTime = table.Column<DateTime>(nullable: true),
                     UpdateBy = table.Column<string>(maxLength: 50, nullable: true),
-                    EnterpriseId = table.Column<Guid>(nullable: false),
+                    ComapanyName = table.Column<string>(maxLength: 300, nullable: true),
+                    Province = table.Column<string>(maxLength: 50, nullable: true),
+                    City = table.Column<string>(maxLength: 50, nullable: true),
+                    District = table.Column<string>(maxLength: 200, nullable: true),
+                    Street = table.Column<string>(maxLength: 300, nullable: true),
+                    CompanyType = table.Column<string>(maxLength: 30, nullable: true),
+                    ForeignCountry = table.Column<string>(maxLength: 100, nullable: true),
+                    LegalRepresentative = table.Column<string>(maxLength: 100, nullable: true),
+                    CompanyScale = table.Column<int>(maxLength: 30, nullable: true),
+                    Industry = table.Column<string>(maxLength: 100, nullable: true),
+                    NoofEmployees = table.Column<string>(maxLength: 100, nullable: true),
+                    MainProducts = table.Column<string>(maxLength: 100, nullable: true),
+                    TermsofTrade = table.Column<int>(maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EnterpriseBasicInfos", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EnterpriseContacts",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(nullable: false),
+                    CreateTime = table.Column<DateTime>(nullable: true),
+                    CreateBy = table.Column<string>(maxLength: 50, nullable: true),
+                    UpdateTime = table.Column<DateTime>(nullable: true),
+                    UpdateBy = table.Column<string>(maxLength: 50, nullable: true),
                     Dept = table.Column<string>(maxLength: 50, nullable: true),
                     Position = table.Column<string>(maxLength: 50, nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: true),
                     Tele = table.Column<string>(maxLength: 30, nullable: true),
-                    SchoolName = table.Column<string>(nullable: true),
                     MobilePhone = table.Column<string>(maxLength: 30, nullable: true),
                     Email = table.Column<string>(maxLength: 30, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EnterpriseContacts", x => x.Enterprise_Contact_Id);
-                    table.UniqueConstraint("AK_EnterpriseContacts_Enterprise_Contact_Id_ID", x => new { x.Enterprise_Contact_Id, x.ID });
+                    table.PrimaryKey("PK_EnterpriseContacts", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -500,6 +524,9 @@ namespace Safeway.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "DataPrivileges");
+
+            migrationBuilder.DropTable(
+                name: "EnterpriseBasicInfos");
 
             migrationBuilder.DropTable(
                 name: "EnterpriseContacts");

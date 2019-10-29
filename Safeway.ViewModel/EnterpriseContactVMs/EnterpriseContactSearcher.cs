@@ -20,7 +20,6 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
         public String Name { get; set; }
         [Display(Name = "座机")]
         public String Tele { get; set; }
-        public String SchoolName { get; set; }
         [Display(Name = "手机")]
         public String MobilePhone { get; set; }
         [Display(Name = "邮箱")]

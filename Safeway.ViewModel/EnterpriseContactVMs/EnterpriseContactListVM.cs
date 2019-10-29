@@ -35,7 +35,6 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
                 this.MakeGridHeader(x => x.Position),
                 this.MakeGridHeader(x => x.Name),
                 this.MakeGridHeader(x => x.Tele),
-                this.MakeGridHeader(x => x.SchoolName),
                 this.MakeGridHeader(x => x.MobilePhone),
                 this.MakeGridHeader(x => x.Email),
                 this.MakeGridHeaderAction(width: 200)
@@ -49,7 +48,6 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
                 .CheckContain(Searcher.Position, x=>x.Position)
                 .CheckContain(Searcher.Name, x=>x.Name)
                 .CheckContain(Searcher.Tele, x=>x.Tele)
-                .CheckContain(Searcher.SchoolName, x=>x.SchoolName)
                 .CheckContain(Searcher.MobilePhone, x=>x.MobilePhone)
                 .CheckContain(Searcher.Email, x=>x.Email)
                 .Select(x => new EnterpriseContact_View
@@ -59,7 +57,6 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
                     Position = x.Position,
                     Name = x.Name,
                     Tele = x.Tele,
-                    SchoolName = x.SchoolName,
                     MobilePhone = x.MobilePhone,
                     Email = x.Email,
                 })

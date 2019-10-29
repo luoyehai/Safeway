@@ -9,10 +9,12 @@ namespace Safeway.Model.Enterprise
 {
     public class EnterpriseContact : BasePoco
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Enterprise_Contact_Id { get; set; }
-        public Guid EnterpriseId { get; set; }
+        //[Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //public Guid Enterprise_Contact_Id { get; set; }
+
+        //[ForeignKey("ID")]
+        //public EnterpriseBasicInfo BasicInfo { get; set; } = new EnterpriseBasicInfo();
         [Display(Name = "部门")]
         [StringLength(50)]
         public string Dept { get; set; }
@@ -25,12 +27,14 @@ namespace Safeway.Model.Enterprise
         [Display(Name = "座机")]
         [StringLength(30)]
         public string Tele { get; set; }
-        public string SchoolName { get; set; }
         [Display(Name = "手机")]
         [StringLength(30)]
         public string MobilePhone { get; set; }
         [Display(Name = "邮箱")]
         [StringLength(30)]
         public string Email { get; set; }
+
+        //public Guid  EnterpriseBasicInfoId { get; set; }
+        //public EnterpriseBasicInfo EnterpriseBasicInfo { get; set; }
     }
 }

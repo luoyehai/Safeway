@@ -6,22 +6,22 @@ using System.Linq;
 using System.Text;
 using WalkingTec.Mvvm.Core;
 using Safeway.Controllers;
-using Safeway.ViewModel.EnterpriseContactVMs;
+using Safeway.ViewModel.EnterpriseBasicInfoVMs;
 using Safeway.Model.Enterprise;
 using Safeway.DataAccess;
 
 namespace Safeway.Test
 {
     [TestClass]
-    public class EnterpriseContactControllerTest
+    public class EnterpriseBasicInfoControllerTest
     {
-        private EnterpriseContactController _controller;
+        private EnterpriseBasicInfoController _controller;
         private string _seed;
 
-        public EnterpriseContactControllerTest()
+        public EnterpriseBasicInfoControllerTest()
         {
             _seed = Guid.NewGuid().ToString();
-            _controller = MockController.CreateController<EnterpriseContactController>(_seed, "user");
+            _controller = MockController.CreateController<EnterpriseBasicInfoController>(_seed, "user");
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Safeway.Test
         {
             PartialViewResult rv = (PartialViewResult)_controller.Index();
             Assert.IsInstanceOfType(rv.Model, typeof(IBasePagedListVM<TopBasePoco, BaseSearcher>));
-            string rv2 = _controller.Search(rv.Model as EnterpriseContactListVM);
+            string rv2 = _controller.Search(rv.Model as EnterpriseBasicInfoListVM);
             Assert.IsTrue(rv2.Contains("\"Code\":200"));
         }
 
@@ -37,17 +37,17 @@ namespace Safeway.Test
         public void CreateTest()
         {
             PartialViewResult rv = (PartialViewResult)_controller.Create();
-            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseContactVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseBasicInfoVM));
 
-            EnterpriseContactVM vm = rv.Model as EnterpriseContactVM;
-            EnterpriseContact v = new EnterpriseContact();
+            EnterpriseBasicInfoVM vm = rv.Model as EnterpriseBasicInfoVM;
+            EnterpriseBasicInfo v = new EnterpriseBasicInfo();
 			
             vm.Entity = v;
             _controller.Create(vm);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                var data = context.Set<EnterpriseContact>().FirstOrDefault();
+                var data = context.Set<EnterpriseBasicInfo>().FirstOrDefault();
 				
                 Assert.AreEqual(data.CreateBy, "user");
                 Assert.IsTrue(DateTime.Now.Subtract(data.CreateTime.Value).Seconds < 10);
@@ -58,19 +58,19 @@ namespace Safeway.Test
         [TestMethod]
         public void EditTest()
         {
-            EnterpriseContact v = new EnterpriseContact();
+            EnterpriseBasicInfo v = new EnterpriseBasicInfo();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
        			
-                context.Set<EnterpriseContact>().Add(v);
+                context.Set<EnterpriseBasicInfo>().Add(v);
                 context.SaveChanges();
             }
 
             PartialViewResult rv = (PartialViewResult)_controller.Edit(v.ID.ToString());
-            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseContactVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseBasicInfoVM));
 
-            EnterpriseContactVM vm = rv.Model as EnterpriseContactVM;
-            v = new EnterpriseContact();
+            EnterpriseBasicInfoVM vm = rv.Model as EnterpriseBasicInfoVM;
+            v = new EnterpriseBasicInfo();
             v.ID = vm.Entity.ID;
        		
             vm.Entity = v;
@@ -80,7 +80,7 @@ namespace Safeway.Test
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                var data = context.Set<EnterpriseContact>().FirstOrDefault();
+                var data = context.Set<EnterpriseBasicInfo>().FirstOrDefault();
  				
                 Assert.AreEqual(data.UpdateBy, "user");
                 Assert.IsTrue(DateTime.Now.Subtract(data.UpdateTime.Value).Seconds < 10);
@@ -92,26 +92,26 @@ namespace Safeway.Test
         [TestMethod]
         public void DeleteTest()
         {
-            EnterpriseContact v = new EnterpriseContact();
+            EnterpriseBasicInfo v = new EnterpriseBasicInfo();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
         		
-                context.Set<EnterpriseContact>().Add(v);
+                context.Set<EnterpriseBasicInfo>().Add(v);
                 context.SaveChanges();
             }
 
             PartialViewResult rv = (PartialViewResult)_controller.Delete(v.ID.ToString());
-            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseContactVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseBasicInfoVM));
 
-            EnterpriseContactVM vm = rv.Model as EnterpriseContactVM;
-            v = new EnterpriseContact();
+            EnterpriseBasicInfoVM vm = rv.Model as EnterpriseBasicInfoVM;
+            v = new EnterpriseBasicInfo();
             v.ID = vm.Entity.ID;
             vm.Entity = v;
             _controller.Delete(v.ID.ToString(),null);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                Assert.AreEqual(context.Set<EnterpriseContact>().Count(), 0);
+                Assert.AreEqual(context.Set<EnterpriseBasicInfo>().Count(), 0);
             }
 
         }
@@ -120,11 +120,11 @@ namespace Safeway.Test
         [TestMethod]
         public void DetailsTest()
         {
-            EnterpriseContact v = new EnterpriseContact();
+            EnterpriseBasicInfo v = new EnterpriseBasicInfo();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                context.Set<EnterpriseContact>().Add(v);
+                context.Set<EnterpriseBasicInfo>().Add(v);
                 context.SaveChanges();
             }
             PartialViewResult rv = (PartialViewResult)_controller.Details(v.ID.ToString());
@@ -135,26 +135,26 @@ namespace Safeway.Test
         [TestMethod]
         public void BatchDeleteTest()
         {
-            EnterpriseContact v1 = new EnterpriseContact();
-            EnterpriseContact v2 = new EnterpriseContact();
+            EnterpriseBasicInfo v1 = new EnterpriseBasicInfo();
+            EnterpriseBasicInfo v2 = new EnterpriseBasicInfo();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                context.Set<EnterpriseContact>().Add(v1);
-                context.Set<EnterpriseContact>().Add(v2);
+                context.Set<EnterpriseBasicInfo>().Add(v1);
+                context.Set<EnterpriseBasicInfo>().Add(v2);
                 context.SaveChanges();
             }
 
             PartialViewResult rv = (PartialViewResult)_controller.BatchDelete(new string[] { v1.ID.ToString(), v2.ID.ToString() });
-            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseContactBatchVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseBasicInfoBatchVM));
 
-            EnterpriseContactBatchVM vm = rv.Model as EnterpriseContactBatchVM;
+            EnterpriseBasicInfoBatchVM vm = rv.Model as EnterpriseBasicInfoBatchVM;
             vm.Ids = new string[] { v1.ID.ToString(), v2.ID.ToString() };
             _controller.DoBatchDelete(vm, null);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                Assert.AreEqual(context.Set<EnterpriseContact>().Count(), 0);
+                Assert.AreEqual(context.Set<EnterpriseBasicInfo>().Count(), 0);
             }
         }
 
@@ -163,7 +163,7 @@ namespace Safeway.Test
         {
             PartialViewResult rv = (PartialViewResult)_controller.Index();
             Assert.IsInstanceOfType(rv.Model, typeof(IBasePagedListVM<TopBasePoco, BaseSearcher>));
-            IActionResult rv2 = _controller.ExportExcel(rv.Model as EnterpriseContactListVM);
+            IActionResult rv2 = _controller.ExportExcel(rv.Model as EnterpriseBasicInfoListVM);
             Assert.IsTrue((rv2 as FileContentResult).FileContents.Length > 0);
         }
 

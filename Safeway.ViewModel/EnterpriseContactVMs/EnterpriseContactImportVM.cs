@@ -20,7 +20,6 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
         public ExcelPropety Name_Excel = ExcelPropety.CreateProperty<EnterpriseContact>(x => x.Name);
         [Display(Name = "座机")]
         public ExcelPropety Tele_Excel = ExcelPropety.CreateProperty<EnterpriseContact>(x => x.Tele);
-        public ExcelPropety SchoolName_Excel = ExcelPropety.CreateProperty<EnterpriseContact>(x => x.SchoolName);
         [Display(Name = "手机")]
         public ExcelPropety MobilePhone_Excel = ExcelPropety.CreateProperty<EnterpriseContact>(x => x.MobilePhone);
         [Display(Name = "邮箱")]

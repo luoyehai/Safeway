@@ -1,0 +1,22 @@
+﻿@model Safeway.ViewModel.EnterpriseBasicInfoVMs.EnterpriseBasicInfoVM
+
+<wt:form vm="@Model">
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:display field="Entity.ComapanyName" />
+<wt:display field="Entity.Province" />
+<wt:display field="Entity.City" />
+<wt:display field="Entity.District" />
+<wt:display field="Entity.Street" />
+<wt:display field="Entity.CompanyType" />
+<wt:display field="Entity.ForeignCountry" />
+<wt:display field="Entity.LegalRepresentative" />
+<wt:display field="Entity.CompanyScale" />
+<wt:display field="Entity.Industry" />
+<wt:display field="Entity.NoofEmployees" />
+<wt:display field="Entity.MainProducts" />
+<wt:display field="Entity.TermsofTrade" />
+</wt:row>
+    <wt:row align=" AlignEnum.Right">
+        <wt:closebutton />
+    </wt:row>
+</wt:form>

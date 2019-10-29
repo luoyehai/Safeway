@@ -12,6 +12,7 @@ namespace Safeway.DataAccess
     {
         #region Enterprise
         public DbSet<EnterpriseContact> EnterpriseContacts { get; set; }
+        public DbSet<EnterpriseBasicInfo> EnterpriseBasicInfos { get; set; }
         #endregion
         public DataContext(string cs, DBTypeEnum dbtype)
              : base(cs, dbtype)
@@ -23,9 +24,16 @@ namespace Safeway.DataAccess
         {
             base.OnModelCreating(modelBuilder);
             #region Enterprise Guid auto generate
+            modelBuilder.Entity<EnterpriseBasicInfo>()
+            .HasKey(c => new { c.ID });
             modelBuilder.Entity<EnterpriseContact>()
-            .HasKey(c => new { c.Enterprise_Contact_Id });
-            //modelBuilder.Entity<EnterpriseContact>().Property(x => x.Enterprise_Contact_Id).HasDefaultValueSql("NEWID()");
+            .HasKey(c => new { c.ID });
+
+
+            // modelBuilder.Entity<EnterpriseContact>().HasOne(p => p.EnterpriseBasicInfo)
+            //.WithMany(b => b.EnterpriseContacts)
+            //.HasForeignKey(p => p.EnterpriseBasicInfoId)
+            //.HasConstraintName("ForeignKey_Basic_Contact");
             #endregion
         }
 

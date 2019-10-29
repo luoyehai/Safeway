@@ -10,8 +10,8 @@ using Safeway.DataAccess;
 namespace Safeway.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191028072224_InitialCreat")]
-    partial class InitialCreat
+    [Migration("20191029020132_ChangeEnumPosition")]
+    partial class ChangeEnumPosition
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,9 +21,68 @@ namespace Safeway.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Safeway.Model.Enterprise.EnterpriseBasicInfo", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("City")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("ComapanyName")
+                        .HasMaxLength(300);
+
+                    b.Property<int?>("CompanyScale")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("CompanyType")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("CreateBy")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("CreateTime");
+
+                    b.Property<string>("District")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("ForeignCountry")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Industry")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("LegalRepresentative")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("MainProducts")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("NoofEmployees")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Province")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Street")
+                        .HasMaxLength(300);
+
+                    b.Property<int?>("TermsofTrade")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("UpdateBy")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("UpdateTime");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("EnterpriseBasicInfos");
+                });
+
             modelBuilder.Entity("Safeway.Model.Enterprise.EnterpriseContact", b =>
                 {
-                    b.Property<Guid>("Enterprise_Contact_Id")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CreateBy")
@@ -37,10 +96,6 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<string>("Email")
                         .HasMaxLength(30);
 
-                    b.Property<Guid>("EnterpriseId");
-
-                    b.Property<Guid>("ID");
-
                     b.Property<string>("MobilePhone")
                         .HasMaxLength(30);
 
@@ -50,8 +105,6 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<string>("Position")
                         .HasMaxLength(50);
 
-                    b.Property<string>("SchoolName");
-
                     b.Property<string>("Tele")
                         .HasMaxLength(30);
 
@@ -60,9 +113,7 @@ namespace Safeway.DataAccess.Migrations
 
                     b.Property<DateTime?>("UpdateTime");
 
-                    b.HasKey("Enterprise_Contact_Id");
-
-                    b.HasAlternateKey("Enterprise_Contact_Id", "ID");
+                    b.HasKey("ID");
 
                     b.ToTable("EnterpriseContacts");
                 });

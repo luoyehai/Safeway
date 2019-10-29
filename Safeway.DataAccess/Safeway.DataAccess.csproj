@@ -7,5 +7,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Safeway.Model\Safeway.Model.csproj" />
-  </ItemGroup >
+  </ItemGroup>
 </Project>
