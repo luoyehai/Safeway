@@ -45,6 +45,8 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
         public override IOrderedQueryable<EnterpriseFinanceInfo_View> GetSearchQuery()
         {
             var query = DC.Set<EnterpriseFinanceInfo>()
+                .CheckContain(Searcher.UnifiedSocialCreditCode, x=>x.UnifiedSocialCreditCode)
+                .CheckContain(Searcher.CustomerReceiptReceiver, x=>x.CustomerReceiptReceiver)
                 .CheckEqual(Searcher.EnterpriseBasicId, x=>x.EnterpriseBasicId)
                 .Select(x => new EnterpriseFinanceInfo_View
                 {

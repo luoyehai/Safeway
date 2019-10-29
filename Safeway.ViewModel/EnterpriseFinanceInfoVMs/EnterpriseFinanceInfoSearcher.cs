@@ -12,6 +12,10 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
 {
     public partial class EnterpriseFinanceInfoSearcher : BaseSearcher
     {
+        [Display(Name = "统一社会信用代码")]
+        public String UnifiedSocialCreditCode { get; set; }
+        [Display(Name = "发票接收人")]
+        public String CustomerReceiptReceiver { get; set; }
         public List<ComboSelectListItem> AllBasicInfos { get; set; }
         public Guid? EnterpriseBasicId { get; set; }
 
