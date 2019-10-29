@@ -1,0 +1,16 @@
+﻿@model Safeway.ViewModel.EnterpriseFinanceInfoVMs.EnterpriseFinanceInfoVM
+
+<wt:form vm="@Model">
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:textbox field="Entity.UnifiedSocialCreditCode" />
+<wt:textbox field="Entity.Company_Address" />
+<wt:textbox field="Entity.Tele_Number" />
+<wt:textbox field="Entity.Bank" />
+<wt:textbox field="Entity.Account" />
+<wt:textbox field="Entity.CustomerReceiptReceiver" />
+</wt:row>
+    <wt:row align="AlignEnum.Right">
+        <wt:submitbutton />
+        <wt:closebutton />
+    </wt:row>
+</wt:form>

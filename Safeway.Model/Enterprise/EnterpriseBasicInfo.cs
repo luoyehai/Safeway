@@ -7,22 +7,22 @@ using WalkingTec.Mvvm.Core;
 using Safeway.Model.Enterprise;
 namespace Safeway.Model.Enterprise
 {
+    public enum TermsofTradeEnum
+    {
+        [Display(Name = "出口")]
+        Export,
+        [Display(Name = "内销")]
+        DomesticSales
+    }
+    public enum CompanyScaleEnum
+    {
+        [Display(Name = "规上")]
+        Large,
+        [Display(Name = "小微")]
+        Small
+    }
     public class EnterpriseBasicInfo : BasePoco
     {
-        public enum TermsofTradeEnum
-        {
-            [Display(Name = "出口")]
-            Export,
-            [Display(Name = "内销")]
-            DomesticSales
-        }
-        public enum CompanyScaleEnum
-        {
-            [Display(Name = "规上")]
-            Large,
-            [Display(Name = "小微")]
-            Small
-        }
         //[Key]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         //public Guid EnterpriseId { get; set; }
@@ -51,7 +51,6 @@ namespace Safeway.Model.Enterprise
         [StringLength(100)]
         public string LegalRepresentative { get; set; }
         [Display(Name = "企业规模")]
-        [StringLength(30)]
         public CompanyScaleEnum? CompanyScale { get; set; }
         [Display(Name = "行业")]
         [StringLength(100)]
@@ -63,7 +62,6 @@ namespace Safeway.Model.Enterprise
         [StringLength(100)]
         public string MainProducts { get; set; }
         [Display(Name = "贸易方式")]
-        [StringLength(100)]
         public TermsofTradeEnum? TermsofTrade { get; set; }
 
       //  public List<EnterpriseContact> EnterpriseContacts { get; set; }

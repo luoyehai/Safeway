@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Safeway.DataAccess;
 
 namespace Safeway.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191029023020_financetable")]
+    partial class financetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +32,8 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<string>("ComapanyName")
                         .HasMaxLength(300);
 
-                    b.Property<int?>("CompanyScale");
+                    b.Property<int?>("CompanyScale")
+                        .HasMaxLength(30);
 
                     b.Property<string>("CompanyType")
                         .HasMaxLength(30);
@@ -64,7 +67,8 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<string>("Street")
                         .HasMaxLength(300);
 
-                    b.Property<int?>("TermsofTrade");
+                    b.Property<int?>("TermsofTrade")
+                        .HasMaxLength(100);
 
                     b.Property<string>("UpdateBy")
                         .HasMaxLength(50);

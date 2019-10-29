@@ -13,6 +13,7 @@ namespace Safeway.DataAccess
         #region Enterprise
         public DbSet<EnterpriseContact> EnterpriseContacts { get; set; }
         public DbSet<EnterpriseBasicInfo> EnterpriseBasicInfos { get; set; }
+        public DbSet<EnterpriseFinanceInfo> EnterpriseFinanceInfos { get; set; }
         #endregion
         public DataContext(string cs, DBTypeEnum dbtype)
              : base(cs, dbtype)
@@ -28,6 +29,8 @@ namespace Safeway.DataAccess
             .HasKey(c => new { c.ID });
             modelBuilder.Entity<EnterpriseContact>()
             .HasKey(c => new { c.ID });
+            modelBuilder.Entity<EnterpriseFinanceInfo>()
+            .HasKey(c =>new { c.ID});
 
 
             // modelBuilder.Entity<EnterpriseContact>().HasOne(p => p.EnterpriseBasicInfo)
