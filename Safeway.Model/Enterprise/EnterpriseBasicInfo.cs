@@ -53,7 +53,8 @@ namespace Safeway.Model.Enterprise
 
         public EnterpriseFinanceInfo FinanceInfo { get; set; }
 
-        //  public List<EnterpriseContact> EnterpriseContacts { get; set; }
+        public List<EnterpriseContact> EnterpriseContacts { get; set; }
+        public List<EnterpriserYearYield> EnterpriserYearYields { get; set; }
 
     }
 }

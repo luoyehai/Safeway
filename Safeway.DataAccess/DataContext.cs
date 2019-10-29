@@ -14,6 +14,7 @@ namespace Safeway.DataAccess
         public DbSet<EnterpriseContact> EnterpriseContacts { get; set; }
         public DbSet<EnterpriseBasicInfo> EnterpriseBasicInfos { get; set; }
         public DbSet<EnterpriseFinanceInfo> EnterpriseFinanceInfos { get; set; }
+        public DbSet<EnterpriserYearYield> EnterpriserYearYields { get; set; }
         #endregion
         public DataContext(string cs, DBTypeEnum dbtype)
              : base(cs, dbtype)
@@ -29,15 +30,31 @@ namespace Safeway.DataAccess
             .HasKey(c => new { c.ID });
             modelBuilder.Entity<EnterpriseContact>()
             .HasKey(c => new { c.ID });
+            modelBuilder.Entity<EnterpriserYearYield>()
+            .HasKey(y => new { y.ID });
             //modelBuilder.Entity<EnterpriseFinanceInfo>()
             //.HasKey(c =>new { c.ID});
 
-
+            //one to one
             modelBuilder.Entity<EnterpriseBasicInfo>()
             .HasOne<EnterpriseFinanceInfo>(b => b.FinanceInfo)
             .WithOne(f => f.BasicInfo)
             .HasForeignKey<EnterpriseFinanceInfo>(f=> f.EnterpriseBasicId)
             .HasConstraintName("FK_Basic_Finance");
+
+            //one to many
+            modelBuilder.Entity<EnterpriseContact>()
+                .HasOne<EnterpriseBasicInfo>(c => c.EnterpriseBasicInfo)
+                .WithMany(b => b.EnterpriseContacts)
+                .HasForeignKey(c => c.EnterpriseBasicInfoId)
+                .HasConstraintName("FK_Basic_Contacts");
+
+            modelBuilder.Entity<EnterpriserYearYield>()
+                .HasOne<EnterpriseBasicInfo>(y => y.EnterpriseBasicInfo)
+                .WithMany(b => b.EnterpriserYearYields)
+                .HasForeignKey(y => y.EnterpriseBasicInfoId)
+                .HasConstraintName("FK_Basic_YearYields");
+
 
             // modelBuilder.Entity<EnterpriseContact>().HasOne(p => p.EnterpriseBasicInfo)
             //.WithMany(b => b.EnterpriseContacts)

@@ -8,13 +8,13 @@ using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.Model.Enterprise;
 
 
-namespace Safeway.ViewModel.EnterpriseContactVMs
+namespace Safeway.ViewModel.EnterpriserYearYieldVMs
 {
-    public partial class EnterpriseContactVM : BaseCRUDVM<EnterpriseContact>
+    public partial class EnterpriserYearYieldVM : BaseCRUDVM<EnterpriserYearYield>
     {
         public List<ComboSelectListItem> AllEnterpriseBasicInfos { get; set; }
 
-        public EnterpriseContactVM()
+        public EnterpriserYearYieldVM()
         {
             SetInclude(x => x.EnterpriseBasicInfo);
         }

@@ -1,13 +1,10 @@
-﻿@model Safeway.ViewModel.EnterpriseContactVMs.EnterpriseContactVM
+﻿@model Safeway.ViewModel.EnterpriserYearYieldVMs.EnterpriserYearYieldVM
 
 <wt:form vm="@Model">
 <wt:row items-per-row="ItemsPerRowEnum.Two">
-<wt:textbox field="Entity.Dept" />
-<wt:textbox field="Entity.Position" />
-<wt:textbox field="Entity.Name" />
-<wt:textbox field="Entity.Tele" />
-<wt:textbox field="Entity.MobilePhone" />
-<wt:textbox field="Entity.Email" />
+<wt:textbox field="Entity.FiscalYear" />
+<wt:textbox field="Entity.YearYieldValue" />
+<wt:datetime field="Entity.Created" />
 <wt:combobox field="Entity.EnterpriseBasicInfoId" label-text="企业名称" items="AllEnterpriseBasicInfos"/>
 </wt:row>
     <wt:hidden field="Entity.ID" />

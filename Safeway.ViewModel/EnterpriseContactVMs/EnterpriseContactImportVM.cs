@@ -24,9 +24,12 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
         public ExcelPropety MobilePhone_Excel = ExcelPropety.CreateProperty<EnterpriseContact>(x => x.MobilePhone);
         [Display(Name = "邮箱")]
         public ExcelPropety Email_Excel = ExcelPropety.CreateProperty<EnterpriseContact>(x => x.Email);
+        public ExcelPropety EnterpriseBasicInfo_Excel = ExcelPropety.CreateProperty<EnterpriseContact>(x => x.EnterpriseBasicInfoId);
 
 	    protected override void InitVM()
         {
+            EnterpriseBasicInfo_Excel.DataType = ColumnDataType.ComboBox;
+            EnterpriseBasicInfo_Excel.ListItems = DC.Set<EnterpriseBasicInfo>().GetSelectListItems(LoginUserInfo?.DataPrivileges, null, y => y.ComapanyName);
         }
 
     }

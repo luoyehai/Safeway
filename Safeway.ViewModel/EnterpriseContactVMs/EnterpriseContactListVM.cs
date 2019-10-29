@@ -37,6 +37,7 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
                 this.MakeGridHeader(x => x.Tele),
                 this.MakeGridHeader(x => x.MobilePhone),
                 this.MakeGridHeader(x => x.Email),
+                this.MakeGridHeader(x => x.ComapanyName_view),
                 this.MakeGridHeaderAction(width: 200)
             };
         }
@@ -45,11 +46,7 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
         {
             var query = DC.Set<EnterpriseContact>()
                 .CheckContain(Searcher.Dept, x=>x.Dept)
-                .CheckContain(Searcher.Position, x=>x.Position)
-                .CheckContain(Searcher.Name, x=>x.Name)
-                .CheckContain(Searcher.Tele, x=>x.Tele)
-                .CheckContain(Searcher.MobilePhone, x=>x.MobilePhone)
-                .CheckContain(Searcher.Email, x=>x.Email)
+                .CheckEqual(Searcher.EnterpriseBasicInfoId, x=>x.EnterpriseBasicInfoId)
                 .Select(x => new EnterpriseContact_View
                 {
 				    ID = x.ID,
@@ -59,6 +56,7 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
                     Tele = x.Tele,
                     MobilePhone = x.MobilePhone,
                     Email = x.Email,
+                    ComapanyName_view = x.EnterpriseBasicInfo.ComapanyName,
                 })
                 .OrderBy(x => x.ID);
             return query;
@@ -67,6 +65,8 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
     }
 
     public class EnterpriseContact_View : EnterpriseContact{
+        [Display(Name = "公司名称")]
+        public String ComapanyName_view { get; set; }
 
     }
 }

@@ -8,7 +8,7 @@ using Safeway.Model.Common;
 
 namespace Safeway.Model.Enterprise
 {
-    public class EnterpriserYearYield
+    public class EnterpriserYearYield : BasePoco
     {
         [Display(Name = "财年")]
         public string FiscalYear { get; set; }
@@ -19,5 +19,8 @@ namespace Safeway.Model.Enterprise
 
         [Display(Name = "创建时间")]
         public DateTime Created { get; set; }
+
+        public Guid EnterpriseBasicInfoId { get; set; }
+        public EnterpriseBasicInfo EnterpriseBasicInfo { get; set; }
     }
 }
