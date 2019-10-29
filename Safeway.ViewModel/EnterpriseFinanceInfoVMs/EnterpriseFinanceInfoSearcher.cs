@@ -12,9 +12,12 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
 {
     public partial class EnterpriseFinanceInfoSearcher : BaseSearcher
     {
+        public List<ComboSelectListItem> AllBasicInfos { get; set; }
+        public Guid? EnterpriseBasicId { get; set; }
 
         protected override void InitVM()
         {
+            AllBasicInfos = DC.Set<EnterpriseBasicInfo>().GetSelectListItems(LoginUserInfo?.DataPrivileges, null, y => y.ComapanyName);
         }
 
     }

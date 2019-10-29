@@ -29,9 +29,15 @@ namespace Safeway.DataAccess
             .HasKey(c => new { c.ID });
             modelBuilder.Entity<EnterpriseContact>()
             .HasKey(c => new { c.ID });
-            modelBuilder.Entity<EnterpriseFinanceInfo>()
-            .HasKey(c =>new { c.ID});
+            //modelBuilder.Entity<EnterpriseFinanceInfo>()
+            //.HasKey(c =>new { c.ID});
 
+
+            modelBuilder.Entity<EnterpriseBasicInfo>()
+            .HasOne<EnterpriseFinanceInfo>(b => b.FinanceInfo)
+            .WithOne(f => f.BasicInfo)
+            .HasForeignKey<EnterpriseFinanceInfo>(f=> f.EnterpriseBasicId)
+            .HasConstraintName("FK_Basic_Finance");
 
             // modelBuilder.Entity<EnterpriseContact>().HasOne(p => p.EnterpriseBasicInfo)
             //.WithMany(b => b.EnterpriseContacts)

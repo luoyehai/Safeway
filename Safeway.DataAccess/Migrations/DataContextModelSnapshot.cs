@@ -136,6 +136,8 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<string>("CustomerReceiptReceiver")
                         .HasMaxLength(50);
 
+                    b.Property<Guid>("EnterpriseBasicId");
+
                     b.Property<string>("Tele_Number")
                         .HasMaxLength(50);
 
@@ -148,6 +150,9 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<DateTime?>("UpdateTime");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("EnterpriseBasicId")
+                        .IsUnique();
 
                     b.ToTable("EnterpriseFinanceInfos");
                 });
@@ -691,6 +696,15 @@ namespace Safeway.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("SearchConditions");
+                });
+
+            modelBuilder.Entity("Safeway.Model.Enterprise.EnterpriseFinanceInfo", b =>
+                {
+                    b.HasOne("Safeway.Model.Enterprise.EnterpriseBasicInfo", "BasicInfo")
+                        .WithOne("FinanceInfo")
+                        .HasForeignKey("Safeway.Model.Enterprise.EnterpriseFinanceInfo", "EnterpriseBasicId")
+                        .HasConstraintName("FK_Basic_Finance")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WalkingTec.Mvvm.Core.DataPrivilege", b =>
