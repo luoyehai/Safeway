@@ -42,7 +42,7 @@ namespace Safeway.Test
             EnterpriserYearYieldVM vm = rv.Model as EnterpriserYearYieldVM;
             EnterpriserYearYield v = new EnterpriserYearYield();
 			
-            v.YearYieldValue = 86;
+            v.YearYieldValue = 36;
             v.EnterpriseBasicInfoId = AddEnterpriseBasicInfo();
             vm.Entity = v;
             _controller.Create(vm);
@@ -51,7 +51,7 @@ namespace Safeway.Test
             {
                 var data = context.Set<EnterpriserYearYield>().FirstOrDefault();
 				
-                Assert.AreEqual(data.YearYieldValue, 86);
+                Assert.AreEqual(data.YearYieldValue, 36);
                 Assert.AreEqual(data.CreateBy, "user");
                 Assert.IsTrue(DateTime.Now.Subtract(data.CreateTime.Value).Seconds < 10);
             }
@@ -65,7 +65,7 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
        			
-                v.YearYieldValue = 86;
+                v.YearYieldValue = 36;
                 v.EnterpriseBasicInfoId = AddEnterpriseBasicInfo();
                 context.Set<EnterpriserYearYield>().Add(v);
                 context.SaveChanges();
@@ -78,7 +78,7 @@ namespace Safeway.Test
             v = new EnterpriserYearYield();
             v.ID = vm.Entity.ID;
        		
-            v.YearYieldValue = 43;
+            v.YearYieldValue = 86;
             vm.Entity = v;
             vm.FC = new Dictionary<string, object>();
 			
@@ -90,7 +90,7 @@ namespace Safeway.Test
             {
                 var data = context.Set<EnterpriserYearYield>().FirstOrDefault();
  				
-                Assert.AreEqual(data.YearYieldValue, 43);
+                Assert.AreEqual(data.YearYieldValue, 86);
                 Assert.AreEqual(data.UpdateBy, "user");
                 Assert.IsTrue(DateTime.Now.Subtract(data.UpdateTime.Value).Seconds < 10);
             }
@@ -105,7 +105,7 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
         		
-                v.YearYieldValue = 86;
+                v.YearYieldValue = 36;
                 v.EnterpriseBasicInfoId = AddEnterpriseBasicInfo();
                 context.Set<EnterpriserYearYield>().Add(v);
                 context.SaveChanges();
@@ -135,7 +135,7 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                v.YearYieldValue = 86;
+                v.YearYieldValue = 36;
                 v.EnterpriseBasicInfoId = AddEnterpriseBasicInfo();
                 context.Set<EnterpriserYearYield>().Add(v);
                 context.SaveChanges();
@@ -153,9 +153,9 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                v1.YearYieldValue = 86;
+                v1.YearYieldValue = 36;
                 v1.EnterpriseBasicInfoId = AddEnterpriseBasicInfo();
-                v2.YearYieldValue = 43;
+                v2.YearYieldValue = 86;
                 v2.EnterpriseBasicInfoId = v1.EnterpriseBasicInfoId; 
                 context.Set<EnterpriserYearYield>().Add(v1);
                 context.Set<EnterpriserYearYield>().Add(v2);

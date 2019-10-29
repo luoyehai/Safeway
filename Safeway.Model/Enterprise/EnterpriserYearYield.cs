@@ -20,6 +20,7 @@ namespace Safeway.Model.Enterprise
         [Display(Name = "创建时间")]
         public DateTime Created { get; set; }
 
+        [Display(Name = "企业名称")]
         public Guid EnterpriseBasicInfoId { get; set; }
         public EnterpriseBasicInfo EnterpriseBasicInfo { get; set; }
     }

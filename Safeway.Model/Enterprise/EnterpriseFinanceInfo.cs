@@ -33,6 +33,7 @@ namespace Safeway.Model.Enterprise
         [StringLength(50)]
         public string CustomerReceiptReceiver { get; set; }
 
+        [Display(Name = "企业名称")]
         public Guid EnterpriseBasicId { get; set; }
         public EnterpriseBasicInfo BasicInfo { get; set; }
     }
