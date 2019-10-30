@@ -5,6 +5,10 @@ using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Mvc;
 using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.ViewModel.EnterpriseBasicInfoVMs;
+using System.IO;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace Safeway.Controllers
 {
@@ -207,6 +211,21 @@ namespace Safeway.Controllers
             var data = vm.GenerateExcel();
             return File(data, "application/vnd.ms-excel", $"Export_EnterpriseBasicInfo_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
         }
+        //[ActionDescription("Lib")]
+        //public IActionResult ProvinceFile(string keywords)
+        //{
+        //    List<AdddressJsonObject> items;
+        //    var path = Path.Combine(Directory.GetCurrentDirectory(),
+        //                           "wwwroot", "custermisedui", "chinaregion", "province.json");
+        //    using (StreamReader reader = new StreamReader(path))
+        //    //using (JsonTextReader reader = new JsonTextReader(file))
+        //    {
+        //        string json = reader.ReadToEnd();
+        //        items = JsonConvert.DeserializeObject<List<AdddressJsonObject>>(json);
+        //    }
+        //    var rv = items.Where(x => x.name.Contains(keywords)).Select(x => new { Text = x.name, Value = x.name }).ToList();
+        //    return Json(rv);
 
+        //}
     }
 }

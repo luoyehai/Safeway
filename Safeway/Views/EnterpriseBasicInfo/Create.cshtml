@@ -3,7 +3,7 @@
 <wt:form vm="@Model">
 <wt:row items-per-row="ItemsPerRowEnum.Two">
 <wt:textbox field="Entity.ComapanyName" />
-<wt:textbox field="Entity.Province" />
+<wt:combobox field="Entity.Province"  items="ProvinceNames" />
 <wt:textbox field="Entity.City" />
 <wt:textbox field="Entity.District" />
 <wt:textbox field="Entity.Street" />
@@ -15,6 +15,7 @@
 <wt:textbox field="Entity.NoofEmployees" />
 <wt:textbox field="Entity.MainProducts" />
 <wt:combobox field="Entity.TermsofTrade" />
+    
 </wt:row>
     <wt:row align="AlignEnum.Right">
         <wt:submitbutton />
