@@ -23,6 +23,7 @@ namespace Safeway
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
                 .ConfigureServices(x =>
                 {
                     x.AddFrameworkService();
@@ -46,6 +47,7 @@ namespace Safeway
                     x.UseFrameworkService();
                 })
                 .Build();
+             
 
     }
 }

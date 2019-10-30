@@ -26,7 +26,7 @@
    <ProjectReference Include="..\Safeway.Model\Safeway.Model.csproj" />
     <ProjectReference Include="..\Safeway.DataAccess\Safeway.DataAccess.csproj" />
     <ProjectReference Include="..\Safeway.ViewModel\Safeway.ViewModel.csproj" />
- </ItemGroup >
+ </ItemGroup>
 </Project>
 
 
