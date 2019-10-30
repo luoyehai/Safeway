@@ -1,0 +1,17 @@
+﻿@model Safeway.ViewModel.ReviewBasicElementVMs.ReviewBasicElementVM
+
+<wt:form vm="@Model">
+	<wt:quote>确定要删除这条数据么：</wt:quote>
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:display field="Entity.ReviewTempType" />
+<wt:display field="Entity.ElementName" />
+<wt:display field="Entity.ElementDesc" />
+<wt:display field="Entity.Order" />
+<wt:display field="Entity.TotalScore" />
+</wt:row>
+    <wt:hidden field="Entity.ID" />
+    <wt:row align=" AlignEnum.Right">
+        <wt:submitbutton theme=" ButtonThemeEnum.Warm" text="删除"/>
+        <wt:closebutton />
+    </wt:row>
+</wt:form>

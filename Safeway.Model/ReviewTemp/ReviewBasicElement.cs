@@ -18,13 +18,14 @@ namespace Safeway.Model.ReviewTemp
         LevelThreeReview
     }
 
-    public class ReviewTempBasic : BasePoco
+    public class ReviewBasicElement : BasePoco
     {
         [Display(Name = "评审模板类型")]
+        [Required(ErrorMessage = "{0}是必填项")]
         public ReviewTempTypeEnum? ReviewTempType { get; set; }
 
         [Display(Name = "要素名称")]
-        [Required]
+        [Required(ErrorMessage = "{0}是必填项")]
         [StringLength(100)]
         public string ElementName { get; set; }
 
@@ -33,6 +34,7 @@ namespace Safeway.Model.ReviewTemp
         public string ElementDesc { get; set; }
 
         [Display(Name = "要素序号")]
+        [Required(ErrorMessage = "{0}是必填项")]
         public int Order { get; set; }
 
         [Display(Name = "总分")]

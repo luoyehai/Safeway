@@ -5,11 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using WalkingTec.Mvvm.Core;
 using Safeway.Model.Enterprise;
+using Safeway.Model.ReviewTemp;
 
 namespace Safeway.DataAccess
 {
     public class DataContext : FrameworkContext
     {
+        #region Review Element
+        public DbSet<ReviewBasicElement> ReviewBasicElements { get; set; }
+        #endregion
+
         #region Enterprise
         public DbSet<EnterpriseContact> EnterpriseContacts { get; set; }
         public DbSet<EnterpriseBasicInfo> EnterpriseBasicInfos { get; set; }
