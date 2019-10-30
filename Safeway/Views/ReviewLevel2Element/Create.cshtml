@@ -1,0 +1,15 @@
+﻿@model Safeway.ViewModel.ReviewLevel2ElementVMs.ReviewLevel2ElementVM
+
+<wt:form vm="@Model">
+    <wt:row items-per-row="ItemsPerRowEnum.Two">
+        <wt:combobox field="Entity.BasicElementId" items="AllReviewBasicElements" />
+        <wt:textbox field="Entity.ElementName" />
+        <wt:textbox field="Entity.ElementStandard" />
+        <wt:textbox field="Entity.Order" />
+        <wt:textbox field="Entity.TotalScore" />
+    </wt:row>
+    <wt:row align="AlignEnum.Right">
+        <wt:submitbutton />
+        <wt:closebutton />
+    </wt:row>
+</wt:form>

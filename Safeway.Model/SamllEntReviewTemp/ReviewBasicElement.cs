@@ -39,5 +39,7 @@ namespace Safeway.Model.ReviewTemp
 
         [Display(Name = "总分")]
         public int TotalScore { get; set; }
+
+        public ICollection<ReviewLevel2Element> ReviewLevel2Elemenets { get; set; }
     }
 }
