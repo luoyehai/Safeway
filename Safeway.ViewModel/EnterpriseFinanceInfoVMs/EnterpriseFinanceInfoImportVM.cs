@@ -24,9 +24,12 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
         public ExcelPropety Account_Excel = ExcelPropety.CreateProperty<EnterpriseFinanceInfo>(x => x.Account);
         [Display(Name = "发票接收人")]
         public ExcelPropety CustomerReceiptReceiver_Excel = ExcelPropety.CreateProperty<EnterpriseFinanceInfo>(x => x.CustomerReceiptReceiver);
+        public ExcelPropety BasicInfo_Excel = ExcelPropety.CreateProperty<EnterpriseFinanceInfo>(x => x.EnterpriseBasicId);
 
 	    protected override void InitVM()
         {
+            BasicInfo_Excel.DataType = ColumnDataType.ComboBox;
+            BasicInfo_Excel.ListItems = DC.Set<EnterpriseBasicInfo>().GetSelectListItems(LoginUserInfo?.DataPrivileges, null, y => y.ComapanyName);
         }
 
     }

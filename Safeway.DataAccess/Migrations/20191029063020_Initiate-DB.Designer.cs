@@ -10,8 +10,8 @@ using Safeway.DataAccess;
 namespace Safeway.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191029023020_financetable")]
-    partial class financetable
+    [Migration("20191029063020_Initiate-DB")]
+    partial class InitiateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,8 +32,7 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<string>("ComapanyName")
                         .HasMaxLength(300);
 
-                    b.Property<int?>("CompanyScale")
-                        .HasMaxLength(30);
+                    b.Property<int?>("CompanyScale");
 
                     b.Property<string>("CompanyType")
                         .HasMaxLength(30);
@@ -67,8 +66,7 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<string>("Street")
                         .HasMaxLength(300);
 
-                    b.Property<int?>("TermsofTrade")
-                        .HasMaxLength(100);
+                    b.Property<int?>("TermsofTrade");
 
                     b.Property<string>("UpdateBy")
                         .HasMaxLength(50);
@@ -140,6 +138,8 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<string>("CustomerReceiptReceiver")
                         .HasMaxLength(50);
 
+                    b.Property<Guid>("EnterpriseBasicId");
+
                     b.Property<string>("Tele_Number")
                         .HasMaxLength(50);
 
@@ -152,6 +152,9 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<DateTime?>("UpdateTime");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("EnterpriseBasicId")
+                        .IsUnique();
 
                     b.ToTable("EnterpriseFinanceInfos");
                 });
@@ -695,6 +698,15 @@ namespace Safeway.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("SearchConditions");
+                });
+
+            modelBuilder.Entity("Safeway.Model.Enterprise.EnterpriseFinanceInfo", b =>
+                {
+                    b.HasOne("Safeway.Model.Enterprise.EnterpriseBasicInfo", "BasicInfo")
+                        .WithOne("FinanceInfo")
+                        .HasForeignKey("Safeway.Model.Enterprise.EnterpriseFinanceInfo", "EnterpriseBasicId")
+                        .HasConstraintName("FK_Basic_Finance")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WalkingTec.Mvvm.Core.DataPrivilege", b =>

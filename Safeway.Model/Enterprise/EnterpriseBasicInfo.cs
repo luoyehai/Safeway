@@ -5,22 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using WalkingTec.Mvvm.Core;
 using Safeway.Model.Enterprise;
+using Safeway.Model.Common;
 namespace Safeway.Model.Enterprise
 {
-    public enum TermsofTradeEnum
-    {
-        [Display(Name = "出口")]
-        Export,
-        [Display(Name = "内销")]
-        DomesticSales
-    }
-    public enum CompanyScaleEnum
-    {
-        [Display(Name = "规上")]
-        Large,
-        [Display(Name = "小微")]
-        Small
-    }
     public class EnterpriseBasicInfo : BasePoco
     {
         //[Key]
@@ -64,7 +51,10 @@ namespace Safeway.Model.Enterprise
         [Display(Name = "贸易方式")]
         public TermsofTradeEnum? TermsofTrade { get; set; }
 
-      //  public List<EnterpriseContact> EnterpriseContacts { get; set; }
+        public EnterpriseFinanceInfo FinanceInfo { get; set; }
+
+        public List<EnterpriseContact> EnterpriseContacts { get; set; }
+        public List<EnterpriserYearYield> EnterpriserYearYields { get; set; }
 
     }
 }

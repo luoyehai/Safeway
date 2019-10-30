@@ -2,7 +2,7 @@
 
 namespace Safeway.DataAccess.Migrations
 {
-    public partial class removestrength : Migration
+    public partial class addName : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -8,20 +8,20 @@ using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.Model.Enterprise;
 
 
-namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
+namespace Safeway.ViewModel.EnterpriserYearYieldVMs
 {
-    public partial class EnterpriseFinanceInfoVM : BaseCRUDVM<EnterpriseFinanceInfo>
+    public partial class EnterpriserYearYieldVM : BaseCRUDVM<EnterpriserYearYield>
     {
-        public List<ComboSelectListItem> AllBasicInfos { get; set; }
+        public List<ComboSelectListItem> AllEnterpriseBasicInfos { get; set; }
 
-        public EnterpriseFinanceInfoVM()
+        public EnterpriserYearYieldVM()
         {
-            SetInclude(x => x.BasicInfo);
+            SetInclude(x => x.EnterpriseBasicInfo);
         }
 
         protected override void InitVM()
         {
-            AllBasicInfos = DC.Set<EnterpriseBasicInfo>().GetSelectListItems(LoginUserInfo?.DataPrivileges, null, y => y.ComapanyName);
+            AllEnterpriseBasicInfos = DC.Set<EnterpriseBasicInfo>().GetSelectListItems(LoginUserInfo?.DataPrivileges, null, y => y.ComapanyName);
         }
 
         public override void DoAdd()

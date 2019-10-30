@@ -8,12 +8,12 @@ using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.Model.Enterprise;
 
 
-namespace Safeway.ViewModel.EnterpriseContactVMs
+namespace Safeway.ViewModel.EnterpriserYearYieldVMs
 {
-    public partial class EnterpriseContactSearcher : BaseSearcher
+    public partial class EnterpriserYearYieldSearcher : BaseSearcher
     {
-        [Display(Name = "部门")]
-        public String Dept { get; set; }
+        [Display(Name = "财年")]
+        public String FiscalYear { get; set; }
         public List<ComboSelectListItem> AllEnterpriseBasicInfos { get; set; }
         public Guid? EnterpriseBasicInfoId { get; set; }
 

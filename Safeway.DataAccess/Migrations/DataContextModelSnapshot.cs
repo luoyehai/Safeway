@@ -92,6 +92,8 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<string>("Email")
                         .HasMaxLength(30);
 
+                    b.Property<Guid>("EnterpriseBasicInfoId");
+
                     b.Property<string>("MobilePhone")
                         .HasMaxLength(30);
 
@@ -110,6 +112,8 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<DateTime?>("UpdateTime");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("EnterpriseBasicInfoId");
 
                     b.ToTable("EnterpriseContacts");
                 });
@@ -136,6 +140,8 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<string>("CustomerReceiptReceiver")
                         .HasMaxLength(50);
 
+                    b.Property<Guid>("EnterpriseBasicId");
+
                     b.Property<string>("Tele_Number")
                         .HasMaxLength(50);
 
@@ -149,7 +155,41 @@ namespace Safeway.DataAccess.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("EnterpriseBasicId")
+                        .IsUnique();
+
                     b.ToTable("EnterpriseFinanceInfos");
+                });
+
+            modelBuilder.Entity("Safeway.Model.Enterprise.EnterpriserYearYield", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CreateBy")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("CreateTime");
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<Guid>("EnterpriseBasicInfoId");
+
+                    b.Property<string>("FiscalYear");
+
+                    b.Property<string>("UpdateBy")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("UpdateTime");
+
+                    b.Property<decimal>("YearYieldValue")
+                        .HasColumnType("decimal(18, 4)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("EnterpriseBasicInfoId");
+
+                    b.ToTable("EnterpriserYearYields");
                 });
 
             modelBuilder.Entity("WalkingTec.Mvvm.Core.ActionLog", b =>
@@ -691,6 +731,33 @@ namespace Safeway.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("SearchConditions");
+                });
+
+            modelBuilder.Entity("Safeway.Model.Enterprise.EnterpriseContact", b =>
+                {
+                    b.HasOne("Safeway.Model.Enterprise.EnterpriseBasicInfo", "EnterpriseBasicInfo")
+                        .WithMany("EnterpriseContacts")
+                        .HasForeignKey("EnterpriseBasicInfoId")
+                        .HasConstraintName("FK_Basic_Contacts")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Safeway.Model.Enterprise.EnterpriseFinanceInfo", b =>
+                {
+                    b.HasOne("Safeway.Model.Enterprise.EnterpriseBasicInfo", "BasicInfo")
+                        .WithOne("FinanceInfo")
+                        .HasForeignKey("Safeway.Model.Enterprise.EnterpriseFinanceInfo", "EnterpriseBasicId")
+                        .HasConstraintName("FK_Basic_Finance")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Safeway.Model.Enterprise.EnterpriserYearYield", b =>
+                {
+                    b.HasOne("Safeway.Model.Enterprise.EnterpriseBasicInfo", "EnterpriseBasicInfo")
+                        .WithMany("EnterpriserYearYields")
+                        .HasForeignKey("EnterpriseBasicInfoId")
+                        .HasConstraintName("FK_Basic_YearYields")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WalkingTec.Mvvm.Core.DataPrivilege", b =>

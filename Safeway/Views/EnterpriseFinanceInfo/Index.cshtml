@@ -2,6 +2,9 @@
 
 <wt:searchpanel vm="@Model" reset-btn="true">
 <wt:row items-per-row="ItemsPerRowEnum.Three">
+<wt:textbox field="Searcher.UnifiedSocialCreditCode" />
+<wt:textbox field="Searcher.CustomerReceiptReceiver" />
+<wt:combobox field="Searcher.EnterpriseBasicId" items="Searcher.AllBasicInfos" empty-text="全部" />
 </wt:row>
 </wt:searchpanel>
 <wt:grid vm="@Model" url="/EnterpriseFinanceInfo/Search"/>

@@ -37,6 +37,7 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
                 this.MakeGridHeader(x => x.Bank),
                 this.MakeGridHeader(x => x.Account),
                 this.MakeGridHeader(x => x.CustomerReceiptReceiver),
+                this.MakeGridHeader(x => x.ComapanyName_view),
                 this.MakeGridHeaderAction(width: 200)
             };
         }
@@ -44,6 +45,9 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
         public override IOrderedQueryable<EnterpriseFinanceInfo_View> GetSearchQuery()
         {
             var query = DC.Set<EnterpriseFinanceInfo>()
+                .CheckContain(Searcher.UnifiedSocialCreditCode, x=>x.UnifiedSocialCreditCode)
+                .CheckContain(Searcher.CustomerReceiptReceiver, x=>x.CustomerReceiptReceiver)
+                .CheckEqual(Searcher.EnterpriseBasicId, x=>x.EnterpriseBasicId)
                 .Select(x => new EnterpriseFinanceInfo_View
                 {
 				    ID = x.ID,
@@ -53,6 +57,7 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
                     Bank = x.Bank,
                     Account = x.Account,
                     CustomerReceiptReceiver = x.CustomerReceiptReceiver,
+                    ComapanyName_view = x.BasicInfo.ComapanyName,
                 })
                 .OrderBy(x => x.ID);
             return query;
@@ -61,6 +66,8 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
     }
 
     public class EnterpriseFinanceInfo_View : EnterpriseFinanceInfo{
+        [Display(Name = "公司名称")]
+        public String ComapanyName_view { get; set; }
 
     }
 }

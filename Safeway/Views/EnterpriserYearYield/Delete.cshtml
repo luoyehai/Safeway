@@ -1,14 +1,11 @@
-﻿@model Safeway.ViewModel.EnterpriseContactVMs.EnterpriseContactVM
+﻿@model Safeway.ViewModel.EnterpriserYearYieldVMs.EnterpriserYearYieldVM
 
 <wt:form vm="@Model">
 	<wt:quote>确定要删除这条数据么：</wt:quote>
 <wt:row items-per-row="ItemsPerRowEnum.Two">
-<wt:display field="Entity.Dept" />
-<wt:display field="Entity.Position" />
-<wt:display field="Entity.Name" />
-<wt:display field="Entity.Tele" />
-<wt:display field="Entity.MobilePhone" />
-<wt:display field="Entity.Email" />
+<wt:display field="Entity.FiscalYear" />
+<wt:display field="Entity.YearYieldValue" />
+<wt:display field="Entity.Created" />
 <wt:display field="Entity.EnterpriseBasicInfo.ComapanyName" />
 </wt:row>
     <wt:hidden field="Entity.ID" />

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Safeway.DataAccess.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitiateDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,11 +48,11 @@ namespace Safeway.DataAccess.Migrations
                     CompanyType = table.Column<string>(maxLength: 30, nullable: true),
                     ForeignCountry = table.Column<string>(maxLength: 100, nullable: true),
                     LegalRepresentative = table.Column<string>(maxLength: 100, nullable: true),
-                    CompanyScale = table.Column<int>(maxLength: 30, nullable: true),
+                    CompanyScale = table.Column<int>(nullable: true),
                     Industry = table.Column<string>(maxLength: 100, nullable: true),
                     NoofEmployees = table.Column<string>(maxLength: 100, nullable: true),
                     MainProducts = table.Column<string>(maxLength: 100, nullable: true),
-                    TermsofTrade = table.Column<int>(maxLength: 100, nullable: true)
+                    TermsofTrade = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -174,6 +174,34 @@ namespace Safeway.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FrameworkRoles", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EnterpriseFinanceInfos",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(nullable: false),
+                    CreateTime = table.Column<DateTime>(nullable: true),
+                    CreateBy = table.Column<string>(maxLength: 50, nullable: true),
+                    UpdateTime = table.Column<DateTime>(nullable: true),
+                    UpdateBy = table.Column<string>(maxLength: 50, nullable: true),
+                    UnifiedSocialCreditCode = table.Column<string>(maxLength: 50, nullable: true),
+                    Company_Address = table.Column<string>(maxLength: 50, nullable: true),
+                    Tele_Number = table.Column<string>(maxLength: 50, nullable: true),
+                    Bank = table.Column<string>(maxLength: 50, nullable: true),
+                    Account = table.Column<string>(maxLength: 50, nullable: true),
+                    CustomerReceiptReceiver = table.Column<string>(maxLength: 50, nullable: true),
+                    EnterpriseBasicId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EnterpriseFinanceInfos", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Basic_Finance",
+                        column: x => x.EnterpriseBasicId,
+                        principalTable: "EnterpriseBasicInfos",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -462,6 +490,12 @@ namespace Safeway.DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EnterpriseFinanceInfos_EnterpriseBasicId",
+                table: "EnterpriseFinanceInfos",
+                column: "EnterpriseBasicId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FrameworkActions_ModuleId",
                 table: "FrameworkActions",
                 column: "ModuleId");
@@ -526,10 +560,10 @@ namespace Safeway.DataAccess.Migrations
                 name: "DataPrivileges");
 
             migrationBuilder.DropTable(
-                name: "EnterpriseBasicInfos");
+                name: "EnterpriseContacts");
 
             migrationBuilder.DropTable(
-                name: "EnterpriseContacts");
+                name: "EnterpriseFinanceInfos");
 
             migrationBuilder.DropTable(
                 name: "FrameworkActions");
@@ -545,6 +579,9 @@ namespace Safeway.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "SearchConditions");
+
+            migrationBuilder.DropTable(
+                name: "EnterpriseBasicInfos");
 
             migrationBuilder.DropTable(
                 name: "FrameworkModules");
