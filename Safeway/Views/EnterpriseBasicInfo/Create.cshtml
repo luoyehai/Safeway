@@ -3,8 +3,8 @@
 <wt:form vm="@Model">
 <wt:row items-per-row="ItemsPerRowEnum.Two">
 <wt:textbox field="Entity.ComapanyName" />
-<wt:combobox field="Entity.Province"  items="ProvinceNames" />
-<wt:textbox field="Entity.City" />
+<wt:combobox field="Entity.Province"  items="ProvinceNames" link-field="Entity.City" trigger-url="EnterpriseBasicInfo/LoadCities" />
+<wt:combobox field="Entity.City"  />
 <wt:textbox field="Entity.District" />
 <wt:textbox field="Entity.Street" />
 <wt:textbox field="Entity.CompanyType" />

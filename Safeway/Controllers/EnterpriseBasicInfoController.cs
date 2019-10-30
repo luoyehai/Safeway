@@ -211,21 +211,12 @@ namespace Safeway.Controllers
             var data = vm.GenerateExcel();
             return File(data, "application/vnd.ms-excel", $"Export_EnterpriseBasicInfo_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
         }
-        //[ActionDescription("Lib")]
-        //public IActionResult ProvinceFile(string keywords)
-        //{
-        //    List<AdddressJsonObject> items;
-        //    var path = Path.Combine(Directory.GetCurrentDirectory(),
-        //                           "wwwroot", "custermisedui", "chinaregion", "province.json");
-        //    using (StreamReader reader = new StreamReader(path))
-        //    //using (JsonTextReader reader = new JsonTextReader(file))
-        //    {
-        //        string json = reader.ReadToEnd();
-        //        items = JsonConvert.DeserializeObject<List<AdddressJsonObject>>(json);
-        //    }
-        //    var rv = items.Where(x => x.name.Contains(keywords)).Select(x => new { Text = x.name, Value = x.name }).ToList();
-        //    return Json(rv);
+        [ActionDescription("Lib")]
+        public IActionResult LoadCities(string id)
+        {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            return Json(vm.GetCities(id));
 
-        //}
+        }
     }
 }
