@@ -207,6 +207,11 @@ namespace Safeway.Controllers
             var data = vm.GenerateExcel();
             return File(data, "application/vnd.ms-excel", $"Export_EnterpriseContact_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
         }
+        [ActionDescription("查询发票接收人")]
+        public IActionResult SerachReceiptReceiver(EnterpriseContactListVM vm, string keywords) 
+        {
+           return Json(vm.SearchPeople(keywords));
+        }
 
     }
 }

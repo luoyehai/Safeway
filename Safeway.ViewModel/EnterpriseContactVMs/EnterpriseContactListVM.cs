@@ -7,7 +7,7 @@ using WalkingTec.Mvvm.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using Safeway.Model.Enterprise;
-
+using Safeway.ViewModel.CommonClass;
 
 namespace Safeway.ViewModel.EnterpriseContactVMs
 {
@@ -61,7 +61,13 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
                 .OrderBy(x => x.ID);
             return query;
         }
+        public List<ViewFormatClass> SearchPeople(string keyword) 
+        {
+            var query = DC.Set<EnterpriseContact>()
+                  .Where(x => x.Name.Contains(keyword)).Select(x => new ViewFormatClass { Text = x.Name,Value= x.Name}).ToList();
+            return query;
 
+        } 
     }
 
     public class EnterpriseContact_View : EnterpriseContact{
