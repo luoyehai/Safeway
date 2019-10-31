@@ -17,10 +17,10 @@ namespace Safeway.Controllers
     public partial class EnterpriseBasicInfoController : BaseController
     {
         //EnterpriseBasicInfoListVM _EnterpriseBasicInfoListVM;
-        //public EnterpriseBasicInfoController() 
+        //public EnterpriseBasicInfoController()
         //{
-        //    _EnterpriseBasicInfoListVM = CreateVM<EnterpriseBasicInfoListVM>();
-
+        ////  //  _EnterpriseBasicInfoListVM = CreateVM<EnterpriseBasicInfoListVM>();
+        //  HttpContext.Session.SetString("code","123456");
         //}
         #region 搜索
         [ActionDescription("搜索")]
@@ -217,18 +217,18 @@ namespace Safeway.Controllers
             var data = vm.GenerateExcel();
             return File(data, "application/vnd.ms-excel", $"Export_EnterpriseBasicInfo_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
         }
-        [ActionDescription("LoadCity")]
-        public IActionResult LoadCities(string id)
+        [ActionDescription("LoadCity")]   
+        public IActionResult LoadCities(EnterpriseBasicInfoVM vm,string id)
         {
-            var vm = CreateVM<EnterpriseBasicInfoVM>();
-            return Json(vm.GetCities(id));
-
+            var result = vm.GetCities(id);
+            string names = vm.CityItemNames;
+            HttpContext.Session.SetString("citynames", names);
+            return Json(result);
         }
         [ActionDescription("LoadDistrict")]
-        public IActionResult LoadDistricts(string id)
+        public IActionResult LoadDistricts(EnterpriseBasicInfoVM vm,string id)
         {
-            var vm = CreateVM<EnterpriseBasicInfoVM>();
-            return Json(vm.GetDistricts(id));
+            return Json(vm.GetDistricts(id, HttpContext.Session.GetString("citynames")));
 
         }
     }

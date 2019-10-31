@@ -47,12 +47,12 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public string Value { get; set; }
     }
     public partial class EnterpriseBasicInfoVM : BaseCRUDVM<EnterpriseBasicInfo>
-    {      
+    {
+        public string CityItemNames { get; set; }
         public List<string> ProvinceNames { get; set; }
-        public List<AddressName> CityNames { get; set; }
+        //public List<AddressName> CityNames { get; set; }
         public List<AdddressJsonObject> ProvinceItems { get; set; }
-        public ProvinceJsonObject CityItems { get; set; }
-        public List<AdddressJsonObject> DistrictItems { get; set; }
+        public List<AddressName> CityItems { get; set; }
         public EnterpriseBasicInfoVM()
         {
             //Load Province
@@ -79,23 +79,17 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             {
                 string json = reader.ReadToEnd();
                 cityvalues = JsonConvert.DeserializeObject<Dictionary<string, List<CityObject>>>(json);
-
             }
-             var provinceid = ProvinceItems.Where(x => x.name == keyword).Select(x => x.id).FirstOrDefault();
-            // (cityObj as IEnumerable)
-            List<CityObject> particularcities = cityvalues[provinceid];
 
-            var CityNames = new List<AddressName>();
-            foreach (var obj in particularcities)
-            {
-                CityNames.Add(new AddressName() { 
-                    Text = obj.name,
-                    Value = obj.id
-                });
-            }
-            return CityNames;
+            var provinceid = ProvinceItems.Where(x => x.name == keyword).Select(x => x.id).FirstOrDefault();
+            CityItems = cityvalues.Where(x => x.Key == provinceid).SelectMany(x => x.Value).Select(x => new AddressName { Text = x.name, Value = x.id }).ToList();
+            //Session = "t";
+            // HttpContext.Session.SetString("code", "123456");
+            CityItemNames = JsonConvert.SerializeObject(CityItems);
+            var rv= cityvalues.Where(x => x.Key == provinceid).SelectMany(x => x.Value).Select(x => new AddressName { Text = x.name, Value = x.name }).ToList();
+            return rv;
         }
-        public List<AddressName> GetDistricts(string keyword)
+        public List<AddressName> GetDistricts(string keyword,string cityNames)
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(),
                            "wwwroot", "custermisedui", "chinaregion", "county.json");
@@ -105,9 +99,13 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                 string json = reader.ReadToEnd();
                 districtvalues = JsonConvert.DeserializeObject<Dictionary<string, List<DistrictObject>>>(json);
             }
-           // var provinceid = ProvinceItems.Where(x => x.name == keyword).Select(x => x.id).FirstOrDefault();
+            // var provinceid = ProvinceItems.Where(x => x.name == keyword).Select(x => x.id).FirstOrDefault();
             // (cityObj as IEnumerable)
-            List<DistrictObject> selectedDistricts = districtvalues[keyword];
+
+            // var rv = districtvalues.Where(x => x.Key == provinceid).SelectMany(x => x.Value).Select(x => new AddressName { Text = x.name, Value = x.id }).ToList();
+            CityItems = JsonConvert.DeserializeObject<List<AddressName>>(cityNames);
+            var cityId = CityItems.Where(x => x.Text == keyword).Select(x => x.Value).FirstOrDefault();
+            List<DistrictObject> selectedDistricts = districtvalues[cityId];
 
             var DistrictNames = new List<AddressName>();
             foreach (var obj in selectedDistricts)
@@ -115,13 +113,17 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                 DistrictNames.Add(new AddressName()
                 {
                     Text = obj.name,
-                    Value = obj.id
+                    Value = obj.name
                 });
             }
             return DistrictNames;
 
-
         }
+        //public string GetCityIdbyName(string name) 
+        //{ 
+        
+        
+        //}
         protected override void InitVM()
         {
         }

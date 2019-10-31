@@ -32,6 +32,7 @@ namespace Safeway
                     {
                         c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
                     });
+                    x.AddSession();
                 })
                 .Configure(x =>
                 {
@@ -45,6 +46,8 @@ namespace Safeway
                         });
                     }
                     x.UseFrameworkService();
+                    x.UseStaticFiles();
+                    x.UseSession();
                 })
                 .Build();
              
