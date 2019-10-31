@@ -28,11 +28,18 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
     //    public string key { get; set; }
     //    public List<CityObject> value { get; set; }
     //}
-    public class CityObject 
+    public class CityObject
     {
         public string name { get; set; }
         public string id { get; set; }
         public string province { get; set; }
+    }
+    public class DistrictObject 
+    {
+        public string name { get; set; }
+        public string id { get; set; }
+        public string city { get; set; }
+
     }
     public class AddressName
     {
@@ -74,11 +81,11 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                 cityvalues = JsonConvert.DeserializeObject<Dictionary<string, List<CityObject>>>(json);
 
             }
-            var provinceid = ProvinceItems.Where(x => x.name == keyword).Select(x => x.id).FirstOrDefault();
+             var provinceid = ProvinceItems.Where(x => x.name == keyword).Select(x => x.id).FirstOrDefault();
             // (cityObj as IEnumerable)
             List<CityObject> particularcities = cityvalues[provinceid];
 
-            CityNames = new List<AddressName>();
+            var CityNames = new List<AddressName>();
             foreach (var obj in particularcities)
             {
                 CityNames.Add(new AddressName() { 
@@ -88,8 +95,33 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             }
             return CityNames;
         }
-            
+        public List<AddressName> GetDistricts(string keyword)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(),
+                           "wwwroot", "custermisedui", "chinaregion", "county.json");
+            var districtvalues = new Dictionary<string, List<DistrictObject>>();
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string json = reader.ReadToEnd();
+                districtvalues = JsonConvert.DeserializeObject<Dictionary<string, List<DistrictObject>>>(json);
+            }
+           // var provinceid = ProvinceItems.Where(x => x.name == keyword).Select(x => x.id).FirstOrDefault();
+            // (cityObj as IEnumerable)
+            List<DistrictObject> selectedDistricts = districtvalues[keyword];
 
+            var DistrictNames = new List<AddressName>();
+            foreach (var obj in selectedDistricts)
+            {
+                DistrictNames.Add(new AddressName()
+                {
+                    Text = obj.name,
+                    Value = obj.id
+                });
+            }
+            return DistrictNames;
+
+
+        }
         protected override void InitVM()
         {
         }

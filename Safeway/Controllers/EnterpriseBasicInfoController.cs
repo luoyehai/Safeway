@@ -16,6 +16,12 @@ namespace Safeway.Controllers
     [ActionDescription("企业基础信息")]
     public partial class EnterpriseBasicInfoController : BaseController
     {
+        //EnterpriseBasicInfoListVM _EnterpriseBasicInfoListVM;
+        //public EnterpriseBasicInfoController() 
+        //{
+        //    _EnterpriseBasicInfoListVM = CreateVM<EnterpriseBasicInfoListVM>();
+
+        //}
         #region 搜索
         [ActionDescription("搜索")]
         public ActionResult Index()
@@ -211,11 +217,18 @@ namespace Safeway.Controllers
             var data = vm.GenerateExcel();
             return File(data, "application/vnd.ms-excel", $"Export_EnterpriseBasicInfo_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
         }
-        [ActionDescription("Lib")]
+        [ActionDescription("LoadCity")]
         public IActionResult LoadCities(string id)
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>();
             return Json(vm.GetCities(id));
+
+        }
+        [ActionDescription("LoadDistrict")]
+        public IActionResult LoadDistricts(string id)
+        {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            return Json(vm.GetDistricts(id));
 
         }
     }
