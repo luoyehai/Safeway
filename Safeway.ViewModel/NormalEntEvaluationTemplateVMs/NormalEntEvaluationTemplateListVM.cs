@@ -14,6 +14,18 @@ namespace Safeway.ViewModel.NormalEntEvaluationTemplateVMs
 {
     public partial class NormalEntEvaluationTemplateListVM : BasePagedListVM<NormalEntEvaluationTemplate_View, NormalEntEvaluationTemplateSearcher>
     {
+        public List<TreeSelectListItem> AllDeps { get; set; }
+
+        public NormalEntEvaluationTemplateListVM()
+        {
+            AllDeps = new List<TreeSelectListItem>();
+            AllDeps.Add(new TreeSelectListItem()
+            {
+                Id ="123",
+                Text="Dept1",
+                Children = null
+            });
+        }
         protected override List<GridAction> InitGridAction()
         {
             return new List<GridAction>
