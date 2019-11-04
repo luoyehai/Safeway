@@ -41,7 +41,8 @@ namespace Safeway.ViewModel.NormalEntEvaluationTemplateVMs
                 this.MakeGridHeader(x => x.ModuleTwo),
                 this.MakeGridHeader(x => x.ModuleThree),
                 this.MakeGridHeader(x => x.ComapanyName_view),
-                this.MakeGridHeaderAction(width: 200)
+                this.MakeGridHeaderAction(width: 200),
+
             };
         }
 
