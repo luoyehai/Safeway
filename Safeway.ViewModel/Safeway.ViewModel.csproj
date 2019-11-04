@@ -6,6 +6,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\Safeway.DataAccess\Safeway.DataAccess.csproj" />
     <ProjectReference Include="..\Safeway.Model\Safeway.Model.csproj" />
   </ItemGroup>
 </Project>
