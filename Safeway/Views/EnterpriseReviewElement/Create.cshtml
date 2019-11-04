@@ -2,9 +2,8 @@
 
 <wt:form vm="@Model">
     <wt:row items-per-row="ItemsPerRowEnum.Two">
-        <wt:combobox field="Entity.Category" />
-        <wt:combobox field="Entity.Level" />
-        <wt:textbox field="Entity.ParentElementId" />
+        <wt:combobox field="Entity.Level" link-field="Entity.ParentElementId" trigger-url="EnterpriseReviewElement/LoadParentElement"/>
+        <wt:combobox field="Entity.ParentElementId" />
         <wt:textbox field="Entity.ElementName" />
         <wt:textbox field="Entity.Order" />
         <wt:textbox field="Entity.TotalScore" />

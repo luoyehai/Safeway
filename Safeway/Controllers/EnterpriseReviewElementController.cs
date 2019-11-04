@@ -209,10 +209,11 @@ namespace Safeway.Controllers
             return File(data, "application/vnd.ms-excel", $"Export_EnterpriseReviewElement_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
         }
 
-        public JsonResult GetLevelOneElements(EnterpriseReviewElementVM vm, int id)
+        [ActionDescription("LoadParentElement")]
+        public IActionResult LoadParentElement(EnterpriseReviewElementVM vm, string id)
         {
-            return Json(vm.GetEnterpriseReviewElements(vm.Entity.Category));
+            var level = int.Parse(id);
+            return Json(vm.GetParentElementList(level));
         }
-
     }
 }

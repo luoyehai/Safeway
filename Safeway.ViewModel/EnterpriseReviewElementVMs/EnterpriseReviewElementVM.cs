@@ -12,13 +12,9 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 {
     public partial class EnterpriseReviewElementVM : BaseCRUDVM<EnterpriseReviewElement>
     {
-        public List<ComboSelectListItem> ParentElementList { get; set; }
-
-        public List<TreeSelectListItem> TreeElementList { get; set; }
 
         public EnterpriseReviewElementVM()
         {
-            this.TreeElementList = GenerateTreeSelect();
         }
 
         private List<TreeSelectListItem> GenerateTreeSelect()
@@ -42,7 +38,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 
         public List<EnterpriseReviewElement> GetChildReivewElements(string parentElementId)
         {
-            var elementList = DC.Set<EnterpriseReviewElement>().Where(e => e.ParentElementId == Guid.Parse(parentElementId)).ToList();
+            var elementList = DC.Set<EnterpriseReviewElement>().Where(e => e.ParentElementId == parentElementId).ToList();
             return elementList;
         }
 
@@ -124,9 +120,12 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
             base.DoDelete();
         }
 
-        public IQueryable<EnterpriseReviewElement> GetEnterpriseReviewElements(ReviewTypeEnum reviewCategory)
+        public List<ComboSelectListItem> GetParentElementList(int level)
         {
-            return DC.Set<EnterpriseReviewElement>().Where(x => x.Category == reviewCategory);
+            if ((ElementLevelEnum)level == ElementLevelEnum.LevelOne)
+                return null;
+            var elementList = DC.Set<EnterpriseReviewElement>().Where(x => x.Level == (ElementLevelEnum)(level - 1)).ToList();
+            return elementList.Select(x => new ComboSelectListItem() { Text = x.ElementName, Value = x.ID.ToString() }).ToList();
         }
     }
 }

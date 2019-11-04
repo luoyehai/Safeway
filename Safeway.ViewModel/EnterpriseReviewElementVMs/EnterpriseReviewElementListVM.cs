@@ -32,7 +32,6 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
         protected override IEnumerable<IGridColumn<EnterpriseReviewElement_View>> InitGridHeader()
         {
             return new List<GridColumn<EnterpriseReviewElement_View>>{
-                this.MakeGridHeader(x => x.Category),
                 this.MakeGridHeader(x => x.Level),
                 this.MakeGridHeader(x => x.ElementName),
                 this.MakeGridHeader(x => x.Order),
@@ -45,13 +44,11 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
         {
             var query = DC.Set<EnterpriseReviewElement>()
                 .CheckContain(Searcher.ElementName, x=>x.ElementName)
-                .CheckEqual(Searcher.Category, x=>x.Category)
                 .CheckEqual(Searcher.Level, x=>x.Level)
                 .Select(x => new EnterpriseReviewElement_View
                 {
 				    ID = x.ID,
                     ElementName = x.ElementName,
-                    Category = x.Category,
                     Level = x.Level,
                     Order = x.Order,
                     TotalScore = x.TotalScore,

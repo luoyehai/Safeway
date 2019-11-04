@@ -15,9 +15,6 @@ namespace Safeway.Model.EnterpriseReview
         [StringLength(500, ErrorMessage = "{0}最多输入{1}个字符")]
         public string ElementName { get; set; }
 
-        [Display(Name = "要素类别")]
-        public ReviewTypeEnum Category { get; set; }
-
         [Display(Name = "级别")]
         [Required(ErrorMessage = "{0}是必填项")]
         public ElementLevelEnum Level { get; set; }
@@ -30,8 +27,8 @@ namespace Safeway.Model.EnterpriseReview
         [Required(ErrorMessage = "{0}是必填项")]
         public int TotalScore { get; set; }
 
-        [Display(Name = "上级要素ID")]
-        public Guid ParentElementId { get; set; }
+        [Display(Name = "上级要素")]
+        public string ParentElementId { get; set; }
 
     }
 }

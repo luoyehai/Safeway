@@ -32,7 +32,11 @@ namespace Safeway.Model.Common
         [Display(Name = "二级")]
         LevelTwo = 2,
         [Display(Name = "三级")]
-        LevelThree = 3
+        LevelThree = 3,
+        [Display(Name = "四级")]
+        LevelFour = 4,
+        [Display(Name = "五级-不符合项")]
+        LevelFive = 5,
     }
 
     public enum TermsofTradeEnum
