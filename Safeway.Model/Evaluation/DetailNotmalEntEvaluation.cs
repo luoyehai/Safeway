@@ -21,6 +21,7 @@ namespace Safeway.Model.Evaluation
         public string DeductionDescription { get; set; }
         #endregion
 
+        public Guid NormalEntEvaluationId { get; set; }
         NormalEntEvaluation NormalEntEvaluation { get; set; }
     }
 }

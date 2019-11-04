@@ -25,6 +25,15 @@ namespace Safeway.Model.Evaluation
         [Display(Name = "评审组成员")]
         [StringLength(500)]
         public string EvaluationTeamMember { get; set; }
+        [Display(Name = "模块一")]
+        [StringLength(200)]
+        public string ModuleOne { get; set; }
+        [Display(Name = "模块二")]
+        [StringLength(200)]
+        public string ModuleTwo { get; set; }
+        [Display(Name = "模块三")]
+        [StringLength(200)]
+        public string ModuleThree { get; set; }
         List<DetailNotmalEntEvaluation> DetailNotmalEntEvaluations { get; set; }
     }
 }
