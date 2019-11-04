@@ -82,7 +82,7 @@ namespace Safeway.DataAccess
             modelBuilder.Entity<DetailNotmalEntEvaluation>()
               .HasKey(c => new { c.ID });
 
-            modelBuilder.Entity《》
+           
             #endregion
 
         }
