@@ -120,12 +120,11 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
             base.DoDelete();
         }
 
-        public List<ComboSelectListItem> GetParentElementList(int level)
+        public List<EnterpriseReviewElement> GetParentElementList(int level)
         {
             if ((ElementLevelEnum)level == ElementLevelEnum.LevelOne)
                 return null;
-            var elementList = DC.Set<EnterpriseReviewElement>().Where(x => x.Level == (ElementLevelEnum)(level - 1)).ToList();
-            return elementList.Select(x => new ComboSelectListItem() { Text = x.ElementName, Value = x.ID.ToString() }).ToList();
+            return DC.Set<EnterpriseReviewElement>().Where(x => x.Level == (ElementLevelEnum)(level - 1)).ToList();
         }
     }
 }

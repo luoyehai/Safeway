@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Mvc;
 using WalkingTec.Mvvm.Core.Extensions;
@@ -213,7 +214,10 @@ namespace Safeway.Controllers
         public IActionResult LoadParentElement(EnterpriseReviewElementVM vm, string id)
         {
             var level = int.Parse(id);
-            return Json(vm.GetParentElementList(level));
+            var rv = vm.GetParentElementList(level);
+            if (rv == null)
+                return Json(string.Empty);
+            return Json(rv.Select(x => new { Text = x.ElementName, Value = x.ID }));
         }
     }
 }

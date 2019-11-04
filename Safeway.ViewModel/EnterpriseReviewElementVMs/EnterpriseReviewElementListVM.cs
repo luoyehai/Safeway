@@ -14,8 +14,10 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 {
     public partial class EnterpriseReviewElementListVM : BasePagedListVM<EnterpriseReviewElement_View, EnterpriseReviewElementSearcher>
     {
+
         protected override List<GridAction> InitGridAction()
         {
+
             return new List<GridAction>
             {
                 this.MakeStandardAction("EnterpriseReviewElement", GridActionStandardTypesEnum.Create, "新建","", dialogWidth: 800),
@@ -59,6 +61,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 
     }
 
+    
     public class EnterpriseReviewElement_View : EnterpriseReviewElement{
 
     }
