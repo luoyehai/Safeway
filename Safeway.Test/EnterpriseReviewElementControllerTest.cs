@@ -6,22 +6,22 @@ using System.Linq;
 using System.Text;
 using WalkingTec.Mvvm.Core;
 using Safeway.Controllers;
-using Safeway.ViewModel.ReviewBasicElementVMs;
-using Safeway.Model.ReviewTemp;
+using Safeway.ViewModel.EnterpriseReviewElementVMs;
+using Safeway.Model.EnterpriseReview;
 using Safeway.DataAccess;
 
 namespace Safeway.Test
 {
     [TestClass]
-    public class ReviewBasicElementControllerTest
+    public class EnterpriseReviewElementControllerTest
     {
-        private ReviewBasicElementController _controller;
+        private EnterpriseReviewElementController _controller;
         private string _seed;
 
-        public ReviewBasicElementControllerTest()
+        public EnterpriseReviewElementControllerTest()
         {
             _seed = Guid.NewGuid().ToString();
-            _controller = MockController.CreateController<ReviewBasicElementController>(_seed, "user");
+            _controller = MockController.CreateController<EnterpriseReviewElementController>(_seed, "user");
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Safeway.Test
         {
             PartialViewResult rv = (PartialViewResult)_controller.Index();
             Assert.IsInstanceOfType(rv.Model, typeof(IBasePagedListVM<TopBasePoco, BaseSearcher>));
-            string rv2 = _controller.Search(rv.Model as ReviewBasicElementListVM);
+            string rv2 = _controller.Search(rv.Model as EnterpriseReviewElementListVM);
             Assert.IsTrue(rv2.Contains("\"Code\":200"));
         }
 
@@ -37,24 +37,24 @@ namespace Safeway.Test
         public void CreateTest()
         {
             PartialViewResult rv = (PartialViewResult)_controller.Create();
-            Assert.IsInstanceOfType(rv.Model, typeof(ReviewBasicElementVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseReviewElementVM));
 
-            ReviewBasicElementVM vm = rv.Model as ReviewBasicElementVM;
-            ReviewBasicElement v = new ReviewBasicElement();
+            EnterpriseReviewElementVM vm = rv.Model as EnterpriseReviewElementVM;
+            EnterpriseReviewElement v = new EnterpriseReviewElement();
 			
-            v.ElementName = "yBYJVqzCa";
-            v.Order = 33;
-            v.TotalScore = 21;
+            v.ElementName = "U3a";
+            v.Order = 34;
+            v.TotalScore = 95;
             vm.Entity = v;
             _controller.Create(vm);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                var data = context.Set<ReviewBasicElement>().FirstOrDefault();
+                var data = context.Set<EnterpriseReviewElement>().FirstOrDefault();
 				
-                Assert.AreEqual(data.ElementName, "yBYJVqzCa");
-                Assert.AreEqual(data.Order, 33);
-                Assert.AreEqual(data.TotalScore, 21);
+                Assert.AreEqual(data.ElementName, "U3a");
+                Assert.AreEqual(data.Order, 34);
+                Assert.AreEqual(data.TotalScore, 95);
                 Assert.AreEqual(data.CreateBy, "user");
                 Assert.IsTrue(DateTime.Now.Subtract(data.CreateTime.Value).Seconds < 10);
             }
@@ -64,27 +64,27 @@ namespace Safeway.Test
         [TestMethod]
         public void EditTest()
         {
-            ReviewBasicElement v = new ReviewBasicElement();
+            EnterpriseReviewElement v = new EnterpriseReviewElement();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
        			
-                v.ElementName = "yBYJVqzCa";
-                v.Order = 33;
-                v.TotalScore = 21;
-                context.Set<ReviewBasicElement>().Add(v);
+                v.ElementName = "U3a";
+                v.Order = 34;
+                v.TotalScore = 95;
+                context.Set<EnterpriseReviewElement>().Add(v);
                 context.SaveChanges();
             }
 
             PartialViewResult rv = (PartialViewResult)_controller.Edit(v.ID.ToString());
-            Assert.IsInstanceOfType(rv.Model, typeof(ReviewBasicElementVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseReviewElementVM));
 
-            ReviewBasicElementVM vm = rv.Model as ReviewBasicElementVM;
-            v = new ReviewBasicElement();
+            EnterpriseReviewElementVM vm = rv.Model as EnterpriseReviewElementVM;
+            v = new EnterpriseReviewElement();
             v.ID = vm.Entity.ID;
        		
-            v.ElementName = "j2vTA7rRa";
-            v.Order = 12;
-            v.TotalScore = 57;
+            v.ElementName = "Wj1pZCrGg";
+            v.Order = 63;
+            v.TotalScore = 7;
             vm.Entity = v;
             vm.FC = new Dictionary<string, object>();
 			
@@ -95,11 +95,11 @@ namespace Safeway.Test
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                var data = context.Set<ReviewBasicElement>().FirstOrDefault();
+                var data = context.Set<EnterpriseReviewElement>().FirstOrDefault();
  				
-                Assert.AreEqual(data.ElementName, "j2vTA7rRa");
-                Assert.AreEqual(data.Order, 12);
-                Assert.AreEqual(data.TotalScore, 57);
+                Assert.AreEqual(data.ElementName, "Wj1pZCrGg");
+                Assert.AreEqual(data.Order, 63);
+                Assert.AreEqual(data.TotalScore, 7);
                 Assert.AreEqual(data.UpdateBy, "user");
                 Assert.IsTrue(DateTime.Now.Subtract(data.UpdateTime.Value).Seconds < 10);
             }
@@ -110,29 +110,29 @@ namespace Safeway.Test
         [TestMethod]
         public void DeleteTest()
         {
-            ReviewBasicElement v = new ReviewBasicElement();
+            EnterpriseReviewElement v = new EnterpriseReviewElement();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
         		
-                v.ElementName = "yBYJVqzCa";
-                v.Order = 33;
-                v.TotalScore = 21;
-                context.Set<ReviewBasicElement>().Add(v);
+                v.ElementName = "U3a";
+                v.Order = 34;
+                v.TotalScore = 95;
+                context.Set<EnterpriseReviewElement>().Add(v);
                 context.SaveChanges();
             }
 
             PartialViewResult rv = (PartialViewResult)_controller.Delete(v.ID.ToString());
-            Assert.IsInstanceOfType(rv.Model, typeof(ReviewBasicElementVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseReviewElementVM));
 
-            ReviewBasicElementVM vm = rv.Model as ReviewBasicElementVM;
-            v = new ReviewBasicElement();
+            EnterpriseReviewElementVM vm = rv.Model as EnterpriseReviewElementVM;
+            v = new EnterpriseReviewElement();
             v.ID = vm.Entity.ID;
             vm.Entity = v;
             _controller.Delete(v.ID.ToString(),null);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                Assert.AreEqual(context.Set<ReviewBasicElement>().Count(), 0);
+                Assert.AreEqual(context.Set<EnterpriseReviewElement>().Count(), 1);
             }
 
         }
@@ -141,14 +141,14 @@ namespace Safeway.Test
         [TestMethod]
         public void DetailsTest()
         {
-            ReviewBasicElement v = new ReviewBasicElement();
+            EnterpriseReviewElement v = new EnterpriseReviewElement();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                v.ElementName = "yBYJVqzCa";
-                v.Order = 33;
-                v.TotalScore = 21;
-                context.Set<ReviewBasicElement>().Add(v);
+                v.ElementName = "U3a";
+                v.Order = 34;
+                v.TotalScore = 95;
+                context.Set<EnterpriseReviewElement>().Add(v);
                 context.SaveChanges();
             }
             PartialViewResult rv = (PartialViewResult)_controller.Details(v.ID.ToString());
@@ -159,32 +159,32 @@ namespace Safeway.Test
         [TestMethod]
         public void BatchDeleteTest()
         {
-            ReviewBasicElement v1 = new ReviewBasicElement();
-            ReviewBasicElement v2 = new ReviewBasicElement();
+            EnterpriseReviewElement v1 = new EnterpriseReviewElement();
+            EnterpriseReviewElement v2 = new EnterpriseReviewElement();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                v1.ElementName = "yBYJVqzCa";
-                v1.Order = 33;
-                v1.TotalScore = 21;
-                v2.ElementName = "j2vTA7rRa";
-                v2.Order = 12;
-                v2.TotalScore = 57;
-                context.Set<ReviewBasicElement>().Add(v1);
-                context.Set<ReviewBasicElement>().Add(v2);
+                v1.ElementName = "U3a";
+                v1.Order = 34;
+                v1.TotalScore = 95;
+                v2.ElementName = "Wj1pZCrGg";
+                v2.Order = 63;
+                v2.TotalScore = 7;
+                context.Set<EnterpriseReviewElement>().Add(v1);
+                context.Set<EnterpriseReviewElement>().Add(v2);
                 context.SaveChanges();
             }
 
             PartialViewResult rv = (PartialViewResult)_controller.BatchDelete(new string[] { v1.ID.ToString(), v2.ID.ToString() });
-            Assert.IsInstanceOfType(rv.Model, typeof(ReviewBasicElementBatchVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseReviewElementBatchVM));
 
-            ReviewBasicElementBatchVM vm = rv.Model as ReviewBasicElementBatchVM;
+            EnterpriseReviewElementBatchVM vm = rv.Model as EnterpriseReviewElementBatchVM;
             vm.Ids = new string[] { v1.ID.ToString(), v2.ID.ToString() };
             _controller.DoBatchDelete(vm, null);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                Assert.AreEqual(context.Set<ReviewBasicElement>().Count(), 0);
+                Assert.AreEqual(context.Set<EnterpriseReviewElement>().Count(), 2);
             }
         }
 
@@ -193,7 +193,7 @@ namespace Safeway.Test
         {
             PartialViewResult rv = (PartialViewResult)_controller.Index();
             Assert.IsInstanceOfType(rv.Model, typeof(IBasePagedListVM<TopBasePoco, BaseSearcher>));
-            IActionResult rv2 = _controller.ExportExcel(rv.Model as ReviewBasicElementListVM);
+            IActionResult rv2 = _controller.ExportExcel(rv.Model as EnterpriseReviewElementListVM);
             Assert.IsTrue((rv2 as FileContentResult).FileContents.Length > 0);
         }
 

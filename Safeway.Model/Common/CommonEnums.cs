@@ -7,6 +7,25 @@ using WalkingTec.Mvvm.Core;
 
 namespace Safeway.Model.Common
 {
+    public enum ReviewTypeEnum
+    {
+        [Display(Name = "企业安全生产标准化小微评审")]
+        SmallEnterpriseReivew,
+        [Display(Name = "企业生产标准化三级评审")]
+        EnterpriseLevel3Review
+    }
+
+
+    public enum ElementLevelEnum
+    {
+        [Display(Name = "一级")]
+        LevelOne = 1,
+        [Display(Name = "二级")]
+        LevelTwo = 2,
+        [Display(Name = "三级")]
+        LevelThree = 3
+    }
+
     public enum TermsofTradeEnum
     {
         [Display(Name = "出口")]

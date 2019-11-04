@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Safeway.DataAccess;
 
 namespace Safeway.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191101020644_removereviewtemptype")]
+    partial class removereviewtemptype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,29 +194,24 @@ namespace Safeway.DataAccess.Migrations
                     b.ToTable("EnterpriserYearYields");
                 });
 
-            modelBuilder.Entity("Safeway.Model.EnterpriseReview.EnterpriseReviewElement", b =>
+            modelBuilder.Entity("Safeway.Model.ReviewTemp.ReviewBasicElement", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Category");
 
                     b.Property<string>("CreateBy")
                         .HasMaxLength(50);
 
                     b.Property<DateTime?>("CreateTime");
 
+                    b.Property<string>("ElementDesc")
+                        .HasMaxLength(200);
+
                     b.Property<string>("ElementName")
                         .IsRequired()
-                        .HasMaxLength(500);
-
-                    b.Property<bool>("IsValid");
-
-                    b.Property<int>("Level");
+                        .HasMaxLength(100);
 
                     b.Property<int>("Order");
-
-                    b.Property<Guid>("ParentElementId");
 
                     b.Property<int>("TotalScore");
 
@@ -225,7 +222,46 @@ namespace Safeway.DataAccess.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("EnterpriseReviewElements");
+                    b.ToTable("ReviewBasicElements");
+                });
+
+            modelBuilder.Entity("Safeway.Model.ReviewTemp.ReviewLevel2Element", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BasicElementId");
+
+                    b.Property<string>("CreateBy")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("CreateTime");
+
+                    b.Property<string>("ElementName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("ElementStandard")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<bool>("IsValid");
+
+                    b.Property<string>("Order")
+                        .IsRequired();
+
+                    b.Property<int>("TotalScore");
+
+                    b.Property<string>("UpdateBy")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("UpdateTime");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BasicElementId");
+
+                    b.ToTable("ReviewLevel2Elements");
                 });
 
             modelBuilder.Entity("WalkingTec.Mvvm.Core.ActionLog", b =>
@@ -793,6 +829,15 @@ namespace Safeway.DataAccess.Migrations
                         .WithMany("EnterpriserYearYields")
                         .HasForeignKey("EnterpriseBasicInfoId")
                         .HasConstraintName("FK_Basic_YearYields")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Safeway.Model.ReviewTemp.ReviewLevel2Element", b =>
+                {
+                    b.HasOne("Safeway.Model.ReviewTemp.ReviewBasicElement", "ReviewBasicElement")
+                        .WithMany("ReviewLevel2Elemenets")
+                        .HasForeignKey("BasicElementId")
+                        .HasConstraintName("FK_Basic_Element")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

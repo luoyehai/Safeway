@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Safeway.DataAccess;
 
 namespace Safeway.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191101023548_removereviewtable")]
+    partial class removereviewtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,42 +192,6 @@ namespace Safeway.DataAccess.Migrations
                     b.HasIndex("EnterpriseBasicInfoId");
 
                     b.ToTable("EnterpriserYearYields");
-                });
-
-            modelBuilder.Entity("Safeway.Model.EnterpriseReview.EnterpriseReviewElement", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Category");
-
-                    b.Property<string>("CreateBy")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime?>("CreateTime");
-
-                    b.Property<string>("ElementName")
-                        .IsRequired()
-                        .HasMaxLength(500);
-
-                    b.Property<bool>("IsValid");
-
-                    b.Property<int>("Level");
-
-                    b.Property<int>("Order");
-
-                    b.Property<Guid>("ParentElementId");
-
-                    b.Property<int>("TotalScore");
-
-                    b.Property<string>("UpdateBy")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime?>("UpdateTime");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("EnterpriseReviewElements");
                 });
 
             modelBuilder.Entity("WalkingTec.Mvvm.Core.ActionLog", b =>

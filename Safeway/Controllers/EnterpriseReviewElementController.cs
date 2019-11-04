@@ -4,25 +4,26 @@ using System;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Mvc;
 using WalkingTec.Mvvm.Core.Extensions;
-using Safeway.ViewModel.ReviewLevel2ElementVMs;
+using Safeway.ViewModel.EnterpriseReviewElementVMs;
+using Safeway.Model.EnterpriseReview;
 
 namespace Safeway.Controllers
 {
     
-    [ActionDescription("二级要素管理")]
-    public partial class ReviewLevel2ElementController : BaseController
+    [ActionDescription("要素管理")]
+    public partial class EnterpriseReviewElementController : BaseController
     {
         #region 搜索
         [ActionDescription("搜索")]
         public ActionResult Index()
         {
-            var vm = CreateVM<ReviewLevel2ElementListVM>();
+            var vm = CreateVM<EnterpriseReviewElementListVM>();
             return PartialView(vm);
         }
 
         [ActionDescription("搜索")]
         [HttpPost]
-        public string Search(ReviewLevel2ElementListVM vm)
+        public string Search(EnterpriseReviewElementListVM vm)
         {
             return vm.GetJson(false);
         }
@@ -33,13 +34,13 @@ namespace Safeway.Controllers
         [ActionDescription("新建")]
         public ActionResult Create()
         {
-            var vm = CreateVM<ReviewLevel2ElementVM>();
+            var vm = CreateVM<EnterpriseReviewElementVM>();
             return PartialView(vm);
         }
 
         [HttpPost]
         [ActionDescription("新建")]
-        public ActionResult Create(ReviewLevel2ElementVM vm)
+        public ActionResult Create(EnterpriseReviewElementVM vm)
         {
             if (!ModelState.IsValid)
             {
@@ -65,14 +66,14 @@ namespace Safeway.Controllers
         [ActionDescription("修改")]
         public ActionResult Edit(string id)
         {
-            var vm = CreateVM<ReviewLevel2ElementVM>(id);
+            var vm = CreateVM<EnterpriseReviewElementVM>(id);
             return PartialView(vm);
         }
 
         [ActionDescription("修改")]
         [HttpPost]
         [ValidateFormItemOnly]
-        public ActionResult Edit(ReviewLevel2ElementVM vm)
+        public ActionResult Edit(EnterpriseReviewElementVM vm)
         {
             if (!ModelState.IsValid)
             {
@@ -98,7 +99,7 @@ namespace Safeway.Controllers
         [ActionDescription("删除")]
         public ActionResult Delete(string id)
         {
-            var vm = CreateVM<ReviewLevel2ElementVM>(id);
+            var vm = CreateVM<EnterpriseReviewElementVM>(id);
             return PartialView(vm);
         }
 
@@ -106,7 +107,7 @@ namespace Safeway.Controllers
         [HttpPost]
         public ActionResult Delete(string id, IFormCollection nouse)
         {
-            var vm = CreateVM<ReviewLevel2ElementVM>(id);
+            var vm = CreateVM<EnterpriseReviewElementVM>(id);
             vm.DoDelete();
             if (!ModelState.IsValid)
             {
@@ -123,7 +124,7 @@ namespace Safeway.Controllers
         [ActionDescription("详细")]
         public ActionResult Details(string id)
         {
-            var vm = CreateVM<ReviewLevel2ElementVM>(id);
+            var vm = CreateVM<EnterpriseReviewElementVM>(id);
             return PartialView(vm);
         }
         #endregion
@@ -133,13 +134,13 @@ namespace Safeway.Controllers
         [ActionDescription("批量修改")]
         public ActionResult BatchEdit(string[] IDs)
         {
-            var vm = CreateVM<ReviewLevel2ElementBatchVM>(Ids: IDs);
+            var vm = CreateVM<EnterpriseReviewElementBatchVM>(Ids: IDs);
             return PartialView(vm);
         }
 
         [HttpPost]
         [ActionDescription("批量修改")]
-        public ActionResult DoBatchEdit(ReviewLevel2ElementBatchVM vm, IFormCollection nouse)
+        public ActionResult DoBatchEdit(EnterpriseReviewElementBatchVM vm, IFormCollection nouse)
         {
             if (!ModelState.IsValid || !vm.DoBatchEdit())
             {
@@ -157,13 +158,13 @@ namespace Safeway.Controllers
         [ActionDescription("批量删除")]
         public ActionResult BatchDelete(string[] IDs)
         {
-            var vm = CreateVM<ReviewLevel2ElementBatchVM>(Ids: IDs);
+            var vm = CreateVM<EnterpriseReviewElementBatchVM>(Ids: IDs);
             return PartialView(vm);
         }
 
         [HttpPost]
         [ActionDescription("批量删除")]
-        public ActionResult DoBatchDelete(ReviewLevel2ElementBatchVM vm, IFormCollection nouse)
+        public ActionResult DoBatchDelete(EnterpriseReviewElementBatchVM vm, IFormCollection nouse)
         {
             if (!ModelState.IsValid || !vm.DoBatchDelete())
             {
@@ -180,13 +181,13 @@ namespace Safeway.Controllers
 		[ActionDescription("导入")]
         public ActionResult Import()
         {
-            var vm = CreateVM<ReviewLevel2ElementImportVM>();
+            var vm = CreateVM<EnterpriseReviewElementImportVM>();
             return PartialView(vm);
         }
 
         [HttpPost]
         [ActionDescription("导入")]
-        public ActionResult Import(ReviewLevel2ElementImportVM vm, IFormCollection nouse)
+        public ActionResult Import(EnterpriseReviewElementImportVM vm, IFormCollection nouse)
         {
             if (vm.ErrorListVM.EntityList.Count > 0 || !vm.BatchSaveData())
             {
@@ -201,11 +202,16 @@ namespace Safeway.Controllers
 
         [ActionDescription("导出")]
         [HttpPost]
-        public IActionResult ExportExcel(ReviewLevel2ElementListVM vm)
+        public IActionResult ExportExcel(EnterpriseReviewElementListVM vm)
         {
             vm.SearcherMode = vm.Ids != null && vm.Ids.Count > 0 ? ListVMSearchModeEnum.CheckExport : ListVMSearchModeEnum.Export;
             var data = vm.GenerateExcel();
-            return File(data, "application/vnd.ms-excel", $"Export_ReviewLevel2Element_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
+            return File(data, "application/vnd.ms-excel", $"Export_EnterpriseReviewElement_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
+        }
+
+        public JsonResult GetLevelOneElements(EnterpriseReviewElementVM vm, int id)
+        {
+            return Json(vm.GetEnterpriseReviewElements(vm.Entity.Category));
         }
 
     }

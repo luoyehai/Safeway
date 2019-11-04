@@ -5,16 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using WalkingTec.Mvvm.Core;
 using Safeway.Model.Enterprise;
-using Safeway.Model.ReviewTemp;
+using Safeway.Model.EnterpriseReview;
 
 namespace Safeway.DataAccess
 {
     public class DataContext : FrameworkContext
     {
-        #region Review Element
-        public DbSet<ReviewBasicElement> ReviewBasicElements { get; set; }
-        public DbSet<ReviewLevel2Element> ReviewLevel2Elements { get; set; }
-        #endregion
+
+        public DbSet<EnterpriseReviewElement> EnterpriseReviewElements { get; set; }
 
         #region Enterprise
         public DbSet<EnterpriseContact> EnterpriseContacts { get; set; }
@@ -31,17 +29,6 @@ namespace Safeway.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<ReviewBasicElement>()
-                .HasKey(c => c.ID);
-
-            modelBuilder.Entity<ReviewLevel2Element>()
-                .HasOne<ReviewBasicElement>(e => e.ReviewBasicElement)
-                .WithMany(e => e.ReviewLevel2Elemenets)
-                .HasForeignKey(e => e.BasicElementId)
-                .HasConstraintName("FK_Basic_Element");
-
-
 
 
             #region Enterprise Guid auto generate
