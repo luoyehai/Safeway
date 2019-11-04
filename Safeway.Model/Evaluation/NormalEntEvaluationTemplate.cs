@@ -42,10 +42,10 @@ namespace Safeway.Model.Evaluation
         [StringLength(200)]
         public string ModuleThree { get; set; }
 
-        List<NormalEntEvaluation> NotmalEntEvaluations { get; set; }
+        public List<NormalEntEvaluation> NormalEntEvaluations { get; set; }
 
         public Guid EnterpriseId { get; set; }
-        EnterpriseBasicInfo EnterpriseBasicInfo { get; set; }
+        public EnterpriseBasicInfo EnterpriseBasicInfo { get; set; }
 
     }
 }

@@ -218,8 +218,9 @@ namespace Safeway.Controllers
             return File(data, "application/vnd.ms-excel", $"Export_EnterpriseBasicInfo_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
         }
         [ActionDescription("LoadCity")]   
-        public IActionResult LoadCities(EnterpriseBasicInfoVM vm,string id)
+        public IActionResult LoadCities(string id)
         {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
             var result = vm.GetCities(id);
             string names = vm.CityItemNames;
             HttpContext.Session.SetString("citynames", names);
