@@ -29,6 +29,6 @@ namespace Safeway.Model.Evaluation
         #endregion
 
         public Guid NormalEntEvaluationId { get; set; }
-        NormalEntEvaluation NormalEntEvaluation { get; set; }
+        public NormalEntEvaluation NormalEntEvaluation { get; set; }
     }
 }

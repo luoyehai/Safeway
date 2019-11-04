@@ -1,0 +1,18 @@
+﻿@model Safeway.ViewModel.NormalEntEvaluationTemplateVMs.NormalEntEvaluationTemplateVM
+
+<wt:form vm="@Model">
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:display field="Entity.EvluationEnt" />
+<wt:display field="Entity.EvaluationStartDate" />
+<wt:display field="Entity.EvaluationEndDate" />
+<wt:display field="Entity.EvaluationLeader" />
+<wt:display field="Entity.EvaluationTeamMember" />
+<wt:display field="Entity.ModuleOne" />
+<wt:display field="Entity.ModuleTwo" />
+<wt:display field="Entity.ModuleThree" />
+<wt:display field="Entity.EnterpriseBasicInfo.ComapanyName" />
+</wt:row>
+    <wt:row align=" AlignEnum.Right">
+        <wt:closebutton />
+    </wt:row>
+</wt:form>

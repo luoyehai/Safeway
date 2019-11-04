@@ -82,8 +82,24 @@ namespace Safeway.DataAccess
             modelBuilder.Entity<DetailNotmalEntEvaluation>()
               .HasKey(c => new { c.ID });
 
-           
-            #endregion
+            modelBuilder.Entity<EnterpriseBasicInfo>()
+                .HasOne<NormalEntEvaluationTemplate>(b => b.NormalEntEvaluationTemplate)
+                .WithOne(t => t.EnterpriseBasicInfo)
+                .HasForeignKey<NormalEntEvaluationTemplate>(t => t.EnterpriseId)
+                .HasConstraintName("FK_Basic_NormalEvaTemp");
+
+            modelBuilder.Entity<NormalEntEvaluation>()
+                .HasOne<NormalEntEvaluationTemplate>(e => e.NormalEntEvaluationTemplate)
+                .WithMany(t => t.NormalEntEvaluations)
+                .HasForeignKey(e => e.NormalEntEvaTempId)
+                .HasConstraintName("FK_Template_Evaluation");
+
+            modelBuilder.Entity<DetailNotmalEntEvaluation>()
+                .HasOne<NormalEntEvaluation>(d => d.NormalEntEvaluation)
+                .WithMany(e => e.DetailNotmalEntEvaluations)
+                .HasForeignKey(d => d.NormalEntEvaluationId)
+                .HasConstraintName("FK_Eva_Detail");
+           #endregion
 
         }
 

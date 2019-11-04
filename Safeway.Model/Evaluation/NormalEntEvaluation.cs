@@ -6,6 +6,7 @@ using System.Text;
 using WalkingTec.Mvvm.Core;
 using Safeway.Model.Enterprise;
 using Safeway.Model.Common;
+using Safeway.Model.EnterpriseReview;
 
 namespace Safeway.Model.Evaluation
 {
@@ -52,6 +53,11 @@ namespace Safeway.Model.Evaluation
 
         #endregion
         public Guid NormalEntEvaId { get; set; }
-        List<DetailNotmalEntEvaluation> DetailNotmalEntEvaluations { get; set; }
+        public List<DetailNotmalEntEvaluation> DetailNotmalEntEvaluations { get; set; }
+
+        public Guid NormalEntEvaTempId { get; set; }
+        public NormalEntEvaluationTemplate NormalEntEvaluationTemplate { get; set; }
+        //public Guid NormalEnterpriseReviewId { get; set; }
+        //EnterpriseReviewElement EnterpriseReviewElement { get; set; }
     }
 }
