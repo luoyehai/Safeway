@@ -59,6 +59,13 @@ namespace Safeway.Model.Common
         [Display(Name = "其他")]
         Others
     }
+    public enum EvaluationTypeEnum
+    {
+        [Display(Name = "文件")]
+        File,
+        [Display(Name = "现场")]
+        Scene
+    }
     public class CommonEnums
     {
     }
