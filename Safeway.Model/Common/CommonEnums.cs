@@ -7,6 +7,16 @@ using WalkingTec.Mvvm.Core;
 
 namespace Safeway.Model.Common
 {
+    public enum EvaluationSelectionEnum 
+    {
+        [Display(Name = "符合")]
+        Compliant,
+        [Display(Name = "不符合")]
+        Imcompliant,
+        [Display(Name = "不涉及")]
+        NotInvolve
+    }
+
     public enum ReviewTypeEnum
     {
         [Display(Name = "企业安全生产标准化小微评审")]
@@ -14,7 +24,6 @@ namespace Safeway.Model.Common
         [Display(Name = "企业生产标准化三级评审")]
         EnterpriseLevel3Review
     }
-
 
     public enum ElementLevelEnum
     {

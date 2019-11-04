@@ -6,6 +6,7 @@ using System.Linq;
 using WalkingTec.Mvvm.Core;
 using Safeway.Model.Enterprise;
 using Safeway.Model.EnterpriseReview;
+using Safeway.Model.Evaluation;
 
 namespace Safeway.DataAccess
 {
@@ -20,6 +21,12 @@ namespace Safeway.DataAccess
         public DbSet<EnterpriseFinanceInfo> EnterpriseFinanceInfos { get; set; }
         public DbSet<EnterpriserYearYield> EnterpriserYearYields { get; set; }
         #endregion
+
+        #region Evaluation
+        public DbSet<NormalEntEvaluationTemplate> NormalEntEvaluationTemplates { get; set; }
+        public DbSet<NormalEntEvaluation> NormalEntEvaluations { get; set; }
+        public DbSet<DetailNotmalEntEvaluation> DetailNotmalEntEvaluations { get; set; }
+        #endregion
         public DataContext(string cs, DBTypeEnum dbtype)
              : base(cs, dbtype)
         {
@@ -29,7 +36,6 @@ namespace Safeway.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
 
             #region Enterprise Guid auto generate
             modelBuilder.Entity<EnterpriseBasicInfo>()
@@ -67,6 +73,18 @@ namespace Safeway.DataAccess
             //.HasForeignKey(p => p.EnterpriseBasicInfoId)
             //.HasConstraintName("ForeignKey_Basic_Contact");
             #endregion
+
+            #region Evaluation
+            modelBuilder.Entity<NormalEntEvaluationTemplate>()
+              .HasKey(c => new { c.ID });
+            modelBuilder.Entity<NormalEntEvaluation>()
+              .HasKey(c => new { c.ID });
+            modelBuilder.Entity<DetailNotmalEntEvaluation>()
+              .HasKey(c => new { c.ID });
+
+           
+            #endregion
+
         }
 
     }
