@@ -6,6 +6,7 @@ using System.Text;
 using WalkingTec.Mvvm.Core;
 using Safeway.Model.Enterprise;
 using Safeway.Model.Common;
+using Safeway.Model.Evaluation;
 namespace Safeway.Model.Enterprise
 {
     public class EnterpriseBasicInfo : BasePoco
@@ -55,6 +56,8 @@ namespace Safeway.Model.Enterprise
 
         public List<EnterpriseContact> EnterpriseContacts { get; set; }
         public List<EnterpriserYearYield> EnterpriserYearYields { get; set; }
+
+        public NormalEntEvaluationTemplate NormalEntEvaluationTemplate { get; set; }
 
     }
 }
