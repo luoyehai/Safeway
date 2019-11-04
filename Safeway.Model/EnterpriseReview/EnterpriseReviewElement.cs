@@ -6,33 +6,32 @@ using System.Text;
 using WalkingTec.Mvvm.Core;
 using Safeway.Model.Enterprise;
 using Safeway.Model.Common;
-
-namespace Safeway.Model.ReviewTemp
+namespace Safeway.Model.EnterpriseReview
 {
-    public class ReviewLevel2Element : PersistPoco
+    public class EnterpriseReviewElement : PersistPoco
     {
         [Display(Name = "要素名称")]
         [Required(ErrorMessage = "{0}是必填项")]
-        [StringLength(100)]
+        [StringLength(500, ErrorMessage = "{0}最多输入{1}个字符")]
         public string ElementName { get; set; }
 
-        [Display(Name = "基本规范要求")]
-        [Required(ErrorMessage = "{0}是必填项")]
-        [StringLength(500)]
-        public string ElementStandard { get; set; }
+        [Display(Name = "要素类别")]
+        public ReviewTypeEnum Category { get; set; }
 
-        [Display(Name = "要素序号")]
+        [Display(Name = "级别")]
         [Required(ErrorMessage = "{0}是必填项")]
-        public string Order { get; set; }
+        public ElementLevelEnum Level { get; set; }
+
+        [Display(Name = "排序")]
+        [Required(ErrorMessage = "{0}是必填项")]
+        public int Order { get; set; }
 
         [Display(Name = "总分")]
+        [Required(ErrorMessage = "{0}是必填项")]
         public int TotalScore { get; set; }
 
-        [Display(Name = "一级要素")]
-        [Required(ErrorMessage = "{0}是必填项")]
-        public Guid BasicElementId { get; set; }
+        [Display(Name = "上级要素ID")]
+        public Guid ParentElementId { get; set; }
 
-        [Display(Name = "一级要素")]
-        public ReviewBasicElement ReviewBasicElement { get; set; }
     }
 }

@@ -5,19 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Core.Extensions;
-using Safeway.Model.ReviewTemp;
+using Safeway.Model.EnterpriseReview;
+using Safeway.Model.Common;
 
 
-namespace Safeway.ViewModel.ReviewBasicElementVMs
+namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 {
-    public partial class ReviewBasicElementSearcher : BaseSearcher
+    public partial class EnterpriseReviewElementSearcher : BaseSearcher
     {
-        [Display(Name = "评审模板类型")]
-        public ReviewTempTypeEnum? ReviewTempType { get; set; }
         [Display(Name = "要素名称")]
         public String ElementName { get; set; }
-        [Display(Name = "要素描述")]
-        public String ElementDesc { get; set; }
+        [Display(Name = "要素类别")]
+        public ReviewTypeEnum? Category { get; set; }
+        [Display(Name = "级别")]
+        public ElementLevelEnum? Level { get; set; }
 
         protected override void InitVM()
         {
