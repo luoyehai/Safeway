@@ -1,0 +1,10 @@
+﻿@model Safeway.ViewModel.NormalEntEvaluationVMs.NormalEntEvaluationListVM
+
+<wt:searchpanel vm="@Model" reset-btn="true">
+<wt:row items-per-row="ItemsPerRowEnum.Three">
+<wt:textbox field="Searcher.ComplianceStandard" />
+<wt:textbox field="Searcher.BasicRuleRequirement" />
+<wt:textbox field="Searcher.AssignTo" />
+</wt:row>
+</wt:searchpanel>
+<wt:grid vm="@Model" url="/NormalEntEvaluation/Search"/>

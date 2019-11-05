@@ -1,0 +1,21 @@
+﻿@model Safeway.ViewModel.NormalEntEvaluationVMs.NormalEntEvaluationVM
+
+<wt:form vm="@Model">
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:textbox field="Entity.LevelOneElement" />
+<wt:textbox field="Entity.LevelTwoElement" />
+<wt:textbox field="Entity.LevelThreeElement" />
+<wt:textbox field="Entity.ComplianceStandard" />
+<wt:textbox field="Entity.BasicRuleRequirement" />
+<wt:textbox field="Entity.StandardScore" />
+<wt:textbox field="Entity.EvaluationDescription" />
+<wt:textbox field="Entity.AssignTo" />
+<wt:textbox field="Entity.ActualScore" />
+<wt:combobox field="Entity.NormalEntEvaTempId" items="AllNormalEntEvaluationTemplates"/>
+</wt:row>
+    <wt:hidden field="Entity.ID" />
+    <wt:row align="AlignEnum.Right">
+        <wt:submitbutton />
+        <wt:closebutton />
+    </wt:row>
+</wt:form>

@@ -38,7 +38,7 @@ namespace Safeway.ViewModel.NormalEntEvaluationTemplateVMs
                 this.MakeStandardAction("NormalEntEvaluationTemplate", GridActionStandardTypesEnum.BatchDelete, "批量删除","", dialogWidth: 800),
                 this.MakeStandardAction("NormalEntEvaluationTemplate", GridActionStandardTypesEnum.Import, "导入","", dialogWidth: 800),
                 this.MakeStandardAction("NormalEntEvaluationTemplate", GridActionStandardTypesEnum.ExportExcel, "导出",""),
-                this.MakeAction("NormalEntEvaluationTemplate","CreateTemplate","开始评分","评分页面", GridActionParameterTypesEnum.SingleId,"_Admin").SetShowDialog(false).SetIsRedirect(true).SetShowInRow(true).SetQueryString("a=3"),
+                this.MakeAction("NormalEntEvaluation","Create","开始评分","评分页面", GridActionParameterTypesEnum.SingleId,"").SetShowDialog(false).SetIsRedirect(true).SetShowInRow(true),
             };
         }
 

@@ -7,8 +7,8 @@
         <wt:datetime field="Searcher.EvaluationEndDate" />
         <wt:textbox field="Searcher.EvaluationLeader" />
         <wt:combobox field="Searcher.EnterpriseId" items="Searcher.AllEnterpriseBasicInfos" empty-text="全部" />
-        <wt:treecontainer items="AllDeps" >
-        </wt:treecontainer>
     </wt:row>
 </wt:searchpanel>
-<wt:grid vm="@Model" url="/NormalEntEvaluationTemplate/Search"/>
+<wt:treecontainer items="AllDeps" style="height:600px;width:800px">
+</wt:treecontainer>
+<wt:grid vm="@Model" url="/NormalEntEvaluationTemplate/Search" />
