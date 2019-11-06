@@ -13,6 +13,8 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 {
     public partial class EnterpriseReviewElementSearcher : BaseSearcher
     {
+        [Display(Name = "上级要素")]
+        public string ParentElementId { get; set; }
         [Display(Name = "要素名称")]
         public String ElementName { get; set; }
         [Display(Name = "要素类别")]

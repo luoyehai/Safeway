@@ -15,14 +15,15 @@
 </head>
 
 <body>
-  <div id="LAY_app"></div>
-  <script src="/jquery.min.js"></script>
-  <script src="/jquery.cookie.js"></script>
-  <script src="/layui/layui.js"></script>
-  <script src="/_js/framework_layui.js?time=@DateTime.Now.Ticks"></script>
-  <script src="~/elementui/js/vue.js"></script>
-  <script src="~/elementui/js/index.js"></script>
-  <script>
+    <div id="LAY_app"></div>
+    <script src="/jquery.min.js"></script>
+    <script src="/jquery.cookie.js"></script>
+    <script src="/layui/layui.js"></script>
+    <script src="/_js/framework_layui.js?time=@DateTime.Now.Ticks"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/elementui/js/vue.js"></script>
+    <script src="~/elementui/js/index.js"></script>
+    <script>
     var DONOTUSE_IGNOREHASH = false;
     var DONOTUSE_COOKIEPRE = '@ViewData["DONOTUSE_COOKIEPRE"]';
     var DONOTUSE_WINDOWGUID = '@Guid.NewGuid().ToString().Replace("-", "")';
@@ -30,8 +31,8 @@
       base: '/layuiadmin/'
       , version: '1.2.1'
     });
-  </script>
-  @RenderBody()
+    </script>
+    @RenderBody()
 </body>
 
 </html>

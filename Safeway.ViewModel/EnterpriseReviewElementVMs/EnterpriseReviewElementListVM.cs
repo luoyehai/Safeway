@@ -14,13 +14,44 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 {
     public partial class EnterpriseReviewElementListVM : BasePagedListVM<EnterpriseReviewElement_View, EnterpriseReviewElementSearcher>
     {
-        public List<TreeSelectListItem> AllDeps { get; set; }
+        public List<TreeSelectListItem> ElementList = new List<TreeSelectListItem>();
         public EnterpriseReviewElementListVM()
         {
-            //AllDeps = new EnterpriseReviewElementVM().GenerateTreeSelect();
         }
 
-        
+        protected override void InitListVM()
+        {
+            base.InitListVM();
+            DC.Set<EnterpriseReviewElement>().Where(x => x.Level == ElementLevelEnum.LevelOne).ToList().ForEach(x =>
+            {
+                ElementList.Add(new TreeSelectListItem()
+                {
+                    Id = x.ID.ToString(),
+                    Text = x.ElementName,
+                    Children = GenerateChildTreeSelectItems(x.ID.ToString())
+                });
+            });
+        }
+
+        public List<TreeSelectListItem> GenerateChildTreeSelectItems(string parentElementId)
+        {
+            var childTreeSelectList = new List<TreeSelectListItem>();
+            var childElementList = DC.Set<EnterpriseReviewElement>().Where(e => e.ParentElementId == parentElementId).ToList();
+            if (childElementList.Count() > 0)
+            {
+                childElementList.ForEach(x =>
+                {
+                    var treeSelectListItem = new TreeSelectListItem()
+                    {
+                        Id = x.ID.ToString(),
+                        Text = x.ElementName,
+                        Children = GenerateChildTreeSelectItems(x.ID.ToString())
+                    };
+                    childTreeSelectList.Add(treeSelectListItem);
+                });
+            }
+            return childTreeSelectList;
+        }
 
 
         protected override List<GridAction> InitGridAction()
@@ -55,6 +86,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
             var query = DC.Set<EnterpriseReviewElement>()
                 .CheckContain(Searcher.ElementName, x=>x.ElementName)
                 .CheckEqual(Searcher.Level, x=>x.Level)
+                .CheckEqual(Searcher.ParentElementId, x => x.ParentElementId)
                 .Select(x => new EnterpriseReviewElement_View
                 {
 				    ID = x.ID,
@@ -66,7 +98,6 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
                 .OrderBy(x => x.ID);
             return query;
         }
-
     }
 
     

@@ -1,12 +1,14 @@
 ﻿@model Safeway.ViewModel.EnterpriseReviewElementVMs.EnterpriseReviewElementListVM
-
-    <wt:treecontainer items="AllDeps">
-    </wt:treecontainer>
+@*//通过指定id-field="Searcher.DepId"，将树中选中的值赋值给Search.DepId字段并刷新内部grid*@
+    <wt:treecontainer items="ElementList" height="600" id-field="Searcher.ParentElementId">
+        @*//将普通的SearchPanel和Grid写在TreeContainer内部即可实现tree和grid的联动*@
         <wt:searchpanel vm="@Model" reset-btn="true">
-
             <wt:row items-per-row="ItemsPerRowEnum.Three">
                 <wt:textbox field="Searcher.ElementName" />
                 <wt:combobox field="Searcher.Level" empty-text="全部" />
             </wt:row>
         </wt:searchpanel>
+
+
         <wt:grid vm="@Model" url="/EnterpriseReviewElement/Search" />
+    </wt:treecontainer>
