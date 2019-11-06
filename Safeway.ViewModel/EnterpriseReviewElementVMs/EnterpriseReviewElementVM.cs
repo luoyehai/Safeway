@@ -12,12 +12,12 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 {
     public partial class EnterpriseReviewElementVM : BaseCRUDVM<EnterpriseReviewElement>
     {
-
+        
         public EnterpriseReviewElementVM()
         {
         }
 
-        private List<TreeSelectListItem> GenerateTreeSelect()
+        public List<TreeSelectListItem> GenerateTreeSelect()
         {
             var rootTreeSelectListItem = new TreeSelectListItem()
             {
@@ -28,7 +28,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 
             var treeSelectList = new List<TreeSelectListItem>();
 
-            var elementList = DC.Set<EnterpriseReviewElement>().Where(x => x.IsValid.Equals(true)).ToList();
+            var elementList = DC.Set<EnterpriseReviewElement>().ToList();
             elementList.ForEach(x =>
             {
                 treeSelectList.Add(BuildTreeSelectListItem(x));
@@ -51,21 +51,21 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
                 Text = reviewElementItem.ElementName
             };
             var childTreeSelectList = new List<TreeSelectListItem>();
-                var childElementList = GetChildReivewElements(reviewElementItem.ID.ToString());
-                if (childElementList.Count() > 0)
+            var childElementList = GetChildReivewElements(reviewElementItem.ID.ToString());
+            if (childElementList.Count() > 0)
+            {
+                childElementList.ForEach(x =>
                 {
-                    childElementList.ForEach(x =>
+                    childTreeSelectList.Add(new TreeSelectListItem()
                     {
-                        childTreeSelectList.Add(new TreeSelectListItem()
-                        {
-                            Id = x.ID.ToString(),
-                            ParentId = x.ParentElementId.ToString(),
-                            Text = x.ElementName
-                        });
+                        Id = x.ID.ToString(),
+                        ParentId = x.ParentElementId.ToString(),
+                        Text = x.ElementName
                     });
-                    treeSelectListItem.Children = childTreeSelectList;
-                }
-            
+                });
+                treeSelectListItem.Children = childTreeSelectList;
+            }
+
             return treeSelectListItem;
         }
 
@@ -83,7 +83,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
                     };
                 var childTreeSelectList = new List<TreeSelectListItem>();
                 var childElementList = GetChildReivewElements(e.ID.ToString());
-                if(childElementList.Count() > 0)
+                if (childElementList.Count() > 0)
                 {
                     childElementList.ForEach(x =>
                     {

@@ -12,20 +12,10 @@ using Safeway.Model.Common;
 
 namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 {
-    public partial class EnterpriseReviewElementListVM : BasePagedListVM<EnterpriseReviewElement_View, EnterpriseReviewElementSearcher>
+    public partial class EnterpriseReviewElementApiListVM : BasePagedListVM<EnterpriseReviewElementApi_View, EnterpriseReviewElementApiSearcher>
     {
-        public List<TreeSelectListItem> AllDeps { get; set; }
-        public EnterpriseReviewElementListVM()
-        {
-            //AllDeps = new EnterpriseReviewElementVM().GenerateTreeSelect();
-        }
-
-        
-
-
         protected override List<GridAction> InitGridAction()
         {
-
             return new List<GridAction>
             {
                 this.MakeStandardAction("EnterpriseReviewElement", GridActionStandardTypesEnum.Create, "新建","", dialogWidth: 800),
@@ -39,29 +29,32 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
             };
         }
 
-        protected override IEnumerable<IGridColumn<EnterpriseReviewElement_View>> InitGridHeader()
+        protected override IEnumerable<IGridColumn<EnterpriseReviewElementApi_View>> InitGridHeader()
         {
-            return new List<GridColumn<EnterpriseReviewElement_View>>{
-                this.MakeGridHeader(x => x.Level),
+            return new List<GridColumn<EnterpriseReviewElementApi_View>>{
                 this.MakeGridHeader(x => x.ElementName),
+                this.MakeGridHeader(x => x.Level),
                 this.MakeGridHeader(x => x.Order),
                 this.MakeGridHeader(x => x.TotalScore),
+                this.MakeGridHeader(x => x.ParentElementId),
                 this.MakeGridHeaderAction(width: 200)
             };
         }
 
-        public override IOrderedQueryable<EnterpriseReviewElement_View> GetSearchQuery()
+        public override IOrderedQueryable<EnterpriseReviewElementApi_View> GetSearchQuery()
         {
             var query = DC.Set<EnterpriseReviewElement>()
                 .CheckContain(Searcher.ElementName, x=>x.ElementName)
                 .CheckEqual(Searcher.Level, x=>x.Level)
-                .Select(x => new EnterpriseReviewElement_View
+                .CheckContain(Searcher.ParentElementId, x=>x.ParentElementId)
+                .Select(x => new EnterpriseReviewElementApi_View
                 {
 				    ID = x.ID,
                     ElementName = x.ElementName,
                     Level = x.Level,
                     Order = x.Order,
                     TotalScore = x.TotalScore,
+                    ParentElementId = x.ParentElementId,
                 })
                 .OrderBy(x => x.ID);
             return query;
@@ -69,8 +62,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
 
     }
 
-    
-    public class EnterpriseReviewElement_View : EnterpriseReviewElement{
+    public class EnterpriseReviewElementApi_View : EnterpriseReviewElement{
 
     }
 }
