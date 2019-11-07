@@ -73,10 +73,11 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
         protected override IEnumerable<IGridColumn<EnterpriseReviewElement_View>> InitGridHeader()
         {
             return new List<GridColumn<EnterpriseReviewElement_View>>{
-                this.MakeGridHeader(x => x.Level),
+                this.MakeGridHeader(x => x.Level, width: 100),
                 this.MakeGridHeader(x => x.ElementName),
-                this.MakeGridHeader(x => x.Order),
-                this.MakeGridHeader(x => x.TotalScore),
+                this.MakeGridHeader(x => x.Order, width: 100),
+                this.MakeGridHeader(x => x.TotalScore, width: 100),
+                this.MakeGridHeader(x => x.EvaluationType, width: 100),
                 this.MakeGridHeaderAction(width: 200)
             };
         }
@@ -94,6 +95,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
                     Level = x.Level,
                     Order = x.Order,
                     TotalScore = x.TotalScore,
+                    EvaluationType = x.EvaluationType
                 })
                 .OrderBy(x => x.ID);
             return query;

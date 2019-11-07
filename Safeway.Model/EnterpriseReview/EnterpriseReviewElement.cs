@@ -30,5 +30,7 @@ namespace Safeway.Model.EnterpriseReview
         [Display(Name = "上级要素")]
         public string ParentElementId { get; set; }
 
+        [Display(Name = "要素类型")]
+        public EvaluationTypeEnum? EvaluationType { get; set; }
     }
 }

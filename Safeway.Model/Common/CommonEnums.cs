@@ -7,7 +7,7 @@ using WalkingTec.Mvvm.Core;
 
 namespace Safeway.Model.Common
 {
-    public enum EvaluationSelectionEnum 
+    public enum EvaluationSelectionEnum
     {
         [Display(Name = "符合")]
         Compliant,
@@ -53,6 +53,7 @@ namespace Safeway.Model.Common
         [Display(Name = "小微")]
         Small
     }
+
     public enum SafetyServiceTypeEnum 
     {
         [Display(Name = "安全生产标准化")]

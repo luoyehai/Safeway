@@ -2,11 +2,12 @@
 
 <wt:form vm="@Model">
     <wt:row items-per-row="ItemsPerRowEnum.Two">
-        <wt:combobox field="Entity.Level" link-field="Entity.ParentElementId" trigger-url="EnterpriseReviewElement/LoadParentElement"/>
+        <wt:combobox field="Entity.Level" link-field="Entity.ParentElementId" trigger-url="EnterpriseReviewElement/LoadParentElement" />
         <wt:combobox field="Entity.ParentElementId" />
         <wt:textbox field="Entity.ElementName" />
         <wt:textbox field="Entity.Order" />
         <wt:textbox field="Entity.TotalScore" />
+        <wt:combobox field="Entity.EvaluationType" />
     </wt:row>
     <wt:row align="AlignEnum.Right">
         <wt:submitbutton />
