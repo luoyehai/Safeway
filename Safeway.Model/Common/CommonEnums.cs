@@ -7,6 +7,13 @@ using WalkingTec.Mvvm.Core;
 
 namespace Safeway.Model.Common
 {
+
+    public enum ProjectTypeEnum
+    {
+        [Display(Name = "企业安全生产标准化小微评审")]
+        SmallEnterpriseReivew
+    }
+
     public enum EvaluationSelectionEnum
     {
         [Display(Name = "符合")]
