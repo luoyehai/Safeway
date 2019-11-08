@@ -1,9 +1,0 @@
-﻿@model Safeway.ViewModel.DetailNotmalEntEvaluationVMs.DetailNotmalEntEvaluationListVM
-
-<wt:searchpanel vm="@Model" reset-btn="true">
-<wt:row items-per-row="ItemsPerRowEnum.Three">
-<wt:combobox field="Searcher.EvaluateType" empty-text="全部" />
-<wt:combobox field="Searcher.NormalEntEvaluationId" items="Searcher.AllNormalEntEvaluations" empty-text="全部" />
-</wt:row>
-</wt:searchpanel>
-<wt:grid vm="@Model" url="/DetailNotmalEntEvaluation/Search"/>
