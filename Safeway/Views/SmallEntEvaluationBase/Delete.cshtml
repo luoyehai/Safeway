@@ -1,0 +1,22 @@
+﻿@model Safeway.ViewModel.SmallEntEvaluationBaseVMs.SmallEntEvaluationBaseVM
+
+<wt:form vm="@Model">
+	<wt:quote>确定要删除这条数据么：</wt:quote>
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:display field="Entity.EvluationEnt" />
+<wt:display field="Entity.EvaluationStartDate" />
+<wt:display field="Entity.EvaluationEndDate" />
+<wt:display field="Entity.EvaluationLeader" />
+<wt:display field="Entity.ReportLeader" />
+<wt:display field="Entity.EvaluationTeamMember" />
+<wt:display field="Entity.Status" />
+<wt:display field="Entity.ModuleOne" />
+<wt:display field="Entity.ModuleTwo" />
+<wt:display field="Entity.ModuleThree" />
+</wt:row>
+    <wt:hidden field="Entity.ID" />
+    <wt:row align=" AlignEnum.Right">
+        <wt:submitbutton theme=" ButtonThemeEnum.Warm" text="删除"/>
+        <wt:closebutton />
+    </wt:row>
+</wt:form>
