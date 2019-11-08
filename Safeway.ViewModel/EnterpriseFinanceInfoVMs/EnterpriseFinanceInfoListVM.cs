@@ -57,7 +57,7 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
                     Bank = x.Bank,
                     Account = x.Account,
                     CustomerReceiptReceiver = x.CustomerReceiptReceiver,
-                    ComapanyName_view = x.BasicInfo.ComapanyName,
+                   // ComapanyName_view = x.BasicInfo.ComapanyName,
                 })
                 .OrderBy(x => x.ID);
             return query;

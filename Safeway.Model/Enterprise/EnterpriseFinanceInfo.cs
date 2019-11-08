@@ -35,6 +35,6 @@ namespace Safeway.Model.Enterprise
 
         [Display(Name = "企业名称")]
         public Guid EnterpriseBasicId { get; set; }
-        public EnterpriseBasicInfo BasicInfo { get; set; }
+        //public EnterpriseBasicInfo BasicInfo { get; set; }
     }
 }

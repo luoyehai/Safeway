@@ -8,9 +8,9 @@ using Safeway.Model.Enterprise;
 using Safeway.Model.Common;
 using Safeway.Model.EnterpriseReview;
 
-namespace Safeway.Model.SmallEntEvaluation
+namespace Safeway.Model.NormalEntEvaluation
 {
-    public class SmallEntEvaluationItem : BasePoco
+    public class NormalEntEvaluationItem:BasePoco
     {
         [Display(Name = "一级要素")]
         [StringLength(300)]
@@ -59,6 +59,6 @@ namespace Safeway.Model.SmallEntEvaluation
         [Display(Name = "要素类型")]
         public EvaluationTypeEnum? EvaluationType { get; set; }
 
-        public string SmallEntEvaluationBaseId { get; set; }
+        public string NormalEntEvaluationBaseId { get; set; }
     }
 }

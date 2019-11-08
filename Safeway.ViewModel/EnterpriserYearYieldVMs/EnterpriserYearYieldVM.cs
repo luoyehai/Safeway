@@ -16,7 +16,7 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
 
         public EnterpriserYearYieldVM()
         {
-            SetInclude(x => x.EnterpriseBasicInfo);
+           // SetInclude(x => x.EnterpriseBasicInfo);
         }
 
         protected override void InitVM()

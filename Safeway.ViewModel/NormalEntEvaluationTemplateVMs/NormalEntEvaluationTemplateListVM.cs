@@ -14,17 +14,10 @@ namespace Safeway.ViewModel.NormalEntEvaluationTemplateVMs
 {
     public partial class NormalEntEvaluationTemplateListVM : BasePagedListVM<NormalEntEvaluationTemplate_View, NormalEntEvaluationTemplateSearcher>
     {
-        public List<TreeSelectListItem> AllDeps { get; set; }
 
         public NormalEntEvaluationTemplateListVM()
         {
-            AllDeps = new List<TreeSelectListItem>();
-            AllDeps.Add(new TreeSelectListItem()
-            {
-                Id ="123",
-                Text="Dept1",
-                Children = null
-            });
+
         }
         protected override List<GridAction> InitGridAction()
         {
@@ -38,7 +31,7 @@ namespace Safeway.ViewModel.NormalEntEvaluationTemplateVMs
                 this.MakeStandardAction("NormalEntEvaluationTemplate", GridActionStandardTypesEnum.BatchDelete, "批量删除","", dialogWidth: 800),
                 this.MakeStandardAction("NormalEntEvaluationTemplate", GridActionStandardTypesEnum.Import, "导入","", dialogWidth: 800),
                 this.MakeStandardAction("NormalEntEvaluationTemplate", GridActionStandardTypesEnum.ExportExcel, "导出",""),
-                this.MakeAction("NormalEntEvaluation","Create","开始评分","评分页面", GridActionParameterTypesEnum.SingleId,"").SetShowDialog(false).SetIsRedirect(true).SetShowInRow(true),
+                this.MakeAction("NormalEntEvaluation","Index","开始评分","评分页面", GridActionParameterTypesEnum.NoId,"").SetShowDialog(true).SetIsRedirect(true).SetShowInRow(true),
             };
         }
 

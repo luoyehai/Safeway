@@ -50,7 +50,7 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
                     FiscalYear = x.FiscalYear,
                     YearYieldValue = x.YearYieldValue,
                     Created = x.Created,
-                    ComapanyName_view = x.EnterpriseBasicInfo.ComapanyName,
+                 //   ComapanyName_view = x.EnterpriseBasicInfo.ComapanyName,
                 })
                 .OrderBy(x => x.ID);
             return query;

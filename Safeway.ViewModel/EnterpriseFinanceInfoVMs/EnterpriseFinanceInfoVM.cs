@@ -16,7 +16,7 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
 
         public EnterpriseFinanceInfoVM()
         {
-            SetInclude(x => x.BasicInfo);
+            //SetInclude(x => x.BasicInfo);
         }
 
         protected override void InitVM()

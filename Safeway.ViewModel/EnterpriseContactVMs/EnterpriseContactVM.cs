@@ -16,7 +16,7 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
 
         public EnterpriseContactVM()
         {
-            SetInclude(x => x.EnterpriseBasicInfo);
+           // SetInclude(x => x.EnterpriseBasicInfo);
         }
 
         protected override void InitVM()

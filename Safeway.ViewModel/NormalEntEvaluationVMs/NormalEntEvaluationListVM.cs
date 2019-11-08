@@ -7,12 +7,14 @@ using WalkingTec.Mvvm.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using Safeway.Model.Evaluation;
-
+using Safeway.Model.EnterpriseReview;
+using Safeway.Model.Common;
 
 namespace Safeway.ViewModel.NormalEntEvaluationVMs
 {
     public partial class NormalEntEvaluationListVM : BasePagedListVM<NormalEntEvaluation_View, NormalEntEvaluationSearcher>
     {
+        //public EnterpriseReviewElementVMs EnterpriseReviewElementVMs =new 
         protected override List<GridAction> InitGridAction()
         {
             return new List<GridAction>
@@ -47,7 +49,7 @@ namespace Safeway.ViewModel.NormalEntEvaluationVMs
 
         public override IOrderedQueryable<NormalEntEvaluation_View> GetSearchQuery()
         {
-            var query = DC.Set<NormalEntEvaluation>()
+            /*var query = DC.Set<NormalEntEvaluation>()
                 .CheckContain(Searcher.ComplianceStandard, x=>x.ComplianceStandard)
                 .CheckContain(Searcher.BasicRuleRequirement, x=>x.BasicRuleRequirement)
                 .CheckContain(Searcher.AssignTo, x=>x.AssignTo)
@@ -65,8 +67,45 @@ namespace Safeway.ViewModel.NormalEntEvaluationVMs
                     ActualScore = x.ActualScore,
                     EvluationEnt_view = x.NormalEntEvaluationTemplate.EvluationEnt,
                 })
-                .OrderBy(x => x.ID);
-            return query;
+                .OrderBy(x => x.ID);*/
+            var query = DC.Set<EnterpriseReviewElement>()
+            .Where(x => x.Level == ElementLevelEnum.LevelFour)
+            .Select(x => new NormalEntEvaluation_View
+            {
+                //ID = x.ID,
+                LevelFourID = x.ID,
+                //LevelOneElement = x.LevelOneElement,
+                //LevelTwoElement = x.LevelTwoElement,
+                LevelThreeElement = DC.Set<EnterpriseReviewElement>()
+                .Where(y => y.ID.ToString() == x.ParentElementId).Select(
+                     y => y.ElementName
+                    ).FirstOrDefault(),
+                ComplianceStandard = x.ElementName,
+                //BasicRuleRequirement = x.BasicRuleRequirement,
+                StandardScore = x.TotalScore,
+                //EvaluationDescription = x.EvaluationDescription,
+                //AssignTo = x.AssignTo,
+               // ActualScore = x.ActualScore,
+               // EvluationEnt_view = x.NormalEntEvaluationTemplate.EvluationEnt,
+            })
+            .OrderBy(x => x.LevelFourID).ToList();
+            //Set Element Name
+            for (int i =0;i<query.Count();i++) 
+            {
+                var level2elementid = DC.Set<EnterpriseReviewElement>().Where(y => y.ElementName == query[i].LevelThreeElement).Select(
+                     y => y.ParentElementId
+                    ).FirstOrDefault();
+                query[i].LevelTwoElement = DC.Set<EnterpriseReviewElement>().Where(y => y.ID.ToString() == level2elementid).Select(
+                     y => y.ElementName
+                    ).FirstOrDefault();
+                var level1elementid = DC.Set<EnterpriseReviewElement>().Where(y => y.ID.ToString() == level2elementid).Select(
+                     y => y.ParentElementId
+                    ).FirstOrDefault();
+                query[i].LevelOneElement = DC.Set<EnterpriseReviewElement>().Where(y => y.ID.ToString() == level1elementid).Select(
+                    y => y.ElementName
+                   ).FirstOrDefault();
+            }
+            return query as IOrderedQueryable<NormalEntEvaluation_View>;
         }
 
     }

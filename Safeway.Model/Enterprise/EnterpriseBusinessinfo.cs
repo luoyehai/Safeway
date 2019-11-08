@@ -33,5 +33,6 @@ namespace Safeway.Model.Enterprise
         [StringLength(50)]
         public string Description { get; set; }
 
+        public Guid EnterpriseBasicInfoId { get; set; }
     }
 }

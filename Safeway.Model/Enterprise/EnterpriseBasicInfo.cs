@@ -52,12 +52,12 @@ namespace Safeway.Model.Enterprise
         [Display(Name = "贸易方式")]
         public TermsofTradeEnum? TermsofTrade { get; set; }
 
-        public EnterpriseFinanceInfo FinanceInfo { get; set; }
+        //public EnterpriseFinanceInfo FinanceInfo { get; set; }
 
-        public List<EnterpriseContact> EnterpriseContacts { get; set; }
-        public List<EnterpriserYearYield> EnterpriserYearYields { get; set; }
+        //public List<EnterpriseContact> EnterpriseContacts { get; set; }
+        //public List<EnterpriserYearYield> EnterpriserYearYields { get; set; }
 
-        public NormalEntEvaluationTemplate NormalEntEvaluationTemplate { get; set; }
+        //public NormalEntEvaluationTemplate NormalEntEvaluationTemplate { get; set; }
 
     }
 }
