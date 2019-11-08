@@ -13,7 +13,7 @@ namespace Safeway.Model.NormalEntEvaluation
     {
         [Display(Name = "企业名称")]
         public Guid EnterpriseId { get; set; }
-        public EnterpriseBasicInfo EnterpriseBasicInfo { get; set; }
+       // public EnterpriseBasicInfo EnterpriseBasicInfo { get; set; }
 
         [Display(Name = "评审单位")]
         [StringLength(300)]
