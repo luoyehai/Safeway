@@ -27,6 +27,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         public void InsertElements(string baseId) 
         {
             var evaluationitemlist = new List<SmallEntEvaluationItem>();
+            var evaluationUnmatchedList = new List<SmallEntEvaluationUnMatchedItem>();
             //put EnterpriseReview item into small Ent Evaluation item
             //Get data from enterprise review element
             var data = DC.Set<EnterpriseReviewElement>().Where(x => x.Level== ElementLevelEnum.LevelFour).ToList();
@@ -40,6 +41,13 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 temp.StandardScore = obj.TotalScore;
                 temp.SmallEntEvaluationBaseId = baseId;
                 evaluationitemlist.Add(temp);
+
+                //Add temp Unmatched items
+                SmallEntEvaluationUnMatchedItem unmatchedtemp = new SmallEntEvaluationUnMatchedItem();
+                unmatchedtemp.SmallEntEvaluationBaseId = baseId;
+                unmatchedtemp.SmallEntEvaluationItemId = temp.ID.ToString();
+                unmatchedtemp.CreateTime = DateTime.Now;
+                evaluationUnmatchedList.Add(unmatchedtemp);
             }
             foreach (var o in evaluationitemlist) 
             { 
@@ -50,8 +58,12 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 o.LevelOneElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelOneId).Select(x => x.ElementName).FirstOrDefault();
 
             }
+
             //Insert into SmallEntEvaluationItem
             DC.Set<SmallEntEvaluationItem>().AddRange(evaluationitemlist);
+            //Insert into SmallEntEvaluation Unmatched Item
+            DC.Set<SmallEntEvaluationUnMatchedItem>().AddRange(evaluationUnmatchedList);
+
             DC.SaveChanges();
 
             //return query;
