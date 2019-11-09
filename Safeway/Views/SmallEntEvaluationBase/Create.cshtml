@@ -2,16 +2,18 @@
 
 <wt:form vm="@Model">
 <wt:row items-per-row="ItemsPerRowEnum.Two">
-<wt:textbox field="Entity.EvluationEnt" />
-<wt:datetime field="Entity.EvaluationStartDate" />
-<wt:datetime field="Entity.EvaluationEndDate" />
-<wt:textbox field="Entity.EvaluationLeader" />
-<wt:textbox field="Entity.ReportLeader" />
-<wt:textbox field="Entity.EvaluationTeamMember" />
-<wt:textbox field="Entity.Status" />
-<wt:textbox field="Entity.ModuleOne" />
-<wt:textbox field="Entity.ModuleTwo" />
-<wt:textbox field="Entity.ModuleThree" />
+<wt:textbox field="Entity.EvluationEnt" label-width="120" />
+<wt:datetime field="Entity.EvaluationStartDate" label-width="120"/>
+<wt:datetime field="Entity.EvaluationEndDate" label-width="120"/>
+<wt:textbox field="Entity.EvaluationLeader" label-width="120"/>
+<wt:textbox field="Entity.ReportLeader" label-width="120"/>
+<wt:textbox field="Entity.EvaluationTeamMember" label-width="120"/>
+<wt:textbox field="Entity.Status" label-width="120"/>
+</wt:row>
+<wt:row items-per-row="ItemsPerRowEnum.One">
+    <wt:textbox field="Entity.ModuleOne" label-width="120"/>
+    <wt:textbox field="Entity.ModuleTwo" label-width="120"/>
+    <wt:textbox field="Entity.ModuleThree" label-width="120"/>
 </wt:row>
     <wt:row align="AlignEnum.Right">
         <wt:submitbutton />
