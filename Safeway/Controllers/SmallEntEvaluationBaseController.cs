@@ -48,7 +48,9 @@ namespace Safeway.Controllers
             else
             {
                 vm.DoAdd();
-                if (!ModelState.IsValid)
+                //Add all the relative elements into item table           
+                vm.InsertElements(vm.Entity.ID.ToString());
+              if (!ModelState.IsValid)
                 {
                     vm.DoReInit();
                     return PartialView(vm);
