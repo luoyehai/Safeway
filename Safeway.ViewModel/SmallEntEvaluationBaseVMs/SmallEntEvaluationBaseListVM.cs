@@ -7,7 +7,7 @@ using WalkingTec.Mvvm.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using Safeway.Model.SmallEntEvaluation;
-
+using Safeway.ViewModel.CommonClass;
 
 namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 {
@@ -32,8 +32,8 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         {
             return new List<GridColumn<SmallEntEvaluationBase_View>>{
                 this.MakeGridHeader(x => x.EvluationEnt),
-                this.MakeGridHeader(x => x.EvaluationStartDate),
-                this.MakeGridHeader(x => x.EvaluationEndDate),
+                this.MakeGridHeader(x => x.EvaluateStartDateStr),
+                this.MakeGridHeader(x => x.EvaluateEndDateStr),
                 this.MakeGridHeader(x => x.EvaluationLeader),
                 this.MakeGridHeader(x => x.ReportLeader),
                 this.MakeGridHeader(x => x.EvaluationTeamMember),
@@ -59,7 +59,9 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 				    ID = x.ID,
                     EvluationEnt = x.EvluationEnt,
                     EvaluationStartDate = x.EvaluationStartDate,
+                    EvaluateStartDateStr = x.EvaluationStartDate.ToShortDateFormatString(),
                     EvaluationEndDate = x.EvaluationEndDate,
+                    EvaluateEndDateStr = x.EvaluationEndDate.ToShortDateFormatString(),
                     EvaluationLeader = x.EvaluationLeader,
                     ReportLeader = x.ReportLeader,
                     EvaluationTeamMember = x.EvaluationTeamMember,
@@ -76,5 +78,10 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 
     public class SmallEntEvaluationBase_View : SmallEntEvaluationBase{
 
+        [Display(Name = "评审开始时间")]
+        public string EvaluateStartDateStr { get; set; }
+
+        [Display(Name = "评审结束时间")]
+        public string EvaluateEndDateStr { get; set; }
     }
 }

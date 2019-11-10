@@ -34,6 +34,8 @@ namespace Safeway.Controllers
         public ActionResult Create()
         {
             var vm = CreateVM<SmallEntEvaluationBaseVM>();
+            vm.Entity.EvaluationStartDate = DateTime.Now;
+            vm.Entity.EvaluationEndDate = DateTime.Now;
             return PartialView(vm);
         }
 
