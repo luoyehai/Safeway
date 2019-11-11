@@ -34,7 +34,7 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public string id { get; set; }
         public string province { get; set; }
     }
-    public class DistrictObject 
+    public class DistrictObject
     {
         public string name { get; set; }
         public string id { get; set; }
@@ -48,6 +48,23 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
     }
     public partial class EnterpriseBasicInfoVM : BaseCRUDVM<EnterpriseBasicInfo>
     {
+        #region IncludingInfo
+
+        public EnterpriseFinanceInfo  EnterpriseFinanceInfo{ get; set; }
+
+        public EnterpriseBusinessinfo EnterpriseBusinessinfo { get; set; }
+        //public List<ComboSelectListItem> AllBasicInfos { get; set; }
+        //[JsonIgnore]
+        //public List<ComboSelectListItem> AllContacts { get; set; }
+        //[Display(Name = "联系人")]
+        //public List<Guid> SelectedContactsIDs { get; set; }
+
+        //[JsonIgnore]
+        //public List<ComboSelectListItem> AllYearlyYields { get; set; }
+        //[Display(Name = "年收益")]
+        //public List<Guid> SelectedYieldsIDs { get; set; }
+
+        #endregion
         public string CityItemNames { get; set; }
         public List<string> ProvinceNames { get; set; }
         //public List<AddressName> CityNames { get; set; }
@@ -55,20 +72,42 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public List<AddressName> CityItems { get; set; }
         public EnterpriseBasicInfoVM()
         {
+            SetInclude(x => x.FinanceInfo, x => x.EnterpriseBusinessinfo, x => x.EnterpriseContacts, x => x.EnterpriserYearYields);
+        }
+        protected override void InitVM()
+        {
+            LoadProvince();
+            LoadEnterpriseInfo();
+        }
+        public void LoadEnterpriseInfo() 
+        {
+            EnterpriseFinanceInfo = new EnterpriseFinanceInfo();
+            EnterpriseBusinessinfo = new EnterpriseBusinessinfo();
+            //AllBasicInfos = DC.Set<EnterpriseBasicInfo>().GetSelectListItems(LoginUserInfo?.DataPrivileges, null, y => y.ComapanyName);
+            //SelectedContactsIDs = Entity.EnterpriseContacts.Select(x => x.EnterpriseBasicInfoId).ToList();
+            //AllContacts = DC.Set<EnterpriseContact>().GetSelectListItems(LoginUserInfo.DataPrivileges, null, y => y.EnterpriseBasicInfoId.ToString());
+            //SelectedYieldsIDs = Entity.EnterpriserYearYields.Select(x => x.EnterpriseBasicInfoId).ToList();
+            //AllYearlyYields = DC.Set<EnterpriserYearYield>().GetSelectListItems(LoginUserInfo.DataPrivileges, null, y => y.EnterpriseBasicInfoId.ToString());
+
+        }
+        public void LoadProvince()
+        {
             //Load Province
             var path = Path.Combine(Directory.GetCurrentDirectory(),
-                                   "wwwroot", "custermisedui", "chinaregion", "province.json");
+                                    "wwwroot", "custermisedui", "chinaregion", "province.json");
             using (StreamReader reader = new StreamReader(path))
             //using (JsonTextReader reader = new JsonTextReader(file))
             {
                 string json = reader.ReadToEnd();
                 ProvinceItems = JsonConvert.DeserializeObject<List<AdddressJsonObject>>(json);
             }
-            var rv = ProvinceItems.Select(x => new {x.name}).ToList();
+            var rv = ProvinceItems.Select(x => new { x.name }).ToList();
             ProvinceNames = new List<string>();
-            foreach (var obj in rv) {
+            foreach (var obj in rv)
+            {
                 ProvinceNames.Add(obj.name);
             }
+
         }
         public List<AddressName> GetCities(string keyword)
         {
@@ -124,13 +163,14 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         
         
         //}
-        protected override void InitVM()
-        {
-        }
+        //protected override void InitVM()
+        //{
+        //}
 
         public override void DoAdd()
         {           
             base.DoAdd();
+            
         }
 
         public override void DoEdit(bool updateAllFields = false)

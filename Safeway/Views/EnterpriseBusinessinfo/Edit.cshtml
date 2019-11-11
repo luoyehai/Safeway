@@ -1,0 +1,17 @@
+﻿@model Safeway.ViewModel.EnterpriseBusinessinfoVMs.EnterpriseBusinessinfoVM
+
+<wt:form vm="@Model">
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:combobox field="Entity.SafetyServiceType" />
+<wt:textbox field="Entity.OtherSafetyServiceType" />
+<wt:textbox field="Entity.CertificateLevel" />
+<wt:textbox field="Entity.ExpireDate" />
+<wt:textbox field="Entity.OriginalServiceCom" />
+<wt:textbox field="Entity.Description" />
+</wt:row>
+    <wt:hidden field="Entity.ID" />
+    <wt:row align="AlignEnum.Right">
+        <wt:submitbutton />
+        <wt:closebutton />
+    </wt:row>
+</wt:form>
