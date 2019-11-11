@@ -172,6 +172,16 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             base.DoAdd();
             
         }
+        public void DoAddFinanceInfo(EnterpriseFinanceInfo financeinfo)
+        {
+            DC.Set<EnterpriseFinanceInfo>().Add(financeinfo);
+            DC.SaveChanges();
+        }
+        public void DoAddBusinnessInfo(EnterpriseBusinessinfo bussinessinfo)
+        {
+            DC.Set<EnterpriseBusinessinfo>().Add(bussinessinfo);
+            DC.SaveChanges();
+        }
 
         public override void DoEdit(bool updateAllFields = false)
         {

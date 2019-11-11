@@ -28,11 +28,7 @@ namespace Safeway.ViewModel.EnterpriseFinanceInfoVMs
         {           
             base.DoAdd();
         }
-        public  void DoAdd(EnterpriseFinanceInfo financeinfo)
-        {
-            DC.Set<EnterpriseFinanceInfo>().Add(financeinfo);
-            DC.SaveChanges();
-        }
+       
 
         public override void DoEdit(bool updateAllFields = false)
         {

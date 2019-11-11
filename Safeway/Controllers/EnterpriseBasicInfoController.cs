@@ -45,14 +45,12 @@ namespace Safeway.Controllers
         public ActionResult Create()
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>();
-            var vmbusiness = CreateVM<EnterpriseBusinessinfoVM>();
-            var vmfinance = CreateVM<EnterpriseFinanceInfoVM>();
             return PartialView(vm);
         }
 
         [HttpPost]
         [ActionDescription("新建")]
-        public ActionResult Create(EnterpriseBasicInfoVM vm, EnterpriseBusinessinfoVM busineesVM,EnterpriseFinanceInfoVM financevm)
+        public ActionResult Create(EnterpriseBasicInfoVM vm)
         {
             if (!ModelState.IsValid)
             {
@@ -61,10 +59,10 @@ namespace Safeway.Controllers
             else
             {
                 vm.DoAdd();
-                vm.Entity.EnterpriseBusinessinfo.EnterpriseBasicInfoId = vm.Entity.ID;
-                vm.Entity.FinanceInfo.EnterpriseBasicId = vm.Entity.ID;
-                busineesVM.DoAdd(vm.Entity.EnterpriseBusinessinfo);
-                financevm.DoAdd(vm.Entity.FinanceInfo);
+                vm.EnterpriseBusinessinfo.EnterpriseBasicInfoId = vm.Entity.ID;
+                vm.EnterpriseFinanceInfo.EnterpriseBasicId = vm.Entity.ID;
+                vm.DoAddBusinnessInfo(vm.EnterpriseBusinessinfo);
+                vm.DoAddFinanceInfo(vm.EnterpriseFinanceInfo);
                 if (!ModelState.IsValid)
                 {
                     vm.DoReInit();
