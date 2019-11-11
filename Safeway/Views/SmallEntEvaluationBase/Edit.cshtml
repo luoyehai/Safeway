@@ -1,21 +1,33 @@
 ﻿@model Safeway.ViewModel.SmallEntEvaluationBaseVMs.SmallEntEvaluationBaseVM
 
-<wt:form vm="@Model">
-<wt:row items-per-row="ItemsPerRowEnum.Two">
-<wt:textbox field="Entity.EvluationEnt" />
-<wt:datetime field="Entity.EvaluationStartDate" />
-<wt:datetime field="Entity.EvaluationEndDate" />
-<wt:textbox field="Entity.EvaluationLeader" />
-<wt:textbox field="Entity.ReportLeader" />
-<wt:textbox field="Entity.EvaluationTeamMember" />
-<wt:textbox field="Entity.Status" />
-<wt:textbox field="Entity.ModuleOne" />
-<wt:textbox field="Entity.ModuleTwo" />
-<wt:textbox field="Entity.ModuleThree" />
-</wt:row>
-    <wt:hidden field="Entity.ID" />
-    <wt:row align="AlignEnum.Right">
-        <wt:submitbutton />
-        <wt:closebutton />
-    </wt:row>
-</wt:form>
+    <wt:form vm="@Model">
+        <wt:row items-per-row="ItemsPerRowEnum.Two">
+            <wt:textbox field="Entity.EvluationEnt" label-width="120" />
+            <wt:datetime field="Entity.EvaluationStartDate" label-width="120" />
+            <wt:datetime field="Entity.EvaluationEndDate" label-width="120" />
+            <wt:textbox field="Entity.EvaluationLeader" label-width="120" />
+            <wt:textbox field="Entity.ReportLeader" label-width="120" />
+            <wt:textbox field="Entity.EvaluationTeamMember" label-width="120" />
+            <wt:textbox field="Entity.Status" label-width="120" />
+        </wt:row>
+
+        <wt:row items-per-row="ItemsPerRowEnum.One">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>1. 基础管理</legend>
+            </fieldset>
+            <wt:textbox field="Entity.ModuleOne" label-width="120" />
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>2 、设备设施 3 、 生产现场</legend>
+            </fieldset>
+            <wt:textbox field="Entity.ModuleTwo" label-width="120" />
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>4 、 隐患排查与治理 5 、 职业卫生 6 、 绩效评定与持续改进</legend>
+            </fieldset>
+            <wt:textbox field="Entity.ModuleThree" label-width="120" />
+        </wt:row>
+        <wt:hidden field="Entity.ID" />
+        <wt:row align="AlignEnum.Right">
+            <wt:submitbutton />
+            <wt:closebutton />
+        </wt:row>
+    </wt:form>

@@ -2,16 +2,27 @@
 
 <wt:form vm="@Model">
 <wt:row items-per-row="ItemsPerRowEnum.Two">
-<wt:display field="Entity.EvluationEnt" />
-<wt:display field="Entity.EvaluationStartDate" />
-<wt:display field="Entity.EvaluationEndDate" />
-<wt:display field="Entity.EvaluationLeader" />
-<wt:display field="Entity.ReportLeader" />
-<wt:display field="Entity.EvaluationTeamMember" />
-<wt:display field="Entity.Status" />
-<wt:display field="Entity.ModuleOne" />
-<wt:display field="Entity.ModuleTwo" />
-<wt:display field="Entity.ModuleThree" />
+    <wt:display field="Entity.EvluationEnt" label-width="120"/>
+    <wt:display field="Entity.EvaluationStartDate" label-width="120"/>
+    <wt:display field="Entity.EvaluationEndDate" label-width="120"/>
+    <wt:display field="Entity.EvaluationLeader" label-width="120"/>
+    <wt:display field="Entity.ReportLeader" label-width="120"/>
+    <wt:display field="Entity.EvaluationTeamMember" label-width="120"/>
+    <wt:display field="Entity.Status" label-width="120"/>
+</wt:row>
+<wt:row items-per-row="ItemsPerRowEnum.One">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+        <legend>1. 基础管理</legend>
+    </fieldset>
+    <wt:display field="Entity.ModuleOne" label-width="120" />
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+        <legend>2 、设备设施 3 、 生产现场</legend>
+    </fieldset>
+    <wt:display field="Entity.ModuleTwo" label-width="120" />
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+        <legend>4 、 隐患排查与治理 5 、 职业卫生 6 、 绩效评定与持续改进</legend>
+    </fieldset>
+    <wt:display field="Entity.ModuleThree" label-width="120" />
 </wt:row>
     <wt:row align=" AlignEnum.Right">
         <wt:closebutton />

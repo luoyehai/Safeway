@@ -5,6 +5,7 @@ using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Mvc;
 using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.ViewModel.SmallEntEvaluationBaseVMs;
+using Safeway.ViewModel.SamllEntEvaluationItemVMs;
 
 namespace Safeway.Controllers
 {
@@ -128,6 +129,15 @@ namespace Safeway.Controllers
         public ActionResult Details(string id)
         {
             var vm = CreateVM<SmallEntEvaluationBaseVM>(id);
+            return PartialView(vm);
+        }
+        #endregion
+
+        #region 查看报告
+        [ActionDescription("查看报告")]
+        public ActionResult ViewReport(string id)
+        {
+            var vm = CreateVM<SmallEntEvaluationItemBaseVM>(id);
             return PartialView(vm);
         }
         #endregion
