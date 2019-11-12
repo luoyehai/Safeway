@@ -80,7 +80,8 @@
         },
         methods: {
             loadData: function () {
-                axios.get('SmallEntEvaluationItem/GetEvaluationItem')
+                let vData = @Html.Raw(Json.Serialize(ViewData));;
+                axios.get('SmallEntEvaluationItem/GetEvaluationItem?id='+vData["ID"])
                     .then(function (r) {
                         this.reportData = r.data.Data;
                         //console.log(this.reportData)

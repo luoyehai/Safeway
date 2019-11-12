@@ -8,10 +8,30 @@ using Safeway.Model.EnterpriseReview;
 
 namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 {
-    public partial class SmallEntEvaluationItemVM : BaseVM
+    public partial class SmallEntEvaluationItemVM : BaseCRUDVM<SmallEntEvaluationItem>
     {
         public SmallEntEvaluationItemVM()
         {
+        }
+
+        protected override void InitVM()
+        {
+            base.InitVM();
+        }
+
+        public override void DoAdd()
+        {
+            base.DoAdd();
+        }
+
+        public override void DoEdit(bool updateAllFields = false)
+        {
+            base.DoEdit(updateAllFields);
+        }
+
+        public override void DoDelete()
+        {
+            base.DoDelete();
         }
 
         public IList<SmallEntEvaluationItemView> GetEvaluationItems(string baseId)
@@ -37,6 +57,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 evaluationViewItem.ActualScore = item.ActualScore;
                 evaluationViewItem.EvaluationType = item.EvaluationType;
                 evaluationViewItem.SmallEntEvaluationBaseId = item.SmallEntEvaluationBaseId;
+                evaluationViewItems.Add(evaluationViewItem);
             });
             return evaluationViewItems;
         }
