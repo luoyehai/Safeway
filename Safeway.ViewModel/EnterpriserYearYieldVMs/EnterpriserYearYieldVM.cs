@@ -13,10 +13,8 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
     public partial class EnterpriserYearYieldVM : BaseCRUDVM<EnterpriserYearYield>
     {
         public List<ComboSelectListItem> AllEnterpriseBasicInfos { get; set; }
-
         public EnterpriserYearYieldVM()
         {
-           // SetInclude(x => x.EnterpriseBasicInfo);
         }
 
         protected override void InitVM()

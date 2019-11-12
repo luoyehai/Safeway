@@ -18,12 +18,9 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
         public ExcelPropety YearYieldValue_Excel = ExcelPropety.CreateProperty<EnterpriserYearYield>(x => x.YearYieldValue);
         [Display(Name = "创建时间")]
         public ExcelPropety Created_Excel = ExcelPropety.CreateProperty<EnterpriserYearYield>(x => x.Created);
-        public ExcelPropety EnterpriseBasicInfo_Excel = ExcelPropety.CreateProperty<EnterpriserYearYield>(x => x.EnterpriseBasicInfoId);
 
 	    protected override void InitVM()
         {
-            EnterpriseBasicInfo_Excel.DataType = ColumnDataType.ComboBox;
-            EnterpriseBasicInfo_Excel.ListItems = DC.Set<EnterpriseBasicInfo>().GetSelectListItems(LoginUserInfo?.DataPrivileges, null, y => y.ComapanyName);
         }
 
     }

@@ -42,8 +42,7 @@ namespace Safeway.Test
             EnterpriserYearYieldVM vm = rv.Model as EnterpriserYearYieldVM;
             EnterpriserYearYield v = new EnterpriserYearYield();
 			
-            v.YearYieldValue = 36;
-            v.EnterpriseBasicInfoId = AddEnterpriseBasicInfo();
+            v.YearYieldValue = 87;
             vm.Entity = v;
             _controller.Create(vm);
 
@@ -51,7 +50,7 @@ namespace Safeway.Test
             {
                 var data = context.Set<EnterpriserYearYield>().FirstOrDefault();
 				
-                Assert.AreEqual(data.YearYieldValue, 36);
+                Assert.AreEqual(data.YearYieldValue, 87);
                 Assert.AreEqual(data.CreateBy, "user");
                 Assert.IsTrue(DateTime.Now.Subtract(data.CreateTime.Value).Seconds < 10);
             }
@@ -65,8 +64,7 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
        			
-                v.YearYieldValue = 36;
-                v.EnterpriseBasicInfoId = AddEnterpriseBasicInfo();
+                v.YearYieldValue = 87;
                 context.Set<EnterpriserYearYield>().Add(v);
                 context.SaveChanges();
             }
@@ -78,19 +76,18 @@ namespace Safeway.Test
             v = new EnterpriserYearYield();
             v.ID = vm.Entity.ID;
        		
-            v.YearYieldValue = 86;
+            v.YearYieldValue = 13;
             vm.Entity = v;
             vm.FC = new Dictionary<string, object>();
 			
             vm.FC.Add("Entity.YearYieldValue", "");
-            vm.FC.Add("Entity.EnterpriseBasicInfoId", "");
             _controller.Edit(vm);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
                 var data = context.Set<EnterpriserYearYield>().FirstOrDefault();
  				
-                Assert.AreEqual(data.YearYieldValue, 86);
+                Assert.AreEqual(data.YearYieldValue, 13);
                 Assert.AreEqual(data.UpdateBy, "user");
                 Assert.IsTrue(DateTime.Now.Subtract(data.UpdateTime.Value).Seconds < 10);
             }
@@ -105,8 +102,7 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
         		
-                v.YearYieldValue = 36;
-                v.EnterpriseBasicInfoId = AddEnterpriseBasicInfo();
+                v.YearYieldValue = 87;
                 context.Set<EnterpriserYearYield>().Add(v);
                 context.SaveChanges();
             }
@@ -135,8 +131,7 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                v.YearYieldValue = 36;
-                v.EnterpriseBasicInfoId = AddEnterpriseBasicInfo();
+                v.YearYieldValue = 87;
                 context.Set<EnterpriserYearYield>().Add(v);
                 context.SaveChanges();
             }
@@ -153,10 +148,8 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                v1.YearYieldValue = 36;
-                v1.EnterpriseBasicInfoId = AddEnterpriseBasicInfo();
-                v2.YearYieldValue = 86;
-                v2.EnterpriseBasicInfoId = v1.EnterpriseBasicInfoId; 
+                v1.YearYieldValue = 87;
+                v2.YearYieldValue = 13;
                 context.Set<EnterpriserYearYield>().Add(v1);
                 context.Set<EnterpriserYearYield>().Add(v2);
                 context.SaveChanges();
@@ -182,18 +175,6 @@ namespace Safeway.Test
             Assert.IsInstanceOfType(rv.Model, typeof(IBasePagedListVM<TopBasePoco, BaseSearcher>));
             IActionResult rv2 = _controller.ExportExcel(rv.Model as EnterpriserYearYieldListVM);
             Assert.IsTrue((rv2 as FileContentResult).FileContents.Length > 0);
-        }
-
-        private Guid AddEnterpriseBasicInfo()
-        {
-            EnterpriseBasicInfo v = new EnterpriseBasicInfo();
-            using (var context = new DataContext(_seed, DBTypeEnum.Memory))
-            {
-
-                context.Set<EnterpriseBasicInfo>().Add(v);
-                context.SaveChanges();
-            }
-            return v.ID;
         }
 
 

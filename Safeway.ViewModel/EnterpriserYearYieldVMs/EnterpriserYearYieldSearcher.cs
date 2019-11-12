@@ -13,8 +13,11 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
     public partial class EnterpriserYearYieldSearcher : BaseSearcher
     {
         [Display(Name = "财年")]
-        public String FiscalYear { get; set; }
+        public DateTime? FiscalYear { get; set; }
+        [Display(Name = "创建时间")]
+        public DateTime? Created { get; set; }
         public List<ComboSelectListItem> AllEnterpriseBasicInfos { get; set; }
+        [Display(Name ="企业名称")]
         public Guid? EnterpriseBasicInfoId { get; set; }
 
         protected override void InitVM()

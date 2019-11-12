@@ -9,7 +9,7 @@ using Safeway.ViewModel.EnterpriserYearYieldVMs;
 namespace Safeway.Controllers
 {
     
-    [ActionDescription("年产值")]
+    [ActionDescription("企业年产值")]
     public partial class EnterpriserYearYieldController : BaseController
     {
         #region 搜索
