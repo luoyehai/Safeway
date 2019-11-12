@@ -137,7 +137,7 @@ namespace Safeway.Controllers
         [ActionDescription("查看报告")]
         public ActionResult ViewReport(string id)
         {
-            var vm = CreateVM<SmallEntEvaluationItemBaseVM>(id);
+            var vm = CreateVM<SmallEntEvaluationItemVM>(id);
             return PartialView(vm);
         }
         #endregion

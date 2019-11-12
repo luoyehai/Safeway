@@ -1,0 +1,154 @@
+﻿@model Safeway.ViewModel.SamllEntEvaluationItemVMs.SmallEntEvaluationItemVM
+<div id="reviewReport">
+    <el-tabs type="border-card">
+        <el-tab-pane label="基础管理">
+            <el-table :data="reportData" style="width: 100%" border>
+                <el-table-column prop="LevelTwoElement"
+                                 label="二级"
+                                 width="100"
+                                 align="center">
+                </el-table-column>
+                <el-table-column prop="LevelThreeElement"
+                                 label="基本要求规范"
+                                 width="200"
+                                 align="center">
+                </el-table-column>
+                <el-table-column prop="ComplianceStandard"
+                                 label="企业达标标准"
+                                 width="300"
+                                 align="center">
+                </el-table-column>
+                <el-table-column prop="StandardScore"
+                                 label="标准分值"
+                                 width="60"
+                                 align="center">
+                </el-table-column>
+                <el-table-column prop="StandardScore"
+                                 label="不符合项描述"
+                                 width="250"
+                                 align="center">
+                </el-table-column>
+                <el-table-column prop="StandardScore"
+                                 label="扣分"
+                                 width="100"
+                                 align="center">
+                </el-table-column>
+                <el-table-column label="不涉及"
+                                 width="100"
+                                 align="center">
+                    <template slot-scope="scope">
+                        <el-checkbox v-model="scope.row.UnInvolved" @@change="handleUnInvolved(scope.row)"></el-checkbox>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="ActualScore"
+                                 label="实际得分"
+                                 width="100"
+                                 align="center">
+                </el-table-column>
+                <el-table-column label="Operations">
+                    <template slot-scope="scope">
+                        <el-button size="mini" @@click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+                        <el-button size="mini" type="danger" @@click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="设备设施"></el-tab-pane>
+        <el-tab-pane label="生产现场"></el-tab-pane>
+        <el-tab-pane label="隐患排查与治理">Task</el-tab-pane>
+        <el-tab-pane label="职业卫生"></el-tab-pane>
+        <el-tab-pane label="绩效评定与持续改进"></el-tab-pane>
+    </el-tabs>
+</div>
+<script>
+    var reviewReport = new Vue({
+        el: '#reviewReport',
+        data: {
+            reportData: [{
+                LevelTwoElement: '',
+                LevelThreeElement: '',
+                LevelFourID: '',
+                ComplianceStandard: '',
+                BasicRuleRequirement: '',
+                StandardScore: null,
+                AssignTo: '',
+                UnInvolved: false,
+                ActualScore: null,
+                EvaluationType: '',
+                SmallEntEvaluationBaseId: ''
+            }]
+        },
+        methods: {
+            loadData: function () {
+                axios.get('SmallEntEvaluationItem/GetEvaluationItem')
+                    .then(function (r) {
+                        this.reportData = r.data.Data;
+                        //console.log(this.reportData)
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+            },
+            handleUnInvolved(row) {
+                if (row.UnInvolved) {
+                    row.ActualScore = -1;
+                }
+            },
+            handleEdit(index, row) {
+                console.log(index, row);
+            },
+            handleDelete(index, row) {
+                console.log(index, row);
+            }
+        },
+        created: function() {
+            this.loadData();
+        }
+    })
+</script>
+
+
+@*@model Safeway.ViewModel.SamllEntEvaluationItemVMs.SmallEntEvaluationItemVM
+    <wt:tab>
+        <wt:tabheaders>
+            <wt:tabheader title="基础管理" />
+            <wt:tabheader title="设备设施" />
+        </wt:tabheaders>
+        <wt:tabcontents>
+            <wt:tabcontent>
+                <table class="layui-hide" id="test"></table>
+                <table class="layui-table" lay-data="{url:'SmallEntEvaluationItem/GetEvaluationItem', id:'ID'}" lay-filter="test3">
+                    <thead>
+                        <tr>
+                            <th lay-data="{type:'checkbox'}">ID</th>
+                            <th lay-data="{field:'LevelTwoElement', width:80}">二级</th>
+                            <th lay-data="{field:'LevelThreeElement', width:120, sort: true, edit: 'text'}">企业达标标准</th>
+                            <th lay-data="{field:'StandardScore', edit: 'text', minWidth: 150}">标准分值</th>
+                            <th lay-data="{field:'EvaluationType', width:80, edit: 'text'}">文件/现场</th>
+                        </tr>
+                    </thead>
+                </table>
+            </wt:tabcontent>
+            <wt:tabcontent>
+                2
+            </wt:tabcontent>
+        </wt:tabcontents>
+    </wt:tab>
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+
+            table.render({
+                elem: '#test'
+                , url: 'SmallEntEvaluationItem/GetEvaluationItem'
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [[
+                    , { field: 'LevelTwoElement', width: 100, title: '二级' }
+                    , { field: 'LevelThreeElement', width: 300, title: '企业达标标准', sort: true }
+                    , { field: 'StandardScore', width: 60, title: '标准分值' }
+                    , { field: 'EvaluationType', title: '文件/现场', sort: true }
+                ]]
+                , page: false
+            });
+        });
+    </script>*@
