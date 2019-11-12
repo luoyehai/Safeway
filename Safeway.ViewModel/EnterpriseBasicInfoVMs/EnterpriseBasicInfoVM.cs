@@ -53,6 +53,10 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public EnterpriseFinanceInfo  EnterpriseFinanceInfo{ get; set; }
 
         public EnterpriseBusinessinfo EnterpriseBusinessinfo { get; set; }
+
+        public EnterpriseContactVMs.EnterpriseContactListVM EnterpriseContactListVM { get; set; }
+
+        public EnterpriserYearYieldVMs.EnterpriserYearYieldListVM EnterpriserYearYieldListVM { get; set; }
         //public List<ComboSelectListItem> AllBasicInfos { get; set; }
         //[JsonIgnore]
         //public List<ComboSelectListItem> AllContacts { get; set; }
@@ -83,11 +87,8 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         {
             EnterpriseFinanceInfo = new EnterpriseFinanceInfo();
             EnterpriseBusinessinfo = new EnterpriseBusinessinfo();
-            //AllBasicInfos = DC.Set<EnterpriseBasicInfo>().GetSelectListItems(LoginUserInfo?.DataPrivileges, null, y => y.ComapanyName);
-            //SelectedContactsIDs = Entity.EnterpriseContacts.Select(x => x.EnterpriseBasicInfoId).ToList();
-            //AllContacts = DC.Set<EnterpriseContact>().GetSelectListItems(LoginUserInfo.DataPrivileges, null, y => y.EnterpriseBasicInfoId.ToString());
-            //SelectedYieldsIDs = Entity.EnterpriserYearYields.Select(x => x.EnterpriseBasicInfoId).ToList();
-            //AllYearlyYields = DC.Set<EnterpriserYearYield>().GetSelectListItems(LoginUserInfo.DataPrivileges, null, y => y.EnterpriseBasicInfoId.ToString());
+            EnterpriseContactListVM = new EnterpriseContactVMs.EnterpriseContactListVM();
+            EnterpriserYearYieldListVM = new EnterpriserYearYieldVMs.EnterpriserYearYieldListVM();
 
         }
         public void LoadProvince()
