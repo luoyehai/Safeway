@@ -139,6 +139,8 @@ namespace Safeway.Controllers
         public ActionResult Details(string id)
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>(id);
+            vm.EnterpriseBusinessinfo = vm.GetBusinessInfo(new Guid(id));
+            vm.EnterpriseFinanceInfo = vm.GetFinanceInfo(new Guid(id));
             return PartialView(vm);
         }
         #endregion

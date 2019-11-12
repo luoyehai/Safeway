@@ -72,7 +72,7 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public List<AddressName> CityItems { get; set; }
         public EnterpriseBasicInfoVM()
         {
-            SetInclude(x => x.FinanceInfo, x => x.EnterpriseBusinessinfo, x => x.EnterpriseContacts, x => x.EnterpriserYearYields);
+           // SetInclude(x => x.FinanceInfo, x => x.EnterpriseBusinessinfo, x => x.EnterpriseContacts, x => x.EnterpriserYearYields);
         }
         protected override void InitVM()
         {
@@ -182,7 +182,14 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             DC.Set<EnterpriseBusinessinfo>().Add(bussinessinfo);
             DC.SaveChanges();
         }
+        public EnterpriseBusinessinfo GetBusinessInfo(Guid id) {
 
+            return DC.Set<EnterpriseBusinessinfo>().Where(x => x.EnterpriseBasicInfoId == id).FirstOrDefault();
+        }
+        public EnterpriseFinanceInfo GetFinanceInfo(Guid id)
+        {
+            return DC.Set<EnterpriseFinanceInfo>().Where(x => x.EnterpriseBasicId == id).FirstOrDefault();
+        }
         public override void DoEdit(bool updateAllFields = false)
         {
             base.DoEdit(updateAllFields);
