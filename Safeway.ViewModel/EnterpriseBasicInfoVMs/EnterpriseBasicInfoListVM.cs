@@ -51,6 +51,10 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public override IOrderedQueryable<EnterpriseBasicInfo_View> GetSearchQuery()
         {
             var query = DC.Set<EnterpriseBasicInfo>()
+                .CheckContain(Searcher.Province, x=> x.Province)
+                .CheckContain(Searcher.City, x=> x.City)
+                .CheckContain(Searcher.District, x=> x.District)
+                .CheckEqual(Searcher.EnterpriseBasicId, x => x.ID)
                 .Select(x => new EnterpriseBasicInfo_View
                 {
 				    ID = x.ID,

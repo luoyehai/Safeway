@@ -1,7 +1,11 @@
 ﻿@model Safeway.ViewModel.EnterpriseBasicInfoVMs.EnterpriseBasicInfoListVM
 
 <wt:searchpanel vm="@Model" reset-btn="true">
-<wt:row items-per-row="ItemsPerRowEnum.Three">
-</wt:row>
+    <wt:row items-per-row="ItemsPerRowEnum.Three">
+        <wt:combobox field="Searcher.Province" items="Searcher.AllProvinces" empty-text="全部" />
+        <wt:combobox field="Searcher.City" items="Searcher.AllCities" empty-text="全部" />
+        <wt:combobox field="Searcher.District" items="Searcher.AllDistricts" empty-text="全部" />
+        <wt:combobox field="Searcher.EnterpriseBasicId" items="Searcher.AllBasicInfos" empty-text="全部" />
+    </wt:row>
 </wt:searchpanel>
 <wt:grid vm="@Model" url="/EnterpriseBasicInfo/Search"/>
