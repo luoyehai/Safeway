@@ -9,7 +9,7 @@ using Safeway.Model.Common;
 namespace Safeway.Model.Enterprise
 {
 
-    public class EnterpriseBusinessinfo
+    public class EnterpriseBusinessinfo : BasePoco
     {
         [Display(Name = "安全服务类型")]
         public SafetyServiceTypeEnum? SafetyServiceType { get; set; }
@@ -22,8 +22,7 @@ namespace Safeway.Model.Enterprise
         public string CertificateLevel { get; set; }
 
         [Display(Name = "到期时间")]
-        [StringLength(50)]
-        public string ExpireDate { get; set; }
+        public DateTime ExpireDate { get; set; }
 
         [Display(Name = "原服务公司")]
         [StringLength(50)]
@@ -33,6 +32,7 @@ namespace Safeway.Model.Enterprise
         [StringLength(50)]
         public string Description { get; set; }
 
+        [Display(Name = "企业名称")]
         public Guid EnterpriseBasicInfoId { get; set; }
     }
 }

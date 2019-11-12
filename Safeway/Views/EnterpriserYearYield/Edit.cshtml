@@ -1,12 +1,12 @@
 ﻿@model Safeway.ViewModel.EnterpriserYearYieldVMs.EnterpriserYearYieldVM
 
 <wt:form vm="@Model">
-<wt:row items-per-row="ItemsPerRowEnum.Two">
-<wt:textbox field="Entity.FiscalYear" />
-<wt:textbox field="Entity.YearYieldValue" />
-<wt:datetime field="Entity.Created" />
-<wt:combobox field="Entity.EnterpriseBasicInfoId" items="AllEnterpriseBasicInfos"/>
-</wt:row>
+    <wt:row items-per-row="ItemsPerRowEnum.Two">
+        <wt:datetime field="Entity.FiscalYear" type="Year" confirm-only="true" />
+        <wt:textbox field="Entity.YearYieldValue" />
+        <wt:datetime field="Entity.Created" />
+        <wt:combobox field="Entity.EnterpriseBasicInfoId" items="AllEnterpriseBasicInfos" />
+    </wt:row>
     <wt:hidden field="Entity.ID" />
     <wt:row align="AlignEnum.Right">
         <wt:submitbutton />

@@ -4,25 +4,25 @@ using System;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Mvc;
 using WalkingTec.Mvvm.Core.Extensions;
-using Safeway.ViewModel.EnterpriserYearYieldVMs;
+using Safeway.ViewModel.EnterpriseBusinessinfoVMs;
 
 namespace Safeway.Controllers
 {
     
-    [ActionDescription("企业年产值")]
-    public partial class EnterpriserYearYieldController : BaseController
+    [ActionDescription("企业商务信息")]
+    public partial class EnterpriseBusinessinfoController : BaseController
     {
         #region 搜索
         [ActionDescription("搜索")]
         public ActionResult Index()
         {
-            var vm = CreateVM<EnterpriserYearYieldListVM>();
+            var vm = CreateVM<EnterpriseBusinessinfoListVM>();
             return PartialView(vm);
         }
 
         [ActionDescription("搜索")]
         [HttpPost]
-        public string Search(EnterpriserYearYieldListVM vm)
+        public string Search(EnterpriseBusinessinfoListVM vm)
         {
             return vm.GetJson(false);
         }
@@ -33,13 +33,13 @@ namespace Safeway.Controllers
         [ActionDescription("新建")]
         public ActionResult Create()
         {
-            var vm = CreateVM<EnterpriserYearYieldVM>();
+            var vm = CreateVM<EnterpriseBusinessinfoVM>();
             return PartialView(vm);
         }
 
         [HttpPost]
         [ActionDescription("新建")]
-        public ActionResult Create(EnterpriserYearYieldVM vm)
+        public ActionResult Create(EnterpriseBusinessinfoVM vm)
         {
             if (!ModelState.IsValid)
             {
@@ -65,14 +65,14 @@ namespace Safeway.Controllers
         [ActionDescription("修改")]
         public ActionResult Edit(string id)
         {
-            var vm = CreateVM<EnterpriserYearYieldVM>(id);
+            var vm = CreateVM<EnterpriseBusinessinfoVM>(id);
             return PartialView(vm);
         }
 
         [ActionDescription("修改")]
         [HttpPost]
         [ValidateFormItemOnly]
-        public ActionResult Edit(EnterpriserYearYieldVM vm)
+        public ActionResult Edit(EnterpriseBusinessinfoVM vm)
         {
             if (!ModelState.IsValid)
             {
@@ -98,7 +98,7 @@ namespace Safeway.Controllers
         [ActionDescription("删除")]
         public ActionResult Delete(string id)
         {
-            var vm = CreateVM<EnterpriserYearYieldVM>(id);
+            var vm = CreateVM<EnterpriseBusinessinfoVM>(id);
             return PartialView(vm);
         }
 
@@ -106,7 +106,7 @@ namespace Safeway.Controllers
         [HttpPost]
         public ActionResult Delete(string id, IFormCollection nouse)
         {
-            var vm = CreateVM<EnterpriserYearYieldVM>(id);
+            var vm = CreateVM<EnterpriseBusinessinfoVM>(id);
             vm.DoDelete();
             if (!ModelState.IsValid)
             {
@@ -123,7 +123,7 @@ namespace Safeway.Controllers
         [ActionDescription("详细")]
         public ActionResult Details(string id)
         {
-            var vm = CreateVM<EnterpriserYearYieldVM>(id);
+            var vm = CreateVM<EnterpriseBusinessinfoVM>(id);
             return PartialView(vm);
         }
         #endregion
@@ -133,13 +133,13 @@ namespace Safeway.Controllers
         [ActionDescription("批量修改")]
         public ActionResult BatchEdit(string[] IDs)
         {
-            var vm = CreateVM<EnterpriserYearYieldBatchVM>(Ids: IDs);
+            var vm = CreateVM<EnterpriseBusinessinfoBatchVM>(Ids: IDs);
             return PartialView(vm);
         }
 
         [HttpPost]
         [ActionDescription("批量修改")]
-        public ActionResult DoBatchEdit(EnterpriserYearYieldBatchVM vm, IFormCollection nouse)
+        public ActionResult DoBatchEdit(EnterpriseBusinessinfoBatchVM vm, IFormCollection nouse)
         {
             if (!ModelState.IsValid || !vm.DoBatchEdit())
             {
@@ -157,13 +157,13 @@ namespace Safeway.Controllers
         [ActionDescription("批量删除")]
         public ActionResult BatchDelete(string[] IDs)
         {
-            var vm = CreateVM<EnterpriserYearYieldBatchVM>(Ids: IDs);
+            var vm = CreateVM<EnterpriseBusinessinfoBatchVM>(Ids: IDs);
             return PartialView(vm);
         }
 
         [HttpPost]
         [ActionDescription("批量删除")]
-        public ActionResult DoBatchDelete(EnterpriserYearYieldBatchVM vm, IFormCollection nouse)
+        public ActionResult DoBatchDelete(EnterpriseBusinessinfoBatchVM vm, IFormCollection nouse)
         {
             if (!ModelState.IsValid || !vm.DoBatchDelete())
             {
@@ -180,13 +180,13 @@ namespace Safeway.Controllers
 		[ActionDescription("导入")]
         public ActionResult Import()
         {
-            var vm = CreateVM<EnterpriserYearYieldImportVM>();
+            var vm = CreateVM<EnterpriseBusinessinfoImportVM>();
             return PartialView(vm);
         }
 
         [HttpPost]
         [ActionDescription("导入")]
-        public ActionResult Import(EnterpriserYearYieldImportVM vm, IFormCollection nouse)
+        public ActionResult Import(EnterpriseBusinessinfoImportVM vm, IFormCollection nouse)
         {
             if (vm.ErrorListVM.EntityList.Count > 0 || !vm.BatchSaveData())
             {
@@ -201,11 +201,11 @@ namespace Safeway.Controllers
 
         [ActionDescription("导出")]
         [HttpPost]
-        public IActionResult ExportExcel(EnterpriserYearYieldListVM vm)
+        public IActionResult ExportExcel(EnterpriseBusinessinfoListVM vm)
         {
             vm.SearcherMode = vm.Ids != null && vm.Ids.Count > 0 ? ListVMSearchModeEnum.CheckExport : ListVMSearchModeEnum.Export;
             var data = vm.GenerateExcel();
-            return File(data, "application/vnd.ms-excel", $"Export_EnterpriserYearYield_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
+            return File(data, "application/vnd.ms-excel", $"Export_EnterpriseBusinessinfo_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
         }
 
     }

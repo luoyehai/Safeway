@@ -11,7 +11,7 @@ namespace Safeway.Model.Enterprise
     public class EnterpriserYearYield : BasePoco
     {
         [Display(Name = "财年")]
-        public string FiscalYear { get; set; }
+        public DateTime FiscalYear { get; set; }
 
         [Display(Name = "年收益")]
         [Column(TypeName = "decimal(18, 4)")]

@@ -42,15 +42,16 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
         public override IOrderedQueryable<EnterpriserYearYield_View> GetSearchQuery()
         {
             var query = DC.Set<EnterpriserYearYield>()
-                .CheckContain(Searcher.FiscalYear, x=>x.FiscalYear)
-                .CheckEqual(Searcher.EnterpriseBasicInfoId, x=>x.EnterpriseBasicInfoId)
+                .CheckEqual(Searcher.FiscalYear, x=>x.FiscalYear)
+                .CheckEqual(Searcher.Created, x=>x.Created)
+                .CheckEqual(Searcher.EnterpriseBasicInfoId, x => x.EnterpriseBasicInfoId)
                 .Select(x => new EnterpriserYearYield_View
                 {
 				    ID = x.ID,
                     FiscalYear = x.FiscalYear,
                     YearYieldValue = x.YearYieldValue,
                     Created = x.Created,
-                 //   ComapanyName_view = x.EnterpriseBasicInfo.ComapanyName,
+                    ComapanyName_view = DC.Set<EnterpriseBasicInfo>().Where(y=> y.ID == x.EnterpriseBasicInfoId).Select(y=> y.ComapanyName).FirstOrDefault()
                 })
                 .OrderBy(x => x.ID);
             return query;
@@ -61,6 +62,5 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
     public class EnterpriserYearYield_View : EnterpriserYearYield{
         [Display(Name = "公司名称")]
         public String ComapanyName_view { get; set; }
-
     }
 }

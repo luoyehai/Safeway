@@ -56,7 +56,7 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
                     Tele = x.Tele,
                     MobilePhone = x.MobilePhone,
                     Email = x.Email,
-                  //  ComapanyName_view = x.EnterpriseBasicInfo.ComapanyName,
+                    ComapanyName_view = DC.Set<EnterpriseBasicInfo>().Where(y => y.ID == x.EnterpriseBasicInfoId).Select(y => y.ComapanyName).FirstOrDefault(),
                 })
                 .OrderBy(x => x.ID);
             return query;

@@ -15,6 +15,8 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
         [Display(Name = "部门")]
         public String Dept { get; set; }
         public List<ComboSelectListItem> AllEnterpriseBasicInfos { get; set; }
+
+        [Display(Name = "企业名称")]
         public Guid? EnterpriseBasicInfoId { get; set; }
 
         protected override void InitVM()

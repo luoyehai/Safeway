@@ -9,7 +9,8 @@ using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Linq;
-
+using Safeway.ViewModel.EnterpriseFinanceInfoVMs;
+using Safeway.ViewModel.EnterpriseBusinessinfoVMs;
 namespace Safeway.Controllers
 {
     
@@ -58,6 +59,10 @@ namespace Safeway.Controllers
             else
             {
                 vm.DoAdd();
+                vm.EnterpriseBusinessinfo.EnterpriseBasicInfoId = vm.Entity.ID;
+                vm.EnterpriseFinanceInfo.EnterpriseBasicId = vm.Entity.ID;
+                vm.DoAddBusinnessInfo(vm.EnterpriseBusinessinfo);
+                vm.DoAddFinanceInfo(vm.EnterpriseFinanceInfo);
                 if (!ModelState.IsValid)
                 {
                     vm.DoReInit();
@@ -134,6 +139,8 @@ namespace Safeway.Controllers
         public ActionResult Details(string id)
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>(id);
+            vm.EnterpriseBusinessinfo = vm.GetBusinessInfo(new Guid(id));
+            vm.EnterpriseFinanceInfo = vm.GetFinanceInfo(new Guid(id));
             return PartialView(vm);
         }
         #endregion

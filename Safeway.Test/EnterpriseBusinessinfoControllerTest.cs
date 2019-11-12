@@ -6,22 +6,22 @@ using System.Linq;
 using System.Text;
 using WalkingTec.Mvvm.Core;
 using Safeway.Controllers;
-using Safeway.ViewModel.EnterpriserYearYieldVMs;
+using Safeway.ViewModel.EnterpriseBusinessinfoVMs;
 using Safeway.Model.Enterprise;
 using Safeway.DataAccess;
 
 namespace Safeway.Test
 {
     [TestClass]
-    public class EnterpriserYearYieldControllerTest
+    public class EnterpriseBusinessinfoControllerTest
     {
-        private EnterpriserYearYieldController _controller;
+        private EnterpriseBusinessinfoController _controller;
         private string _seed;
 
-        public EnterpriserYearYieldControllerTest()
+        public EnterpriseBusinessinfoControllerTest()
         {
             _seed = Guid.NewGuid().ToString();
-            _controller = MockController.CreateController<EnterpriserYearYieldController>(_seed, "user");
+            _controller = MockController.CreateController<EnterpriseBusinessinfoController>(_seed, "user");
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Safeway.Test
         {
             PartialViewResult rv = (PartialViewResult)_controller.Index();
             Assert.IsInstanceOfType(rv.Model, typeof(IBasePagedListVM<TopBasePoco, BaseSearcher>));
-            string rv2 = _controller.Search(rv.Model as EnterpriserYearYieldListVM);
+            string rv2 = _controller.Search(rv.Model as EnterpriseBusinessinfoListVM);
             Assert.IsTrue(rv2.Contains("\"Code\":200"));
         }
 
@@ -37,20 +37,18 @@ namespace Safeway.Test
         public void CreateTest()
         {
             PartialViewResult rv = (PartialViewResult)_controller.Create();
-            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriserYearYieldVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseBusinessinfoVM));
 
-            EnterpriserYearYieldVM vm = rv.Model as EnterpriserYearYieldVM;
-            EnterpriserYearYield v = new EnterpriserYearYield();
+            EnterpriseBusinessinfoVM vm = rv.Model as EnterpriseBusinessinfoVM;
+            EnterpriseBusinessinfo v = new EnterpriseBusinessinfo();
 			
-            v.YearYieldValue = 87;
             vm.Entity = v;
             _controller.Create(vm);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                var data = context.Set<EnterpriserYearYield>().FirstOrDefault();
+                var data = context.Set<EnterpriseBusinessinfo>().FirstOrDefault();
 				
-                Assert.AreEqual(data.YearYieldValue, 87);
                 Assert.AreEqual(data.CreateBy, "user");
                 Assert.IsTrue(DateTime.Now.Subtract(data.CreateTime.Value).Seconds < 10);
             }
@@ -60,34 +58,30 @@ namespace Safeway.Test
         [TestMethod]
         public void EditTest()
         {
-            EnterpriserYearYield v = new EnterpriserYearYield();
+            EnterpriseBusinessinfo v = new EnterpriseBusinessinfo();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
        			
-                v.YearYieldValue = 87;
-                context.Set<EnterpriserYearYield>().Add(v);
+                context.Set<EnterpriseBusinessinfo>().Add(v);
                 context.SaveChanges();
             }
 
             PartialViewResult rv = (PartialViewResult)_controller.Edit(v.ID.ToString());
-            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriserYearYieldVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseBusinessinfoVM));
 
-            EnterpriserYearYieldVM vm = rv.Model as EnterpriserYearYieldVM;
-            v = new EnterpriserYearYield();
+            EnterpriseBusinessinfoVM vm = rv.Model as EnterpriseBusinessinfoVM;
+            v = new EnterpriseBusinessinfo();
             v.ID = vm.Entity.ID;
        		
-            v.YearYieldValue = 13;
             vm.Entity = v;
             vm.FC = new Dictionary<string, object>();
 			
-            vm.FC.Add("Entity.YearYieldValue", "");
             _controller.Edit(vm);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                var data = context.Set<EnterpriserYearYield>().FirstOrDefault();
+                var data = context.Set<EnterpriseBusinessinfo>().FirstOrDefault();
  				
-                Assert.AreEqual(data.YearYieldValue, 13);
                 Assert.AreEqual(data.UpdateBy, "user");
                 Assert.IsTrue(DateTime.Now.Subtract(data.UpdateTime.Value).Seconds < 10);
             }
@@ -98,27 +92,26 @@ namespace Safeway.Test
         [TestMethod]
         public void DeleteTest()
         {
-            EnterpriserYearYield v = new EnterpriserYearYield();
+            EnterpriseBusinessinfo v = new EnterpriseBusinessinfo();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
         		
-                v.YearYieldValue = 87;
-                context.Set<EnterpriserYearYield>().Add(v);
+                context.Set<EnterpriseBusinessinfo>().Add(v);
                 context.SaveChanges();
             }
 
             PartialViewResult rv = (PartialViewResult)_controller.Delete(v.ID.ToString());
-            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriserYearYieldVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseBusinessinfoVM));
 
-            EnterpriserYearYieldVM vm = rv.Model as EnterpriserYearYieldVM;
-            v = new EnterpriserYearYield();
+            EnterpriseBusinessinfoVM vm = rv.Model as EnterpriseBusinessinfoVM;
+            v = new EnterpriseBusinessinfo();
             v.ID = vm.Entity.ID;
             vm.Entity = v;
             _controller.Delete(v.ID.ToString(),null);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                Assert.AreEqual(context.Set<EnterpriserYearYield>().Count(), 0);
+                Assert.AreEqual(context.Set<EnterpriseBusinessinfo>().Count(), 0);
             }
 
         }
@@ -127,12 +120,11 @@ namespace Safeway.Test
         [TestMethod]
         public void DetailsTest()
         {
-            EnterpriserYearYield v = new EnterpriserYearYield();
+            EnterpriseBusinessinfo v = new EnterpriseBusinessinfo();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                v.YearYieldValue = 87;
-                context.Set<EnterpriserYearYield>().Add(v);
+                context.Set<EnterpriseBusinessinfo>().Add(v);
                 context.SaveChanges();
             }
             PartialViewResult rv = (PartialViewResult)_controller.Details(v.ID.ToString());
@@ -143,28 +135,26 @@ namespace Safeway.Test
         [TestMethod]
         public void BatchDeleteTest()
         {
-            EnterpriserYearYield v1 = new EnterpriserYearYield();
-            EnterpriserYearYield v2 = new EnterpriserYearYield();
+            EnterpriseBusinessinfo v1 = new EnterpriseBusinessinfo();
+            EnterpriseBusinessinfo v2 = new EnterpriseBusinessinfo();
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                v1.YearYieldValue = 87;
-                v2.YearYieldValue = 13;
-                context.Set<EnterpriserYearYield>().Add(v1);
-                context.Set<EnterpriserYearYield>().Add(v2);
+                context.Set<EnterpriseBusinessinfo>().Add(v1);
+                context.Set<EnterpriseBusinessinfo>().Add(v2);
                 context.SaveChanges();
             }
 
             PartialViewResult rv = (PartialViewResult)_controller.BatchDelete(new string[] { v1.ID.ToString(), v2.ID.ToString() });
-            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriserYearYieldBatchVM));
+            Assert.IsInstanceOfType(rv.Model, typeof(EnterpriseBusinessinfoBatchVM));
 
-            EnterpriserYearYieldBatchVM vm = rv.Model as EnterpriserYearYieldBatchVM;
+            EnterpriseBusinessinfoBatchVM vm = rv.Model as EnterpriseBusinessinfoBatchVM;
             vm.Ids = new string[] { v1.ID.ToString(), v2.ID.ToString() };
             _controller.DoBatchDelete(vm, null);
 
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
-                Assert.AreEqual(context.Set<EnterpriserYearYield>().Count(), 0);
+                Assert.AreEqual(context.Set<EnterpriseBusinessinfo>().Count(), 0);
             }
         }
 
@@ -173,7 +163,7 @@ namespace Safeway.Test
         {
             PartialViewResult rv = (PartialViewResult)_controller.Index();
             Assert.IsInstanceOfType(rv.Model, typeof(IBasePagedListVM<TopBasePoco, BaseSearcher>));
-            IActionResult rv2 = _controller.ExportExcel(rv.Model as EnterpriserYearYieldListVM);
+            IActionResult rv2 = _controller.ExportExcel(rv.Model as EnterpriseBusinessinfoListVM);
             Assert.IsTrue((rv2 as FileContentResult).FileContents.Length > 0);
         }
 

@@ -30,7 +30,8 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
             var evaluationUnmatchedList = new List<SmallEntEvaluationUnMatchedItem>();
             //put EnterpriseReview item into small Ent Evaluation item
             //Get data from enterprise review element
-            var data = DC.Set<EnterpriseReviewElement>().Where(x => x.Level== ElementLevelEnum.LevelFour).ToList();
+            var orderdata = DC.Set<EnterpriseReviewElement>().OrderBy(x => x.Level).OrderBy(x => x.Order);
+            var data = orderdata.Where(x => x.Level== ElementLevelEnum.LevelFour).ToList();
             foreach (var obj in data) 
             {
                 SmallEntEvaluationItem temp = new SmallEntEvaluationItem();
