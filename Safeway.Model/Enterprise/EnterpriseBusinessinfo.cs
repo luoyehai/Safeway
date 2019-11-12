@@ -22,8 +22,7 @@ namespace Safeway.Model.Enterprise
         public string CertificateLevel { get; set; }
 
         [Display(Name = "到期时间")]
-        [StringLength(50)]
-        public string ExpireDate { get; set; }
+        public DateTime ExpireDate { get; set; }
 
         [Display(Name = "原服务公司")]
         [StringLength(50)]

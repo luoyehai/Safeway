@@ -6,8 +6,8 @@
                 <wt:tabheader title="基本信息" />
                 <wt:tabheader title="商务信息" />
                 <wt:tabheader title="财务信息" />
-                <wt:tabheader title="联系人信息" />
-                <wt:tabheader title="年收益信息" />
+                @*<wt:tabheader title="联系人信息" />
+                <wt:tabheader title="年收益信息" />*@
             </wt:tabheaders>
             <wt:tabcontents>
                 <wt:tabcontent>
@@ -32,7 +32,7 @@
                         <wt:combobox field="EnterpriseBusinessinfo.SafetyServiceType" />
                         <wt:textbox field="EnterpriseBusinessinfo.OtherSafetyServiceType" />
                         <wt:textbox field="EnterpriseBusinessinfo.CertificateLevel" />
-                        <wt:textbox field="EnterpriseBusinessinfo.ExpireDate" />
+                        <wt:datetime field="EnterpriseBusinessinfo.ExpireDate" />
                         <wt:textbox field="EnterpriseBusinessinfo.OriginalServiceCom" />
                         <wt:textbox field="EnterpriseBusinessinfo.Description" />
                     </wt:row>
@@ -48,12 +48,12 @@
                         @*<wt:combobox field="Entity.FinanceInfo.EnterpriseBasicId" items="AllBasicInfos" />*@
                     </wt:row>                
                 </wt:tabcontent>
-                <wt:tabcontent>
+                @*<wt:tabcontent>
                     <wt:grid vm="EnterpriseContactListVM" url="/EnterpriseContact/Search" />
                 </wt:tabcontent>
                 <wt:tabcontent>
                     <wt:grid vm="EnterpriserYearYieldListVM" url="/EnterpriserYearYield/Search" />
-                </wt:tabcontent>
+                </wt:tabcontent>*@
             </wt:tabcontents>
         </wt:tab>
 
@@ -62,3 +62,6 @@
                     <wt:closebutton />
                 </wt:row>
     </wt:form>
+    <script>
+
+    </script>

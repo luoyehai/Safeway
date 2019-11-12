@@ -7,6 +7,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20191101053459_updateLevelinEnterpriseReviewElement.cs" />
     <Compile Remove="Migrations\20191101053459_updateLevelinEnterpriseReviewElement.Designer.cs" />
+    <Compile Remove="Migrations\20191112054328_updateBusinessInfo.cs" />
+    <Compile Remove="Migrations\20191112054328_updateBusinessInfo.Designer.cs" />
+    <Compile Remove="Migrations\20191112054457_updateBusinessInfo.cs" />
+    <Compile Remove="Migrations\20191112054457_updateBusinessInfo.Designer.cs" />
   </ItemGroup>
 
 

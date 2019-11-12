@@ -20,7 +20,7 @@ namespace Safeway.ViewModel.EnterpriseBusinessinfoVMs
         [Display(Name = "证书等级")]
         public String CertificateLevel { get; set; }
         [Display(Name = "到期时间")]
-        public String ExpireDate { get; set; }
+        public DateTime ExpireDate { get; set; }
         [Display(Name = "原服务公司")]
         public String OriginalServiceCom { get; set; }
         [Display(Name = "描述")]

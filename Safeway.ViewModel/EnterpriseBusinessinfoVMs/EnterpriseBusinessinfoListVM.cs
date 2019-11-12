@@ -46,9 +46,9 @@ namespace Safeway.ViewModel.EnterpriseBusinessinfoVMs
         {
             var query = DC.Set<EnterpriseBusinessinfo>()
                 .CheckEqual(Searcher.SafetyServiceType, x=>x.SafetyServiceType)
+                .CheckEqual(Searcher.ExpireDate, x => x.ExpireDate)
                 .CheckContain(Searcher.OtherSafetyServiceType, x=>x.OtherSafetyServiceType)
                 .CheckContain(Searcher.CertificateLevel, x=>x.CertificateLevel)
-                .CheckContain(Searcher.ExpireDate, x=>x.ExpireDate)
                 .CheckContain(Searcher.OriginalServiceCom, x=>x.OriginalServiceCom)
                 .CheckContain(Searcher.Description, x=>x.Description)
                 .Select(x => new EnterpriseBusinessinfo_View
