@@ -222,5 +222,11 @@ namespace Safeway.Controllers
             return File(data, "application/vnd.ms-excel", $"Export_SmallEntEvaluationBase_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
         }
 
+        [ActionDescription("查询用户")]
+        public IActionResult SearchUser(SmallEntEvaluationBaseVM vm, string keywords)
+        {
+            return Json(vm.SearchUser(keywords));
+        }
+
     }
 }

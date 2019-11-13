@@ -8,6 +8,7 @@ using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.Model.SmallEntEvaluation;
 using Safeway.Model.EnterpriseReview;
 using Safeway.Model.Common;
+using Safeway.ViewModel.CommonClass;
 
 
 namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
@@ -87,6 +88,13 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         public override void DoDelete()
         {
             base.DoDelete();
+        }
+        public List<ViewFormatClass> SearchUser(string keyword)
+        {
+            var query = DC.Set<FrameworkUserBase>()
+                  .Where(x => x.Name.Contains(keyword)).Select(x => new ViewFormatClass { Text = x.Name, Value = x.Name }).ToList();
+            return query;
+
         }
     }
 }
