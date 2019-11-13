@@ -18,15 +18,16 @@ namespace Safeway.Controllers
 
         #region 查看报告
         [ActionDescription("查看报告")]
-        public IActionResult ViewReport(string baseId)
+        public IActionResult ViewReport(string id)
         {
             var vm = CreateVM<SmallEntEvaluationItemVM>();
+            ViewData["ID"]= id;
             return PartialView(vm);
         }
         
-        public JsonResult GetEvaluationItem(SmallEntEvaluationItemVM vm)
+        public JsonResult GetEvaluationItem(SmallEntEvaluationItemVM vm, string id)
         {
-            var items = vm.GetEvaluationItems("281247f7-e586-4751-9713-2ab3ee9a4df4");
+            var items = vm.GetEvaluationItems(id);
             return Json(items);
         }
         #endregion

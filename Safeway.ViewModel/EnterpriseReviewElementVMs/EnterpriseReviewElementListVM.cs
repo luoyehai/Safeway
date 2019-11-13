@@ -22,12 +22,12 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
         protected override void InitListVM()
         {
             base.InitListVM();
-            DC.Set<EnterpriseReviewElement>().Where(x => x.Level == ElementLevelEnum.LevelOne).ToList().ForEach(x =>
+            DC.Set<EnterpriseReviewElement>().Where(x => x.Level == ElementLevelEnum.LevelOne && x.IsValid.Equals(true)).OrderBy(x => x.Order).ToList().ForEach(x =>
             {
                 ElementList.Add(new TreeSelectListItem()
                 {
                     Id = x.ID.ToString(),
-                    Text = x.ElementName,
+                    Text = $"{x.Order}.{x.ElementName}",
                     Children = GenerateChildTreeSelectItems(x.ID.ToString())
                 });
             });
@@ -36,7 +36,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
         public List<TreeSelectListItem> GenerateChildTreeSelectItems(string parentElementId)
         {
             var childTreeSelectList = new List<TreeSelectListItem>();
-            var childElementList = DC.Set<EnterpriseReviewElement>().Where(e => e.ParentElementId == parentElementId).ToList();
+            var childElementList = DC.Set<EnterpriseReviewElement>().Where(e => e.ParentElementId == parentElementId && e.IsValid.Equals(true)).OrderBy(x => x.Order).ToList();
             if (childElementList.Count() > 0)
             {
                 childElementList.ForEach(x =>
@@ -44,7 +44,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
                     var treeSelectListItem = new TreeSelectListItem()
                     {
                         Id = x.ID.ToString(),
-                        Text = x.ElementName,
+                        Text = $"{x.Order}.{x.ElementName}",
                         Children = GenerateChildTreeSelectItems(x.ID.ToString())
                     };
                     childTreeSelectList.Add(treeSelectListItem);
