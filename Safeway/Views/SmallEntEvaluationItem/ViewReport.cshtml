@@ -105,6 +105,7 @@
             handleUnInvolved(row) {
                 if (row.UnInvolved) {
                     //console.info(row.EvaluatedUnMatchedItems);
+                    // description of unmatched item 
                     let evaluatedUnMatchedItem = {
                         SmallEntEvaluationItemId: row.ID,
                         UnMatchedItemReferDescription: '不涉及',
@@ -118,6 +119,8 @@
                         row.IsValid = false;
                     })
                     row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
+                    // score of unmatched item 
+                    row.ActualScore = row.StandardScore;
                 }
                 else {
                     row.EvaluatedUnMatchedItems = [];
@@ -141,6 +144,16 @@
                     row.EvaluatedUnMatchedItems = row.EvaluatedUnMatchedItems.filter(function (row) {
                         return item.ID != row.ID
                     })
+                }
+            },
+            calculateScore: function (item) {
+                // check is uninvolve checked
+                if (item.UnInvolved) {
+                    row.ActualScore = row.StandardScore;
+                }
+                else {
+                    let unMatchedScore = 0;
+                    //item.
                 }
             },
             handleEdit(index, row) {
