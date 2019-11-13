@@ -27,7 +27,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         public void InsertElements(string baseId) 
         {
             var evaluationitemlist = new List<SmallEntEvaluationItem>();
-            var evaluationUnmatchedList = new List<SmallEntEvaluationUnMatchedItem>();
+           // var evaluationUnmatchedList = new List<SmallEntEvaluationUnMatchedItem>();
             //put EnterpriseReview item into small Ent Evaluation item
             //Get data from enterprise review element
             var orderdata = DC.Set<EnterpriseReviewElement>().Where(x => x.IsValid.Equals(true)).OrderBy(x => x.Level).OrderBy(x => x.Order);
@@ -37,33 +37,37 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 SmallEntEvaluationItem temp = new SmallEntEvaluationItem();
                 temp.LevelFourID = obj.ID;
                 temp.ComplianceStandard = obj.ElementName;
+                temp.LevelFourOrder = obj.Order;
                 temp.LevelThreeElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == obj.ParentElementId).Select(x=> x.ElementName).FirstOrDefault();
+                temp.LevelThreeOrder = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == obj.ParentElementId).Select(x => x.Order).FirstOrDefault();
                 temp.CreateTime = DateTime.Now;
                 temp.StandardScore = obj.TotalScore;
                 temp.SmallEntEvaluationBaseId = baseId;
                 evaluationitemlist.Add(temp);
 
-                //Add temp Unmatched items
-                SmallEntEvaluationUnMatchedItem unmatchedtemp = new SmallEntEvaluationUnMatchedItem();
-                unmatchedtemp.SmallEntEvaluationBaseId = baseId;
-                unmatchedtemp.SmallEntEvaluationItemId = temp.ID.ToString();
-                unmatchedtemp.CreateTime = DateTime.Now;
-                evaluationUnmatchedList.Add(unmatchedtemp);
+                ////Add temp Unmatched items
+                //SmallEntEvaluationUnMatchedItem unmatchedtemp = new SmallEntEvaluationUnMatchedItem();
+                //unmatchedtemp.SmallEntEvaluationBaseId = baseId;
+                //unmatchedtemp.SmallEntEvaluationItemId = temp.ID.ToString();
+                //unmatchedtemp.CreateTime = DateTime.Now;
+                //evaluationUnmatchedList.Add(unmatchedtemp);
             }
             foreach (var o in evaluationitemlist) 
             { 
                 var levelTwoId= DC.Set<EnterpriseReviewElement>().Where(x => x.ElementName == o.LevelThreeElement).Select(x => x.ParentElementId).FirstOrDefault();
                 o.LevelTwoElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelTwoId).Select(x => x.ElementName).FirstOrDefault();
+                o.LevelTwoOrder = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelTwoId).Select(x => x.Order).FirstOrDefault();
 
                 var levelOneId = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelTwoId).Select(x => x.ParentElementId).FirstOrDefault();
                 o.LevelOneElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelOneId).Select(x => x.ElementName).FirstOrDefault();
+                o.LevelOneOrder = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelOneId).Select(x => x.Order).FirstOrDefault();
 
             }
 
             //Insert into SmallEntEvaluationItem
             DC.Set<SmallEntEvaluationItem>().AddRange(evaluationitemlist);
             //Insert into SmallEntEvaluation Unmatched Item
-            DC.Set<SmallEntEvaluationUnMatchedItem>().AddRange(evaluationUnmatchedList);
+           // DC.Set<SmallEntEvaluationUnMatchedItem>().AddRange(evaluationUnmatchedList);
 
             DC.SaveChanges();
 
