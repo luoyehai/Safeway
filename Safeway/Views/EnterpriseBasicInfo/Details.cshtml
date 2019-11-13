@@ -6,8 +6,8 @@
                 <wt:tabheader title="基本信息" />
                 <wt:tabheader title="商务信息" />
                 <wt:tabheader title="财务信息" />
-                <wt:tabheader title="联系人信息" />
-                <wt:tabheader title="年收益信息" />
+                @*<wt:tabheader title="联系人信息" />
+                <wt:tabheader title="年收益信息" />*@
             </wt:tabheaders>
             <wt:tabcontents>
                 <wt:tabcontent>
@@ -47,12 +47,12 @@
                         <wt:display field="EnterpriseFinanceInfo.CustomerReceiptReceiver"  />                       
                     </wt:row>
                 </wt:tabcontent>
-                <wt:tabcontent>
+                @*<wt:tabcontent>
                     <wt:grid vm="EnterpriseContactListVM" url="/EnterpriseContact/Search" />
                 </wt:tabcontent>
                 <wt:tabcontent>
                     <wt:grid vm="EnterpriserYearYieldListVM" url="/EnterpriserYearYield/Search" />
-                </wt:tabcontent>
+                </wt:tabcontent>*@
             </wt:tabcontents>
             </wt:tab>
         <wt:row align=" AlignEnum.Right">
