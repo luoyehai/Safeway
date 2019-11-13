@@ -22,7 +22,7 @@
                                  width="60"
                                  align="center">
                     <template slot-scope="scope">
-                        <el-tag type="info">{{ scope.row.StandardScore}}</el-tag>
+                        <el-tag type="warning">{{ scope.row.StandardScore}}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column label="不符合项描述"
@@ -97,7 +97,6 @@
                 axios.get('SmallEntEvaluationItem/GetEvaluationItem?id='+vData["ID"])
                     .then(function (r) {
                         this.reportData = r.data.Data;
-                        //console.log(this.reportData)
                     }.bind(this))
                     .catch(function (e) {
                         console.error(e);
@@ -114,6 +113,10 @@
                         Deduction: 0,
                         SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
                     };
+                    row.EvaluatedUnMatchedItems = [];
+                    row.UnMatchedItems.map(function (row) {
+                        row.IsValid = false;
+                    })
                     row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
                 }
                 else {
@@ -121,18 +124,24 @@
                 }
             },
             handleUnMatched(item, row) {
-                console.log(item);
-                //unMatchedItems.map(function (row) {
-                //    if(row.)
-                //})
-                let evaluatedUnMatchedItem = {
+                //console.log(item);
+                if (item.IsValid) {
+                    let evaluatedUnMatchedItem = {
+                        ID: item.ID,
                         SmallEntEvaluationItemId: row.ID,
-                        UnMatchedItemReferDescription: '不涉及',
-                        UnMatchedItemDescription: '不涉及',
-                        DeductionReference: 0,
-                        Deduction: 0,
+                        UnMatchedItemReferDescription: item.ElementName,
+                        UnMatchedItemDescription: item.ElementName,
+                        DeductionReference: item.TotalScore,
+                        Deduction: item.TotalScore,
                         SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
                     };
+                    row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
+                }
+                else {
+                    row.EvaluatedUnMatchedItems = row.EvaluatedUnMatchedItems.filter(function (row) {
+                        return item.ID != row.ID
+                    })
+                }
             },
             handleEdit(index, row) {
                 console.log(index, row);
