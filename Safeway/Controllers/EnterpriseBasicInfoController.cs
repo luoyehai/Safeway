@@ -81,6 +81,7 @@ namespace Safeway.Controllers
         public ActionResult Edit(string id)
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>(id);
+            vm.LoadAdditionalInfo(id);
             return PartialView(vm);
         }
 
@@ -96,6 +97,10 @@ namespace Safeway.Controllers
             else
             {
                 vm.DoEdit();
+                vm.EnterpriseBusinessinfo.EnterpriseBasicInfoId = vm.Entity.ID;
+                vm.EnterpriseFinanceInfo.EnterpriseBasicId = vm.Entity.ID;
+                vm.DoEditBusinnessInfo(vm.EnterpriseBusinessinfo);
+                vm.DoEditFinanceInfo(vm.EnterpriseFinanceInfo);
                 if (!ModelState.IsValid)
                 {
                     vm.DoReInit();
@@ -123,6 +128,10 @@ namespace Safeway.Controllers
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>(id);
             vm.DoDelete();
+            //delete business info
+            vm.DoDeleteBusinnessInfo(vm.EnterpriseBusinessinfo);
+            //delete finance info
+            vm.DoDeleteFinanceInfo(vm.EnterpriseFinanceInfo);
             if (!ModelState.IsValid)
             {
                 return PartialView(vm);
@@ -198,6 +207,7 @@ namespace Safeway.Controllers
         public ActionResult Import()
         {
             var vm = CreateVM<EnterpriseBasicInfoImportVM>();
+
             return PartialView(vm);
         }
 

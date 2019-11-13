@@ -55,31 +55,6 @@ namespace Safeway.DataAccess
             .HasKey(c => new { c.ID });
             modelBuilder.Entity<EnterpriseBusinessinfo>()
             .HasKey(b => new { b.ID });
-            //one to one
-            //modelBuilder.Entity<EnterpriseBasicInfo>()
-            //.HasOne<EnterpriseFinanceInfo>(b => b.FinanceInfo)
-            //.WithOne(f => f.BasicInfo)
-            //.HasForeignKey<EnterpriseFinanceInfo>(f=> f.EnterpriseBasicId)
-            //.HasConstraintName("FK_Basic_Finance");
-
-            ////one to many
-            //modelBuilder.Entity<EnterpriseContact>()
-            //    .HasOne<EnterpriseBasicInfo>(c => c.EnterpriseBasicInfo)
-            //    .WithMany(b => b.EnterpriseContacts)
-            //    .HasForeignKey(c => c.EnterpriseBasicInfoId)
-            //    .HasConstraintName("FK_Basic_Contacts");
-
-            //modelBuilder.Entity<EnterpriserYearYield>()
-            //    .HasOne<EnterpriseBasicInfo>(y => y.EnterpriseBasicInfo)
-            //    .WithMany(b => b.EnterpriserYearYields)
-            //    .HasForeignKey(y => y.EnterpriseBasicInfoId)
-            //    .HasConstraintName("FK_Basic_YearYields");
-
-
-            // modelBuilder.Entity<EnterpriseContact>().HasOne(p => p.EnterpriseBasicInfo)
-            //.WithMany(b => b.EnterpriseContacts)
-            //.HasForeignKey(p => p.EnterpriseBasicInfoId)
-            //.HasConstraintName("ForeignKey_Basic_Contact");
             #endregion
 
             #region Evaluation
@@ -89,24 +64,6 @@ namespace Safeway.DataAccess
               .HasKey(c => new { c.ID });
             modelBuilder.Entity<NormalEntEvaluationUnmatchedItem>()
               .HasKey(c => new { c.ID });
-
-            //modelBuilder.Entity<EnterpriseBasicInfo>()
-            //    .HasOne<NormalEntEvaluationTemplate>(b => b.NormalEntEvaluationTemplate)
-            //    .WithOne(t => t.EnterpriseBasicInfo)
-            //    .HasForeignKey<NormalEntEvaluationTemplate>(t => t.EnterpriseId)
-            //    .HasConstraintName("FK_Basic_NormalEvaTemp");
-
-            //modelBuilder.Entity<NormalEntEvaluation>()
-            //    .HasOne<NormalEntEvaluationTemplate>(e => e.NormalEntEvaluationTemplate)
-            //    .WithMany(t => t.NormalEntEvaluations)
-            //    .HasForeignKey(e => e.NormalEntEvaTempId)
-            //    .HasConstraintName("FK_Template_Evaluation");
-
-            //modelBuilder.Entity<DetailNotmalEntEvaluation>()
-            //    .HasOne<NormalEntEvaluation>(d => d.NormalEntEvaluation)
-            //    .WithMany(e => e.DetailNotmalEntEvaluations)
-            //    .HasForeignKey(d => d.NormalEntEvaluationId)
-            //    .HasConstraintName("FK_Eva_Detail");
             #endregion
 
             #region SmallEnt Set Primary Key

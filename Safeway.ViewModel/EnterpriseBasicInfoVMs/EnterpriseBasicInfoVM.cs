@@ -87,8 +87,12 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         {
             EnterpriseFinanceInfo = new EnterpriseFinanceInfo();
             EnterpriseBusinessinfo = new EnterpriseBusinessinfo();
-            EnterpriseContactListVM = new EnterpriseContactVMs.EnterpriseContactListVM();
-            EnterpriserYearYieldListVM = new EnterpriserYearYieldVMs.EnterpriserYearYieldListVM();
+            
+        }
+        public void LoadAdditionalInfo(string id) 
+        {
+            EnterpriseFinanceInfo = DC.Set<EnterpriseFinanceInfo>().Where(x => x.EnterpriseBasicId == new Guid(id)).FirstOrDefault();
+            EnterpriseBusinessinfo = DC.Set<EnterpriseBusinessinfo>().Where(x => x.EnterpriseBasicInfoId == new Guid(id)).FirstOrDefault();
 
         }
         public void LoadProvince()
@@ -182,6 +186,51 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         {
             DC.Set<EnterpriseBusinessinfo>().Add(bussinessinfo);
             DC.SaveChanges();
+        }
+        public void DoEditFinanceInfo(EnterpriseFinanceInfo financeinfo)
+        {
+            //check exist
+            var data = DC.Set<EnterpriseFinanceInfo>().Where(x => x.EnterpriseBasicId == financeinfo.EnterpriseBasicId).FirstOrDefault();
+            bool exist = data!= null ? true : false;
+            if (exist)
+            {
+                DC.Set<EnterpriseFinanceInfo>().Remove(data);
+            }
+
+            DC.Set<EnterpriseFinanceInfo>().Add(financeinfo);
+            DC.SaveChanges();
+        }
+        public void DoEditBusinnessInfo(EnterpriseBusinessinfo bussinessinfo)
+        {
+            var data = DC.Set<EnterpriseBusinessinfo>().Where(x => x.EnterpriseBasicInfoId == bussinessinfo.EnterpriseBasicInfoId).FirstOrDefault();
+            bool exist = data != null ? true : false;
+            if (exist)
+            {
+                DC.Set<EnterpriseBusinessinfo>().Remove(data);
+            }
+
+            DC.Set<EnterpriseBusinessinfo>().Add(bussinessinfo);
+            DC.SaveChanges();
+
+
+        }
+        public void DoDeleteFinanceInfo(EnterpriseFinanceInfo financeinfo)
+        {
+            var data = DC.Set<EnterpriseFinanceInfo>().Where(x => x.EnterpriseBasicId == financeinfo.EnterpriseBasicId).FirstOrDefault();
+            if (data != null)
+            {
+                DC.Set<EnterpriseFinanceInfo>().Remove(data);
+                DC.SaveChanges();
+            }
+        }
+        public void DoDeleteBusinnessInfo(EnterpriseBusinessinfo bussinessinfo)
+        {
+            var data = DC.Set<EnterpriseBusinessinfo>().Where(x => x.EnterpriseBasicInfoId == bussinessinfo.EnterpriseBasicInfoId).FirstOrDefault();
+            if (data != null)
+            {
+                DC.Set<EnterpriseBusinessinfo>().Remove(data);
+                DC.SaveChanges();
+            }
         }
         public EnterpriseBusinessinfo GetBusinessInfo(Guid id) {
 
