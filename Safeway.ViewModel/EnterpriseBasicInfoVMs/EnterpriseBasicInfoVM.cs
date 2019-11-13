@@ -72,11 +72,18 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public string CityItemNames { get; set; }
         public List<string> ProvinceNames { get; set; }
         //public List<AddressName> CityNames { get; set; }
+        public List<string> CityNmaes { get; set; }
+        public string City { get; set; }
+        public string District { get; set; }
+
+        public List<string> DistrictNames { get; set; }
         public List<AdddressJsonObject> ProvinceItems { get; set; }
         public List<AddressName> CityItems { get; set; }
         public EnterpriseBasicInfoVM()
         {
-           // SetInclude(x => x.FinanceInfo, x => x.EnterpriseBusinessinfo, x => x.EnterpriseContacts, x => x.EnterpriserYearYields);
+            // SetInclude(x => x.FinanceInfo, x => x.EnterpriseBusinessinfo, x => x.EnterpriseContacts, x => x.EnterpriserYearYields);
+            LoadProvince();
+            LoadEnterpriseInfo();
         }
         protected override void InitVM()
         {
@@ -87,13 +94,19 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         {
             EnterpriseFinanceInfo = new EnterpriseFinanceInfo();
             EnterpriseBusinessinfo = new EnterpriseBusinessinfo();
-            
+            EnterpriseContactListVM = new EnterpriseContactVMs.EnterpriseContactListVM();
+            EnterpriserYearYieldListVM = new EnterpriserYearYieldVMs.EnterpriserYearYieldListVM();
         }
         public void LoadAdditionalInfo(string id) 
         {
             EnterpriseFinanceInfo = DC.Set<EnterpriseFinanceInfo>().Where(x => x.EnterpriseBasicId == new Guid(id)).FirstOrDefault();
             EnterpriseBusinessinfo = DC.Set<EnterpriseBusinessinfo>().Where(x => x.EnterpriseBasicInfoId == new Guid(id)).FirstOrDefault();
-
+        }
+        public void LoadAddressInfo(string id) 
+        {
+            var basic = DC.Set<EnterpriseBasicInfo>().Where(x => x.ID == new Guid(id)).FirstOrDefault();
+            City = basic.City;
+            District = basic.District;
         }
         public void LoadProvince()
         {
@@ -112,7 +125,8 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             {
                 ProvinceNames.Add(obj.name);
             }
-
+            CityNmaes = new List<string>();
+            DistrictNames = new List<string>();
         }
         public List<AddressName> GetCities(string keyword)
         {
@@ -127,11 +141,19 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
 
             var provinceid = ProvinceItems.Where(x => x.name == keyword).Select(x => x.id).FirstOrDefault();
             CityItems = cityvalues.Where(x => x.Key == provinceid).SelectMany(x => x.Value).Select(x => new AddressName { Text = x.name, Value = x.id }).ToList();
-            //Session = "t";
-            // HttpContext.Session.SetString("code", "123456");
             CityItemNames = JsonConvert.SerializeObject(CityItems);
-            var rv= cityvalues.Where(x => x.Key == provinceid).SelectMany(x => x.Value).Select(x => new AddressName { Text = x.name, Value = x.name }).ToList();
-            return rv;
+            var rv= cityvalues.Where(x => x.Key == provinceid).SelectMany(x => x.Value).Select(x => new  {  x.name }).ToList();
+            List<AddressName> citynames = new List<AddressName>();
+            foreach (var obj in rv) 
+            {
+                citynames.Add( new AddressName() { 
+                     Text= obj.name,
+                     Value = obj.name
+                });
+                CityNmaes.Add(obj.name);
+            }
+            
+            return citynames;
         }
         public List<AddressName> GetDistricts(string keyword,string cityNames)
         {
@@ -143,34 +165,22 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                 string json = reader.ReadToEnd();
                 districtvalues = JsonConvert.DeserializeObject<Dictionary<string, List<DistrictObject>>>(json);
             }
-            // var provinceid = ProvinceItems.Where(x => x.name == keyword).Select(x => x.id).FirstOrDefault();
-            // (cityObj as IEnumerable)
-
-            // var rv = districtvalues.Where(x => x.Key == provinceid).SelectMany(x => x.Value).Select(x => new AddressName { Text = x.name, Value = x.id }).ToList();
             CityItems = JsonConvert.DeserializeObject<List<AddressName>>(cityNames);
             var cityId = CityItems.Where(x => x.Text == keyword).Select(x => x.Value).FirstOrDefault();
             List<DistrictObject> selectedDistricts = districtvalues[cityId];
 
-            var DistrictNames = new List<AddressName>();
+            var districtNames = new List<AddressName >();
             foreach (var obj in selectedDistricts)
             {
-                DistrictNames.Add(new AddressName()
-                {
-                    Text = obj.name,
-                    Value = obj.name
+                districtNames.Add(new AddressName() { 
+                 Text = obj.name,
+                 Value = obj.name
                 });
+                DistrictNames.Add(obj.name);
             }
-            return DistrictNames;
+          return districtNames;
 
         }
-        //public string GetCityIdbyName(string name) 
-        //{ 
-        
-        
-        //}
-        //protected override void InitVM()
-        //{
-        //}
 
         public override void DoAdd()
         {           

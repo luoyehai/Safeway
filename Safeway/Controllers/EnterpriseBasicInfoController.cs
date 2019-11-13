@@ -17,12 +17,6 @@ namespace Safeway.Controllers
     [ActionDescription("企业基础信息")]
     public partial class EnterpriseBasicInfoController : BaseController
     {
-        //EnterpriseBasicInfoListVM _EnterpriseBasicInfoListVM;
-        //public EnterpriseBasicInfoController()
-        //{
-        ////  //  _EnterpriseBasicInfoListVM = CreateVM<EnterpriseBasicInfoListVM>();
-        //  HttpContext.Session.SetString("code","123456");
-        //}
         #region 搜索
         [ActionDescription("搜索")]
         public ActionResult Index()
@@ -82,6 +76,7 @@ namespace Safeway.Controllers
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>(id);
             vm.LoadAdditionalInfo(id);
+            //vm.
             return PartialView(vm);
         }
 
@@ -238,7 +233,7 @@ namespace Safeway.Controllers
         public IActionResult LoadCities(string id)
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>();
-            var result = vm.GetCities(id);
+            var result= vm.GetCities(id);
             string names = vm.CityItemNames;
             HttpContext.Session.SetString("citynames", names);
             return Json(result);
