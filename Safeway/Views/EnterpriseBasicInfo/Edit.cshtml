@@ -6,16 +6,16 @@
                 <wt:tabheader title="基本信息" />
                 <wt:tabheader title="商务信息" />
                 <wt:tabheader title="财务信息" />
-                @*<wt:tabheader title="联系人信息" />
-                <wt:tabheader title="年收益信息" />*@
+                <wt:tabheader title="联系人信息" />
+                <wt:tabheader title="年收益信息" />
             </wt:tabheaders>
             <wt:tabcontents>
                 <wt:tabcontent>
                     <wt:row items-per-row="ItemsPerRowEnum.Two">
                         <wt:textbox field="Entity.ComapanyName" />
                         <wt:combobox field="Entity.Province" items="ProvinceNames" link-field="Entity.City" trigger-url="EnterpriseBasicInfo/LoadCities" />
-                        <wt:combobox field="Entity.City" default-value="Entity.City" link-field="Entity.District" trigger-url="EnterpriseBasicInfo/LoadDistricts" />
-                        <wt:combobox field="Entity.District" default-value="Entity.District" />
+                        <wt:combobox field="Entity.City"  link-field="Entity.District" trigger-url="EnterpriseBasicInfo/LoadDistricts" />
+                        <wt:combobox field="Entity.District" />
                         <wt:textbox field="Entity.Street" />
                         <wt:textbox field="Entity.CompanyType" />
                         <wt:textbox field="Entity.ForeignCountry" />
@@ -47,12 +47,12 @@
                         <wt:textbox field="EnterpriseFinanceInfo.CustomerReceiptReceiver" search-url="EnterpriseContact/SerachReceiptReceiver" />
                     </wt:row>
                 </wt:tabcontent>
-                @*<wt:tabcontent>
+                <wt:tabcontent>
                     <wt:grid vm="EnterpriseContactListVM" url="/EnterpriseContact/Search" />
                 </wt:tabcontent>
                 <wt:tabcontent>
                     <wt:grid vm="EnterpriserYearYieldListVM" url="/EnterpriserYearYield/Search" />
-                </wt:tabcontent>*@
+                </wt:tabcontent>
             </wt:tabcontents>
         </wt:tab>
         <wt:hidden field="Entity.ID" />

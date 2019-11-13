@@ -59,6 +59,18 @@ namespace Safeway.Model.SmallEntEvaluation
         [Display(Name = "要素类型")]
         public EvaluationTypeEnum? EvaluationType { get; set; }
 
+        [Display(Name = "一级要素排序")]
+        public int LevelOneOrder { get; set; }
+
+        [Display(Name = "二级要素排序")]
+        public int LevelTwoOrder { get; set; }
+
+        [Display(Name = "三级要素排序")]
+        public int LevelThreeOrder { get; set; }
+
+        [Display(Name = "四级要素排序")]
+        public int LevelFourOrder { get; set; }
+
         public string SmallEntEvaluationBaseId { get; set; }
     }
 }

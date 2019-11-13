@@ -61,6 +61,7 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
                 .OrderBy(x => x.ID);
             return query;
         }
+
         public List<ViewFormatClass> SearchPeople(string keyword) 
         {
             var query = DC.Set<EnterpriseContact>()
