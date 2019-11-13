@@ -10,28 +10,44 @@
                 </el-table-column>
                 <el-table-column prop="LevelThreeElement"
                                  label="基本要求规范"
-                                 width="200"
+                                 width="250"
                                  align="center">
                 </el-table-column>
                 <el-table-column prop="ComplianceStandard"
                                  label="企业达标标准"
-                                 width="300"
-                                 align="center">
+                                 width="350"
+                                 align="left">
                 </el-table-column>
-                <el-table-column prop="StandardScore"
-                                 label="标准分值"
+                <el-table-column label="标准分值"
                                  width="60"
                                  align="center">
+                    <template slot-scope="scope">
+                        <el-tag type="info">{{ scope.row.StandardScore}}</el-tag>
+                    </template>
                 </el-table-column>
-                <el-table-column prop="StandardScore"
-                                 label="不符合项描述"
-                                 width="250"
+                <el-table-column label="不符合项描述"
+                                 width="400"
                                  align="center">
+                    <template slot-scope="scope">
+                        <el-input v-for="item in scope.row.EvaluatedUnMatchedItems" type="textarea"
+                                  :rows="2"
+                                  v-model="item.UnMatchedItemDescription">
+                        </el-input>
+                    </template>
                 </el-table-column>
-                <el-table-column prop="StandardScore"
-                                 label="扣分"
-                                 width="100"
+                <el-table-column label="扣分"
+                                 width="60"
                                  align="center">
+                    <template slot-scope="scope">
+                        <el-tag type="danger">{{ scope.row.StandardScore}}</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column label="不符合"
+                                 width="400"
+                                 align="left">
+                    <template slot-scope="scope">
+                        <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid"  @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }}</el-checkbox>
+                    </template>
                 </el-table-column>
                 <el-table-column label="不涉及"
                                  width="100"
@@ -40,15 +56,11 @@
                         <el-checkbox v-model="scope.row.UnInvolved" @@change="handleUnInvolved(scope.row)"></el-checkbox>
                     </template>
                 </el-table-column>
-                <el-table-column prop="ActualScore"
-                                 label="实际得分"
-                                 width="100"
+                <el-table-column label="实际得分"
+                                 width="60"
                                  align="center">
-                </el-table-column>
-                <el-table-column label="Operations">
                     <template slot-scope="scope">
-                        <el-button size="mini" @@click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-                        <el-button size="mini" type="danger" @@click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+                        <el-tag type="success">{{ scope.row.ActualScore}}</el-tag>
                     </template>
                 </el-table-column>
             </el-table>
@@ -75,7 +87,8 @@
                 UnInvolved: false,
                 ActualScore: null,
                 EvaluationType: '',
-                SmallEntEvaluationBaseId: ''
+                SmallEntEvaluationBaseId: '',
+                UnMatchedItemDescription: ''
             }]
         },
         methods: {
@@ -92,8 +105,34 @@
             },
             handleUnInvolved(row) {
                 if (row.UnInvolved) {
-                    row.ActualScore = -1;
+                    //console.info(row.EvaluatedUnMatchedItems);
+                    let evaluatedUnMatchedItem = {
+                        SmallEntEvaluationItemId: row.ID,
+                        UnMatchedItemReferDescription: '不涉及',
+                        UnMatchedItemDescription: '不涉及',
+                        DeductionReference: 0,
+                        Deduction: 0,
+                        SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
+                    };
+                    row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
                 }
+                else {
+                    row.EvaluatedUnMatchedItems = [];
+                }
+            },
+            handleUnMatched(item, row) {
+                console.log(item);
+                //unMatchedItems.map(function (row) {
+                //    if(row.)
+                //})
+                let evaluatedUnMatchedItem = {
+                        SmallEntEvaluationItemId: row.ID,
+                        UnMatchedItemReferDescription: '不涉及',
+                        UnMatchedItemDescription: '不涉及',
+                        DeductionReference: 0,
+                        Deduction: 0,
+                        SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
+                    };
             },
             handleEdit(index, row) {
                 console.log(index, row);

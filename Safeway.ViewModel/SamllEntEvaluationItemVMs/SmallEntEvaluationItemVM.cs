@@ -36,13 +36,16 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 
         public IList<SmallEntEvaluationItemView> GetEvaluationItems(string baseId)
         {
-            var evaluationViewItem = new SmallEntEvaluationItemView();
+            
             var evaluationViewItems = new List<SmallEntEvaluationItemView>();
             var evaluationItems = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId)).ToList();
             evaluationItems.ForEach(item =>
             {
-                var unMatchedItems = DC.Set<EnterpriseReviewElement>().Where(i => i.ParentElementId.Equals(item.LevelFourID)).ToList();
+                var unMatchedItems = DC.Set<EnterpriseReviewElement>().Where(i => i.ParentElementId.Equals(item.LevelFourID.ToString()) && i.IsValid.Equals(true)).OrderBy(i => i.Order).ToList();
+                unMatchedItems.ForEach(x => x.IsValid = false);
+                var evaluationViewItem = new SmallEntEvaluationItemView();
                 evaluationViewItem.UnMatchedItems = unMatchedItems;
+                evaluationViewItem.EvaluatedUnMatchedItems = new List<SmallEntEvaluationUnMatchedItem>();
                 evaluationViewItem.LevelOneElement = item.LevelOneElement;
                 evaluationViewItem.LevelTwoElement = item.LevelTwoElement;
                 evaluationViewItem.LevelThreeElement = item.LevelThreeElement;
@@ -56,6 +59,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 evaluationViewItem.UnInvolved = item.UnInvolved;
                 evaluationViewItem.ActualScore = item.ActualScore;
                 evaluationViewItem.EvaluationType = item.EvaluationType;
+                evaluationViewItem.UnMatchedItemDescription = string.Empty;
                 evaluationViewItem.SmallEntEvaluationBaseId = item.SmallEntEvaluationBaseId;
                 evaluationViewItems.Add(evaluationViewItem);
             });
@@ -65,6 +69,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 
     public class SmallEntEvaluationItemView: SmallEntEvaluationItem
     {
+        public string UnMatchedItemDescription { get; set; }
         public IList<EnterpriseReviewElement> UnMatchedItems { get; set; }
         public IList<SmallEntEvaluationUnMatchedItem> EvaluatedUnMatchedItems { get; set; }
     }
