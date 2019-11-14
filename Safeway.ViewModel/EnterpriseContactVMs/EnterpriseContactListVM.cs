@@ -13,6 +13,16 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
 {
     public partial class EnterpriseContactListVM : BasePagedListVM<EnterpriseContact_View, EnterpriseContactSearcher>
     {
+        public Guid basicInfoID { get; set; }
+        public EnterpriseContactListVM(string id) 
+        {
+            basicInfoID = new Guid(id);
+            //EntityList = EntityList.Where(x => x.EnterpriseBasicInfoId == new Guid(id)).ToList();        
+        }
+        public EnterpriseContactListVM()
+        {
+            
+        }
         protected override List<GridAction> InitGridAction()
         {
             return new List<GridAction>
@@ -44,12 +54,32 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
 
         public override IOrderedQueryable<EnterpriseContact_View> GetSearchQuery()
         {
+            if (basicInfoID != null && !string.IsNullOrEmpty(basicInfoID.ToString()))
+            {
+                var queryfilter = DC.Set<EnterpriseContact>()
+                    .CheckContain(Searcher.Dept, x => x.Dept)
+                    .CheckEqual(Searcher.EnterpriseBasicInfoId, x => x.EnterpriseBasicInfoId)
+                    .Select(x => new EnterpriseContact_View
+                    {
+                        ID = x.ID,
+                        Dept = x.Dept,
+                        Position = x.Position,
+                        Name = x.Name,
+                        Tele = x.Tele,
+                        MobilePhone = x.MobilePhone,
+                        Email = x.Email,
+                        ComapanyName_view = DC.Set<EnterpriseBasicInfo>().Where(y => y.ID == x.EnterpriseBasicInfoId).Select(y => y.ComapanyName).FirstOrDefault(),
+                    })
+                    .Where(x => x.EnterpriseBasicInfoId == basicInfoID)
+                    .OrderBy(x => x.ID);
+                return queryfilter;
+            }
             var query = DC.Set<EnterpriseContact>()
-                .CheckContain(Searcher.Dept, x=>x.Dept)
-                .CheckEqual(Searcher.EnterpriseBasicInfoId, x=>x.EnterpriseBasicInfoId)
+                .CheckContain(Searcher.Dept, x => x.Dept)
+                .CheckEqual(Searcher.EnterpriseBasicInfoId, x => x.EnterpriseBasicInfoId)
                 .Select(x => new EnterpriseContact_View
                 {
-				    ID = x.ID,
+                    ID = x.ID,
                     Dept = x.Dept,
                     Position = x.Position,
                     Name = x.Name,
@@ -59,6 +89,7 @@ namespace Safeway.ViewModel.EnterpriseContactVMs
                     ComapanyName_view = DC.Set<EnterpriseBasicInfo>().Where(y => y.ID == x.EnterpriseBasicInfoId).Select(y => y.ComapanyName).FirstOrDefault(),
                 })
                 .OrderBy(x => x.ID);
+
             return query;
         }
 

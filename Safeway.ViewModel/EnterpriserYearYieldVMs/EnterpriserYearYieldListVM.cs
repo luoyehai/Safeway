@@ -13,6 +13,20 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
 {
     public partial class EnterpriserYearYieldListVM : BasePagedListVM<EnterpriserYearYield_View, EnterpriserYearYieldSearcher>
     {
+        public Guid basicInfoID { get; set; }
+        public EnterpriserYearYieldListVM(string id) 
+        {
+            basicInfoID = new Guid(id);
+            // EntityList = EntityList.Where(x => x.EnterpriseBasicInfoId == new Guid(id)).ToList();
+        }
+        public EnterpriserYearYieldListVM()
+        {
+
+        }
+        protected override void InitVM()
+        {
+
+        }
         protected override List<GridAction> InitGridAction()
         {
             return new List<GridAction>
@@ -41,6 +55,24 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
 
         public override IOrderedQueryable<EnterpriserYearYield_View> GetSearchQuery()
         {
+            if (basicInfoID != null && !string.IsNullOrEmpty(basicInfoID.ToString()))
+            {
+                var queryfilter = DC.Set<EnterpriserYearYield>()
+                    .CheckEqual(Searcher.FiscalYear, x => x.FiscalYear)
+                    .CheckEqual(Searcher.Created, x => x.Created)
+                    .CheckEqual(Searcher.EnterpriseBasicInfoId, x => x.EnterpriseBasicInfoId)
+                    .Select(x => new EnterpriserYearYield_View
+                    {
+                        ID = x.ID,
+                        FiscalYear = x.FiscalYear,
+                        YearYieldValue = x.YearYieldValue,
+                        Created = x.Created,
+                        ComapanyName_view = DC.Set<EnterpriseBasicInfo>().Where(y => y.ID == x.EnterpriseBasicInfoId).Select(y => y.ComapanyName).FirstOrDefault()
+                    })
+                    .Where(x => x.EnterpriseBasicInfoId==basicInfoID)
+                    .OrderBy(x => x.ID);
+                return queryfilter;
+            }
             var query = DC.Set<EnterpriserYearYield>()
                 .CheckEqual(Searcher.FiscalYear, x=>x.FiscalYear)
                 .CheckEqual(Searcher.Created, x=>x.Created)
