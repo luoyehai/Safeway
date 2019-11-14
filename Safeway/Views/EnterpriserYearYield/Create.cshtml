@@ -2,7 +2,7 @@
 
 <wt:form vm="@Model">
     <wt:row items-per-row="ItemsPerRowEnum.Two">
-        <wt:datetime field="Entity.FiscalYear" type="Year" default-value="2019-1-1"/>
+        <wt:datetime field="Entity.FiscalYear" type="Year"/>
         <wt:textbox field="Entity.YearYieldValue" />
         @*<wt:datetime field="Entity.Created" />*@
         <wt:combobox field="Entity.EnterpriseBasicInfoId" items="AllEnterpriseBasicInfos" />

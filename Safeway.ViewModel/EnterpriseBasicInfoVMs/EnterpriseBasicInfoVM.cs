@@ -54,19 +54,10 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
 
         public EnterpriseBusinessinfo EnterpriseBusinessinfo { get; set; }
 
-        public EnterpriseContactVMs.EnterpriseContactListVM EnterpriseContactListVM { get; set; }
+        public List<EnterpriseContact> EnterpriseContacts { get; set; }
 
-        public EnterpriserYearYieldVMs.EnterpriserYearYieldListVM EnterpriserYearYieldListVM { get; set; }
-        //public List<ComboSelectListItem> AllBasicInfos { get; set; }
-        //[JsonIgnore]
-        //public List<ComboSelectListItem> AllContacts { get; set; }
-        //[Display(Name = "联系人")]
-        //public List<Guid> SelectedContactsIDs { get; set; }
+        public List<EnterpriserYearYield> EnterpriserYearYields { get; set; }
 
-        //[JsonIgnore]
-        //public List<ComboSelectListItem> AllYearlyYields { get; set; }
-        //[Display(Name = "年收益")]
-        //public List<Guid> SelectedYieldsIDs { get; set; }
 
         #endregion
         public string CityItemNames { get; set; }
@@ -94,8 +85,13 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         {
             EnterpriseFinanceInfo = new EnterpriseFinanceInfo();
             EnterpriseBusinessinfo = new EnterpriseBusinessinfo();
-            EnterpriseContactListVM = new EnterpriseContactVMs.EnterpriseContactListVM();
-            EnterpriserYearYieldListVM = new EnterpriserYearYieldVMs.EnterpriserYearYieldListVM();
+            EnterpriseContacts = new List<EnterpriseContact>();
+            EnterpriserYearYields = new List<EnterpriserYearYield>();
+        }
+        public void LoadListInfo(string id) 
+        {
+            EnterpriseContacts = DC.Set<EnterpriseContact>().Where(x => x.EnterpriseBasicInfoId== new Guid(id)).ToList();
+            EnterpriserYearYields = DC.Set<EnterpriserYearYield>().Where(x => x.EnterpriseBasicInfoId == new Guid(id)).ToList();
         }
         public void LoadAdditionalInfo(string id) 
         {
@@ -241,14 +237,6 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                 DC.Set<EnterpriseBusinessinfo>().Remove(data);
                 DC.SaveChanges();
             }
-        }
-        public EnterpriseBusinessinfo GetBusinessInfo(Guid id) {
-
-            return DC.Set<EnterpriseBusinessinfo>().Where(x => x.EnterpriseBasicInfoId == id).FirstOrDefault();
-        }
-        public EnterpriseFinanceInfo GetFinanceInfo(Guid id)
-        {
-            return DC.Set<EnterpriseFinanceInfo>().Where(x => x.EnterpriseBasicId == id).FirstOrDefault();
         }
         public override void DoEdit(bool updateAllFields = false)
         {

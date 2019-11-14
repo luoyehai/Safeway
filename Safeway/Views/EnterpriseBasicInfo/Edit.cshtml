@@ -48,10 +48,60 @@
                     </wt:row>
                 </wt:tabcontent>
                 <wt:tabcontent>
-                    <wt:grid vm="EnterpriseContactListVM" url="/EnterpriseContact/Search" />
+                    <div id="contact">
+                        <el-table :data="contactList" style="width: 100%" border>
+                            <el-table-column prop="Dept"
+                                             label="Dept"
+                                             width="180">
+                            </el-table-column>
+                            <el-table-column prop="Position"
+                                             label="Position"
+                                             width="180">
+                            </el-table-column>
+                            <el-table-column prop="Name"
+                                             label="Name">
+                            </el-table-column>
+                            <el-table-column prop="MobilePhone"
+                                             label="MobilePhone"
+                                             width="180">
+                            </el-table-column>
+                            <el-table-column prop="Email"
+                                             label="Email"
+                                             width="180">
+                            </el-table-column>
+                            <el-table-column prop="Tele"
+                                             label="Tele">
+                            </el-table-column>
+                        </el-table>
+                    </div>
                 </wt:tabcontent>
                 <wt:tabcontent>
-                    <wt:grid vm="EnterpriserYearYieldListVM" url="/EnterpriserYearYield/Search" />
+                    <div id="yearYield">
+                        <el-table :data="contactList" style="width: 100%" border>
+                            <el-table-column prop="Dept"
+                                             label="Dept"
+                                             width="180">
+                            </el-table-column>
+                            <el-table-column prop="Position"
+                                             label="Position"
+                                             width="180">
+                            </el-table-column>
+                            <el-table-column prop="Name"
+                                             label="Name">
+                            </el-table-column>
+                            <el-table-column prop="MobilePhone"
+                                             label="MobilePhone"
+                                             width="180">
+                            </el-table-column>
+                            <el-table-column prop="Email"
+                                             label="Email"
+                                             width="180">
+                            </el-table-column>
+                            <el-table-column prop="Tele"
+                                             label="Tele">
+                            </el-table-column>
+                        </el-table>
+                    </div>
                 </wt:tabcontent>
             </wt:tabcontents>
         </wt:tab>
@@ -61,3 +111,52 @@
             <wt:closebutton />
         </wt:row>
     </wt:form>
+<script>
+    var contactVM = new Vue({
+        el: '#contact',
+        data: {
+            contactList: [{
+                Dept: '',
+                Position: '',
+                Name: '',
+                MobilePhone: '',
+                Email: '',
+                Tele: ''
+            }],
+        },
+        methods: {
+            loadData: function () {
+
+                this.contactList =@Html.Raw(Json.Serialize(Model.EnterpriseContacts));
+            }
+
+
+        },
+        created: function () {
+            this.loadData();
+        }
+    });
+
+    var yearYieldVM = new Vue({
+        el: '#yearYield',
+        data: {
+            contactList: [{
+                Dept: '',
+                Position: '',
+                Name: '',
+                MobilePhone: '',
+                Email: '',
+                Tele: ''
+            }],
+        },
+        methods: {
+            loadData: function () {
+                this.contactList =@Html.Raw(Json.Serialize(Model.EnterpriseContacts));
+            }
+        },
+        created: function () {
+            this.loadData();
+        }
+
+    })
+</script>
