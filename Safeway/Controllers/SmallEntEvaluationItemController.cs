@@ -30,6 +30,12 @@ namespace Safeway.Controllers
             var items = vm.GetEvaluationItems(id, tab);
             return Json(items);
         }
+
+        [HttpPost]
+        public JsonResult SaveEvaluationItem(SmallEntEvaluationItemVM vm, [FromBody]List<SmallEntEvaluationItemView> items)
+        {
+            return Json(vm.SaveEvaluationItems(items));
+        }
         #endregion
     }
 }

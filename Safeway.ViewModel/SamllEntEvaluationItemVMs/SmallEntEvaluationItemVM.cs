@@ -46,6 +46,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 var evaluationViewItem = new SmallEntEvaluationItemView();
                 evaluationViewItem.UnMatchedItems = unMatchedItems;
                 evaluationViewItem.EvaluatedUnMatchedItems = new List<SmallEntEvaluationUnMatchedItem>();
+                evaluationViewItem.ID = item.ID;
                 evaluationViewItem.LevelOneElement = item.LevelOneElement;
                 evaluationViewItem.LevelTwoElement = item.LevelTwoElement;
                 evaluationViewItem.LevelThreeElement = item.LevelThreeElement;
@@ -65,6 +66,38 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 evaluationViewItems.Add(evaluationViewItem);
             });
             return evaluationViewItems;
+        }
+
+        public bool SaveEvaluationItems(List<SmallEntEvaluationItemView> evaluationViewItems)
+        {
+            if (evaluationViewItems.Count() == 0)
+                return false;
+            var evaluationItems = DC.Set<SmallEntEvaluationItem>()
+                .Where(x => x.LevelOneElement.Equals(evaluationViewItems[0].LevelOneElement) && x.SmallEntEvaluationBaseId.Equals(evaluationViewItems[0].SmallEntEvaluationBaseId)).ToList();
+
+            evaluationViewItems.ForEach(item =>
+            {
+                var evaluationItem = evaluationItems.Where(x => x.ID.Equals(item.ID)).FirstOrDefault();
+                //evaluationItem.ID = item.ID;
+                evaluationItem.LevelOneElement = item.LevelOneElement;
+                evaluationItem.LevelTwoElement = item.LevelTwoElement;
+                evaluationItem.LevelThreeElement = item.LevelThreeElement;
+                evaluationItem.LevelFourID = item.LevelFourID;
+                evaluationItem.ComplianceStandard = item.ComplianceStandard;
+                evaluationItem.BasicRuleRequirement = item.BasicRuleRequirement;
+                evaluationItem.StandardScore = item.StandardScore;
+                evaluationItem.EvaluationDescription = item.EvaluationDescription;
+                evaluationItem.AssignTo = item.AssignTo;
+                evaluationItem.UnMatched = item.UnMatched;
+                evaluationItem.UnInvolved = item.UnInvolved;
+                evaluationItem.ActualScore = item.ActualScore;
+                evaluationItem.EvaluationType = item.EvaluationType;
+                evaluationItem.SmallEntEvaluationBaseId = item.SmallEntEvaluationBaseId;
+                evaluationItem.UpdateTime = DateTime.Now;
+                DC.Set<SmallEntEvaluationItem>().Update(evaluationItem);
+                DC.SaveChanges();
+            });
+            return true;
         }
     }
 

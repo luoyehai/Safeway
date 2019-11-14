@@ -55,6 +55,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 .CheckContain(Searcher.EvaluationLeader, x=>x.EvaluationLeader)
                 .CheckContain(Searcher.ReportLeader, x=>x.ReportLeader)
                 .CheckEqual(Searcher.Status, x=>x.Status)
+                .CheckEqual(Searcher.IsValid, x =>x.IsValid.Equals(true))
                 .Select(x => new SmallEntEvaluationBase_View
                 {
 				    ID = x.ID,
