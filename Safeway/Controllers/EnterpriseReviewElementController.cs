@@ -19,6 +19,7 @@ namespace Safeway.Controllers
         public ActionResult Index()
         {
             var vm = CreateVM<EnterpriseReviewElementListVM>();
+            //vm.EntityList = vm.EntityList.OrderBy(x => x.Level).ThenBy(x => x.Order).ToList();
             return PartialView(vm);
         }
 

@@ -97,7 +97,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
                     TotalScore = x.TotalScore,
                     EvaluationType = x.EvaluationType
                 })
-                .OrderBy(x => x.ID);
+                .OrderBy(x => x.Order);
             return query;
         }
     }

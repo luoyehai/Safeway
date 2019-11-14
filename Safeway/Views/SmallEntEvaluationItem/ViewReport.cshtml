@@ -1,8 +1,12 @@
 ﻿@model Safeway.ViewModel.SamllEntEvaluationItemVMs.SmallEntEvaluationItemVM
 <div id="reviewReport">
-    <el-tabs type="border-card">
-        <el-tab-pane label="基础管理">
-            <el-table :data="reportData" style="width: 100%" border>
+    <el-tabs type="border-card" @@tab-click="handleTabClick" v-model="defaultTab">
+        <el-tab-pane v-for="(t, index) in tabList" :label="t.label" :name="t.name">
+            <el-table :data="reportData" style="width: 100%" border
+                v-loading="loading"
+                element-loading-text="Loading..."
+                element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 0.8)">
                 <el-table-column prop="LevelTwoElement"
                                  label="二级"
                                  width="100"
@@ -39,7 +43,7 @@
                                  width="60"
                                  align="center">
                     <template slot-scope="scope">
-                        <el-tag type="danger">{{ scope.row.StandardScore}}</el-tag>
+                        <el-tag type="danger">{{ scope.row.DeductScore}}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column label="不符合"
@@ -65,17 +69,22 @@
                 </el-table-column>
             </el-table>
         </el-tab-pane>
-        <el-tab-pane label="设备设施"></el-tab-pane>
-        <el-tab-pane label="生产现场"></el-tab-pane>
-        <el-tab-pane label="隐患排查与治理">Task</el-tab-pane>
-        <el-tab-pane label="职业卫生"></el-tab-pane>
-        <el-tab-pane label="绩效评定与持续改进"></el-tab-pane>
+        @*<el-tab-pane label="设备设施" name="基础管理"></el-tab-pane>
+        <el-tab-pane label="生产现场" name="基础管理"></el-tab-pane>
+        <el-tab-pane label="隐患排查与治理" name="基础管理"></el-tab-pane>
+        <el-tab-pane label="职业卫生" name="基础管理"></el-tab-pane>
+        <el-tab-pane label="绩效评定与持续改进" name="绩效评定与持续改进"></el-tab-pane>*@
     </el-tabs>
 </div>
 <script>
     var reviewReport = new Vue({
         el: '#reviewReport',
         data: {
+            loading: false,
+            defaultTab: '基础管理',
+            tabList: [{ label: '基础管理', name: '基础管理' }, { label: '设备设施', name: '设备设施' }
+                , { label: '生产现场', name: '生产现场' }, { label: '隐患排查与治理', name: '隐患排查与治理' }
+                ,{label:'职业卫生',name:'职业卫生'},{label:'绩效评定与持续改进',name:'绩效评定与持续改进'}],
             reportData: [{
                 LevelTwoElement: '',
                 LevelThreeElement: '',
@@ -93,10 +102,12 @@
         },
         methods: {
             loadData: function () {
+                this.loading = true;
                 let vData = @Html.Raw(Json.Serialize(ViewData));;
-                axios.get('SmallEntEvaluationItem/GetEvaluationItem?id='+vData["ID"])
+                axios.get('SmallEntEvaluationItem/GetEvaluationItem?id=' + vData["ID"] + '&tab=' + this.defaultTab)
                     .then(function (r) {
                         this.reportData = r.data.Data;
+                        this.loading = false;
                     }.bind(this))
                     .catch(function (e) {
                         console.error(e);
@@ -119,12 +130,11 @@
                         row.IsValid = false;
                     })
                     row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
-                    // score of unmatched item 
-                    row.ActualScore = row.StandardScore;
                 }
                 else {
                     row.EvaluatedUnMatchedItems = [];
                 }
+                this.calculateUnInvolvedScore(row);
             },
             handleUnMatched(item, row) {
                 //console.log(item);
@@ -145,22 +155,28 @@
                         return item.ID != row.ID
                     })
                 }
+                this.calculateUnMatcheScore(row);
             },
-            calculateScore: function (item) {
+            calculateUnInvolvedScore: function (item) {
                 // check is uninvolve checked
-                if (item.UnInvolved) {
-                    row.ActualScore = row.StandardScore;
-                }
-                else {
-                    let unMatchedScore = 0;
-                    //item.
-                }
+                item.ActualScore = item.StandardScore;
+                    item.DeductScore = 0;
             },
-            handleEdit(index, row) {
-                console.log(index, row);
+            calculateUnMatcheScore: function (item) {
+                let unMatchedScore = 0;
+                item.UnMatchedItems.map(function (row) {
+                    if (row.IsValid)
+                        unMatchedScore += row.TotalScore;
+                })
+                //console.log('unMatchedScore:' + unMatchedScore);
+                //console.log('StandardScore:' + item.StandardScore);
+                item.DeductScore = unMatchedScore > item.StandardScore ? item.StandardScore : unMatchedScore;
+                item.ActualScore = item.StandardScore - item.DeductScore;
             },
-            handleDelete(index, row) {
-                console.log(index, row);
+            handleTabClick(value) {
+                this.loadData();
+                //console.log(value.paneName);
+                //console.log(value.$vnode);
             }
         },
         created: function() {
