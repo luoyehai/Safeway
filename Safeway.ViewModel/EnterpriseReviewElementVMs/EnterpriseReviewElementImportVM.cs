@@ -21,8 +21,10 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
         public ExcelPropety Order_Excel = ExcelPropety.CreateProperty<EnterpriseReviewElement>(x => x.Order);
         [Display(Name = "总分")]
         public ExcelPropety TotalScore_Excel = ExcelPropety.CreateProperty<EnterpriseReviewElement>(x => x.TotalScore);
+        [Display(Name = "上级要素")]
+        public ExcelPropety ParentElementId_Excel = ExcelPropety.CreateProperty<EnterpriseReviewElement>(x => x.ParentElementId);
 
-	    protected override void InitVM()
+        protected override void InitVM()
         {
         }
 

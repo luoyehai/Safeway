@@ -34,11 +34,11 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             base.DoDelete();
         }
 
-        public IList<SmallEntEvaluationItemView> GetEvaluationItems(string baseId)
+        public IList<SmallEntEvaluationItemView> GetEvaluationItems(string baseId,string tabName)
         {
             
             var evaluationViewItems = new List<SmallEntEvaluationItemView>();
-            var evaluationItems = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId)).ToList();
+            var evaluationItems = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId) && x.LevelOneElement.Equals(tabName)).ToList();
             evaluationItems.ForEach(item =>
             {
                 var unMatchedItems = DC.Set<EnterpriseReviewElement>().Where(i => i.ParentElementId.Equals(item.LevelFourID.ToString()) && i.IsValid.Equals(true)).OrderBy(i => i.Order).ToList();
@@ -58,6 +58,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 evaluationViewItem.UnMatched = item.UnMatched;
                 evaluationViewItem.UnInvolved = item.UnInvolved;
                 evaluationViewItem.ActualScore = item.ActualScore;
+                evaluationViewItem.DeductScore = 0;
                 evaluationViewItem.EvaluationType = item.EvaluationType;
                 evaluationViewItem.UnMatchedItemDescription = string.Empty;
                 evaluationViewItem.SmallEntEvaluationBaseId = item.SmallEntEvaluationBaseId;
@@ -70,6 +71,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
     public class SmallEntEvaluationItemView: SmallEntEvaluationItem
     {
         public string UnMatchedItemDescription { get; set; }
+        public decimal DeductScore { get; set; }
         public IList<EnterpriseReviewElement> UnMatchedItems { get; set; }
         public IList<SmallEntEvaluationUnMatchedItem> EvaluatedUnMatchedItems { get; set; }
     }

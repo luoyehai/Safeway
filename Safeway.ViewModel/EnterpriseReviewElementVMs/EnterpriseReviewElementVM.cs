@@ -40,7 +40,7 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
         {
             if ((ElementLevelEnum)level == ElementLevelEnum.LevelOne)
                 return null;
-            return DC.Set<EnterpriseReviewElement>().Where(x => x.Level == (ElementLevelEnum)(level - 1)).ToList();
+            return DC.Set<EnterpriseReviewElement>().Where(x => x.Level == (ElementLevelEnum)(level - 1)).OrderBy(x => x.Order).ToList();
         }
     }
 }
