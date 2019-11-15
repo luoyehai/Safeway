@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Safeway.DataAccess;
 
 namespace Safeway.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191115033859_addscoringmethod")]
+    partial class addscoringmethod
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -517,9 +519,6 @@ namespace Safeway.DataAccess.Migrations
                         .HasMaxLength(300);
 
                     b.Property<int>("LevelTwoOrder");
-
-                    b.Property<string>("ScoringMethod")
-                        .HasMaxLength(500);
 
                     b.Property<string>("SmallEntEvaluationBaseId");
 

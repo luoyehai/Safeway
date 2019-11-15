@@ -35,6 +35,10 @@ namespace Safeway.Model.SmallEntEvaluation
         [StringLength(500)]
         public string BasicRuleRequirement { get; set; }
 
+        [Display(Name = "评分方式")]
+        [StringLength(500)]
+        public string ScoringMethod { get; set; }
+
         [Display(Name = "标准分值")]
         [Column(TypeName = "decimal(18, 4)")]
         public decimal StandardScore { get; set; }
