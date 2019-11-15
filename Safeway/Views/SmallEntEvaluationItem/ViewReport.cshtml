@@ -185,19 +185,18 @@
             },
             handleSave() {
                 this.loading = true;
-                //axios({
-                //    method: 'post',
-                //    url: 'SmallEntEvaluationItem/SaveEvaluationItem',
-                //    data: {
-                //        items: JSON.stringify(this.reportData)
-                //    }
-                //})
                 axios.post('SmallEntEvaluationItem/SaveEvaluationItem',this.reportData)
                 .then(function (r) {
-                    console.log(r);
+                    
                     this.loading = false;
-                    if (r === 'S') {
-                        this.$message('Save Successfully!');
+                    console.log(r);
+                    if (r.data.Data === true) {
+                        this.$notify.success({
+                            title: '提示',
+                            message: '保存评审数据成功！',
+                            duration: 0,
+                            position: 'bottom-right'
+                        });
                     }
                 }.bind(this))
             }
