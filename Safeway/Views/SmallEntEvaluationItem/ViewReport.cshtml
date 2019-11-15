@@ -155,7 +155,7 @@
             handleUnMatched(item, row) {
                 if (item.IsValid) {
                     let evaluatedUnMatchedItem = {
-                        ID: item.ID,
+                        //ID: item.ID,
                         SmallEntEvaluationItemId: row.ID,
                         UnMatchedItemReferDescription: item.ElementName,
                         UnMatchedItemDescription: item.ElementName,
@@ -169,7 +169,7 @@
                 }
                 else {
                     row.EvaluatedUnMatchedItems = row.EvaluatedUnMatchedItems.filter(function (row) {
-                        return item.ID != row.ID
+                        return item.ID != row.ReviewElementId
                     })
                 }
                 this.calculateUnMatcheScore(row);
