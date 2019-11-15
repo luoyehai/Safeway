@@ -25,9 +25,9 @@ namespace Safeway.Controllers
             return PartialView(vm);
         }
         
-        public JsonResult GetEvaluationItem(SmallEntEvaluationItemVM vm, string id,string tab)
+        public async Task<JsonResult> GetEvaluationItem(SmallEntEvaluationItemVM vm, string id,string tab)
         {
-            var items = vm.GetEvaluationItems(id, tab);
+            var items = await vm.GetEvaluationItems(id, tab);
             return Json(items);
         }
 

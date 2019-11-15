@@ -43,6 +43,10 @@ namespace Safeway.Model.SmallEntEvaluation
         [Column(TypeName = "decimal(18, 4)")]
         public decimal StandardScore { get; set; }
 
+        [Display(Name = "标准分值")]
+        [Column(TypeName = "decimal(18, 4)")]
+        public decimal DeductScore { get; set; }
+
         [Display(Name = "评审描述")]
         public string EvaluationDescription { get; set; }
 

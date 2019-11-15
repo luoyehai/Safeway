@@ -30,6 +30,11 @@ namespace Safeway.Model.SmallEntEvaluation
         [Column(TypeName = "decimal(8, 2)")]
         public decimal Deduction { get; set; }
 
+        [Display(Name = "要素类型")]
+        public EvaluationTypeEnum? EvaluationType { get; set; }
+
+        public string ReviewElementId { get; set; }
+
         public string SmallEntEvaluationBaseId { get; set; }
     }
 }

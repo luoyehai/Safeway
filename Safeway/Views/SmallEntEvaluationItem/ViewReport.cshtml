@@ -24,7 +24,7 @@
                     </el-table-column>
                     <el-table-column prop="ComplianceStandard"
                                      label="企业达标标准"
-                                     width="350"
+                                     width="320"
                                      align="left">
                     </el-table-column>
                     <el-table-column label="标准分值"
@@ -35,13 +35,23 @@
                         </template>
                     </el-table-column>
                     <el-table-column label="不符合项描述"
-                                     width="400"
+                                     width="350"
                                      align="center">
                         <template slot-scope="scope">
-                            <el-input v-for="item in scope.row.EvaluatedUnMatchedItems" type="textarea"
-                                      :rows="2"
-                                      v-model="item.UnMatchedItemDescription">
-                            </el-input>
+                            <el-row v-for="item in scope.row.EvaluatedUnMatchedItems">
+                                <el-col :span="18">
+                                    <el-input type="textarea"
+                                              :rows="2"
+                                              v-model="item.UnMatchedItemDescription">
+                                    </el-input>
+                                </el-col>
+                                <el-col :span="4">
+                                    <el-input style="width: 40px"
+                                              @@change="calculateEvaluatedUnMatcheScore(scope.row)"
+                                              v-model="item.Deduction">
+                                    <el-input>
+                                </el-col>
+                            </el-row>
                         </template>
                     </el-table-column>
                     <el-table-column label="扣分"
@@ -55,7 +65,7 @@
                                      width="400"
                                      align="left">
                         <template slot-scope="scope">
-                            <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }}</el-checkbox>
+                            <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }} - {{getEvaluationTypeStr(item.EvaluationType)}}</el-checkbox>
                         </template>
                     </el-table-column>
                     <el-table-column label="不涉及"
@@ -100,6 +110,7 @@
                 AssignTo: '',
                 UnInvolved: false,
                 ActualScore: null,
+                DeductScore: null,
                 EvaluationType: '',
                 SmallEntEvaluationBaseId: '',
                 UnMatchedItemDescription: ''
@@ -142,7 +153,6 @@
                 this.calculateUnInvolvedScore(row);
             },
             handleUnMatched(item, row) {
-                //console.log(item);
                 if (item.IsValid) {
                     let evaluatedUnMatchedItem = {
                         ID: item.ID,
@@ -151,6 +161,8 @@
                         UnMatchedItemDescription: item.ElementName,
                         DeductionReference: item.TotalScore,
                         Deduction: item.TotalScore,
+                        EvaluationType: item.EvaluationType,
+                        ReviewElementId: item.ID,
                         SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
                     };
                     row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
@@ -164,8 +176,21 @@
             },
             calculateUnInvolvedScore: function (item) {
                 // check is uninvolve checked
-                item.ActualScore = 0;
-                item.DeductScore = 0;
+                if (item.UnInvolved) {
+                    item.ActualScore = 0;
+                    item.DeductScore = 0;
+                }
+                else {
+                    item.ActualScore = item.StandardScore;
+                }
+            },
+            calculateEvaluatedUnMatcheScore(item) {
+                let unMatchedScore = 0;
+                item.EvaluatedUnMatchedItems.map(function (row) {
+                    unMatchedScore += row.Deduction;
+                })
+                item.DeductScore = unMatchedScore > item.StandardScore ? item.StandardScore : unMatchedScore;
+                item.ActualScore = item.StandardScore - item.DeductScore;
             },
             calculateUnMatcheScore: function (item) {
                 let unMatchedScore = 0;
@@ -179,7 +204,18 @@
                 item.ActualScore = item.StandardScore - item.DeductScore;
             },
             handleTabClick(value) {
-                this.loadData();
+                axios.post('SmallEntEvaluationItem/SaveEvaluationItem',this.reportData)
+                .then(function (r) {
+                    if (r.data.Data === true) {
+                        this.$notify.success({
+                            title: '提示',
+                            message: '保存评审数据成功！',
+                            position: 'bottom-right'
+                        });
+                    }
+                    this.loadData();
+                }.bind(this))
+               
                 //console.log(value.paneName);
                 //console.log(value.$vnode);
             },
@@ -187,18 +223,23 @@
                 this.loading = true;
                 axios.post('SmallEntEvaluationItem/SaveEvaluationItem',this.reportData)
                 .then(function (r) {
-                    
                     this.loading = false;
                     console.log(r);
                     if (r.data.Data === true) {
                         this.$notify.success({
                             title: '提示',
                             message: '保存评审数据成功！',
-                            duration: 0,
                             position: 'bottom-right'
                         });
                     }
                 }.bind(this))
+            },
+            getEvaluationTypeStr(value) {
+                if (value == 0)
+                    return '文件';
+                if (value == 1)
+                    return '现场';
+                return null;
             }
         },
         created: function() {
@@ -206,49 +247,3 @@
         }
     })
 </script>
-
-
-@*@model Safeway.ViewModel.SamllEntEvaluationItemVMs.SmallEntEvaluationItemVM
-    <wt:tab>
-        <wt:tabheaders>
-            <wt:tabheader title="基础管理" />
-            <wt:tabheader title="设备设施" />
-        </wt:tabheaders>
-        <wt:tabcontents>
-            <wt:tabcontent>
-                <table class="layui-hide" id="test"></table>
-                <table class="layui-table" lay-data="{url:'SmallEntEvaluationItem/GetEvaluationItem', id:'ID'}" lay-filter="test3">
-                    <thead>
-                        <tr>
-                            <th lay-data="{type:'checkbox'}">ID</th>
-                            <th lay-data="{field:'LevelTwoElement', width:80}">二级</th>
-                            <th lay-data="{field:'LevelThreeElement', width:120, sort: true, edit: 'text'}">企业达标标准</th>
-                            <th lay-data="{field:'StandardScore', edit: 'text', minWidth: 150}">标准分值</th>
-                            <th lay-data="{field:'EvaluationType', width:80, edit: 'text'}">文件/现场</th>
-                        </tr>
-                    </thead>
-                </table>
-            </wt:tabcontent>
-            <wt:tabcontent>
-                2
-            </wt:tabcontent>
-        </wt:tabcontents>
-    </wt:tab>
-    <script>
-        layui.use('table', function () {
-            var table = layui.table;
-
-            table.render({
-                elem: '#test'
-                , url: 'SmallEntEvaluationItem/GetEvaluationItem'
-                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                , cols: [[
-                    , { field: 'LevelTwoElement', width: 100, title: '二级' }
-                    , { field: 'LevelThreeElement', width: 300, title: '企业达标标准', sort: true }
-                    , { field: 'StandardScore', width: 60, title: '标准分值' }
-                    , { field: 'EvaluationType', title: '文件/现场', sort: true }
-                ]]
-                , page: false
-            });
-        });
-    </script>*@

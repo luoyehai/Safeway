@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq;
 using WalkingTec.Mvvm.Core;
 using Safeway.Model.EnterpriseReview;
+using System.Threading.Tasks;
 
 namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 {
@@ -34,18 +35,26 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             base.DoDelete();
         }
 
-        public IList<SmallEntEvaluationItemView> GetEvaluationItems(string baseId,string tabName)
+        public async Task<List<SmallEntEvaluationItemView>> GetEvaluationItems(string baseId,string tabName)
         {
-            
             var evaluationViewItems = new List<SmallEntEvaluationItemView>();
             var evaluationItems = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId) && x.LevelOneElement.Equals(tabName)).ToList();
             evaluationItems.ForEach(item =>
             {
-                var unMatchedItems = DC.Set<EnterpriseReviewElement>().Where(i => i.ParentElementId.Equals(item.LevelFourID.ToString()) && i.IsValid.Equals(true)).OrderBy(i => i.Order).ToList();
-                unMatchedItems.ForEach(x => x.IsValid = false);
+                var evaluatedUnMatchedItems = DC.Set<SmallEntEvaluationUnMatchedItem>()
+                .Where(i => i.SmallEntEvaluationItemId.Equals(item.ID.ToString())).ToList();
+
+                var unMatchedItems = DC.Set<EnterpriseReviewElement>()
+                .Where(i => i.ParentElementId.Equals(item.LevelFourID.ToString()) && i.IsValid.Equals(true)).OrderBy(i => i.Order).ToList();
+
+                unMatchedItems.ForEach(x =>
+                {
+                    x.IsValid = evaluatedUnMatchedItems.Any(i => i.ReviewElementId == x.ID.ToString()) ? true : false;
+                });
+
                 var evaluationViewItem = new SmallEntEvaluationItemView();
                 evaluationViewItem.UnMatchedItems = unMatchedItems;
-                evaluationViewItem.EvaluatedUnMatchedItems = new List<SmallEntEvaluationUnMatchedItem>();
+                evaluationViewItem.EvaluatedUnMatchedItems = evaluatedUnMatchedItems ?? new List<SmallEntEvaluationUnMatchedItem>();
                 evaluationViewItem.ID = item.ID;
                 evaluationViewItem.LevelOneElement = item.LevelOneElement;
                 evaluationViewItem.LevelTwoElement = item.LevelTwoElement;
@@ -77,8 +86,8 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 
             evaluationViewItems.ForEach(item =>
             {
+                // update evaluation items
                 var evaluationItem = evaluationItems.Where(x => x.ID.Equals(item.ID)).FirstOrDefault();
-                //evaluationItem.ID = item.ID;
                 evaluationItem.LevelOneElement = item.LevelOneElement;
                 evaluationItem.LevelTwoElement = item.LevelTwoElement;
                 evaluationItem.LevelThreeElement = item.LevelThreeElement;
@@ -90,13 +99,30 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 evaluationItem.AssignTo = item.AssignTo;
                 evaluationItem.UnMatched = item.UnMatched;
                 evaluationItem.UnInvolved = item.UnInvolved;
+                evaluationItem.DeductScore = item.DeductScore;
                 evaluationItem.ActualScore = item.ActualScore;
                 evaluationItem.EvaluationType = item.EvaluationType;
                 evaluationItem.SmallEntEvaluationBaseId = item.SmallEntEvaluationBaseId;
                 evaluationItem.UpdateTime = DateTime.Now;
                 DC.Set<SmallEntEvaluationItem>().Update(evaluationItem);
                 DC.SaveChanges();
+
+                // delete existed unmathed item
+                var removedUnMatchedEvaluationItems = DC.Set<SmallEntEvaluationUnMatchedItem>()
+                .Where(i => i.SmallEntEvaluationItemId.Equals(item.ID.ToString()));
+                DC.Set<SmallEntEvaluationUnMatchedItem>().RemoveRange(removedUnMatchedEvaluationItems);
+                DC.SaveChanges();
+
+                // save evaluated unmatched items
+                item.EvaluatedUnMatchedItems.ForEach(i =>
+                {
+                    i.SmallEntEvaluationItemId = item.ID.ToString();
+                    i.SmallEntEvaluationBaseId = item.SmallEntEvaluationBaseId;
+                    DC.Set<SmallEntEvaluationUnMatchedItem>().AddAsync(i);
+                });
+                DC.SaveChanges();
             });
+            
             return true;
         }
     }
@@ -104,9 +130,8 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
     public class SmallEntEvaluationItemView: SmallEntEvaluationItem
     {
         public string UnMatchedItemDescription { get; set; }
-        public decimal DeductScore { get; set; }
-        public IList<EnterpriseReviewElement> UnMatchedItems { get; set; }
-        public IList<SmallEntEvaluationUnMatchedItem> EvaluatedUnMatchedItems { get; set; }
+        public List<EnterpriseReviewElement> UnMatchedItems { get; set; }
+        public List<SmallEntEvaluationUnMatchedItem> EvaluatedUnMatchedItems { get; set; }
     }
 
 }
