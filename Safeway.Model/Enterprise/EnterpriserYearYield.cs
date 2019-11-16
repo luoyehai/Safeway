@@ -11,9 +11,12 @@ namespace Safeway.Model.Enterprise
     public class EnterpriserYearYield : BasePoco
     {
         [Display(Name = "财年")]
-        public DateTime FiscalYear { get; set; }
+        [Required(ErrorMessage = "{0}是必填项")]
+        [StringLength(100)]
+        public string FiscalYear { get; set; }
 
         [Display(Name = "年收益")]
+        [Required(ErrorMessage = "{0}是必填项")]
         [Column(TypeName = "decimal(18, 4)")]
         public decimal YearYieldValue { get; set; }
 
@@ -21,6 +24,7 @@ namespace Safeway.Model.Enterprise
         public DateTime Created { get; set; }
 
         [Display(Name = "企业名称")]
+        [Required(ErrorMessage = "{0}是必填项")]
         public Guid EnterpriseBasicInfoId { get; set; }
        // public EnterpriseBasicInfo EnterpriseBasicInfo { get; set; }
     }
