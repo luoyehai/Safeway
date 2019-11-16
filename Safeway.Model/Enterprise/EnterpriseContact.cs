@@ -16,12 +16,16 @@ namespace Safeway.Model.Enterprise
         //[ForeignKey("ID")]
         //public EnterpriseBasicInfo BasicInfo { get; set; } = new EnterpriseBasicInfo();
         [Display(Name = "部门")]
+        [Required(ErrorMessage = "{0}是必填项")]
         [StringLength(50)]
         public string Dept { get; set; }
         [Display(Name = "职位")]
+        [Required(ErrorMessage = "{0}是必填项")]
         [StringLength(50)]
         public string Position { get; set; }
+
         [Display(Name = "姓名")]
+        [Required(ErrorMessage = "{0}是必填项")]
         [StringLength(50)]
         public string Name { get; set; }
         [Display(Name = "座机")]
