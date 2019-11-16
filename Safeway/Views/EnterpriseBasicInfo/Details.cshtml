@@ -52,22 +52,22 @@
                         <el-table :data="contactList" style="width: 100%" border>
                             <el-table-column prop="Dept"
                                              label="Dept"
-                                             width="180">
+                                             width="130">
                             </el-table-column>
                             <el-table-column prop="Position"
                                              label="Position"
-                                             width="180">
+                                             width="130">
                             </el-table-column>
                             <el-table-column prop="Name"
                                              label="Name">
                             </el-table-column>
                             <el-table-column prop="MobilePhone"
                                              label="MobilePhone"
-                                             width="180">
+                                             width="160">
                             </el-table-column>
                             <el-table-column prop="Email"
                                              label="Email"
-                                             width="180">
+                                             width="160">
                             </el-table-column>
                             <el-table-column prop="Tele"
                                              label="Tele">
@@ -77,28 +77,14 @@
                 </wt:tabcontent>
                 <wt:tabcontent>
                     <div id="yearYield">
-                        <el-table :data="contactList" style="width: 100%" border>
-                            <el-table-column prop="Dept"
-                                             label="Dept"
+                        <el-table :data="yearYieldList" style="width: 100%" border>
+                            <el-table-column prop="FiscalYear"
+                                             label="财年"
                                              width="180">
                             </el-table-column>
-                            <el-table-column prop="Position"
-                                             label="Position"
+                            <el-table-column prop="YearYieldValue"
+                                             label="年收益"
                                              width="180">
-                            </el-table-column>
-                            <el-table-column prop="Name"
-                                             label="Name">
-                            </el-table-column>
-                            <el-table-column prop="MobilePhone"
-                                             label="MobilePhone"
-                                             width="180">
-                            </el-table-column>
-                            <el-table-column prop="Email"
-                                             label="Email"
-                                             width="180">
-                            </el-table-column>
-                            <el-table-column prop="Tele"
-                                             label="Tele">
                             </el-table-column>
                         </el-table>
                     </div>
@@ -135,21 +121,17 @@
         }
     });
 
-    var yearYieldVM = new Vue({
+     var yearYieldVM = new Vue({
         el: '#yearYield',
         data: {
-            contactList: [{
-                Dept: '',
-                Position: '',
-                Name: '',
-                MobilePhone: '',
-                Email: '',
-                Tele: ''
+            yearYieldList: [{
+                FiscalYear: '',
+                YearYieldValue:'',
             }],
         },
         methods: {
             loadData: function () {
-                this.contactList =@Html.Raw(Json.Serialize(Model.EnterpriseContacts));
+                this.yearYieldList =@Html.Raw(Json.Serialize(Model.EnterpriserYearYields));
             }
         },
         created: function () {
