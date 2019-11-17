@@ -58,7 +58,7 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
             if (basicInfoID != null && !string.IsNullOrEmpty(basicInfoID.ToString()))
             {
                 var queryfilter = DC.Set<EnterpriserYearYield>()
-                    .CheckEqual(Searcher.FiscalYear, x => x.FiscalYear)
+                    //.CheckEqual(Searcher.FiscalYear, x => x.FiscalYear)
                     .CheckEqual(Searcher.Created, x => x.Created)
                     .CheckEqual(Searcher.EnterpriseBasicInfoId, x => x.EnterpriseBasicInfoId)
                     .Select(x => new EnterpriserYearYield_View
@@ -74,7 +74,7 @@ namespace Safeway.ViewModel.EnterpriserYearYieldVMs
                 return queryfilter;
             }
             var query = DC.Set<EnterpriserYearYield>()
-                .CheckEqual(Searcher.FiscalYear, x=>x.FiscalYear)
+                //.CheckEqual(Searcher.FiscalYear, x=>x.FiscalYear)
                 .CheckEqual(Searcher.Created, x=>x.Created)
                 .CheckEqual(Searcher.EnterpriseBasicInfoId, x => x.EnterpriseBasicInfoId)
                 .Select(x => new EnterpriserYearYield_View

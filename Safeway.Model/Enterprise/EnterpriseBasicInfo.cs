@@ -15,6 +15,7 @@ namespace Safeway.Model.Enterprise
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         //public Guid EnterpriseId { get; set; }
         [Display(Name = "公司名称")]
+        [Required(ErrorMessage = "{0}是必填项")]
         [StringLength(300)]
         public string ComapanyName { get; set; }
         [Display(Name = "省份")]
