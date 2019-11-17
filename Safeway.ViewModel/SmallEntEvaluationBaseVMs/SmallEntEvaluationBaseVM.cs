@@ -39,8 +39,11 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 temp.LevelFourID = obj.ID;
                 temp.ComplianceStandard = obj.ElementName;
                 temp.LevelFourOrder = obj.Order;
-                temp.LevelThreeElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == obj.ParentElementId).Select(x=> x.ElementName).FirstOrDefault();
-                temp.LevelThreeOrder = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == obj.ParentElementId).Select(x => x.Order).FirstOrDefault();
+                //temp.LevelThreeElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == obj.ParentElementId).Select(x=> x.ElementName).FirstOrDefault();
+                //temp.LevelThreeOrder = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == obj.ParentElementId).Select(x => x.Order).FirstOrDefault();
+                temp.LevelThreeElement = orderdata.Where(x => x.ID.ToString() == obj.ParentElementId).Select(x => x.ElementName).FirstOrDefault();
+                temp.LevelThreeOrder = orderdata.Where(x => x.ID.ToString() == obj.ParentElementId).Select(x => x.Order).FirstOrDefault();
+                temp.CreateTime = DateTime.Now;
                 temp.CreateTime = DateTime.Now;
                 temp.ScoringMethod = obj.ScoringMethod;
                 temp.StandardScore = obj.TotalScore;
