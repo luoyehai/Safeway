@@ -41,7 +41,8 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
         public async Task<List<SmallEntEvaluationItemView>> GetEvaluationItems(string baseId,string tabName)
         {
             var evaluationViewItems = new List<SmallEntEvaluationItemView>();
-            var evaluationItems = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId) && x.LevelOneElement.Equals(tabName)).ToList();
+            var evaluationItems = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId) && x.LevelOneElement.Equals(tabName))
+                .OrderBy(x => x.LevelTwoOrder).ThenBy(x => x.LevelThreeOrder).ThenBy(x => x.LevelFourOrder).ToList();
             evaluationItems.ForEach(item =>
             {
                 var evaluatedUnMatchedItems = DC.Set<SmallEntEvaluationUnMatchedItem>()

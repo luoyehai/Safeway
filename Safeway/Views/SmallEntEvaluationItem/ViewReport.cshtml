@@ -204,6 +204,7 @@
                 item.ActualScore = item.StandardScore - item.DeductScore;
             },
             handleTabClick(value) {
+                this.loading = true;
                 axios.post('SmallEntEvaluationItem/SaveEvaluationItem',this.reportData)
                 .then(function (r) {
                     if (r.data.Data === true) {

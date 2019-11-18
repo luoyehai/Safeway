@@ -44,9 +44,10 @@ namespace Safeway.ViewModel.EnterpriseReviewElementVMs
                     var treeSelectListItem = new TreeSelectListItem()
                     {
                         Id = x.ID.ToString(),
-                        Text = $"{x.Order}.{x.ElementName}",
-                        Children = GenerateChildTreeSelectItems(x.ID.ToString())
+                        Text = $"{x.Order}.{x.ElementName}"
                     };
+                    if ((int)x.Level < 4)
+                        treeSelectListItem.Children = GenerateChildTreeSelectItems(x.ID.ToString());
                     childTreeSelectList.Add(treeSelectListItem);
                 });
             }
