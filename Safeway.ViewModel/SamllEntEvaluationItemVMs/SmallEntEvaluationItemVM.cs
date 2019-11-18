@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using System.Data;
+using Safeway.ViewModel.CommonClass;
 
 namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 {
@@ -38,10 +39,11 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             base.DoDelete();
         }
 
-        public async Task<List<string>> GetLevelTwoEvaluationItems(string baseId, string tabName)
+        public async Task<List<ViewFormatClass>> GetLevelTwoEvaluationItems(string baseId, string tabName)
         {
-            return DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId) && x.LevelOneElement.Equals(tabName))
-                .OrderBy(x => x.LevelTwoOrder).Select(x => x.LevelTwoElement).Distinct().ToList();
+            var items = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId) && x.LevelOneElement.Equals(tabName))
+                .Select(x => new ViewFormatClass() { Text =  x.LevelTwoElement, Value = x.LevelTwoOrder.ToString() }).Distinct();
+            return items.OrderBy(x => x.Value).Select(x => new ViewFormatClass() { Text = x.Text, Value = $"{x.Value}.{x.Text}" }).ToList();
         }
 
         public async Task<List<SmallEntEvaluationItemView>> GetEvaluationItems(string baseId,string tabName)
