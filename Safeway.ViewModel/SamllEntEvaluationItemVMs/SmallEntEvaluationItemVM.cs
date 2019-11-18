@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using System.Data;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
 using Safeway.ViewModel.CommonClass;
 
 namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
@@ -196,8 +198,20 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             var result = "";
             var reportpath = Path.Combine(Directory.GetCurrentDirectory(),
                                     "wwwroot", "exportTemplate", "江苏省工贸行业小微企业安全生产标准化评分表.xlsm");
-            
+            HSSFWorkbook hssfwb;
+            using (FileStream file = new FileStream(reportpath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            {
+                hssfwb = new HSSFWorkbook(file);
+            }
 
+            ISheet sheet = hssfwb.GetSheet("打印评分表");
+            for (int row = 0; row <= sheet.LastRowNum; row++)
+            {
+                if (sheet.GetRow(row) != null) //null is when the row only contains empty cells 
+                {
+                   
+                }
+            }
 
             return result;
 
