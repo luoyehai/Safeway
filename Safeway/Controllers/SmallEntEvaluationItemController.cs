@@ -24,10 +24,22 @@ namespace Safeway.Controllers
             ViewData["ID"]= id;
             return PartialView(vm);
         }
-        
+
+        public async Task<JsonResult> GetLevelTwoEvaluationItems(SmallEntEvaluationItemVM vm, string id, string tab)
+        {
+            var items = await vm.GetLevelTwoEvaluationItems(id, tab);
+            return Json(items);
+        }
+
         public async Task<JsonResult> GetEvaluationItem(SmallEntEvaluationItemVM vm, string id,string tab)
         {
             var items = await vm.GetEvaluationItems(id, tab);
+            return Json(items);
+        }
+
+        public async Task<JsonResult> GetLevel2EvaluationItem(SmallEntEvaluationItemVM vm, string id, string tab, string level2Name)
+        {
+            var items = await vm.GetEvaluationItems(id, tab, level2Name);
             return Json(items);
         }
 

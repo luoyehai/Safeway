@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System.Data;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using Safeway.ViewModel.CommonClass;
+
 namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 {
     public partial class SmallEntEvaluationItemVM : BaseCRUDVM<SmallEntEvaluationItem>
@@ -37,6 +39,13 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
         public override void DoDelete()
         {
             base.DoDelete();
+        }
+
+        public async Task<List<ViewFormatClass>> GetLevelTwoEvaluationItems(string baseId, string tabName)
+        {
+            var items = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId) && x.LevelOneElement.Equals(tabName))
+                .Select(x => new ViewFormatClass() { Text =  x.LevelTwoElement, Value = x.LevelTwoOrder.ToString() }).Distinct();
+            return items.OrderBy(x => x.Value).Select(x => new ViewFormatClass() { Text = x.Text, Value = $"{x.Value}.{x.Text}" }).ToList();
         }
 
         public async Task<List<SmallEntEvaluationItemView>> GetEvaluationItems(string baseId,string tabName)
@@ -74,6 +83,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 evaluationViewItem.UnInvolved = item.UnInvolved;
                 evaluationViewItem.ActualScore = item.ActualScore;
                 evaluationViewItem.DeductScore = 0;
+                evaluationViewItem.ScoringMethod = item.ScoringMethod;
                 evaluationViewItem.EvaluationType = item.EvaluationType;
                 evaluationViewItem.UnMatchedItemDescription = string.Empty;
                 evaluationViewItem.SmallEntEvaluationBaseId = item.SmallEntEvaluationBaseId;
@@ -81,6 +91,53 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             });
             return evaluationViewItems;
         }
+
+        public async Task<List<SmallEntEvaluationItemView>> GetEvaluationItems(string baseId, string tabName,string level2Name)
+        {
+            var evaluationViewItems = new List<SmallEntEvaluationItemView>();
+            var evaluationItems = DC.Set<SmallEntEvaluationItem>()
+                .Where(x => x.SmallEntEvaluationBaseId.Equals(baseId) && x.LevelOneElement.Equals(tabName) && x.LevelTwoElement.Equals(level2Name))
+                .OrderBy(x => x.LevelTwoOrder).ThenBy(x => x.LevelThreeOrder).ThenBy(x => x.LevelFourOrder).ToList();
+            evaluationItems.ForEach(item =>
+            {
+                var evaluatedUnMatchedItems = DC.Set<SmallEntEvaluationUnMatchedItem>()
+                .Where(i => i.SmallEntEvaluationItemId.Equals(item.ID.ToString())).ToList();
+
+                var unMatchedItems = DC.Set<EnterpriseReviewElement>()
+                .Where(i => i.ParentElementId.Equals(item.LevelFourID.ToString()) && i.IsValid.Equals(true)).OrderBy(i => i.Order).ToList();
+
+                unMatchedItems.ForEach(x =>
+                {
+                    x.IsValid = evaluatedUnMatchedItems.Any(i => i.ReviewElementId == x.ID.ToString()) ? true : false;
+                });
+
+                var evaluationViewItem = new SmallEntEvaluationItemView();
+                evaluationViewItem.UnMatchedItems = unMatchedItems;
+                evaluationViewItem.EvaluatedUnMatchedItems = evaluatedUnMatchedItems ?? new List<SmallEntEvaluationUnMatchedItem>();
+                evaluationViewItem.ID = item.ID;
+                evaluationViewItem.LevelOneElement = item.LevelOneElement;
+                evaluationViewItem.LevelTwoElement = item.LevelTwoElement;
+                evaluationViewItem.LevelThreeElement = item.LevelThreeElement;
+                evaluationViewItem.LevelFourID = item.LevelFourID;
+                evaluationViewItem.ComplianceStandard = item.ComplianceStandard;
+                evaluationViewItem.BasicRuleRequirement = item.BasicRuleRequirement;
+                evaluationViewItem.StandardScore = item.StandardScore;
+                evaluationViewItem.EvaluationDescription = item.EvaluationDescription;
+                evaluationViewItem.AssignTo = item.AssignTo;
+                evaluationViewItem.UnMatched = item.UnMatched;
+                evaluationViewItem.UnInvolved = item.UnInvolved;
+                evaluationViewItem.ActualScore = item.ActualScore;
+                evaluationViewItem.DeductScore = 0;
+                evaluationViewItem.ScoringMethod = item.ScoringMethod;
+                evaluationViewItem.EvaluationType = item.EvaluationType;
+                evaluationViewItem.UnMatchedItemDescription = string.Empty;
+                evaluationViewItem.SmallEntEvaluationBaseId = item.SmallEntEvaluationBaseId;
+                evaluationViewItems.Add(evaluationViewItem);
+            });
+            return evaluationViewItems;
+        }
+
+
 
         public bool SaveEvaluationItems(List<SmallEntEvaluationItemView> evaluationViewItems)
         {
