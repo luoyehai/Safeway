@@ -3,6 +3,7 @@ using System.Web;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Mvc;
 using Safeway.ViewModel.HomeVMs;
+using Microsoft.AspNetCore.Localization;
 
 namespace Safeway.Controllers
 {
@@ -12,6 +13,10 @@ namespace Safeway.Controllers
         [ActionDescription("登录")]
         public IActionResult Login()
         {
+            Response.Cookies.Append(
+        CookieRequestCultureProvider.DefaultCookieName,
+        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture("zh")));
+      
             LoginVM vm = CreateVM<LoginVM>();
             vm.Redirect = HttpContext.Request.Query["rd"];
             if (ConfigInfo.IsQuickDebug == true)

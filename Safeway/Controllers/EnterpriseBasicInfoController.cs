@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System.Linq;
 using Safeway.ViewModel.EnterpriseFinanceInfoVMs;
 using Safeway.ViewModel.EnterpriseBusinessinfoVMs;
+using Safeway.ViewModel.CommonClass;
+
 namespace Safeway.Controllers
 {
     
@@ -244,6 +246,12 @@ namespace Safeway.Controllers
         {
             return Json(vm.GetDistricts(id, HttpContext.Session.GetString("citynames")));
 
+        }
+
+        public JsonResult LoadEnteprise(EnterpriseBasicInfoVM vm, string keywords)
+        {
+            var result = vm.GetBaseQuery().Where(x => x.ComapanyName.Contains(keywords)).Select(x => new ViewFormatClass { Text = x.ComapanyName, Value = x.ComapanyName }).ToList();
+            return Json(result);
         }
     }
 }

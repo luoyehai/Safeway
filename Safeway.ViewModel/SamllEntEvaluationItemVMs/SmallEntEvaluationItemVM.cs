@@ -21,6 +21,8 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
         {
         }
 
+        public SmallEntEvaluationBase EntEvaluationBase { get; set; }
+
         protected override void InitVM()
         {
             base.InitVM();
@@ -39,6 +41,11 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
         public override void DoDelete()
         {
             base.DoDelete();
+        }
+
+        public async Task<SmallEntEvaluationBase> GetSmallEntEvaluationBase(string baseId)
+        {
+            return DC.Set<SmallEntEvaluationBase>().FirstOrDefault(x => x.ID.Equals(Guid.Parse(baseId)));
         }
 
         public async Task<List<ViewFormatClass>> GetLevelTwoEvaluationItems(string baseId, string tabName)
@@ -137,8 +144,6 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             return evaluationViewItems;
         }
 
-
-
         public bool SaveEvaluationItems(List<SmallEntEvaluationItemView> evaluationViewItems)
         {
             if (evaluationViewItems.Count() == 0)
@@ -187,6 +192,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             
             return true;
         }
+
         public string ExportData(string id)
         {
             var result = "";

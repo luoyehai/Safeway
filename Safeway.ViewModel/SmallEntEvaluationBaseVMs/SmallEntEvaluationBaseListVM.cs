@@ -17,10 +17,10 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         {
             return new List<GridAction>
             {
+                this.MakeAction("SmallEntEvaluationItem","ViewReport", "查看报告", "查看报告",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Create, "新建","", dialogWidth: 800),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Edit, "修改","", dialogWidth: 800),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Delete, "删除", "",dialogWidth: 800),
-                this.MakeAction("SmallEntEvaluationItem","ViewReport", "查看报告", "查看报告",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
                 //this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.BatchEdit, "批量修改","", dialogWidth: 800),
                 //this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.BatchDelete, "批量删除","", dialogWidth: 800),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Import, "导入","", dialogWidth: 800),
@@ -32,7 +32,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         protected override IEnumerable<IGridColumn<SmallEntEvaluationBase_View>> InitGridHeader()
         {
             return new List<GridColumn<SmallEntEvaluationBase_View>>{
-                this.MakeGridHeader(x => x.EvluationEnt),
+                this.MakeGridHeader(x => x.EnterpriseId),
                 this.MakeGridHeader(x => x.EvaluateStartDateStr),
                 this.MakeGridHeader(x => x.EvaluateEndDateStr),
                 this.MakeGridHeader(x => x.EvaluationLeader),
@@ -49,7 +49,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         public override IOrderedQueryable<SmallEntEvaluationBase_View> GetSearchQuery()
         {
             var query = DC.Set<SmallEntEvaluationBase>()
-                .CheckContain(Searcher.EvluationEnt, x=>x.EvluationEnt)
+                .CheckContain(Searcher.EnterpriseId, x=>x.EnterpriseId)
                 .CheckEqual(Searcher.EvaluationStartDate, x=>x.EvaluationStartDate)
                 .CheckEqual(Searcher.EvaluationEndDate, x=>x.EvaluationEndDate)
                 .CheckContain(Searcher.EvaluationLeader, x=>x.EvaluationLeader)
@@ -59,7 +59,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 .Select(x => new SmallEntEvaluationBase_View
                 {
 				    ID = x.ID,
-                    EvluationEnt = x.EvluationEnt,
+                    EnterpriseId = x.EnterpriseId,
                     EvaluationStartDate = x.EvaluationStartDate,
                     EvaluateStartDateStr = x.EvaluationStartDate.ToShortDateFormatString(),
                     EvaluationEndDate = x.EvaluationEndDate,
@@ -80,10 +80,10 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 
     public class SmallEntEvaluationBase_View : SmallEntEvaluationBase{
 
-        [Display(Name = "评审开始时间")]
+        [Display(Name = "开始时间")]
         public string EvaluateStartDateStr { get; set; }
 
-        [Display(Name = "评审结束时间")]
+        [Display(Name = "结束时间")]
         public string EvaluateEndDateStr { get; set; }
     }
 }

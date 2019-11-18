@@ -81,6 +81,7 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             LoadProvince();
             LoadEnterpriseInfo();
         }
+
         public void LoadEnterpriseInfo() 
         {
             EnterpriseFinanceInfo = new EnterpriseFinanceInfo();

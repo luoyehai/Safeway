@@ -13,7 +13,7 @@ namespace Safeway.Controllers
         [AllRights]
         public IActionResult Index()
         {
-            ViewData["title"] = "WTM";
+            ViewData["title"] = "SafeWay";
             var vm = CreateVM<IndexVM>();
             vm.AllMenu = FFMenus;
             return View(vm);
