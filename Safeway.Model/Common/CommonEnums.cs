@@ -7,6 +7,15 @@ using WalkingTec.Mvvm.Core;
 
 namespace Safeway.Model.Common
 {
+    public enum EvaluationStatus
+    {
+        [Display(Name = "未开始")]
+        NotStarted,
+        [Display(Name = "评审中")]
+        InProgress,
+        [Display(Name = "评审完成")]
+        Completed
+    }
 
     public enum ProjectTypeEnum
     {

@@ -21,6 +21,8 @@ namespace Safeway.Controllers
         public IActionResult ViewReport(string id)
         {
             var vm = CreateVM<SmallEntEvaluationItemVM>();
+            var entEvaluationBase = vm.GetSmallEntEvaluationBase(id);
+            vm.EntEvaluationBase = entEvaluationBase.Result;
             ViewData["ID"]= id;
             return PartialView(vm);
         }

@@ -1,191 +1,114 @@
 ﻿@model Safeway.ViewModel.SamllEntEvaluationItemVMs.SmallEntEvaluationItemVM
-    <div id="reviewReport">
-        <div style="margin-top: 20px">
-            <el-button @@click="handleSave">保存评审数据</el-button>
-            <el-button @@click="handleExport">导出评审报告</el-button>
+<div id="reviewReport">
+    @*<div style="margin-top: 20px">
+        <el-button @@click="handleSave">保存评审数据</el-button>
+        <el-button @@click="handleExport">导出评审报告</el-button>
+    </div>*@
+    <el-card class="box-card">
+        <div slot="header" class="clearfix">
+            <span>
+                企业名称 - @Model.EntEvaluationBase.EnterpriseId
+            </span>
+
+            <div style="margin-top: 20px; float:right;">
+                <el-button @@click="handleSave">保存评审数据</el-button>
+                <el-button @@click="handleExport">导出评审报告</el-button>
+            </div>
         </div>
-
-        <br />
-        <hr />
-        <el-card class="box-card">
-            <div slot="header" class="clearfix">
-                <span>一级要素</span>
-
-            </div>
-            <div class="text item">
-                <el-radio-group v-model="defaultTab" style="margin-bottom: 30px;" @@change="loadLevel2Elements">
-                    <el-radio-button v-for="(t, index) in tabList" :label="t.label">{{ t.name}}</el-radio-button>
-                </el-radio-group>
-
-                <el-tabs type="border-card" tab-position="top" @@tab-click="handleTabClick" v-model="defaultLevel2Element">
-                    <el-tab-pane v-for="(t, index) in level2List" :label="t.Value" :name="t.Text">
-                        <el-table :data="reportData" style="width: 100%" border
-                                  v-loading="loading"
-                                  element-loading-text="Loading..."
-                                  element-loading-spinner="el-icon-loading"
-                                  element-loading-background="rgba(0, 0, 0, 0.8)">
-                            <el-table-column prop="LevelThreeElement"
-                                             label="基本要求规范"
-                                             width="180"
-                                             align="center">
-                            </el-table-column>
-                            <el-table-column prop="ComplianceStandard"
-                                             label="企业达标标准"
-                                             width="260"
-                                             align="left">
-                            </el-table-column>
-                            <el-table-column prop="ScoringMethod"
-                                             label="评分方式"
-                                             width="160"
-                                             align="left">
-                            </el-table-column>
-                            <el-table-column label="标准分值"
-                                             width="60"
-                                             align="center">
-                                <template slot-scope="scope">
-                                    <el-tag type="warning">{{ scope.row.StandardScore}}</el-tag>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="不符合项描述"
-                                             width="350"
-                                             align="center">
-                                <template slot-scope="scope">
-                                    <el-row v-for="item in scope.row.EvaluatedUnMatchedItems">
-                                        <el-col :span="18">
-                                            <el-input type="textarea"
-                                                      :rows="2"
-                                                      v-model="item.UnMatchedItemDescription">
-                                            </el-input>
-                                        </el-col>
-                                        <el-col :span="4">
-                                            <el-input style="width: 40px"
-                                                      @@change="calculateEvaluatedUnMatcheScore(scope.row)"
-                                                      v-model="item.Deduction">
-                                                <el-input>
-                                        </el-col>
-                                    </el-row>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="扣分"
-                                             width="60"
-                                             align="center">
-                                <template slot-scope="scope">
-                                    <el-tag type="danger">{{ scope.row.DeductScore}}</el-tag>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="不符合"
-                                             width="380"
-                                             align="left">
-                                <template slot-scope="scope">
-                                    <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }}</el-checkbox>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="不涉及"
-                                             width="60"
-                                             align="center">
-                                <template slot-scope="scope">
-                                    <el-checkbox v-model="scope.row.UnInvolved" @@change="handleUnInvolved(scope.row)"></el-checkbox>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="实际得分"
-                                             width="60"
-                                             align="center">
-                                <template slot-scope="scope">
-                                    <el-tag type="success">{{ scope.row.ActualScore}}</el-tag>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </el-tab-pane>
-                </el-tabs>
-            </div>
-        </el-card>        
-
-        @*<el-tabs type="border-card" @@tab-click="handleTabClick" v-model="defaultTab">
-        <el-tab-pane v-for="(t, index) in tabList" :label="t.label" :name="t.name">
-            <el-table :data="reportData" style="width: 100%" border
-                      v-loading="loading"
-                      element-loading-text="Loading..."
-                      element-loading-spinner="el-icon-loading"
-                      element-loading-background="rgba(0, 0, 0, 0.8)">
-                <el-table-column prop="LevelTwoElement"
-                                 label="二级"
-                                 width="100"
-                                 align="center">
-                </el-table-column>
-                <el-table-column prop="LevelThreeElement"
-                                 label="基本要求规范"
-                                 width="200"
-                                 align="center">
-                </el-table-column>
-                <el-table-column prop="ComplianceStandard"
-                                 label="企业达标标准"
-                                 width="280"
-                                 align="left">
-                </el-table-column>
-                <el-table-column prop="ScoringMethod"
-                                 label="评分方式"
-                                 width="180"
-                                 align="left">
-                </el-table-column>
-                <el-table-column label="标准分值"
-                                 width="60"
-                                 align="center">
-                    <template slot-scope="scope">
-                        <el-tag type="warning">{{ scope.row.StandardScore}}</el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column label="不符合项描述"
-                                 width="350"
-                                 align="center">
-                    <template slot-scope="scope">
-                        <el-row v-for="item in scope.row.EvaluatedUnMatchedItems">
-                            <el-col :span="18">
-                                <el-input type="textarea"
-                                          :rows="2"
-                                          v-model="item.UnMatchedItemDescription">
-                                </el-input>
-                            </el-col>
-                            <el-col :span="4">
-                                <el-input style="width: 40px"
-                                          @@change="calculateEvaluatedUnMatcheScore(scope.row)"
-                                          v-model="item.Deduction">
-                                    <el-input>
-                            </el-col>
-                        </el-row>
-                    </template>
-                </el-table-column>
-                <el-table-column label="扣分"
-                                 width="60"
-                                 align="center">
-                    <template slot-scope="scope">
-                        <el-tag type="danger">{{ scope.row.DeductScore}}</el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column label="不符合"
-                                 width="400"
-                                 align="left">
-                    <template slot-scope="scope">
-                        <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }} - {{getEvaluationTypeStr(item.EvaluationType)}}</el-checkbox>
-                    </template>
-                </el-table-column>
-                <el-table-column label="不涉及"
-                                 width="60"
-                                 align="center">
-                    <template slot-scope="scope">
-                        <el-checkbox v-model="scope.row.UnInvolved" @@change="handleUnInvolved(scope.row)"></el-checkbox>
-                    </template>
-                </el-table-column>
-                <el-table-column label="实际得分"
-                                 width="60"
-                                 align="center">
-                    <template slot-scope="scope">
-                        <el-tag type="success">{{ scope.row.ActualScore}}</el-tag>
-                    </template>
-                </el-table-column>
-            </el-table>
-        </el-tab-pane>
-        </el-tabs>*@
-    </div>
+        <div class="text item">
+            <el-row>
+                <el-col :span="20">
+                    <el-radio-group v-model="defaultTab" style="margin-bottom: 30px;" @@change="loadLevel2Elements">
+                        <el-radio-button v-for="(t, index) in tabList" :label="t.label">{{ t.name}}</el-radio-button>
+                    </el-radio-group>
+                </el-col>
+                @*<el-col :span="4">
+                    <el-progress style="margin-top:10px;"  :percentage="70"></el-progress>
+                </el-col>*@
+            </el-row>
+            
+            <el-tabs type="border-card" tab-position="top" @@tab-click="handleTabClick" v-model="defaultLevel2Element">
+                <el-tab-pane v-for="(t, index) in level2List" :label="t.Value" :name="t.Text">
+                    <el-table :data="reportData" style="width: 100%" border
+                              v-loading="loading"
+                              element-loading-text="Loading..."
+                              element-loading-spinner="el-icon-loading"
+                              element-loading-background="rgba(0, 0, 0, 0.8)">
+                        <el-table-column prop="LevelThreeElement"
+                                         label="基本要求规范"
+                                         width="180"
+                                         align="center">
+                        </el-table-column>
+                        <el-table-column prop="ComplianceStandard"
+                                         label="企业达标标准"
+                                         width="260"
+                                         align="left">
+                        </el-table-column>
+                        <el-table-column prop="ScoringMethod"
+                                         label="评分方式"
+                                         width="160"
+                                         align="left">
+                        </el-table-column>
+                        <el-table-column label="标准分值"
+                                         width="60"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-tag type="warning">{{ scope.row.StandardScore}}</el-tag>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="不符合项描述"
+                                         width="350"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-row v-for="item in scope.row.EvaluatedUnMatchedItems">
+                                    <el-col :span="20">
+                                        <el-input type="textarea"
+                                                  :rows="2"
+                                                  v-model="item.UnMatchedItemDescription">
+                                        </el-input>
+                                    </el-col>
+                                    <el-col :span="4">
+                                        <el-input @@change="calculateEvaluatedUnMatcheScore(scope.row)"
+                                                  v-model="item.Deduction">
+                                            <el-input>
+                                    </el-col>
+                                </el-row>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="扣分"
+                                         width="60"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-tag type="danger">{{ scope.row.DeductScore}}</el-tag>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="不符合"
+                                         width="380"
+                                         align="left">
+                            <template slot-scope="scope">
+                                <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }}</el-checkbox>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="不涉及"
+                                         width="60"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-checkbox v-model="scope.row.UnInvolved" @@change="handleUnInvolved(scope.row)"></el-checkbox>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="实际得分"
+                                         width="60"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-tag type="success">{{ scope.row.ActualScore}}</el-tag>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
+    </el-card>
+</div>
 <script>
     var reviewReport = new Vue({
         el: '#reviewReport',
@@ -243,7 +166,7 @@
             handleUnInvolved(row) {
                 if (row.UnInvolved) {
                     //console.info(row.EvaluatedUnMatchedItems);
-                    // description of unmatched item 
+                    // description of unmatched item
                     let evaluatedUnMatchedItem = {
                         SmallEntEvaluationItemId: row.ID,
                         UnMatchedItemReferDescription: '不涉及',
@@ -328,7 +251,7 @@
                     }
                     this.loadData();
                 }.bind(this))
-               
+
                 //console.log(value.paneName);
                 //console.log(value.$vnode);
             },
@@ -376,7 +299,91 @@
         },
         created: function () {
             this.loadLevel2Elements();
-            //this.loadData();
         }
     })
 </script>
+@*<el-tabs type="border-card" @@tab-click="handleTabClick" v-model="defaultTab">
+    <el-tab-pane v-for="(t, index) in tabList" :label="t.label" :name="t.name">
+        <el-table :data="reportData" style="width: 100%" border
+                  v-loading="loading"
+                  element-loading-text="Loading..."
+                  element-loading-spinner="el-icon-loading"
+                  element-loading-background="rgba(0, 0, 0, 0.8)">
+            <el-table-column prop="LevelTwoElement"
+                             label="二级"
+                             width="100"
+                             align="center">
+            </el-table-column>
+            <el-table-column prop="LevelThreeElement"
+                             label="基本要求规范"
+                             width="200"
+                             align="center">
+            </el-table-column>
+            <el-table-column prop="ComplianceStandard"
+                             label="企业达标标准"
+                             width="280"
+                             align="left">
+            </el-table-column>
+            <el-table-column prop="ScoringMethod"
+                             label="评分方式"
+                             width="180"
+                             align="left">
+            </el-table-column>
+            <el-table-column label="标准分值"
+                             width="60"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-tag type="warning">{{ scope.row.StandardScore}}</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column label="不符合项描述"
+                             width="350"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-row v-for="item in scope.row.EvaluatedUnMatchedItems">
+                        <el-col :span="18">
+                            <el-input type="textarea"
+                                      :rows="2"
+                                      v-model="item.UnMatchedItemDescription">
+                            </el-input>
+                        </el-col>
+                        <el-col :span="4">
+                            <el-input style="width: 40px"
+                                      @@change="calculateEvaluatedUnMatcheScore(scope.row)"
+                                      v-model="item.Deduction">
+                                <el-input>
+                        </el-col>
+                    </el-row>
+                </template>
+            </el-table-column>
+            <el-table-column label="扣分"
+                             width="60"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-tag type="danger">{{ scope.row.DeductScore}}</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column label="不符合"
+                             width="400"
+                             align="left">
+                <template slot-scope="scope">
+                    <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }} - {{getEvaluationTypeStr(item.EvaluationType)}}</el-checkbox>
+                </template>
+            </el-table-column>
+            <el-table-column label="不涉及"
+                             width="60"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-checkbox v-model="scope.row.UnInvolved" @@change="handleUnInvolved(scope.row)"></el-checkbox>
+                </template>
+            </el-table-column>
+            <el-table-column label="实际得分"
+                             width="60"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-tag type="success">{{ scope.row.ActualScore}}</el-tag>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-tab-pane>
+    </el-tabs>*@
