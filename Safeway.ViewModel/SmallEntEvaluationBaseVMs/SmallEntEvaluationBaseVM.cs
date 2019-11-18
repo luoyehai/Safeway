@@ -41,8 +41,8 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 temp.LevelFourOrder = obj.Order;
                 //temp.LevelThreeElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == obj.ParentElementId).Select(x=> x.ElementName).FirstOrDefault();
                 //temp.LevelThreeOrder = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == obj.ParentElementId).Select(x => x.Order).FirstOrDefault();
-                temp.LevelThreeElement = orderdata.Where(x => x.ID.ToString() == obj.ParentElementId).Select(x => x.ElementName).FirstOrDefault();
-                temp.LevelThreeOrder = orderdata.Where(x => x.ID.ToString() == obj.ParentElementId).Select(x => x.Order).FirstOrDefault();
+                temp.LevelThreeElement = orderdata.Where(x => x.ID.ToString() == obj.ParentElementId & x.Level==ElementLevelEnum.LevelThree).Select(x => x.ElementName).FirstOrDefault();
+                temp.LevelThreeOrder = orderdata.Where(x => x.ID.ToString() == obj.ParentElementId & x.Level == ElementLevelEnum.LevelThree).Select(x => x.Order).FirstOrDefault();
                 temp.CreateTime = DateTime.Now;
                 temp.CreateTime = DateTime.Now;
                 temp.ScoringMethod = obj.ScoringMethod;
@@ -62,12 +62,12 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
             foreach (var o in evaluationitemlist) 
             { 
                 var levelTwoId= DC.Set<EnterpriseReviewElement>().Where(x => x.ElementName == o.LevelThreeElement).Select(x => x.ParentElementId).FirstOrDefault();
-                o.LevelTwoElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelTwoId).Select(x => x.ElementName).FirstOrDefault();
-                o.LevelTwoOrder = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelTwoId).Select(x => x.Order).FirstOrDefault();
+                o.LevelTwoElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelTwoId & x.Level == ElementLevelEnum.LevelTwo).Select(x => x.ElementName).FirstOrDefault();
+                o.LevelTwoOrder = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelTwoId & x.Level == ElementLevelEnum.LevelTwo).Select(x => x.Order).FirstOrDefault();
 
                 var levelOneId = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelTwoId).Select(x => x.ParentElementId).FirstOrDefault();
-                o.LevelOneElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelOneId).Select(x => x.ElementName).FirstOrDefault();
-                o.LevelOneOrder = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelOneId).Select(x => x.Order).FirstOrDefault();
+                o.LevelOneElement = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelOneId & x.Level == ElementLevelEnum.LevelOne).Select(x => x.ElementName).FirstOrDefault();
+                o.LevelOneOrder = DC.Set<EnterpriseReviewElement>().Where(x => x.ID.ToString() == levelOneId & x.Level == ElementLevelEnum.LevelOne).Select(x => x.Order).FirstOrDefault();
 
             }
 
