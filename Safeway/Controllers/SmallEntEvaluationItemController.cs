@@ -37,5 +37,15 @@ namespace Safeway.Controllers
             return Json(vm.SaveEvaluationItems(items));
         }
         #endregion
+
+        #region 导出报告
+        [ActionDescription("导出报告")]
+        public IActionResult ExportReport(string id)
+        {
+            var vm = CreateVM<SmallEntEvaluationItemVM>();
+            var result = vm.ExportData(id);
+            return Json(result);
+        }
+        #endregion
     }
 }

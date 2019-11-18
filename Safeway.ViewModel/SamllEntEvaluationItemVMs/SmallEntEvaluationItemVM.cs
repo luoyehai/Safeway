@@ -6,6 +6,9 @@ using System.Linq;
 using WalkingTec.Mvvm.Core;
 using Safeway.Model.EnterpriseReview;
 using System.Threading.Tasks;
+using System.IO;
+using Newtonsoft.Json;
+using System.Data;
 
 namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 {
@@ -125,6 +128,17 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             
             return true;
         }
+        public string ExportData(string id)
+        {
+            var result = "";
+            var reportpath = Path.Combine(Directory.GetCurrentDirectory(),
+                                    "wwwroot", "exportTemplate", "江苏省工贸行业小微企业安全生产标准化评分表.xlsm");
+            
+
+
+            return result;
+
+        }
     }
 
     public class SmallEntEvaluationItemView: SmallEntEvaluationItem
@@ -133,5 +147,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
         public List<EnterpriseReviewElement> UnMatchedItems { get; set; }
         public List<SmallEntEvaluationUnMatchedItem> EvaluatedUnMatchedItems { get; set; }
     }
+
+   
 
 }
