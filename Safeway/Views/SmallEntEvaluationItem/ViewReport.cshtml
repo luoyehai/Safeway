@@ -2,7 +2,7 @@
     <div id="reviewReport">
         <div style="margin-top: 20px">
             <el-button @@click="handleSave">保存评审数据</el-button>
-            <el-button>导出评审报告</el-button>
+            <el-button @@click="handleExport">导出评审报告</el-button>
         </div>
 
         <br />
@@ -343,6 +343,25 @@
                 if (value == 1)
                     return '现场';
                 return null;
+            },
+            handleExport: function ()
+            {
+                if (this.reportData && this.reportData.length > 0)
+                {
+                 axios.post('SmallEntEvaluationItem/ExportData',this.reportData)
+                    .then(function (r) {
+                        this.loading = false;
+                        console.log(r);
+                        if (r.data.Data === true) {
+                            this.$notify.success({
+                                title: '提示',
+                                message: '导出评审数据成功！',
+                                position: 'bottom-right'
+                            });
+                        }
+                    }.bind(this))
+                }
+
             }
         },
         created: function () {
