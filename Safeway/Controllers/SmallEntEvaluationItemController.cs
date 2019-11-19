@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Safeway.ViewModel.SamllEntEvaluationItemVMs;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Mvc;
+using System.IO;
 
 namespace Safeway.Controllers
 {
@@ -58,7 +59,16 @@ namespace Safeway.Controllers
         {
             var vm = CreateVM<SmallEntEvaluationItemVM>();
             var result = vm.ExportData(id);
-            return Json(result);
+            var memoryStream = new MemoryStream();
+            string sFileName = @"test.xlsm";
+            var reportpath = Path.Combine(Directory.GetCurrentDirectory(),
+                                   "wwwroot", "exportTemplate", "江苏省工贸行业小微企业安全生产标准化评分表.xlsm");
+            using (var fileStream = new FileStream(reportpath, FileMode.Open))
+            {
+                fileStream.CopyTo(memoryStream);
+            }
+            memoryStream.Position = 0;
+            return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
         }
         #endregion
     }
