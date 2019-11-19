@@ -32,10 +32,10 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         {
             return new List<GridColumn<EnterpriseBasicInfo_View>>{
                 this.MakeGridHeader(x => x.ComapanyName),
-                this.MakeGridHeader(x => x.Province),
-                this.MakeGridHeader(x => x.City),
-                this.MakeGridHeader(x => x.District),
-                this.MakeGridHeader(x => x.Street),
+                //this.MakeGridHeader(x => x.Province),
+                //this.MakeGridHeader(x => x.City),
+                //this.MakeGridHeader(x => x.District),
+                //this.MakeGridHeader(x => x.Street),
                 this.MakeGridHeader(x => x.CompanyType),
                 this.MakeGridHeader(x => x.ForeignCountry),
                 this.MakeGridHeader(x => x.LegalRepresentative),

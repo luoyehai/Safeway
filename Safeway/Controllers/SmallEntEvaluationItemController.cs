@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Safeway.ViewModel.SamllEntEvaluationItemVMs;
 using WalkingTec.Mvvm.Core;
@@ -9,6 +10,7 @@ using WalkingTec.Mvvm.Mvc;
 
 namespace Safeway.Controllers
 {
+    [AllowAnonymous]
     public class SmallEntEvaluationItemController : BaseController
     {
         public IActionResult Index()
@@ -16,7 +18,7 @@ namespace Safeway.Controllers
             return View();
         }
 
-        #region 查看报告
+        #region 小微评审
         [ActionDescription("查看报告")]
         public IActionResult ViewReport(string id)
         {
@@ -27,6 +29,18 @@ namespace Safeway.Controllers
             return PartialView(vm);
         }
 
+        [ActionDescription("查看任务")]
+        public IActionResult ViewTask(string id)
+        {
+            var vm = CreateVM<SmallEntEvaluationItemVM>();
+            var entEvaluationBase = vm.GetSmallEntEvaluationBase(id);
+            vm.EntEvaluationBase = entEvaluationBase.Result;
+            ViewData["ID"] = id;
+            //LoginUserInfo.Name
+            return PartialView(vm);
+        }
+
+        
         public async Task<JsonResult> GetLevelTwoEvaluationItems(SmallEntEvaluationItemVM vm, string id, string tab)
         {
             var items = await vm.GetLevelTwoEvaluationItems(id, tab);
