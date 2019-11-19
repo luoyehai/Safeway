@@ -1,0 +1,297 @@
+﻿@model Safeway.ViewModel.SamllEntEvaluationItemVMs.SmallEntEvaluationItemVM
+<div id="reviewReport">
+    <el-card class="box-card">
+        <div slot="header" class="clearfix">
+            <span>
+                企业名称 - @Model.EntEvaluationBase.EnterpriseId
+            </span>
+
+            <div style="margin-top: 20px; float:right;">
+                <el-button @@click="handleSave">保存评审数据</el-button>
+                <el-button @@click="handleExport">导出评审报告</el-button>
+            </div>
+        </div>
+        <div class="text item">
+            <el-row>
+                <el-col :span="20">
+                    <el-radio-group v-model="defaultTab" style="margin-bottom: 30px;" @@change="loadLevel2Elements">
+                        <el-radio-button v-for="(t, index) in tabList" :label="t.label">{{ t.name}}</el-radio-button>
+                    </el-radio-group>
+                </el-col>
+            </el-row>
+
+            <el-tabs type="border-card" tab-position="top" @@tab-click="handleTabClick" v-model="defaultLevel2Element">
+                <el-tab-pane v-for="(t, index) in level2List" :label="t.Value" :name="t.Text">
+                    <el-table :data="reportData" style="width: 100%" border
+                              v-loading="loading"
+                              element-loading-text="Loading..."
+                              element-loading-spinner="el-icon-loading"
+                              element-loading-background="rgba(0, 0, 0, 0.8)">
+                        <el-table-column prop="LevelThreeElement"
+                                         label="基本要求规范"
+                                         width="180"
+                                         align="left">
+                        </el-table-column>
+                        <el-table-column prop="ComplianceStandard"
+                                         label="企业达标标准"
+                                         width="260"
+                                         align="left">
+                        </el-table-column>
+                        <el-table-column prop="ScoringMethod"
+                                         label="评分方式"
+                                         width="160"
+                                         align="left">
+                        </el-table-column>
+                        <el-table-column label="标准分值"
+                                         width="60"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-tag type="warning">{{ scope.row.StandardScore}}</el-tag>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="不符合项描述"
+                                         width="350"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-row v-for="item in scope.row.EvaluatedUnMatchedItems">
+                                    <el-col :span="20">
+                                        <el-input type="textarea"
+                                                  :rows="2"
+                                                  v-model="item.UnMatchedItemDescription">
+                                        </el-input>
+                                    </el-col>
+                                    <el-col :span="4">
+                                        <el-input @@change="calculateEvaluatedUnMatcheScore(scope.row)"
+                                                  v-model="item.Deduction">
+                                            <el-input>
+                                    </el-col>
+                                </el-row>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="扣分"
+                                         width="60"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-tag type="danger">{{ scope.row.DeductScore}}</el-tag>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="不符合"
+                                         width="380"
+                                         align="left">
+                            <template slot-scope="scope">
+                                <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }}</el-checkbox>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="不涉及"
+                                         width="60"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-checkbox v-model="scope.row.UnInvolved" @@change="handleUnInvolved(scope.row)"></el-checkbox>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="实际得分"
+                                         width="60"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-tag type="success">{{ scope.row.ActualScore}}</el-tag>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
+    </el-card>
+</div>
+<script>
+    var reviewReport = new Vue({
+        el: '#reviewReport',
+        data: {
+            loading: false,
+            defaultTab: '基础管理',
+            defaultLevel2Element: '安全目标',
+            level2List: [],
+            tabList: [{ label: '基础管理', name: '1.基础管理' }, { label: '设备设施', name: '2.设备设施' }
+                , { label: '生产现场', name: '3.生产现场' }, { label: '隐患排查与治理', name: '4.隐患排查与治理' }
+                , { label: '职业卫生', name: '5.职业卫生' }, { label: '绩效评定与持续改进', name: '6.绩效评定与持续改进' }],
+            reportData: [{
+                LevelTwoElement: '',
+                LevelThreeElement: '',
+                LevelFourID: '',
+                ComplianceStandard: '',
+                BasicRuleRequirement: '',
+                StandardScore: null,
+                AssignTo: '',
+                UnInvolved: false,
+                ActualScore: null,
+                DeductScore: null,
+                EvaluationType: '',
+                SmallEntEvaluationBaseId: '',
+                UnMatchedItemDescription: ''
+            }]
+        },
+        methods: {
+            loadLevel2Elements() {
+                this.loading = true;
+                let vData = @Html.Raw(Json.Serialize(ViewData));;
+                axios.get('SmallEntEvaluationItem/GetLevelTwoEvaluationItems?id=' + vData["ID"] + '&tab=' + this.defaultTab)
+                    .then(function (r) {
+                        this.level2List = r.data.Data;
+                        this.defaultLevel2Element = this.level2List[0].Text;
+                        this.loading = false;
+                        this.loadData();
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+            },
+            loadData: function () {
+                this.loading = true;
+                let vData = @Html.Raw(Json.Serialize(ViewData));;
+                axios.get('SmallEntEvaluationItem/GetLevel2EvaluationItem?id=' + vData["ID"] + '&tab=' + this.defaultTab + '&level2Name=' + this.defaultLevel2Element)
+                    .then(function (r) {
+                        this.reportData = r.data.Data;
+                        this.loading = false;
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+            },
+            handleUnInvolved(row) {
+                if (row.UnInvolved) {
+                    //console.info(row.EvaluatedUnMatchedItems);
+                    // description of unmatched item
+                    let evaluatedUnMatchedItem = {
+                        SmallEntEvaluationItemId: row.ID,
+                        UnMatchedItemReferDescription: '不涉及',
+                        UnMatchedItemDescription: '不涉及',
+                        DeductionReference: 0,
+                        Deduction: 0,
+                        SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
+                    };
+                    row.EvaluatedUnMatchedItems = [];
+                    row.UnMatchedItems.map(function (row) {
+                        row.IsValid = false;
+                    })
+                    row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
+                }
+                else {
+                    row.EvaluatedUnMatchedItems = [];
+                }
+                this.calculateUnInvolvedScore(row);
+            },
+            handleUnMatched(item, row) {
+                if (item.IsValid) {
+                    let evaluatedUnMatchedItem = {
+                        //ID: item.ID,
+                        SmallEntEvaluationItemId: row.ID,
+                        UnMatchedItemReferDescription: item.ElementName,
+                        UnMatchedItemDescription: item.ElementName,
+                        DeductionReference: item.TotalScore,
+                        Deduction: item.TotalScore,
+                        EvaluationType: item.EvaluationType,
+                        ReviewElementId: item.ID,
+                        SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
+                    };
+                    row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
+                }
+                else {
+                    row.EvaluatedUnMatchedItems = row.EvaluatedUnMatchedItems.filter(function (row) {
+                        return item.ID != row.ReviewElementId
+                    })
+                }
+                this.calculateUnMatcheScore(row);
+            },
+            calculateUnInvolvedScore: function (item) {
+                // check is uninvolve checked
+                if (item.UnInvolved) {
+                    item.ActualScore = 0;
+                    item.DeductScore = 0;
+                }
+                else {
+                    item.ActualScore = item.StandardScore;
+                }
+            },
+            calculateEvaluatedUnMatcheScore(item) {
+                let unMatchedScore = 0;
+                item.EvaluatedUnMatchedItems.map(function (row) {
+                    unMatchedScore += parseInt(row.Deduction);
+                })
+                item.DeductScore = unMatchedScore > item.StandardScore ? item.StandardScore : unMatchedScore;
+                item.ActualScore = item.StandardScore - item.DeductScore;
+            },
+            calculateUnMatcheScore: function (item) {
+                let unMatchedScore = 0;
+                item.UnMatchedItems.map(function (row) {
+                    if (row.IsValid)
+                        unMatchedScore += row.TotalScore;
+                })
+                //console.log('unMatchedScore:' + unMatchedScore);
+                //console.log('StandardScore:' + item.StandardScore);
+                item.DeductScore = unMatchedScore > item.StandardScore ? item.StandardScore : unMatchedScore;
+                item.ActualScore = item.StandardScore - item.DeductScore;
+            },
+            handleTabClick(value) {
+                //this.loadLevel2Elements();
+                this.loading = true;
+                axios.post('SmallEntEvaluationItem/SaveEvaluationItem',this.reportData)
+                .then(function (r) {
+                    if (r.data.Data === true) {
+                        this.$notify.success({
+                            title: '提示',
+                            message: '评审数据保存成功！',
+                            position: 'bottom-right'
+                        });
+                    }
+                    this.loadData();
+                }.bind(this))
+
+                //console.log(value.paneName);
+                //console.log(value.$vnode);
+            },
+            handleSave() {
+                this.loading = true;
+                axios.post('SmallEntEvaluationItem/SaveEvaluationItem',this.reportData)
+                .then(function (r) {
+                    this.loading = false;
+                    console.log(r);
+                    if (r.data.Data === true) {
+                        this.$notify.success({
+                            title: '提示',
+                            message: '保存评审数据成功！',
+                            position: 'bottom-right'
+                        });
+                    }
+                }.bind(this))
+            },
+            getEvaluationTypeStr(value) {
+                if (value == 0)
+                    return '文件';
+                if (value == 1)
+                    return '现场';
+                return null;
+            },
+            handleExport: function ()
+            {
+                if (this.reportData && this.reportData.length > 0)
+                {
+                 axios.post('SmallEntEvaluationItem/ExportData',this.reportData)
+                    .then(function (r) {
+                        this.loading = false;
+                        console.log(r);
+                        if (r.data.Data === true) {
+                            this.$notify.success({
+                                title: '提示',
+                                message: '导出评审数据成功！',
+                                position: 'bottom-right'
+                            });
+                        }
+                    }.bind(this))
+                }
+
+            }
+        },
+        created: function () {
+            this.loadLevel2Elements();
+        }
+    })
+</script>

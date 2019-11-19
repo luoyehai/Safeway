@@ -30,15 +30,15 @@ namespace Safeway.Controllers
         [HttpPost]
         public ActionResult Login(LoginVM vm)
         {
-            if (ConfigInfo.IsQuickDebug == false)
-            {
-                var verifyCode = HttpContext.Session.Get<string>("verify_code");
-                if (string.IsNullOrEmpty(verifyCode) || verifyCode.ToLower() != vm.VerifyCode.ToLower())
-                {
-                    vm.MSD.AddModelError("", "验证码不正确");
-                    return View(vm);
-                }
-            }
+            //if (ConfigInfo.IsQuickDebug == false)
+            //{
+            //    var verifyCode = HttpContext.Session.Get<string>("verify_code");
+            //    if (string.IsNullOrEmpty(verifyCode) || verifyCode.ToLower() != vm.VerifyCode.ToLower())
+            //    {
+            //        vm.MSD.AddModelError("", "验证码不正确");
+            //        return View(vm);
+            //    }
+            //}
 
             var user = vm.DoLogin();
             if (user == null)
