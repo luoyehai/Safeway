@@ -272,9 +272,8 @@
             },
             handleExport: function ()
             {
-                if (this.reportData && this.reportData.length > 0)
-                {
-                 axios.post('SmallEntEvaluationItem/ExportData',this.reportData)
+                 let vData = @Html.Raw(Json.Serialize(ViewData));
+                axios.get('SmallEntEvaluationItem/ExportReport?id=' + vData["ID"])
                     .then(function (r) {
                         this.loading = false;
                         console.log(r);
@@ -286,8 +285,6 @@
                             });
                         }
                     }.bind(this))
-                }
-
             }
         },
         created: function () {

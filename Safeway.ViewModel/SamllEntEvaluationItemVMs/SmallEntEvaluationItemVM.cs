@@ -196,41 +196,34 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             return true;
         }
 
-        public string ExportData(string id)
+        public XSSFWorkbook ExportData(string id)
         {
             var exportdata = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId == id).OrderBy(x => x.LevelOneOrder)
                 .ThenBy(x => x.LevelTwoOrder).ThenBy(x => x.LevelThreeOrder).ThenBy(x => x.LevelFourOrder).ToList();
            // var result = "";
             var reportpath = Path.Combine(Directory.GetCurrentDirectory(),
-                                    "wwwroot", "exportTemplate", "江苏省工贸行业小微企业安全生产标准化评分表.xlsm");
+                                    "wwwroot", "exportTemplate", "小微评审.xlsx");
             var memoryStream = new MemoryStream();
             XSSFWorkbook hssfwb;
-            using (FileStream file = new FileStream(reportpath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            FileStream file = new FileStream(reportpath, FileMode.Open, FileAccess.Read);
+            
+            hssfwb = new XSSFWorkbook(file);
+            ISheet sheet = hssfwb.GetSheetAt(0);
+            IRow row;
+            ICell descriptioncell;
+            ICell scorecell;
+            for (int i = 0; i < exportdata.Count(); i++) 
             {
-                hssfwb = new XSSFWorkbook(file);
-                ISheet sheet = hssfwb.GetSheet("打印评分表");
-                IRow row;
-                ICell descriptioncell;
-                ICell scorecell;
-                for (int i = 0; i < exportdata.Count(); i++) 
-                {
-                    row = sheet.GetRow(i + 5);
-                    descriptioncell = row.GetCell(6);
-                    scorecell = row.GetCell(7);
+                row = sheet.GetRow(i+5);
+                descriptioncell = row.CreateCell(6);
+                scorecell = row.CreateCell(7);
 
-                    descriptioncell.SetCellValue(exportdata[i].ScoringMethod);
-                    scorecell.SetCellValue(Convert.ToDouble(exportdata[i].ActualScore));               
-                }
-                hssfwb.Write(file);
-                //for (int row = 5; row <= 112; row++)
-                //{
-                //    if (sheet.GetRow(row) != null) //null is when the row only contains empty cells 
-                //    {
-                //       // cell = row.GetCell(0);
-                //        //cell.SetCellValue(secondValue);
-                //    }
-                //}
+                descriptioncell.SetCellValue(exportdata[i].ScoringMethod);
+                scorecell.SetCellValue(Convert.ToDouble(exportdata[i].ActualScore));
             }
+            return hssfwb;
+            
+
             //using (var export = new MemoryStream())
             //{
             //    HttpResponse.Clear();
@@ -246,7 +239,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             //    fileStream.CopyTo(memoryStream);
             //}
             //memoryStream.Position = 0;
-            return "s"; 
+            //return "s"; 
         }
     }
 

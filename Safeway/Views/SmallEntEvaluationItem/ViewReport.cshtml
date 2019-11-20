@@ -280,8 +280,6 @@
             handleExport: function ()
             {
                  let vData = @Html.Raw(Json.Serialize(ViewData));;
-                if (this.reportData && this.reportData.length > 0)
-                {
                     //this.loading = true;
                     axios.get('SmallEntEvaluationItem/ExportReport?id=' + vData["ID"])
                     .then(function (r) {
@@ -298,16 +296,6 @@
                     .catch(function (e) {
                         console.error(e);
                     });
-                //this.loading = true;
-                //axios.get('SmallEntEvaluationItem/ExportReport?id=' + vData["ID"])
-                //    .then(function (r) {
-                //        this.loading = false;
-                //    }.bind(this))
-                //    .catch(function (e) {
-                //        console.error(e);
-                //    });
-                }
-
             }
         },
         created: function () {

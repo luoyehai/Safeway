@@ -74,13 +74,14 @@ namespace Safeway.Controllers
             var vm = CreateVM<SmallEntEvaluationItemVM>();
             var result = vm.ExportData(id);
             var memoryStream = new MemoryStream();
-            string sFileName = @"test.xlsm";
-            var reportpath = Path.Combine(Directory.GetCurrentDirectory(),
-                                   "wwwroot", "exportTemplate", "江苏省工贸行业小微企业安全生产标准化评分表.xlsm");
-            using (var fileStream = new FileStream(reportpath, FileMode.Open))
-            {
-                fileStream.CopyTo(memoryStream);
-            }
+            string sFileName = @"小微评审.xlsx";
+            //var reportpath = Path.Combine(Directory.GetCurrentDirectory(),
+            //                       "wwwroot", "exportTemplate", "小微评审.xlsx");
+            //using (var fileStream = new FileStream(reportpath, FileMode.Open))
+            //{
+            //    fileStream.CopyTo(memoryStream);
+            //}
+            result.Write(memoryStream);
             memoryStream.Position = 0;
             return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
         }
