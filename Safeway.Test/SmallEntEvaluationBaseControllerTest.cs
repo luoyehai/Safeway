@@ -42,7 +42,7 @@ namespace Safeway.Test
             SmallEntEvaluationBaseVM vm = rv.Model as SmallEntEvaluationBaseVM;
             SmallEntEvaluationBase v = new SmallEntEvaluationBase();
 			
-            v.Status = 43;
+            v.Status = Model.Common.EvaluationStatus.Completed;
             vm.Entity = v;
             _controller.Create(vm);
 
@@ -64,7 +64,7 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
        			
-                v.Status = 43;
+                v.Status = Model.Common.EvaluationStatus.Completed;
                 context.Set<SmallEntEvaluationBase>().Add(v);
                 context.SaveChanges();
             }
@@ -76,7 +76,7 @@ namespace Safeway.Test
             v = new SmallEntEvaluationBase();
             v.ID = vm.Entity.ID;
        		
-            v.Status = 74;
+            v.Status = Model.Common.EvaluationStatus.Completed;
             vm.Entity = v;
             vm.FC = new Dictionary<string, object>();
 			
@@ -102,7 +102,7 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
         		
-                v.Status = 43;
+                v.Status = Model.Common.EvaluationStatus.Completed;
                 context.Set<SmallEntEvaluationBase>().Add(v);
                 context.SaveChanges();
             }
@@ -131,7 +131,7 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                v.Status = 43;
+                v.Status = Model.Common.EvaluationStatus.Completed;
                 context.Set<SmallEntEvaluationBase>().Add(v);
                 context.SaveChanges();
             }
@@ -148,8 +148,8 @@ namespace Safeway.Test
             using (var context = new DataContext(_seed, DBTypeEnum.Memory))
             {
 				
-                v1.Status = 43;
-                v2.Status = 74;
+                v1.Status = Model.Common.EvaluationStatus.Completed;
+                v2.Status = Model.Common.EvaluationStatus.InProgress;
                 context.Set<SmallEntEvaluationBase>().Add(v1);
                 context.Set<SmallEntEvaluationBase>().Add(v2);
                 context.SaveChanges();
