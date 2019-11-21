@@ -21,8 +21,8 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                 this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Edit, "修改","", dialogWidth: 800),
                 this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Delete, "删除", "",dialogWidth: 800),
                 this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Details, "详细","", dialogWidth: 800),
-                this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.BatchEdit, "批量修改","", dialogWidth: 800),
-                this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.BatchDelete, "批量删除","", dialogWidth: 800),
+                //this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.BatchEdit, "批量修改","", dialogWidth: 800),
+                //this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.BatchDelete, "批量删除","", dialogWidth: 800),
                 this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Import, "导入","", dialogWidth: 800),
                 this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.ExportExcel, "导出",""),
             };

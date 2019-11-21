@@ -13,8 +13,10 @@ namespace Safeway.Model.Common
         NotStarted,
         [Display(Name = "评审中")]
         InProgress,
-        [Display(Name = "评审完成")]
-        Completed
+        [Display(Name = "报告已审核")]
+        Completed,
+        [Display(Name = "报告已完成")]
+        ReportCompleted
     }
 
     public enum ProjectTypeEnum

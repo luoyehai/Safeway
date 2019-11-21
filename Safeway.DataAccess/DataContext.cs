@@ -92,6 +92,7 @@ namespace Safeway.DataAccess
         public DataContext CreateDbContext(string[] args)
         {
             return new DataContext("Server=SCNSZHS0016\\SHAREPOINT;Database=SafeWay_Dev;Trusted_Connection=True;MultipleActiveResultSets=true", DBTypeEnum.SqlServer);
+            //return new DataContext("Server=SCNSZHM101106\\SQLEXPRESS01;Database=SafeWay_Dev;Trusted_Connection=True;MultipleActiveResultSets=true", DBTypeEnum.SqlServer);
         }
     }
 

@@ -54,6 +54,20 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             base.DoDelete();
         }
 
+        public async Task<string> CalculateEvaluationScore(string baseId)
+        {
+            var items = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId)).ToList();
+            // get standard total score, should be 600
+            var standardTotalScore = items.Sum(x => x.StandardScore);
+            // get uninvolved total score
+            var uninvolvedTotalScore = items.Where(x => x.UnInvolved == true).Sum(x => x.StandardScore);
+            // get actual total score
+            var actualTotalScore = items.Where(x => x.UnInvolved == false).Sum(x => x.ActualScore);
+            // caculate total score
+            var totalScore = Math.Round(actualTotalScore / (standardTotalScore - uninvolvedTotalScore) * 100, 2);
+            return totalScore.ToString();
+        }
+
         public async Task<SmallEntEvaluationBase> GetSmallEntEvaluationBase(string baseId)
         {
             return DC.Set<SmallEntEvaluationBase>().FirstOrDefault(x => x.ID.Equals(Guid.Parse(baseId)));

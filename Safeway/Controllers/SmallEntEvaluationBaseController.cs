@@ -6,6 +6,7 @@ using WalkingTec.Mvvm.Mvc;
 using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.ViewModel.SmallEntEvaluationBaseVMs;
 using Safeway.ViewModel.SamllEntEvaluationItemVMs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Safeway.Controllers
 {
@@ -216,6 +217,7 @@ namespace Safeway.Controllers
         }
         #endregion
 
+        [AllowAnonymous]
         [ActionDescription("导出")]
         [HttpPost]
         public IActionResult ExportExcel(SmallEntEvaluationBaseListVM vm)
@@ -225,6 +227,7 @@ namespace Safeway.Controllers
             return File(data, "application/vnd.ms-excel", $"Export_SmallEntEvaluationBase_{DateTime.Now.ToString("yyyy-MM-dd")}.xls");
         }
 
+        [AllowAnonymous]
         [ActionDescription("查询用户")]
         public IActionResult SearchUser(SmallEntEvaluationBaseVM vm, string keywords)
         {

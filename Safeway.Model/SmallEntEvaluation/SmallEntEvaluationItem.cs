@@ -60,6 +60,9 @@ namespace Safeway.Model.SmallEntEvaluation
         [Display(Name = "不涉及")]
         public bool UnInvolved { get; set; }
 
+        [Display(Name = "未见不符合")]
+        public bool AllMatched { get; set; }
+
         [Display(Name = "实际分值")]
         [Column(TypeName = "decimal(18, 4)")]
         public decimal ActualScore { get; set; }
@@ -78,6 +81,8 @@ namespace Safeway.Model.SmallEntEvaluation
 
         [Display(Name = "四级要素排序")]
         public int LevelFourOrder { get; set; }
+
+        public bool IsEvaluated { get; set; }
 
         public string SmallEntEvaluationBaseId { get; set; }
     }
