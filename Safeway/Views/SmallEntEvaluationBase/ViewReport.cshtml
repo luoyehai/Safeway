@@ -1,4 +1,9 @@
 ﻿@model Safeway.ViewModel.SamllEntEvaluationItemVMs.SmallEntEvaluationItemVM
+    <style>
+        .el-table .success-row {
+            background: #f0f9eb;
+        }
+    </style>
 <div id="reviewReport">
     <el-card class="box-card">
         <div slot="header" class="clearfix">
@@ -23,6 +28,7 @@
             <el-tabs type="border-card" tab-position="top" @@tab-click="handleTabClick" v-model="defaultLevel2Element">
                 <el-tab-pane v-for="(t, index) in level2List" :label="t.Value" :name="t.Text">
                     <el-table :data="reportData" style="width: 100%" border
+                              :row-class-name="tableRowClassName"
                               v-loading="loading"
                               element-loading-text="Loading..."
                               element-loading-spinner="el-icon-loading"
@@ -82,6 +88,13 @@
                                 <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }}</el-checkbox>
                             </template>
                         </el-table-column>
+                        <el-table-column label="未见不符合"
+                                         width="60"
+                                         align="center">
+                            <template slot-scope="scope">
+                                <el-checkbox v-model="scope.row.AllMatched" @@change="handleAllMatched(scope.row)"></el-checkbox>
+                            </template>
+                        </el-table-column>
                         <el-table-column label="不涉及"
                                          width="60"
                                          align="center">
@@ -122,6 +135,7 @@
                 StandardScore: null,
                 AssignTo: '',
                 UnInvolved: false,
+                AllMatched: false,
                 ActualScore: null,
                 DeductScore: null,
                 EvaluationType: '',
@@ -130,6 +144,12 @@
             }]
         },
         methods: {
+            tableRowClassName({ row, rowIndex }) {
+                console.log(row.IsEvaluated)
+                if (row.IsEvaluated)
+                    return 'success-row';
+                return '';
+            },
             loadLevel2Elements() {
                 this.loading = true;
                 let vData = @Html.Raw(Json.Serialize(ViewData));;
@@ -156,6 +176,20 @@
                         console.error(e);
                     });
             },
+            handleAllMatched(row) {
+                if (row.AllMatched) {
+                    row.UnMatchedItems.map(function (row) {
+                        row.IsValid = false;
+                    })
+                    row.UnInvolved = false;
+                    row.UnMatched = false;
+                    // unmatched items
+                    row.EvaluatedUnMatchedItems = [];
+                    // score
+                    row.ActualScore = row.StandardScore;
+                    row.DeductScore = 0;
+                }
+            },
             handleUnInvolved(row) {
                 if (row.UnInvolved) {
                     // description of unmatched item
@@ -172,6 +206,8 @@
                         row.IsValid = false;
                     })
                     row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
+                    row.AllMatched = false;
+                    row.UnMatched = false;
                 }
                 else {
                     row.EvaluatedUnMatchedItems = [];
@@ -196,6 +232,9 @@
                         evaluatedUnMatchedItem.UnMatchedItemDescription = '';
                     }
                     row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
+                    row.UnInvolved = false;
+                    row.AllMatched = false;
+                    row.UnMatched = true;
                 }
                 else {
                     row.EvaluatedUnMatchedItems = row.EvaluatedUnMatchedItems.filter(function (row) {
