@@ -28,7 +28,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         public void InsertElements(string baseId) 
         {
             var evaluationitemlist = new List<SmallEntEvaluationItem>();
-           // var evaluationUnmatchedList = new List<SmallEntEvaluationUnMatchedItem>();
+            // var evaluationUnmatchedList = new List<SmallEntEvaluationUnMatchedItem>();
             //put EnterpriseReview item into small Ent Evaluation item
             //Get data from enterprise review element
              var orderdata = DC.Set<EnterpriseReviewElement>().Where(x => x.IsValid.Equals(true)).OrderBy(x => x.Level).OrderBy(x => x.Order);

@@ -158,7 +158,6 @@
             },
             handleUnInvolved(row) {
                 if (row.UnInvolved) {
-                    //console.info(row.EvaluatedUnMatchedItems);
                     // description of unmatched item
                     let evaluatedUnMatchedItem = {
                         SmallEntEvaluationItemId: row.ID,
@@ -192,6 +191,10 @@
                         ReviewElementId: item.ID,
                         SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
                     };
+                    // 
+                    if (this.defaultTab === '设备设施' && this.defaultLevel2Element === '生产设备设施运行管理') {
+                        evaluatedUnMatchedItem.UnMatchedItemDescription = '';
+                    }
                     row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
                 }
                 else {
