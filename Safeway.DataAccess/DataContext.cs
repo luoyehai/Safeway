@@ -8,7 +8,7 @@ using Safeway.Model.Enterprise;
 using Safeway.Model.EnterpriseReview;
 using Safeway.Model.NormalEntEvaluation;
 using Safeway.Model.SmallEntEvaluation;
-
+using Safeway.Model.ExportTemplate;
 namespace Safeway.DataAccess
 {
     public class DataContext : FrameworkContext
@@ -35,7 +35,7 @@ namespace Safeway.DataAccess
         #region SmallEnt
         #region SmExportTemplate
         #endregion
-
+        public DbSet<SmEntEvaluationTemplate> SmEntEvaluationTemplates { get; set; }
         #endregion
         public DataContext(string cs, DBTypeEnum dbtype)
              : base(cs, dbtype)

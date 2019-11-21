@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WalkingTec.Mvvm.Core;
+using Safeway.Model.Enterprise;
+using Safeway.Model.Common;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace Safeway.Model.ExportTemplate
 {
-    public class SmEntEvaluationTemplate
+    public class SmEntEvaluationTemplate 
     {
+        [Key]
+        public Guid ID { get; set; }
         public Guid LevelFourID { get; set; }
         public string ComplianceStandard { get; set; }
         public decimal ActualScore { get; set; }
