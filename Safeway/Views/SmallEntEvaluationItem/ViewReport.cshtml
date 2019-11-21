@@ -86,7 +86,8 @@
                                          width="380"
                                          align="left">
                             <template slot-scope="scope">
-                                <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }}</el-checkbox>
+                                <el-checkbox v-for="item in scope.row.
+                                             " v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }}</el-checkbox>
                             </template>
                         </el-table-column>
                         <el-table-column label="不涉及"

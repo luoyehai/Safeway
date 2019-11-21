@@ -13,8 +13,8 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using Safeway.ViewModel.CommonClass;
-
-
+using Safeway.Model.ExportTemplate;
+using Microsoft.EntityFrameworkCore;
 
 namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 {
@@ -22,6 +22,14 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
     {
         public SmallEntEvaluationItemVM()
         {
+        }
+        public string ReportPath {
+            get 
+            { 
+                 return Path.Combine(Directory.GetCurrentDirectory(),
+                                    "wwwroot", "exportTemplate", "小微评审.xlsx");
+            }
+        
         }
 
         public SmallEntEvaluationBase EntEvaluationBase { get; set; }
@@ -195,20 +203,87 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             
             return true;
         }
+        public XSSFWorkbook ExportData(string id) 
+        {
+            XSSFWorkbook template;
+            ISheet templatesheet;
+            DataTable templatedata;
+            //Get the data form db
+            //var exportdatas = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId == id)
+            //             .Where(x => x.SmallEntEvaluationBaseId == id).OrderBy(x => x.LevelOneOrder)
+            //             .ThenBy(x => x.LevelTwoOrder).ThenBy(x => x.LevelThreeOrder).ThenBy(x => x.LevelFourOrder).ToList();
+            //var unmatcheddatas = DC.Set<SmallEntEvaluationUnMatchedItem>().Where(x => x.SmallEntEvaluationBaseId == id)
+            //             .Where(x => x.SmallEntEvaluationBaseId == id).ToList();
 
-        public XSSFWorkbook ExportData(string id)
+            //var binddata = (from item in exportdatas
+            //                join unmatch in unmatcheddatas
+            //                on item.ID equals new Guid (unmatch.SmallEntEvaluationItemId)
+            //                where item.SmallEntEvaluationBaseId == id
+            //                select new { item.ID, item.ComplianceStandard, item.ScoringMethod, item.ActualScore, unmatch.UnMatchedItemDescription, unmatch.Deduction }).ToList();
+           //var binddata = (from items in DC.Set<SmallEntEvaluationItem>()
+           //join unmatcheditems in DC.Set<SmallEntEvaluationUnMatchedItem>()
+           //on items.ID equals new Guid(unmatcheditems.SmallEntEvaluationItemId)
+           //where items.SmallEntEvaluationBaseId == id
+           //orderby items.LevelOneOrder, items.LevelTwoOrder,items.LevelThreeOrder,items.LevelFourOrder
+           //select new { items.ID, items.ComplianceStandard, items.ScoringMethod, items.ActualScore, unmatcheditems.UnMatchedItemDescription, unmatcheditems.Deduction }).ToList();
+
+            //var binddata = exportdatas.Join(unmatcheddatas, exportdata => exportdata.ID,) 
+            var exportdata = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaluationTemplate @baseId = {0}", id).ToList();
+            //read datatable from template
+            using (FileStream file = new FileStream(ReportPath, FileMode.Open, FileAccess.Read))
+            {
+                template = new XSSFWorkbook(file);
+            }
+            templatesheet = template.GetSheetAt(0);
+            templatedata = new DataTable(templatesheet.SheetName);
+            for (int i = 6; i < templatedata.Rows.Count; i++) 
+            { 
+                for (int j = 0; j < exportdata.Count(); j++) 
+                {
+                    if (templatedata.Rows[i][5].ToString() == exportdata[j].ComplianceStandard) 
+                    {
+                        templatedata.Rows[i][6] = exportdata[j].UnMatchedItemDescription;
+                        templatedata.Rows[i][7] = exportdata[j].Deduction;
+                    }
+                }                        
+            }
+            //insert into template
+            IRow row;
+            ICell descriptioncell;
+            ICell scorecell;
+            for (int i = 6; i < templatedata.Rows.Count; i++)
+            {
+                row = templatesheet.GetRow(i);
+                descriptioncell = row.CreateCell(6);
+                scorecell = row.CreateCell(7);
+
+                descriptioncell.SetCellValue(templatedata.Rows[i][6].ToString());
+                scorecell.SetCellValue(Convert.ToDouble(templatedata.Rows[i][6]));
+            }
+            return template;
+
+        }
+        public XSSFWorkbook ExportDataOld(string id)
         {
             var exportdata = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId == id).OrderBy(x => x.LevelOneOrder)
                 .ThenBy(x => x.LevelTwoOrder).ThenBy(x => x.LevelThreeOrder).ThenBy(x => x.LevelFourOrder).ToList();
-           // var result = "";
-            var reportpath = Path.Combine(Directory.GetCurrentDirectory(),
-                                    "wwwroot", "exportTemplate", "小微评审.xlsx");
+
             var memoryStream = new MemoryStream();
             XSSFWorkbook hssfwb;
-            FileStream file = new FileStream(reportpath, FileMode.Open, FileAccess.Read);
-            
+            FileStream file = new FileStream(ReportPath, FileMode.Open, FileAccess.Read);
             hssfwb = new XSSFWorkbook(file);
             ISheet sheet = hssfwb.GetSheetAt(0);
+            //set format
+            HSSFFont myFont = (HSSFFont)hssfwb.CreateFont();
+            myFont.FontHeightInPoints = (short)10.5;
+            myFont.FontName = "宋体";
+            //set style
+            HSSFCellStyle borderedCellStyle = (HSSFCellStyle)hssfwb.CreateCellStyle();
+            borderedCellStyle.SetFont(myFont);
+            borderedCellStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+            borderedCellStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+            borderedCellStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+            borderedCellStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
             IRow row;
             ICell descriptioncell;
             ICell scorecell;
