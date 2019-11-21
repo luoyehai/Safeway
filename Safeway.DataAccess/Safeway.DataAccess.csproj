@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20191112054328_updateBusinessInfo.Designer.cs" />
     <Compile Remove="Migrations\20191112054457_updateBusinessInfo.cs" />
     <Compile Remove="Migrations\20191112054457_updateBusinessInfo.Designer.cs" />
+    <Compile Remove="Migrations\20191121084521_addExportTemp.cs" />
+    <Compile Remove="Migrations\20191121084521_addExportTemp.Designer.cs" />
   </ItemGroup>
 
 
