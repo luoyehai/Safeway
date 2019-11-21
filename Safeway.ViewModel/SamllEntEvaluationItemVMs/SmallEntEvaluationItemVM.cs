@@ -11,7 +11,10 @@ using Newtonsoft.Json;
 using System.Data;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using Safeway.ViewModel.CommonClass;
+
+
 
 namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 {
@@ -207,28 +210,50 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             return true;
         }
 
-        public string ExportData(string id)
+        public XSSFWorkbook ExportData(string id)
         {
-            var result = "";
+            var exportdata = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId == id).OrderBy(x => x.LevelOneOrder)
+                .ThenBy(x => x.LevelTwoOrder).ThenBy(x => x.LevelThreeOrder).ThenBy(x => x.LevelFourOrder).ToList();
+           // var result = "";
             var reportpath = Path.Combine(Directory.GetCurrentDirectory(),
-                                    "wwwroot", "exportTemplate", "江苏省工贸行业小微企业安全生产标准化评分表.xlsm");
-            HSSFWorkbook hssfwb;
-            using (FileStream file = new FileStream(reportpath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                                    "wwwroot", "exportTemplate", "小微评审.xlsx");
+            var memoryStream = new MemoryStream();
+            XSSFWorkbook hssfwb;
+            FileStream file = new FileStream(reportpath, FileMode.Open, FileAccess.Read);
+            
+            hssfwb = new XSSFWorkbook(file);
+            ISheet sheet = hssfwb.GetSheetAt(0);
+            IRow row;
+            ICell descriptioncell;
+            ICell scorecell;
+            for (int i = 0; i < exportdata.Count(); i++) 
             {
-                hssfwb = new HSSFWorkbook(file);
+                row = sheet.GetRow(i+5);
+                descriptioncell = row.CreateCell(6);
+                scorecell = row.CreateCell(7);
+
+                descriptioncell.SetCellValue(exportdata[i].ScoringMethod);
+                scorecell.SetCellValue(Convert.ToDouble(exportdata[i].ActualScore));
             }
+            return hssfwb;
+            
 
-            ISheet sheet = hssfwb.GetSheet("打印评分表");
-            for (int row = 0; row <= sheet.LastRowNum; row++)
-            {
-                if (sheet.GetRow(row) != null) //null is when the row only contains empty cells 
-                {
-                   
-                }
-            }
-
-            return result;
-
+            //using (var export = new MemoryStream())
+            //{
+            //    HttpResponse.Clear();
+            //    hssfwb.Write(export);
+            //    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            //    Response.AddHeader("Content-Disposition", string.Format("attachment;filename=小微企业安全生产标准化评分.xlsx"));
+            //    Response.BinaryWrite(export.ToArray());
+            //    Response.End();
+            //}
+            //string sFileName = @"小微企业安全生产标准化评分.xlsx";
+            //using (var fileStream = new FileStream(reportpath, FileMode.Open))
+            //{
+            //    fileStream.CopyTo(memoryStream);
+            //}
+            //memoryStream.Position = 0;
+            //return "s"; 
         }
     }
 
