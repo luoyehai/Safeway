@@ -22,7 +22,19 @@ namespace Safeway.Model.Common
     public enum ProjectTypeEnum
     {
         [Display(Name = "企业安全生产标准化小微评审")]
-        SmallEnterpriseReivew
+        SmallEnterpriseReivew,
+        [Display(Name = "企业生产标准化三级评审")]
+        Level3EnterpriseReivew
+    }
+
+    public enum ProjectStatus
+    {
+        [Display(Name = "未开始")]
+        NotStarted,
+        [Display(Name = "进行中")]
+        InProgress,
+        [Display(Name = "已完成")]
+        Completed,
     }
 
     public enum EvaluationSelectionEnum

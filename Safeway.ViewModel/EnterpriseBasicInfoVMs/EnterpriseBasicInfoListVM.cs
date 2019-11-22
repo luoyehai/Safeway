@@ -31,18 +31,18 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         protected override IEnumerable<IGridColumn<EnterpriseBasicInfo_View>> InitGridHeader()
         {
             return new List<GridColumn<EnterpriseBasicInfo_View>>{
-                this.MakeGridHeader(x => x.ComapanyName),
+                this.MakeGridHeader(x => x.ComapanyName, width: 200),
                 //this.MakeGridHeader(x => x.Province),
                 //this.MakeGridHeader(x => x.City),
                 //this.MakeGridHeader(x => x.District),
                 //this.MakeGridHeader(x => x.Street),
-                this.MakeGridHeader(x => x.CompanyType),
-                this.MakeGridHeader(x => x.ForeignCountry),
-                this.MakeGridHeader(x => x.LegalRepresentative),
-                this.MakeGridHeader(x => x.CompanyScale),
+                this.MakeGridHeader(x => x.CompanyType, width: 80),
+                this.MakeGridHeader(x => x.ForeignCountry, width: 100),
+                this.MakeGridHeader(x => x.LegalRepresentative, width: 100),
+                this.MakeGridHeader(x => x.CompanyScale, width: 80),
                 this.MakeGridHeader(x => x.Industry),
-                this.MakeGridHeader(x => x.NoofEmployees),
-                this.MakeGridHeader(x => x.MainProducts),
+                this.MakeGridHeader(x => x.NoofEmployees, width: 80),
+                this.MakeGridHeader(x => x.MainProducts, width: 80),
                 this.MakeGridHeader(x => x.TermsofTrade),
                 this.MakeGridHeaderAction(width: 200)
             };
