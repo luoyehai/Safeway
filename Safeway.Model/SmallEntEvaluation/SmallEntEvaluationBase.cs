@@ -11,6 +11,9 @@ namespace Safeway.Model.SmallEntEvaluation
 {
     public class SmallEntEvaluationBase : PersistPoco
     {
+        [Display(Name = "项目ID")]
+        public string ProjectId { get; set; }
+
         [Display(Name = "企业名称")]
         [Required(ErrorMessage = "{0}是必填项")]
         public string EnterpriseId { get; set; }
@@ -60,5 +63,7 @@ namespace Safeway.Model.SmallEntEvaluation
         [Required(ErrorMessage = "{0}是必填项")]
         [StringLength(200)]
         public string ModuleThree { get; set; }
+
+        public string Score { get; set; }
     }
 }
