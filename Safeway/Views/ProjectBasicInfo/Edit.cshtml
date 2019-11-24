@@ -1,0 +1,19 @@
+﻿@model Safeway.ViewModel.ProjectBasicInfoVMs.ProjectBasicInfoVM
+
+<wt:form vm="@Model">
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:textbox field="Entity.ProjectName" />
+<wt:textbox field="Entity.ProjectDescription" />
+<wt:combobox field="Entity.ProjectType" />
+<wt:textbox field="Entity.ProjectOnwer" />
+<wt:textbox field="Entity.ProjectMember" />
+<wt:datetime field="Entity.ProjectStartDate" />
+<wt:datetime field="Entity.ProjectEndDate" />
+<wt:combobox field="Entity.ProjectStatus" />
+</wt:row>
+    <wt:hidden field="Entity.ID" />
+    <wt:row align="AlignEnum.Right">
+        <wt:submitbutton />
+        <wt:closebutton />
+    </wt:row>
+</wt:form>

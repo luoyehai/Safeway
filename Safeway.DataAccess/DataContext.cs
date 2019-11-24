@@ -9,12 +9,18 @@ using Safeway.Model.EnterpriseReview;
 using Safeway.Model.NormalEntEvaluation;
 using Safeway.Model.SmallEntEvaluation;
 using Safeway.Model.ExportTemplate;
+using Safeway.Model.Project;
+
 namespace Safeway.DataAccess
 {
     public class DataContext : FrameworkContext
     {
 
         public DbSet<EnterpriseReviewElement> EnterpriseReviewElements { get; set; }
+
+        #region Project
+        public DbSet<ProjectBasicInfo> ProjectBasicInfos { get; set; }
+        #endregion
 
         #region Enterprise
         public DbSet<EnterpriseContact> EnterpriseContacts { get; set; }
@@ -91,8 +97,8 @@ namespace Safeway.DataAccess
     {
         public DataContext CreateDbContext(string[] args)
         {
-            return new DataContext("Server=SCNSZHS0016\\SHAREPOINT;Database=SafeWay_Dev;Trusted_Connection=True;MultipleActiveResultSets=true", DBTypeEnum.SqlServer);
-            //return new DataContext("Server=SCNSZHM101106\\SQLEXPRESS01;Database=SafeWay_Dev;Trusted_Connection=True;MultipleActiveResultSets=true", DBTypeEnum.SqlServer);
+            //return new DataContext("Server=SCNSZHS0016\\SHAREPOINT;Database=SafeWay_Dev;Trusted_Connection=True;MultipleActiveResultSets=true", DBTypeEnum.SqlServer);
+            return new DataContext("Server=SCNSZHM101106\\SQLEXPRESS01;Database=SafeWay_Dev;Trusted_Connection=True;MultipleActiveResultSets=true", DBTypeEnum.SqlServer);
         }
     }
 
