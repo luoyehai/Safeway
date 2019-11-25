@@ -152,7 +152,7 @@
             },
             loadLevel2Elements() {
                 this.loading = true;
-                let vData = @Html.Raw(Json.Serialize(ViewData));;
+                let vData = @Html.Raw(Json.Serialize(ViewData));
                 axios.get('SmallEntEvaluationItem/GetLevelTwoEvaluationItems?id=' + vData["ID"] + '&tab=' + this.defaultTab)
                     .then(function (r) {
                         this.level2List = r.data.Data;

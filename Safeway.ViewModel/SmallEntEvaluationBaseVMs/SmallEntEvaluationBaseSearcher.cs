@@ -12,6 +12,8 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 {
     public partial class SmallEntEvaluationBaseSearcher : BaseSearcher
     {
+        [Display(Name = "项目名称")]
+        public String ProjectId { get; set; }
         [Display(Name = "企业名称")]
         public String EnterpriseId { get; set; }
         [Display(Name = "开始时间")]

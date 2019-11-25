@@ -1,13 +1,14 @@
 ﻿@model Safeway.ViewModel.SmallEntEvaluationBaseVMs.SmallEntEvaluationBaseListVM
 
 <wt:searchpanel vm="@Model" reset-btn="true">
-<wt:row items-per-row="ItemsPerRowEnum.Three">
-<wt:textbox field="Searcher.EnterpriseId" />
-<wt:datetime field="Searcher.EvaluationStartDate" />
-<wt:datetime field="Searcher.EvaluationEndDate" />
-<wt:textbox field="Searcher.EvaluationLeader" />
-<wt:textbox field="Searcher.ReportLeader" />
-<wt:textbox field="Searcher.Status" />
-</wt:row>
+    <wt:row items-per-row="ItemsPerRowEnum.Three">
+        <wt:combobox field="Searcher.ProjectId" items="AllProject" />
+        <wt:combobox field="Searcher.EnterpriseId" items="AllEnterprise" />
+        <wt:datetime field="Searcher.EvaluationStartDate" />
+        <wt:datetime field="Searcher.EvaluationEndDate" />
+        <wt:textbox field="Searcher.EvaluationLeader" />
+        <wt:textbox field="Searcher.ReportLeader" />
+        <wt:combobox field="Searcher.Status" />
+    </wt:row>
 </wt:searchpanel>
 <wt:grid vm="@Model" url="/SmallEntEvaluationBase/Search"/>

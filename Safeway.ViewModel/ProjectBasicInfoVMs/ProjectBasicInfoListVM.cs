@@ -24,7 +24,7 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
         {
             return new List<GridAction>
             {
-                this.MakeStandardAction("ProjectBasicInfo", GridActionStandardTypesEnum.Create, "新建","", dialogWidth: 1200),
+                this.MakeStandardAction("ProjectBasicInfo", GridActionStandardTypesEnum.Create, "新建","").SetMax(true),
                 this.MakeStandardAction("ProjectBasicInfo", GridActionStandardTypesEnum.Edit, "修改","", dialogWidth: 800),
                 this.MakeStandardAction("ProjectBasicInfo", GridActionStandardTypesEnum.Delete, "删除", "",dialogWidth: 800),
                 this.MakeStandardAction("ProjectBasicInfo", GridActionStandardTypesEnum.Details, "详细","", dialogWidth: 800),

@@ -68,13 +68,15 @@ namespace Safeway.Controllers
         public ActionResult Edit(string id)
         {
             var vm = CreateVM<ProjectBasicInfoVM>(id);
+            vm.SelectedEnterpriseIds = vm.GetSelectedEnterpriseIds(id);
+            ViewData["ids"] = vm.SelectedEnterpriseIds;
             return PartialView(vm);
         }
 
         [ActionDescription("修改")]
         [HttpPost]
         [ValidateFormItemOnly]
-        public ActionResult Edit(ProjectBasicInfoVM vm)
+        public async Task<ActionResult> Edit(ProjectBasicInfoVM vm)
         {
             if (!ModelState.IsValid)
             {
@@ -83,6 +85,10 @@ namespace Safeway.Controllers
             else
             {
                 vm.DoEdit();
+                if(vm.Entity.ProjectStatus == Model.Common.ProjectStatusEnum.NotStarted)
+                {
+                    await vm.UpdateEnterpriseToProject(vm.Entity.ID.ToString());
+                }
                 if (!ModelState.IsValid)
                 {
                     vm.DoReInit();

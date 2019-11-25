@@ -1,19 +1,29 @@
 ﻿@model Safeway.ViewModel.ProjectBasicInfoVMs.ProjectBasicInfoVM
 
-<wt:form vm="@Model">
-<wt:row items-per-row="ItemsPerRowEnum.Two">
-<wt:textbox field="Entity.ProjectName" />
-<wt:textbox field="Entity.ProjectDescription" />
-<wt:combobox field="Entity.ProjectType" />
-<wt:textbox field="Entity.ProjectOnwer" />
-<wt:textbox field="Entity.ProjectMember" />
-<wt:datetime field="Entity.ProjectStartDate" />
-<wt:datetime field="Entity.ProjectEndDate" />
-<wt:combobox field="Entity.ProjectStatus" />
-</wt:row>
-    <wt:hidden field="Entity.ID" />
-    <wt:row align="AlignEnum.Right">
-        <wt:submitbutton />
-        <wt:closebutton />
-    </wt:row>
-</wt:form>
+    <wt:form vm="@Model">
+        <wt:row items-per-row="ItemsPerRowEnum.Two">
+            <wt:textbox field="Entity.ProjectName" label-width="100" />
+            <wt:textbox field="Entity.ProjectDescription" label-width="100" />
+            <wt:combobox field="Entity.ProjectType" label-width="100" />
+            <wt:textbox field="Entity.ProjectOnwer" label-width="100" />
+            <wt:textbox field="Entity.ProjectMember" label-width="100" />
+            <wt:datetime field="Entity.ProjectStartDate" label-width="100" />
+            <wt:datetime field="Entity.ProjectEndDate" label-width="100" />
+            <wt:combobox field="Entity.ProjectStatus" label-width="100" />
+        </wt:row>
+        <wt:row items-per-row="ItemsPerRowEnum.One">
+            <wt:transfer items="EnterpriseList" field="SelectedEnterpriseIds"
+                         left-title="待选择" right-title="已选择"
+                         none-placeholder="没有选中的数据" disabled="false" name="entTransfer"
+                         default-value="@Html.Raw(Json.Serialize(ViewData["ids"]))"
+                         enable-search="true" search-none-placeholder="没有匹配的数据"
+                         change-func="onChangeCallback" label-width="100" />
+        </wt:row>
+        <wt:hidden field="Entity.ID" />
+        <wt:row align="AlignEnum.Right">
+            <wt:submitbutton />
+            <wt:closebutton />
+        </wt:row>
+    </wt:form>
+    <script>
+    </script>

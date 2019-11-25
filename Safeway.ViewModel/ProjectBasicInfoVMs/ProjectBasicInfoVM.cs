@@ -13,10 +13,9 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
 {
     public partial class ProjectBasicInfoVM : BaseCRUDVM<ProjectBasicInfo>
     {
-
-        [Display(Name = "企业列表")]
         public List<ComboSelectListItem> EnterpriseList { get; set; }
 
+        [Display(Name = "企业列表")]
         public string[] SelectedEnterpriseIds { get; set; }
 
         public ProjectBasicInfoVM()
@@ -26,6 +25,17 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
         protected override void InitVM()
         {
             this.EnterpriseList = GetEnterpriseList();
+        }
+
+        public string[] GetSelectedEnterpriseIds(string id)
+        {
+            var items = DC.Set<SmallEntEvaluationBase>().Where(x => x.ProjectId.Equals(id)).ToList();
+            var selectedEnterpriseIds = new List<string>();
+            items.ForEach(x =>
+            {
+                selectedEnterpriseIds.Add(x.EnterpriseId);
+            });
+            return selectedEnterpriseIds.ToArray();
         }
 
         public List<ComboSelectListItem> GetEnterpriseList()
@@ -48,6 +58,36 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
                 {
                     ProjectId = Entity.ID.ToString(),
                     EnterpriseId = x,
+                    EvaluationStartDate = Entity.ProjectStartDate == null ? DateTime.Now : (DateTime)Entity.ProjectStartDate,
+                    EvaluationEndDate = Entity.ProjectEndDate == null ? DateTime.Now : (DateTime)Entity.ProjectEndDate,
+                    Status = Model.Common.EvaluationStatus.NotStarted,
+                    EvluationEnt = "SafeWay",
+                    IsValid = true
+                });
+            });
+            await DC.Set<SmallEntEvaluationBase>().AddRangeAsync(items);
+            await DC.SaveChangesAsync();
+        }
+
+        public async Task UpdateEnterpriseToProject(string id)
+        {
+            // delete existed small enterprise evaluation items
+            var deleteItems = DC.Set<SmallEntEvaluationBase>().Where(x => x.ProjectId.Equals(id)).ToList();
+            deleteItems.ForEach(x =>
+            {
+                DC.DeleteEntity<SmallEntEvaluationBase>(x);
+            });
+            await DC.SaveChangesAsync();
+
+            // add new enterprise
+            var items = new List<SmallEntEvaluationBase>();
+            Array.ForEach(SelectedEnterpriseIds, x => {
+                items.Add(new SmallEntEvaluationBase()
+                {
+                    ProjectId = Entity.ID.ToString(),
+                    EnterpriseId = x,
+                    EvaluationStartDate = Entity.ProjectStartDate == null ? DateTime.Now : (DateTime)Entity.ProjectStartDate,
+                    EvaluationEndDate = Entity.ProjectEndDate == null ? DateTime.Now : (DateTime)Entity.ProjectEndDate,
                     Status = Model.Common.EvaluationStatus.NotStarted,
                     EvluationEnt = "SafeWay",
                     IsValid = true

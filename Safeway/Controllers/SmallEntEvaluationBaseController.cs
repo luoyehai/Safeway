@@ -7,6 +7,7 @@ using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.ViewModel.SmallEntEvaluationBaseVMs;
 using Safeway.ViewModel.SamllEntEvaluationItemVMs;
 using Microsoft.AspNetCore.Authorization;
+using Safeway.ViewModel.CommonClass;
 
 namespace Safeway.Controllers
 {
@@ -19,6 +20,9 @@ namespace Safeway.Controllers
         public ActionResult Index()
         {
             var vm = CreateVM<SmallEntEvaluationBaseListVM>();
+            var commonvm = CreateVM<CommonVM>();
+            vm.AllEnterprise = commonvm.GetEnterprises();
+            vm.AllProject = commonvm.GetProjects();
             return PartialView(vm);
         }
 

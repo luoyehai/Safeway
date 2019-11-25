@@ -8,11 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using Safeway.Model.SmallEntEvaluation;
 using Safeway.ViewModel.CommonClass;
+using Safeway.Model.Enterprise;
 
 namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 {
     public partial class SmallEntEvaluationBaseListVM : BasePagedListVM<SmallEntEvaluationBase_View, SmallEntEvaluationBaseSearcher>
     {
+
+        public List<ComboSelectListItem> AllEnterprise { get; set; }
+
+        public List<ComboSelectListItem> AllProject { get; set; }
+
         protected override List<GridAction> InitGridAction()
         {
             return new List<GridAction>
@@ -37,7 +43,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 this.MakeGridHeader(x => x.EvaluateEndDateStr),
                 this.MakeGridHeader(x => x.EvaluationLeader),
                 this.MakeGridHeader(x => x.ReportLeader),
-                this.MakeGridHeader(x => x.EvaluationTeamMember),
+                //this.MakeGridHeader(x => x.EvaluationTeamMember),
                 this.MakeGridHeader(x => x.Status),
                 this.MakeGridHeader(x => x.ModuleOne),
                 this.MakeGridHeader(x => x.ModuleTwo),
@@ -49,6 +55,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         public override IOrderedQueryable<SmallEntEvaluationBase_View> GetSearchQuery()
         {
             var query = DC.Set<SmallEntEvaluationBase>()
+                .CheckContain(Searcher.ProjectId, x => x.ProjectId)
                 .CheckContain(Searcher.EnterpriseId, x=>x.EnterpriseId)
                 .CheckEqual(Searcher.EvaluationStartDate, x=>x.EvaluationStartDate)
                 .CheckEqual(Searcher.EvaluationEndDate, x=>x.EvaluationEndDate)
@@ -85,5 +92,9 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 
         [Display(Name = "结束时间")]
         public string EvaluateEndDateStr { get; set; }
+
+        public string ProjectName { get; set; }
+
+        public string EnterpriseName { get; set; }
     }
 }
