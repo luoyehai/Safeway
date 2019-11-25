@@ -38,7 +38,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         protected override IEnumerable<IGridColumn<SmallEntEvaluationBase_View>> InitGridHeader()
         {
             return new List<GridColumn<SmallEntEvaluationBase_View>>{
-                this.MakeGridHeader(x => x.EnterpriseId),
+                this.MakeGridHeader(x => x.EnterpriseName),
                 this.MakeGridHeader(x => x.EvaluateStartDateStr),
                 this.MakeGridHeader(x => x.EvaluateEndDateStr),
                 this.MakeGridHeader(x => x.EvaluationLeader),
@@ -55,29 +55,31 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         public override IOrderedQueryable<SmallEntEvaluationBase_View> GetSearchQuery()
         {
             var query = DC.Set<SmallEntEvaluationBase>()
-                .CheckContain(Searcher.ProjectId, x => x.ProjectId)
-                .CheckContain(Searcher.EnterpriseId, x=>x.EnterpriseId)
-                .CheckEqual(Searcher.EvaluationStartDate, x=>x.EvaluationStartDate)
-                .CheckEqual(Searcher.EvaluationEndDate, x=>x.EvaluationEndDate)
-                .CheckContain(Searcher.EvaluationLeader, x=>x.EvaluationLeader)
-                .CheckContain(Searcher.ReportLeader, x=>x.ReportLeader)
-                .CheckEqual(Searcher.Status, x=>x.Status)
-                .CheckEqual(Searcher.IsValid, x =>x.IsValid.Equals(true))
+                .Join(DC.Set<EnterpriseBasicInfo>(), e => e.EnterpriseId, ent => ent.ID.ToString(), (se, eb) => new { se = se, eb = eb})
+                .CheckContain(Searcher.ProjectId, x => x.se.ProjectId)
+                .CheckContain(Searcher.EnterpriseId, x=>x.se.EnterpriseId)
+                .CheckEqual(Searcher.EvaluationStartDate, x=>x.se.EvaluationStartDate)
+                .CheckEqual(Searcher.EvaluationEndDate, x=>x.se.EvaluationEndDate)
+                .CheckContain(Searcher.EvaluationLeader, x=>x.se.EvaluationLeader)
+                .CheckContain(Searcher.ReportLeader, x=>x.se.ReportLeader)
+                .CheckEqual(Searcher.Status, x=>x.se.Status)
+                .CheckEqual(Searcher.IsValid, x =>x.se.IsValid.Equals(true))
                 .Select(x => new SmallEntEvaluationBase_View
                 {
-				    ID = x.ID,
-                    EnterpriseId = x.EnterpriseId,
-                    EvaluationStartDate = x.EvaluationStartDate,
-                    EvaluateStartDateStr = x.EvaluationStartDate.ToShortDateFormatString(),
-                    EvaluationEndDate = x.EvaluationEndDate,
-                    EvaluateEndDateStr = x.EvaluationEndDate.ToShortDateFormatString(),
-                    EvaluationLeader = x.EvaluationLeader,
-                    ReportLeader = x.ReportLeader,
-                    EvaluationTeamMember = x.EvaluationTeamMember,
-                    Status = x.Status,
-                    ModuleOne = x.ModuleOne,
-                    ModuleTwo = x.ModuleTwo,
-                    ModuleThree = x.ModuleThree,
+				    ID = x.se.ID,
+                    EnterpriseId = x.se.EnterpriseId,
+                    EnterpriseName = x.eb.ComapanyName,
+                    EvaluationStartDate = x.se.EvaluationStartDate,
+                    EvaluateStartDateStr = x.se.EvaluationStartDate.ToShortDateFormatString(),
+                    EvaluationEndDate = x.se.EvaluationEndDate,
+                    EvaluateEndDateStr = x.se.EvaluationEndDate.ToShortDateFormatString(),
+                    EvaluationLeader = x.se.EvaluationLeader,
+                    ReportLeader = x.se.ReportLeader,
+                    EvaluationTeamMember = x.se.EvaluationTeamMember,
+                    Status = x.se.Status,
+                    ModuleOne = x.se.ModuleOne,
+                    ModuleTwo = x.se.ModuleTwo,
+                    ModuleThree = x.se.ModuleThree,
                 })
                 .OrderBy(x => x.ID);
             return query;
@@ -95,6 +97,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 
         public string ProjectName { get; set; }
 
+        [Display(Name = "企业名称")]
         public string EnterpriseName { get; set; }
     }
 }
