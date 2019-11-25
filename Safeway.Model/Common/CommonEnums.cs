@@ -80,8 +80,12 @@ namespace Safeway.Model.Common
     {
         [Display(Name = "规上")]
         Large,
-        [Display(Name = "小微")]
-        Small
+        [Display(Name = "小型")]
+        Small,
+        [Display(Name = "微型")]
+        Mini
+
+
     }
 
     public enum SafetyServiceTypeEnum 

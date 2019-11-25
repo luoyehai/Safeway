@@ -454,7 +454,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             IRow row;
             ICell descriptioncell;
             ICell scorecell;
-            for (int i = 0; i < templatedata.Rows.Count; i++)
+            for (int i = 0; i < templatedata.Rows.Count-1; i++)
             {
                 row = templatesheet.GetRow(i+5);
                 descriptioncell = row.CreateCell(6);

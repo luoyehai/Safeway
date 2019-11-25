@@ -28,14 +28,37 @@
                     </wt:row>
                 </wt:tabcontent>
                 <wt:tabcontent>
-                    <wt:row items-per-row="ItemsPerRowEnum.Two">
-                        <wt:combobox field="EnterpriseBusinessinfo.SafetyServiceType" />
-                        <wt:textbox field="EnterpriseBusinessinfo.OtherSafetyServiceType" />
-                        <wt:textbox field="EnterpriseBusinessinfo.CertificateLevel" />
-                        <wt:datetime field="EnterpriseBusinessinfo.ExpireDate" />
-                        <wt:textbox field="EnterpriseBusinessinfo.OriginalServiceCom" />
-                        <wt:textbox field="EnterpriseBusinessinfo.Description" />
-                    </wt:row>
+                    <div id="BusinessInfo">
+                        <el-table :data="businessInfoList" style="width: 100%" border>
+                            <el-table-column prop="SafetyServiceType"
+                                             label="安全服务类型"
+                                             width="130">
+                            </el-table-column>
+                            <el-table-column prop="OtherSafetyServiceType"
+                                             label="其他"
+                                             width="130">
+                            </el-table-column>
+                            <el-table-column prop="CertificateLevel"
+                                             label="证书等级">
+                            </el-table-column>
+                            <el-table-column prop="ExpireDate"
+                                             label="到期时间"
+                                             width="160">
+                            </el-table-column>
+                            <el-table-column prop="OriginalServiceCom"
+                                             label="原服务公司"
+                                             width="180">
+                            </el-table-column>
+                            <el-table-column prop="Description"
+                                             label="描述">
+                            </el-table-column>
+                        </el-table>
+                        <el-row>
+                            <el-col :span="5"> <el-button>新增</el-button></el-col>
+                           
+                           <el-col :span="5"><el-button></el-button></el-col>
+                        </el-row>
+                    </div>
                 </wt:tabcontent>
                 <wt:tabcontent>
                     <wt:row items-per-row="ItemsPerRowEnum.Two">
