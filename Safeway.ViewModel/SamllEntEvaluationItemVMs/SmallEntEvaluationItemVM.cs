@@ -454,16 +454,16 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             IRow row;
             ICell descriptioncell;
             ICell scorecell;
-            for (int i = 5; i < templatedata.Rows.Count; i++)
+            for (int i = 0; i < templatedata.Rows.Count; i++)
             {
-                row = templatesheet.GetRow(i);
+                row = templatesheet.GetRow(i+5);
                 descriptioncell = row.CreateCell(6);
                 scorecell = row.CreateCell(7);
 
-                var des = templatedata.Rows[i - 5][6].ToString();
+                var des = templatedata.Rows[i][6].ToString();
 
                 descriptioncell.SetCellValue(des.Contains("n") ? des.Replace("n",Environment.NewLine) :des);
-                scorecell.SetCellValue(templatedata.Rows[i - 5][7] == null || string.IsNullOrEmpty(templatedata.Rows[i - 5][7].ToString()) ? 0 : Convert.ToDouble(templatedata.Rows[i - 5][7]));
+                scorecell.SetCellValue(templatedata.Rows[i][7] == null || string.IsNullOrEmpty(templatedata.Rows[i][7].ToString()) ? 0 : Convert.ToDouble(templatedata.Rows[i - 5][7]));
 
                 descriptioncell.CellStyle = borderedCellStyle;
                 scorecell.CellStyle = borderedCellStyle;
