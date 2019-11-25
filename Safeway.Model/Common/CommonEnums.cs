@@ -27,7 +27,7 @@ namespace Safeway.Model.Common
         Level3EnterpriseReivew
     }
 
-    public enum ProjectStatus
+    public enum ProjectStatusEnum
     {
         [Display(Name = "未开始")]
         NotStarted,

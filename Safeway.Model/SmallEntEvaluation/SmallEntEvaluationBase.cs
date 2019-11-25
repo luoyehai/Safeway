@@ -24,25 +24,25 @@ namespace Safeway.Model.SmallEntEvaluation
         public string EvluationEnt { get; set; }
 
         [Display(Name = "开始时间")]
-        [Required(ErrorMessage = "{0}是必填项")]
+        //[Required(ErrorMessage = "{0}是必填项")]
         public DateTime EvaluationStartDate { get; set; }
 
         [Display(Name = "结束时间")]
-        [Required(ErrorMessage = "{0}是必填项")]
+        //[Required(ErrorMessage = "{0}是必填项")]
         public DateTime EvaluationEndDate { get; set; }
 
         [Display(Name = "评审组组长")]
-        [Required(ErrorMessage = "{0}是必填项")]
+        //[Required(ErrorMessage = "{0}是必填项")]
         [StringLength(200)]
         public string EvaluationLeader { get; set; }
 
         [Display(Name = "报告负责人 ")]
-        [Required(ErrorMessage = "{0}是必填项")]
+        //[Required(ErrorMessage = "{0}是必填项")]
         [StringLength(200)]
         public string ReportLeader { get; set; }
 
         [Display(Name = "评审组成员")]
-        [Required(ErrorMessage = "{0}是必填项")]
+        //[Required(ErrorMessage = "{0}是必填项")]
         [StringLength(500)]
         public string EvaluationTeamMember { get; set; }
 
@@ -50,17 +50,17 @@ namespace Safeway.Model.SmallEntEvaluation
         public EvaluationStatus? Status { get; set; }
 
         [Display(Name = "负责人")]
-        [Required(ErrorMessage = "{0}是必填项")]
+        //[Required(ErrorMessage = "{0}是必填项")]
         [StringLength(200)]
         public string ModuleOne { get; set; }
 
         [Display(Name = "负责人")]
-        [Required(ErrorMessage = "{0}是必填项")]
+        //[Required(ErrorMessage = "{0}是必填项")]
         [StringLength(200)]
         public string ModuleTwo { get; set; }
 
         [Display(Name = "负责人")]
-        [Required(ErrorMessage = "{0}是必填项")]
+        //[Required(ErrorMessage = "{0}是必填项")]
         [StringLength(200)]
         public string ModuleThree { get; set; }
 

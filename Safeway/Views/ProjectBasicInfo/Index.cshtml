@@ -1,0 +1,15 @@
+﻿@model Safeway.ViewModel.ProjectBasicInfoVMs.ProjectBasicInfoListVM
+
+<wt:searchpanel vm="@Model" reset-btn="true">
+<wt:row items-per-row="ItemsPerRowEnum.Three">
+<wt:textbox field="Searcher.ProjectName" label-width="100" />
+<wt:textbox field="Searcher.ProjectDescription" label-width="100" />
+<wt:combobox field="Searcher.ProjectType" label-width="100" empty-text="全部" />
+<wt:textbox field="Searcher.ProjectOnwer" label-width="100" />
+<wt:textbox field="Searcher.ProjectMember" label-width="100" />
+<wt:datetime field="Searcher.ProjectStartDate" label-width="100" />
+<wt:datetime field="Searcher.ProjectEndDate" label-width="100" />
+<wt:combobox field="Searcher.ProjectStatus" label-width="100" empty-text="全部" />
+</wt:row>
+</wt:searchpanel>
+<wt:grid vm="@Model" url="/ProjectBasicInfo/Search" hidden-checkbox="true"/>

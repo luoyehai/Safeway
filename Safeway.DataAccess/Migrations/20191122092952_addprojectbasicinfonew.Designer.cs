@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Safeway.DataAccess;
 
 namespace Safeway.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191122092952_addprojectbasicinfonew")]
+    partial class addprojectbasicinfonew
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -460,7 +462,7 @@ namespace Safeway.DataAccess.Migrations
 
                     b.Property<DateTime?>("ProjectEndDate");
 
-                    b.Property<string>("ProjectMember");
+                    b.Property<int>("ProjectMember");
 
                     b.Property<string>("ProjectName")
                         .IsRequired()
@@ -470,7 +472,7 @@ namespace Safeway.DataAccess.Migrations
 
                     b.Property<DateTime?>("ProjectStartDate");
 
-                    b.Property<int?>("ProjectStatus");
+                    b.Property<int>("ProjectStatus");
 
                     b.Property<int?>("ProjectType");
 
@@ -500,11 +502,13 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<DateTime>("EvaluationEndDate");
 
                     b.Property<string>("EvaluationLeader")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<DateTime>("EvaluationStartDate");
 
                     b.Property<string>("EvaluationTeamMember")
+                        .IsRequired()
                         .HasMaxLength(500);
 
                     b.Property<string>("EvluationEnt")
@@ -514,17 +518,21 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<bool>("IsValid");
 
                     b.Property<string>("ModuleOne")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("ModuleThree")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("ModuleTwo")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("ProjectId");
 
                     b.Property<string>("ReportLeader")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("Score");

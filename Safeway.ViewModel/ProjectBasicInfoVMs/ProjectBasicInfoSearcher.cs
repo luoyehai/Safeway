@@ -1,40 +1,38 @@
-﻿using Safeway.Model.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 using WalkingTec.Mvvm.Core;
+using WalkingTec.Mvvm.Core.Extensions;
+using Safeway.Model.Project;
+using Safeway.Model.Common;
 
-namespace Safeway.Model.Project
+
+namespace Safeway.ViewModel.ProjectBasicInfoVMs
 {
-    public class ProjectBasicInfo : PersistPoco
+    public partial class ProjectBasicInfoSearcher : BaseSearcher
     {
         [Display(Name = "项目名称")]
-        [Required(ErrorMessage = "{0}是必填项")]
-        [StringLength(100)]
-        public string ProjectName { get; set; }
-
+        public String ProjectName { get; set; }
         [Display(Name = "项目描述")]
-        [StringLength(500)]
-        public string ProjectDescription { get; set; }
-
+        public String ProjectDescription { get; set; }
         [Display(Name = "项目类型")]
         public ProjectTypeEnum? ProjectType { get; set; }
-
         [Display(Name = "项目负责人")]
-        public string ProjectOnwer { get; set; }
-
+        public String ProjectOnwer { get; set; }
         [Display(Name = "项目成员")]
-        public string ProjectMember { get; set; }
-
+        public String ProjectMember { get; set; }
         [Display(Name = "项目开始时间")]
         public DateTime? ProjectStartDate { get; set; }
-
         [Display(Name = "项目结束时间")]
         public DateTime? ProjectEndDate { get; set; }
-
         [Display(Name = "项目状态")]
         public ProjectStatusEnum? ProjectStatus { get; set; }
+
+        protected override void InitVM()
+        {
+        }
+
     }
 }

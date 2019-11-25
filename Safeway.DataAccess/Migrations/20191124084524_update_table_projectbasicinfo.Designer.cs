@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Safeway.DataAccess;
 
 namespace Safeway.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191124084524_update_table_projectbasicinfo")]
+    partial class update_table_projectbasicinfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -500,11 +502,13 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<DateTime>("EvaluationEndDate");
 
                     b.Property<string>("EvaluationLeader")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<DateTime>("EvaluationStartDate");
 
                     b.Property<string>("EvaluationTeamMember")
+                        .IsRequired()
                         .HasMaxLength(500);
 
                     b.Property<string>("EvluationEnt")
@@ -514,17 +518,21 @@ namespace Safeway.DataAccess.Migrations
                     b.Property<bool>("IsValid");
 
                     b.Property<string>("ModuleOne")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("ModuleThree")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("ModuleTwo")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("ProjectId");
 
                     b.Property<string>("ReportLeader")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("Score");
