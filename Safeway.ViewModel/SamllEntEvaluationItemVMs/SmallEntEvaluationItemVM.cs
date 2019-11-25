@@ -221,7 +221,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             
             return true;
         }
-        public XSSFWorkbook ExportData(string id) 
+        public XSSFWorkbook OExportData(string id)
         {
             XSSFWorkbook template;
             ISheet templatesheet;
@@ -238,12 +238,12 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             //                on item.ID equals new Guid (unmatch.SmallEntEvaluationItemId)
             //                where item.SmallEntEvaluationBaseId == id
             //                select new { item.ID, item.ComplianceStandard, item.ScoringMethod, item.ActualScore, unmatch.UnMatchedItemDescription, unmatch.Deduction }).ToList();
-           //var binddata = (from items in DC.Set<SmallEntEvaluationItem>()
-           //join unmatcheditems in DC.Set<SmallEntEvaluationUnMatchedItem>()
-           //on items.ID equals new Guid(unmatcheditems.SmallEntEvaluationItemId)
-           //where items.SmallEntEvaluationBaseId == id
-           //orderby items.LevelOneOrder, items.LevelTwoOrder,items.LevelThreeOrder,items.LevelFourOrder
-           //select new { items.ID, items.ComplianceStandard, items.ScoringMethod, items.ActualScore, unmatcheditems.UnMatchedItemDescription, unmatcheditems.Deduction }).ToList();
+            //var binddata = (from items in DC.Set<SmallEntEvaluationItem>()
+            //join unmatcheditems in DC.Set<SmallEntEvaluationUnMatchedItem>()
+            //on items.ID equals new Guid(unmatcheditems.SmallEntEvaluationItemId)
+            //where items.SmallEntEvaluationBaseId == id
+            //orderby items.LevelOneOrder, items.LevelTwoOrder,items.LevelThreeOrder,items.LevelFourOrder
+            //select new { items.ID, items.ComplianceStandard, items.ScoringMethod, items.ActualScore, unmatcheditems.UnMatchedItemDescription, unmatcheditems.Deduction }).ToList();
 
             //var binddata = exportdatas.Join(unmatcheddatas, exportdata => exportdata.ID,) 
             var exportdata = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaluationTemplate @baseId = {0}", id).ToList();
@@ -252,31 +252,68 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             {
                 template = new XSSFWorkbook(file);
             }
-            templatesheet = template.GetSheetAt(0);
-            templatedata = new DataTable(templatesheet.SheetName);
-            for (int i = 6; i < templatedata.Rows.Count; i++) 
-            { 
-                for (int j = 0; j < exportdata.Count(); j++) 
+            templatesheet = template.GetSheet("评分中间表");
+            templatedata = new DataTable();
+            //Read Sheet data
+            templatedata = ReadExcelSheet(templatesheet, templatedata);
+            //for (int i = 0; i < templatedata.Rows.Count; i++) 
+            //{ 
+            //    for (int j = 0; j < exportdata.Count(); j++) 
+            //    {
+            //        if (templatedata.Rows[i][3].ToString() == exportdata[j].ComplianceStandard) 
+            //        {
+            //            templatedata.Rows[i][6] = exportdata[j].UnMatchedItemDescription;
+            //            templatedata.Rows[i][7] = exportdata[j].Deduction;
+            //        }
+            //    }                        
+            //}
+
+            for (int i = 0; i < templatedata.Rows.Count -1; i++)
+            {
+                if (templatedata.Rows[i][3].ToString().Equals(templatedata.Rows[i + 1][3].ToString()))
                 {
-                    if (templatedata.Rows[i][5].ToString() == exportdata[j].ComplianceStandard) 
+                    if (templatedata.Rows[i][5].ToString().Equals(templatedata.Rows[i + 1][5].ToString()))
                     {
-                        templatedata.Rows[i][6] = exportdata[j].UnMatchedItemDescription;
-                        templatedata.Rows[i][7] = exportdata[j].Deduction;
+                        templatedata.Rows[i + 1][7] = "0";
                     }
-                }                        
+                }
+            
+            }
+
+            for (int i = 0; i < exportdata.Count(); i++) 
+            {
+                for (int j = 0; j < templatedata.Rows.Count; j++)
+                {
+                    if (exportdata[i].ComplianceStandard == templatedata.Rows[j][3].ToString())
+                    {
+                        if (!string.IsNullOrEmpty(templatedata.Rows[j][7].ToString()))
+                        {                   
+                            j++;
+                        }
+                        else 
+                        {
+                            if (!string.IsNullOrEmpty(exportdata[i].UnMatchedItemDescription)) 
+                            {
+                                templatedata.Rows[j][6] = exportdata[i].UnMatchedItemDescription;
+                            }                           
+                            templatedata.Rows[j][7] = exportdata[i].ActualScore;
+                        }
+                    }
+                }
             }
             //insert into template
+            ISheet EvaluationSheet = template.GetSheet("打印评分表");
             IRow row;
             ICell descriptioncell;
             ICell scorecell;
-            for (int i = 6; i < templatedata.Rows.Count; i++)
+            for (int i = 5; i < templatedata.Rows.Count; i++)
             {
-                row = templatesheet.GetRow(i);
+                row = EvaluationSheet.GetRow(i);
                 descriptioncell = row.CreateCell(6);
                 scorecell = row.CreateCell(7);
 
-                descriptioncell.SetCellValue(templatedata.Rows[i][6].ToString());
-                scorecell.SetCellValue(Convert.ToDouble(templatedata.Rows[i][6]));
+                descriptioncell.SetCellValue(templatedata.Rows[i-5][6].ToString());
+                scorecell.SetCellValue(templatedata.Rows[i - 5][7] == null || string.IsNullOrEmpty(templatedata.Rows[i - 5][7].ToString()) ? 0:Convert.ToDouble(templatedata.Rows[i-5][7]));
             }
             return template;
 
@@ -334,8 +371,106 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             //memoryStream.Position = 0;
             //return "s"; 
         }
-    }
+        public DataTable ReadExcelSheet(ISheet input, DataTable output)
+        {
+            IRow headerRow = input.GetRow(4);
+            int cellCount = headerRow.LastCellNum;
 
+            for (int j = 0; j < cellCount; j++)
+            {
+                ICell cell = headerRow.GetCell(j);
+                output.Columns.Add(cell.ToString());
+            }
+
+            for (int i = (input.FirstRowNum + 5); i <= input.LastRowNum; i++)
+            {
+                IRow row = input.GetRow(i);
+                DataRow dataRow = output.NewRow();
+                if (row == null)
+                {
+                    break;
+                }
+                for (int j = row.FirstCellNum; j < cellCount; j++)
+                {
+                    if (row.GetCell(j) != null)
+                        dataRow[j] = row.GetCell(j).ToString();
+                }
+
+                output.Rows.Add(dataRow);
+            }
+            return output;
+        }
+
+        public XSSFWorkbook ExportData(string id) 
+        {
+            var exportdata = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaluationTemplate @baseId = {0}", id).ToList();
+            XSSFWorkbook template;
+            ISheet templatesheet;
+            DataTable templatedata;
+            using (FileStream file = new FileStream(ReportPath, FileMode.Open, FileAccess.Read))
+            {
+                template = new XSSFWorkbook(file);
+            }
+            templatesheet = template.GetSheet("评分表");
+            templatedata = new DataTable();
+            //Read Sheet data
+            templatedata = ReadExcelSheet(templatesheet, templatedata);
+
+            //update datatable
+            for (int i = 0; i < exportdata.Count(); i++)
+            {
+                for (int j = 0; j < templatedata.Rows.Count; j++)
+                {
+                    if (exportdata[i].ComplianceStandard.Equals(templatedata.Rows[j][3].ToString())) 
+                    {
+                        if (!string.IsNullOrEmpty(exportdata[i].UnMatchedItemDescription))
+                        {
+                            templatedata.Rows[j][6] = exportdata[i].UnMatchedItemDescription;
+                        }
+                        templatedata.Rows[j][7] = exportdata[i].ActualScore;
+                    }
+                }
+
+            }
+            //define format
+            //set format
+            XSSFFont myFont = (XSSFFont)template.CreateFont();
+            myFont.FontHeightInPoints = (short)10.5;
+            myFont.FontName = "宋体";
+            //set style
+            XSSFCellStyle borderedCellStyle = (XSSFCellStyle)template.CreateCellStyle();
+            borderedCellStyle.SetFont(myFont);
+            borderedCellStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+            borderedCellStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+            borderedCellStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
+            borderedCellStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+
+            //set middle
+            borderedCellStyle.Alignment = HorizontalAlignment.Center;
+            borderedCellStyle.VerticalAlignment = VerticalAlignment.Center;
+
+            borderedCellStyle.WrapText = true;
+            //Insert into worksheet
+            IRow row;
+            ICell descriptioncell;
+            ICell scorecell;
+            for (int i = 5; i < templatedata.Rows.Count; i++)
+            {
+                row = templatesheet.GetRow(i);
+                descriptioncell = row.CreateCell(6);
+                scorecell = row.CreateCell(7);
+
+                var des = templatedata.Rows[i - 5][6].ToString();
+
+                descriptioncell.SetCellValue(des.Contains("n") ? des.Replace("n",Environment.NewLine) :des);
+                scorecell.SetCellValue(templatedata.Rows[i - 5][7] == null || string.IsNullOrEmpty(templatedata.Rows[i - 5][7].ToString()) ? 0 : Convert.ToDouble(templatedata.Rows[i - 5][7]));
+
+                descriptioncell.CellStyle = borderedCellStyle;
+                scorecell.CellStyle = borderedCellStyle;
+            }
+            return template;
+        }
+    }
     public class SmallEntEvaluationItemView: SmallEntEvaluationItem
     {
         public string UnMatchedItemDescription { get; set; }
