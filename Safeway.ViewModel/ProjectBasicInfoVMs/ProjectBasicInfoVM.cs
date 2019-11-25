@@ -7,6 +7,7 @@ using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.Model.Project;
 using Safeway.Model.Enterprise;
+using Safeway.Model.SmallEntEvaluation;
 
 namespace Safeway.ViewModel.ProjectBasicInfoVMs
 {
@@ -37,6 +38,23 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
                 Disabled = false,
                 Selected = false
             }).ToList();
+        }
+
+        public async Task AddEnterpriseToProject()
+        {
+            var items = new List<SmallEntEvaluationBase>();
+            Array.ForEach(SelectedEnterpriseIds, x => {
+                items.Add(new SmallEntEvaluationBase()
+                {
+                    ProjectId = Entity.ID.ToString(),
+                    EnterpriseId = x,
+                    Status = Model.Common.EvaluationStatus.NotStarted,
+                    EvluationEnt = "SafeWay",
+                    IsValid = true
+                });
+            });
+            await DC.Set<SmallEntEvaluationBase>().AddRangeAsync(items);
+            await DC.SaveChangesAsync();
         }
 
         public override void DoAdd()

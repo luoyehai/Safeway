@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using Safeway.Model.Project;
 using Safeway.Model.Common;
 using Safeway.Model.Enterprise;
+using Safeway.ViewModel.CommonClass;
 
 namespace Safeway.ViewModel.ProjectBasicInfoVMs
 {
@@ -38,12 +39,12 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
         {
             return new List<GridColumn<ProjectBasicInfo_View>>{
                 this.MakeGridHeader(x => x.ProjectName),
-                this.MakeGridHeader(x => x.ProjectDescription),
+                //this.MakeGridHeader(x => x.ProjectDescription),
                 this.MakeGridHeader(x => x.ProjectType),
                 this.MakeGridHeader(x => x.ProjectOnwer),
-                this.MakeGridHeader(x => x.ProjectMember),
-                this.MakeGridHeader(x => x.ProjectStartDate),
-                this.MakeGridHeader(x => x.ProjectEndDate),
+                //this.MakeGridHeader(x => x.ProjectMember),
+                this.MakeGridHeader(x => x.ProjectStartDateStr),
+                this.MakeGridHeader(x => x.ProjectEndDateStr),
                 this.MakeGridHeader(x => x.ProjectStatus),
                 this.MakeGridHeaderAction(width: 200)
             };
@@ -68,8 +69,8 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
                     ProjectType = x.ProjectType,
                     ProjectOnwer = x.ProjectOnwer,
                     ProjectMember = x.ProjectMember,
-                    ProjectStartDate = x.ProjectStartDate,
-                    ProjectEndDate = x.ProjectEndDate,
+                    ProjectStartDateStr = ((DateTime)x.ProjectStartDate).ToShortDateFormatString(),
+                    ProjectEndDateStr = ((DateTime)x.ProjectEndDate).ToShortDateFormatString(),
                     ProjectStatus = x.ProjectStatus,
                 })
                 .OrderBy(x => x.ID);
@@ -79,6 +80,10 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
     }
 
     public class ProjectBasicInfo_View : ProjectBasicInfo{
+        [Display(Name = "开始时间")]
+        public string ProjectStartDateStr { get; set; }
 
+        [Display(Name = "结束时间")]
+        public string ProjectEndDateStr { get; set; }
     }
 }

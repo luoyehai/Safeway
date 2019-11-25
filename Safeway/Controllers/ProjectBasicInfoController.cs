@@ -5,6 +5,7 @@ using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Mvc;
 using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.ViewModel.ProjectBasicInfoVMs;
+using System.Threading.Tasks;
 
 namespace Safeway.Controllers
 {
@@ -39,7 +40,7 @@ namespace Safeway.Controllers
 
         [HttpPost]
         [ActionDescription("新建")]
-        public ActionResult Create(ProjectBasicInfoVM vm)
+        public async Task<ActionResult> Create(ProjectBasicInfoVM vm)
         {
             if (!ModelState.IsValid)
             {
@@ -48,6 +49,7 @@ namespace Safeway.Controllers
             else
             {
                 vm.DoAdd();
+                await vm.AddEnterpriseToProject();
                 if (!ModelState.IsValid)
                 {
                     vm.DoReInit();
