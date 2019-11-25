@@ -421,7 +421,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             {
                 for (int j = 0; j < templatedata.Rows.Count; j++)
                 {
-                    if (exportdata[i].ComplianceStandard.Equals(templatedata.Rows[j][3].ToString())) 
+                    if (exportdata[i].LevelFourID.ToString().ToLower().Equals(templatedata.Rows[j][8].ToString().ToLower())) 
                     {
                         if (!string.IsNullOrEmpty(exportdata[i].UnMatchedItemDescription))
                         {
