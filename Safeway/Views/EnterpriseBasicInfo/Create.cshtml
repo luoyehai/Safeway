@@ -1,13 +1,21 @@
 ﻿@model Safeway.ViewModel.EnterpriseBasicInfoVMs.EnterpriseBasicInfoVM;
 
     <wt:form vm="@Model">
+        @*<div id="BusinessInfo">
+            <template>
+                <el-tabs v-model="activeName">
+                    <el-tab-pane label="基本信息" name="basicInfo">User</el-tab-pane>
+                    <el-tab-pane label="商务信息" name="BusinessInfo">
+                    </el-tab-pane>
+                    <el-tab-pane label="财务信息" name="FinanceInfo">Role</el-tab-pane>
+                </el-tabs>
+            </template>
+        </div>*@
         <wt:tab>
             <wt:tabheaders>
                 <wt:tabheader title="基本信息" />
                 <wt:tabheader title="商务信息" />
                 <wt:tabheader title="财务信息" />
-                @*<wt:tabheader title="联系人信息" />
-                <wt:tabheader title="年收益信息" />*@
             </wt:tabheaders>
             <wt:tabcontents>
                 <wt:tabcontent>
@@ -27,38 +35,57 @@
                         <wt:combobox field="Entity.TermsofTrade" />
                     </wt:row>
                 </wt:tabcontent>
-                <wt:tabcontent>
-                    <div id="BusinessInfo">
-                        <el-table :data="businessInfoList" style="width: 100%" border>
-                            <el-table-column prop="SafetyServiceType"
-                                             label="安全服务类型"
-                                             width="130">
-                            </el-table-column>
-                            <el-table-column prop="OtherSafetyServiceType"
-                                             label="其他"
-                                             width="130">
-                            </el-table-column>
-                            <el-table-column prop="CertificateLevel"
-                                             label="证书等级">
-                            </el-table-column>
-                            <el-table-column prop="ExpireDate"
-                                             label="到期时间"
-                                             width="160">
-                            </el-table-column>
-                            <el-table-column prop="OriginalServiceCom"
-                                             label="原服务公司"
-                                             width="180">
-                            </el-table-column>
-                            <el-table-column prop="Description"
-                                             label="描述">
-                            </el-table-column>
-                        </el-table>
-                        <el-row>
-                            <el-col :span="5"> <el-button>新增</el-button></el-col>
-                           
-                           <el-col :span="5"><el-button></el-button></el-col>
-                        </el-row>
-                    </div>
+                <wt:tabcontent>  
+                        <div id="BusinessInfo">
+                            <el-table :data="businessInfoList" style="width: 100%" border>
+                                <el-table-column label="安全服务类型" width="160">
+                                    <template slot-scope="scope">
+                                        <el-select style="z-index:20101211"  v-model="scope.row.SafetyServiceType" placeholder="Select">
+                                            <el-option  v-for="item in ServiceTypes"
+                                                       :key="item.value"
+                                                       :label="item.label"
+                                                       :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="其他" width="130">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.OtherSafetyServiceType"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="证书等级" width="130">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.CertificateLevel"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="到期时间" width="160">
+                                    <template slot-scope="scope" style="z-index:20101211">
+                                        <el-date-picker  v-model="scope.row.ExpireDate"
+                                                    type="date"
+                                                    placeholder="Pick a day">
+                                        </el-date-picker>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="原服务公司" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.OriginalServiceCom"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="描述" width="200">
+                                    <template slot-scope="scope">
+                                        <el-input type="textarea"
+                                                  :rows="2"
+                                                  placeholder="Please input"
+                                                  v-model="scope.row.Description">
+                                        </el-input>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                            <el-row>
+                                <el-col :span="5"> <el-button @@click="handleAddNew" :loading="newLoading">新增</el-button></el-col>
+                            </el-row>
+                        </div>
                 </wt:tabcontent>
                 <wt:tabcontent>
                     <wt:row items-per-row="ItemsPerRowEnum.Two">
@@ -68,23 +95,87 @@
                         <wt:textbox field="EnterpriseFinanceInfo.Bank" />
                         <wt:textbox field="EnterpriseFinanceInfo.Account" />
                         <wt:textbox field="EnterpriseFinanceInfo.CustomerReceiptReceiver" search-url="EnterpriseContact/SerachReceiptReceiver" />
-                        @*<wt:combobox field="Entity.FinanceInfo.EnterpriseBasicId" items="AllBasicInfos" />*@
-                    </wt:row>                
+                    </wt:row>
                 </wt:tabcontent>
-                @*<wt:tabcontent>
-                    <wt:grid vm="EnterpriseContactListVM" url="/EnterpriseContact/Search" />
-                </wt:tabcontent>
-                <wt:tabcontent>
-                    <wt:grid vm="EnterpriserYearYieldListVM" url="/EnterpriserYearYield/Search" />
-                </wt:tabcontent>*@
             </wt:tabcontents>
         </wt:tab>
 
-                <wt:row align="AlignEnum.Right">
-                    <wt:submitbutton />
-                    <wt:closebutton />
-                </wt:row>
+        <wt:row align="AlignEnum.Right">
+            <wt:submitbutton />
+            <wt:closebutton />
+        </wt:row>
     </wt:form>
     <script>
+        $(document).ready(function () {
+            document.getElementsByClassName("layui-layer-shade").style.zIndex = "1001";
+            document.getElementsByClassName("layui-layer-page").style.zIndex = "1005";
+        });
+        var BusinessInfoVM = new Vue({
+            el: '#BusinessInfo',
+            data: {
+                activeName: 'basicInfo',
+                newLoading: false,
+                selectedOption: '',
+                selectedDate:'',
+                ServiceTypes: [
+                    {
+                    label: "安全生产标准化",
+                    value: "SafetyProductionStandard",
+                    },{
+                    label: "双重预防机智",
+                    value: "DoublePreventionMechanism",
+                    },{
+                    label: "安全应急预案",
+                    value: "SafetyEmergencyPlan",
+                    },{
+                    label: "安全现状评价",
+                    value: "SageEvaluation",
+                    },{
+                    label: "就业卫生现状评价",
+                    value: "EmploymentHealthEva",
+                    },{
+                    label: "定期安全服务",
+                    value: "RegularSafetyService",
+                    },{
+                    label: "环境应急预案",
+                    value: "EnvEmergencyPlan",
+                    },{
+                    label: "其他",
+                    value: "Others",
+                    }],
+                businessInfoList: [{
+                    SafetyServiceType:'',
+                    OtherSafetyServiceType: '',
+                    CertificateLevel: '',
+                    ExpireDate: '',
+                    Description:'',
+                }],
+            },
+            methods: {
+                loadData: function ()
+                {
 
+                     
+                },
+                handleAddNew: function ()
+                {
+                    this.newLoading = true;
+                    let NewBusinessInfo = {
+
+                        SafetyServiceType:'',
+                        OtherSafetyServiceType: '',
+                        CertificateLevel: '',
+                        ExpireDate: '',
+                        Description:'',
+                    }
+                    this.businessInfoList.push(NewBusinessInfo);
+                    setTimeout("BusinessInfoVM.newLoading = false;", 500)
+                }
+                
+            },
+            created: function () {
+                this.loadData();
+            }
+
+        })
     </script>
