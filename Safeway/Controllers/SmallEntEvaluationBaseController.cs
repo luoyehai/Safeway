@@ -8,6 +8,7 @@ using Safeway.ViewModel.SmallEntEvaluationBaseVMs;
 using Safeway.ViewModel.SamllEntEvaluationItemVMs;
 using Microsoft.AspNetCore.Authorization;
 using Safeway.ViewModel.CommonClass;
+using System.Threading.Tasks;
 
 namespace Safeway.Controllers
 {
@@ -56,9 +57,7 @@ namespace Safeway.Controllers
             else
             {
                 vm.DoAdd();
-                //Add all the relative elements into item table           
-                vm.InsertElements(vm.Entity.ID.ToString());
-              if (!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     vm.DoReInit();
                     return PartialView(vm);
@@ -140,11 +139,11 @@ namespace Safeway.Controllers
 
         #region 查看报告
         [ActionDescription("查看报告")]
-        public ActionResult ViewReport(string id)
+        public async Task<ActionResult> ViewReport(string id)
         {
             var vm = CreateVM<SmallEntEvaluationItemVM>();
-            var entEvaluationBase = vm.GetSmallEntEvaluationBase(id);
-            vm.EntEvaluationBase = entEvaluationBase.Result;
+            var entEvaluationBase = await vm.GetSmallEntEvaluationBaseView(id);
+            vm.EntEvaluationBaseView = entEvaluationBase;
             ViewData["ID"] = id;
             return PartialView(vm);
         }

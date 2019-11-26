@@ -8,6 +8,7 @@ using Safeway.ViewModel.SamllEntEvaluationItemVMs;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Mvc;
 using System.IO;
+using Safeway.ViewModel.SmallEntEvaluationBaseVMs;
 
 namespace Safeway.Controllers
 {
@@ -37,13 +38,23 @@ namespace Safeway.Controllers
             var entEvaluationBase = vm.GetSmallEntEvaluationBase(id);
             vm.EntEvaluationBase = entEvaluationBase.Result;
             ViewData["ID"] = id;
-            //LoginUserInfo.Name
             return PartialView(vm);
         }
 
-        
-        public async Task<JsonResult> GetLevelTwoEvaluationItems(SmallEntEvaluationItemVM vm, string id, string tab)
+        public async Task<ActionResult> InitialReport(SmallEntEvaluationItemVM vm, string id)
         {
+            var existed = await vm.IsReportExisted(id);
+            if (!existed)
+            {
+                var elementVM = CreateVM<SmallEntEvaluationBaseVM>();
+                await elementVM.InitialReport(id);
+            }
+            return Ok(existed);
+        }
+        
+        public async Task<JsonResult> GetLevel2Element(SmallEntEvaluationItemVM vm, string id, string tab)
+        {
+           
             var items = await vm.GetLevelTwoEvaluationItems(id, tab);
             return Json(items);
         }
@@ -61,9 +72,9 @@ namespace Safeway.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveEvaluationItem(SmallEntEvaluationItemVM vm, [FromBody]List<SmallEntEvaluationItemView> items)
+        public async Task<JsonResult> SaveEvaluationItem(SmallEntEvaluationItemVM vm, [FromBody]List<SmallEntEvaluationItemView> items)
         {
-            return Json(vm.SaveEvaluationItems(items));
+            return Json(await vm.SaveEvaluationItems(items));
         }
         #endregion
 

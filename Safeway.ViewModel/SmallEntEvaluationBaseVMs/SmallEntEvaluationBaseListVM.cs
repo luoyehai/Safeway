@@ -23,13 +23,9 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         {
             return new List<GridAction>
             {
-                this.MakeAction("SmallEntEvaluationBase","ViewReport", "查看报告", "查看报告",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
-                this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Create, "新建","", dialogWidth: 800),
+                this.MakeAction("SmallEntEvaluationBase", "ViewReport", "评审报告", "评审报告",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Edit, "修改","", dialogWidth: 800),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Delete, "删除", "",dialogWidth: 800),
-                //this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.BatchEdit, "批量修改","", dialogWidth: 800),
-                //this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.BatchDelete, "批量删除","", dialogWidth: 800),
-                this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Import, "导入","", dialogWidth: 800),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.ExportExcel, "导出","")
                 //this.MakeAction("SmallEntEvaluationItem","ViewReport","查看报告","查看报告", GridActionParameterTypesEnum.SingleId).SetMax(true)
             };
@@ -43,12 +39,34 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 this.MakeGridHeader(x => x.EvaluateEndDateStr),
                 this.MakeGridHeader(x => x.EvaluationLeader),
                 this.MakeGridHeader(x => x.ReportLeader),
-                //this.MakeGridHeader(x => x.EvaluationTeamMember),
-                this.MakeGridHeader(x => x.Status),
+                this.MakeGridHeader(x => x.Status).SetFormat(ReportStatusFormat),
+                this.MakeGridHeader(x => x.Score),
                 this.MakeGridHeader(x => x.ModuleOne),
                 this.MakeGridHeader(x => x.ModuleTwo),
                 this.MakeGridHeader(x => x.ModuleThree),
-                this.MakeGridHeaderAction(width: 200)
+                this.MakeGridHeader(x => x.ReportFileId).SetFormat(ReportFileIdFormat),
+                this.MakeGridHeaderAction(width: 300)
+            };
+        }
+
+        private List<ColumnFormatInfo> ReportFileIdFormat(SmallEntEvaluationBase_View entity, object val)
+        {
+            return new List<ColumnFormatInfo>
+            {
+                ColumnFormatInfo.MakeDownloadButton(ButtonTypesEnum.Button,entity.ReportFileId)
+            };
+        }
+
+        private List<ColumnFormatInfo> ReportStatusFormat(SmallEntEvaluationBase_View entity, object val)
+        {
+            var bgColor = "blue";
+            if (entity.Status == Model.Common.EvaluationStatus.NotStarted)
+                bgColor = "orange";
+            if (entity.Status == Model.Common.EvaluationStatus.ReportCompleted)
+                bgColor = "green";
+            return new List<ColumnFormatInfo>
+            {
+                ColumnFormatInfo.MakeHtml(html: $"<span class='layui-badge layui-bg-{bgColor}'>{ entity.Status.GetDescription() }</span>")
             };
         }
 
@@ -75,8 +93,10 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                     EvaluateEndDateStr = x.se.EvaluationEndDate.ToShortDateFormatString(),
                     EvaluationLeader = x.se.EvaluationLeader,
                     ReportLeader = x.se.ReportLeader,
+                    ReportFileId = x.se.ReportFileId,
                     EvaluationTeamMember = x.se.EvaluationTeamMember,
                     Status = x.se.Status,
+                    Score = x.se.Score,
                     ModuleOne = x.se.ModuleOne,
                     ModuleTwo = x.se.ModuleTwo,
                     ModuleThree = x.se.ModuleThree,
