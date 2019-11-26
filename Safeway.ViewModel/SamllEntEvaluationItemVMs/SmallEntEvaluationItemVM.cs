@@ -64,7 +64,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             return await DC.Set<SmallEntEvaluationItem>().AnyAsync<SmallEntEvaluationItem>(x => x.SmallEntEvaluationBaseId.Equals(baseId));
         }
 
-        public async Task<string> CalculateEvaluationScore(string baseId)
+        public void CalculateEvaluationTotalScore(string baseId)
         {
             var items = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId)).ToList();
             // get standard total score, should be 600
@@ -75,7 +75,10 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             var actualTotalScore = items.Where(x => x.UnInvolved == false).Sum(x => x.ActualScore);
             // caculate total score
             var totalScore = Math.Round(actualTotalScore / (standardTotalScore - uninvolvedTotalScore) * 100, 2);
-            return totalScore.ToString();
+
+            var baseItem = DC.Set<SmallEntEvaluationBase>().Where(x => x.ID.Equals(Guid.Parse(baseId))).FirstOrDefault();
+            baseItem.Score = totalScore.ToString();
+            DC.SaveChanges();
         }
 
         public async Task<SmallEntEvaluationBase> GetSmallEntEvaluationBase(string baseId)
@@ -206,7 +209,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             return evaluationViewItems;
         }
 
-        public bool SaveEvaluationItems(List<SmallEntEvaluationItemView> evaluationViewItems)
+        public async Task<bool> SaveEvaluationItems(List<SmallEntEvaluationItemView> evaluationViewItems)
         {
             if (evaluationViewItems == null)
                 return false;
@@ -255,7 +258,10 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 });
                 DC.SaveChanges();
             });
-            
+
+            // update total score
+            CalculateEvaluationTotalScore(evaluationViewItems[0].SmallEntEvaluationBaseId);
+
             return true;
         }
         public XSSFWorkbook OExportData(string id)

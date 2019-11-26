@@ -72,9 +72,9 @@ namespace Safeway.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveEvaluationItem(SmallEntEvaluationItemVM vm, [FromBody]List<SmallEntEvaluationItemView> items)
+        public async Task<JsonResult> SaveEvaluationItem(SmallEntEvaluationItemVM vm, [FromBody]List<SmallEntEvaluationItemView> items)
         {
-            return Json(vm.SaveEvaluationItems(items));
+            return Json(await vm.SaveEvaluationItems(items));
         }
         #endregion
 
