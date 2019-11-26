@@ -15,6 +15,9 @@ using NPOI.XSSF.UserModel;
 using Safeway.ViewModel.CommonClass;
 using Safeway.Model.ExportTemplate;
 using Microsoft.EntityFrameworkCore;
+using Safeway.ViewModel.SmallEntEvaluationBaseVMs;
+using Safeway.Model.Enterprise;
+using Safeway.Model.Project;
 
 namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 {
@@ -33,6 +36,8 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
         }
 
         public SmallEntEvaluationBase EntEvaluationBase { get; set; }
+
+        public SmallEntEvaluationBase_View EntEvaluationBaseView { get; set; }
 
         protected override void InitVM()
         {
@@ -54,6 +59,11 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             base.DoDelete();
         }
 
+        public async Task<bool> IsReportExisted(string baseId)
+        {
+            return await DC.Set<SmallEntEvaluationItem>().AnyAsync<SmallEntEvaluationItem>(x => x.SmallEntEvaluationBaseId.Equals(baseId));
+        }
+
         public async Task<string> CalculateEvaluationScore(string baseId)
         {
             var items = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId)).ToList();
@@ -71,6 +81,31 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
         public async Task<SmallEntEvaluationBase> GetSmallEntEvaluationBase(string baseId)
         {
             return DC.Set<SmallEntEvaluationBase>().FirstOrDefault(x => x.ID.Equals(Guid.Parse(baseId)));
+        }
+
+        public async Task<SmallEntEvaluationBase_View> GetSmallEntEvaluationBaseView(string baseId)
+        {
+            var item = DC.Set<SmallEntEvaluationBase>().FirstOrDefault(x => x.ID.Equals(Guid.Parse(baseId)));
+            return new SmallEntEvaluationBase_View()
+            {
+                ID = item.ID,
+                ProjectId = item.ProjectId,
+                ProjectName = DC.Set<ProjectBasicInfo>().FirstOrDefault(x => x.ID.Equals(Guid.Parse(item.ProjectId))).ProjectName,
+                EnterpriseId = item.EnterpriseId,
+                EnterpriseName = DC.Set<EnterpriseBasicInfo>().FirstOrDefault(x => x.ID.Equals(Guid.Parse(item.EnterpriseId))).ComapanyName,
+                EvaluationStartDate = item.EvaluationStartDate,
+                EvaluateStartDateStr = item.EvaluationStartDate.ToShortDateFormatString(),
+                EvaluationEndDate = item.EvaluationEndDate,
+                EvaluateEndDateStr = item.EvaluationEndDate.ToShortDateFormatString(),
+                EvaluationLeader = item.EvaluationLeader,
+                ReportLeader = item.ReportLeader,
+                ReportFileId = item.ReportFileId,
+                EvaluationTeamMember = item.EvaluationTeamMember,
+                Status = item.Status,
+                ModuleOne = item.ModuleOne,
+                ModuleTwo = item.ModuleTwo,
+                ModuleThree = item.ModuleThree,
+            };
         }
 
         public async Task<List<ViewFormatClass>> GetLevelTwoEvaluationItems(string baseId, string tabName)
@@ -173,6 +208,8 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 
         public bool SaveEvaluationItems(List<SmallEntEvaluationItemView> evaluationViewItems)
         {
+            if (evaluationViewItems == null)
+                return false;
             if (evaluationViewItems.Count() == 0)
                 return false;
             var evaluationItems = DC.Set<SmallEntEvaluationItem>()

@@ -5,10 +5,14 @@
         }
     </style>
 <div id="reviewReport">
-    <el-card class="box-card">
+    <el-card class="box-card" 
+             v-loading="ploading"
+             :element-loading-text="loadingText"
+             element-loading-spinner="el-icon-loading"
+             element-loading-background="rgba(0, 0, 0, 0.8)">
         <div slot="header" class="clearfix">
             <span>
-                企业名称 - @Model.EntEvaluationBase.EnterpriseId
+                [ 项目名称 ]  @Model.EntEvaluationBaseView.ProjectName ------ [ 企业名称 ]  @Model.EntEvaluationBaseView.EnterpriseName
             </span>
 
             <div style="margin-top: 20px; float:right;">
@@ -30,7 +34,7 @@
                     <el-table :data="reportData" style="width: 100%" border
                               :row-class-name="tableRowClassName"
                               v-loading="loading"
-                              element-loading-text="Loading..."
+                              :element-loading-text="loadingText"
                               element-loading-spinner="el-icon-loading"
                               element-loading-background="rgba(0, 0, 0, 0.8)">
                         <el-table-column prop="LevelThreeElement"
@@ -119,7 +123,9 @@
     var reviewReport = new Vue({
         el: '#reviewReport',
         data: {
+            ploading: false,
             loading: false,
+            loadingText: '初始化评审报告模板....',
             defaultTab: '基础管理',
             defaultLevel2Element: '安全目标',
             level2List: [],
@@ -145,19 +151,32 @@
         },
         methods: {
             tableRowClassName({ row, rowIndex }) {
-                console.log(row.IsEvaluated)
                 if (row.IsEvaluated)
                     return 'success-row';
                 return '';
             },
+            initialReport() {
+                this.ploading = true;
+                this.loadingText = '初始化评审报告模板....';
+                let vData = @Html.Raw(Json.Serialize(ViewData));
+                axios.get('SmallEntEvaluationItem/InitialReport?id=' + vData["ID"])
+                    .then(function (r) {
+                        this.loadLevel2Elements();
+                        this.ploading = false;
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+            },
             loadLevel2Elements() {
                 this.loading = true;
+                this.loadingText = '加载评审报告....';
                 let vData = @Html.Raw(Json.Serialize(ViewData));
-                axios.get('SmallEntEvaluationItem/GetLevelTwoEvaluationItems?id=' + vData["ID"] + '&tab=' + this.defaultTab)
+                axios.get('SmallEntEvaluationItem/GetLevel2Element?id=' + vData["ID"] + '&tab=' + this.defaultTab)
                     .then(function (r) {
                         this.level2List = r.data.Data;
                         this.defaultLevel2Element = this.level2List[0].Text;
-                        this.loading = false;
+                        //this.loading = false;
                         this.loadData();
                     }.bind(this))
                     .catch(function (e) {
@@ -165,7 +184,7 @@
                     });
             },
             loadData: function () {
-                this.loading = true;
+                //this.loading = true;
                 let vData = @Html.Raw(Json.Serialize(ViewData));;
                 axios.get('SmallEntEvaluationItem/GetLevel2EvaluationItem?id=' + vData["ID"] + '&tab=' + this.defaultTab + '&level2Name=' + this.defaultLevel2Element)
                     .then(function (r) {
@@ -273,7 +292,6 @@
                 item.ActualScore = item.StandardScore - item.DeductScore;
             },
             handleTabClick(value) {
-                //this.loadLevel2Elements();
                 this.loading = true;
                 axios.post('SmallEntEvaluationItem/SaveEvaluationItem',this.reportData)
                 .then(function (r) {
@@ -286,7 +304,6 @@
                     }
                     this.loadData();
                 }.bind(this))
-
                 //console.log(value.paneName);
                 //console.log(value.$vnode);
             },
@@ -312,9 +329,8 @@
                     return '现场';
                 return null;
             },
-            handleExport: function ()
-            {
-                 let vData = @Html.Raw(Json.Serialize(ViewData));
+            handleExport: function () {
+                let vData = @Html.Raw(Json.Serialize(ViewData));
                 axios.get('SmallEntEvaluationItem/ExportReport?id=' + vData["ID"])
                     .then(function (r) {
                         this.loading = false;
@@ -330,7 +346,7 @@
             }
         },
         created: function () {
-            this.loadLevel2Elements();
+            this.initialReport();
         }
     })
 </script>
