@@ -5,10 +5,11 @@
             <wt:textbox field="Entity.EnterpriseId" label-width="120" search-url="EnterpriseBasicInfo/LoadEnteprise" />
             <wt:datetime field="Entity.EvaluationStartDate" label-width="120" />
             <wt:datetime field="Entity.EvaluationEndDate" label-width="120" />
-            <wt:textbox field="Entity.EvaluationLeader" label-width="120"  search-url="SmallEntEvaluationBase/SearchUser"/>
-            <wt:textbox field="Entity.ReportLeader" label-width="120"  search-url="SmallEntEvaluationBase/SearchUser"/>
+            <wt:textbox field="Entity.EvaluationLeader" label-width="120" search-url="SmallEntEvaluationBase/SearchUser" />
+            <wt:textbox field="Entity.ReportLeader" label-width="120" search-url="SmallEntEvaluationBase/SearchUser" />
             <wt:textbox field="Entity.EvaluationTeamMember" label-width="120" />
             <wt:combobox field="Entity.Status" label-width="120" />
+            <wt:upload field="Entity.ReportFileId" upload-type="PDFFile" label-width="120" />
         </wt:row>
 
         <wt:row items-per-row="ItemsPerRowEnum.One">

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Safeway.DataAccess;
 
 namespace Safeway.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191125123408_add_reportfileId_smallentevaluationbase")]
+    partial class add_reportfileId_smallentevaluationbase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -524,7 +526,7 @@ namespace Safeway.DataAccess.Migrations
 
                     b.Property<string>("ProjectId");
 
-                    b.Property<Guid?>("ReportFileId");
+                    b.Property<string>("ReportFileId");
 
                     b.Property<string>("ReportLeader")
                         .HasMaxLength(200);

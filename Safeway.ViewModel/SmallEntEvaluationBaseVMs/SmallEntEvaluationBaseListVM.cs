@@ -48,7 +48,16 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 this.MakeGridHeader(x => x.ModuleOne),
                 this.MakeGridHeader(x => x.ModuleTwo),
                 this.MakeGridHeader(x => x.ModuleThree),
+                this.MakeGridHeader(x => x.ReportFileId).SetFormat(ReportFileIdFormat),
                 this.MakeGridHeaderAction(width: 200)
+            };
+        }
+
+        private List<ColumnFormatInfo> ReportFileIdFormat(SmallEntEvaluationBase_View entity, object val)
+        {
+            return new List<ColumnFormatInfo>
+            {
+                ColumnFormatInfo.MakeDownloadButton(ButtonTypesEnum.Button,entity.ReportFileId)
             };
         }
 
@@ -75,6 +84,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                     EvaluateEndDateStr = x.se.EvaluationEndDate.ToShortDateFormatString(),
                     EvaluationLeader = x.se.EvaluationLeader,
                     ReportLeader = x.se.ReportLeader,
+                    ReportFileId = x.se.ReportFileId,
                     EvaluationTeamMember = x.se.EvaluationTeamMember,
                     Status = x.se.Status,
                     ModuleOne = x.se.ModuleOne,
