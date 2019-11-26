@@ -41,6 +41,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 this.MakeGridHeader(x => x.ReportLeader),
                 this.MakeGridHeader(x => x.Status).SetFormat(ReportStatusFormat),
                 this.MakeGridHeader(x => x.Score),
+                this.MakeGridHeader(x => x.Progress).SetFormat(ProgressFormat),
                 this.MakeGridHeader(x => x.ModuleOne),
                 this.MakeGridHeader(x => x.ModuleTwo),
                 this.MakeGridHeader(x => x.ModuleThree),
@@ -67,6 +68,14 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
             return new List<ColumnFormatInfo>
             {
                 ColumnFormatInfo.MakeHtml(html: $"<span class='layui-badge layui-bg-{bgColor}'>{ entity.Status.GetDescription() }</span>")
+            };
+        }
+
+        private List<ColumnFormatInfo> ProgressFormat(SmallEntEvaluationBase_View entity, object val)
+        {
+            return new List<ColumnFormatInfo>
+            {
+                ColumnFormatInfo.MakeHtml(html: $"<div class='layui-progress'><div class='layui-progress-bar' lay-percent='70%'></div></div>")
             };
         }
 
@@ -97,6 +106,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                     EvaluationTeamMember = x.se.EvaluationTeamMember,
                     Status = x.se.Status,
                     Score = x.se.Score,
+                    Progress = x.se.Progress,
                     ModuleOne = x.se.ModuleOne,
                     ModuleTwo = x.se.ModuleTwo,
                     ModuleThree = x.se.ModuleThree,
@@ -119,5 +129,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 
         [Display(Name = "企业名称")]
         public string EnterpriseName { get; set; }
+
+        public string EvalationProgress { get; set; }
     }
 }

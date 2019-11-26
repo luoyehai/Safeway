@@ -81,6 +81,19 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             DC.SaveChanges();
         }
 
+        public void CalculateEvaluationProgress(string baseId)
+        {
+            var items = DC.Set<SmallEntEvaluationItem>().Where(x => x.SmallEntEvaluationBaseId.Equals(baseId)).ToList();
+            // get evaluated counts
+            var evaluatedCount = (decimal)items.Count(x => x.IsEvaluated == true);
+            // get counts of items
+            var itemCounts = (decimal)items.Count();
+           
+            var baseItem = DC.Set<SmallEntEvaluationBase>().Where(x => x.ID.Equals(Guid.Parse(baseId))).FirstOrDefault();
+            baseItem.Progress = Math.Round(evaluatedCount / itemCounts * 100, 2).ToString();
+            DC.SaveChanges();
+        }
+
         public async Task<SmallEntEvaluationBase> GetSmallEntEvaluationBase(string baseId)
         {
             return DC.Set<SmallEntEvaluationBase>().FirstOrDefault(x => x.ID.Equals(Guid.Parse(baseId)));
@@ -261,6 +274,9 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 
             // update total score
             CalculateEvaluationTotalScore(evaluationViewItems[0].SmallEntEvaluationBaseId);
+
+            // update progress
+            CalculateEvaluationProgress(evaluationViewItems[0].SmallEntEvaluationBaseId);
 
             return true;
         }
