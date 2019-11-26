@@ -52,11 +52,11 @@ namespace Safeway.Model.Evaluation
         public decimal ActualScore { get; set; }
 
         #endregion
-        public Guid NormalEntEvaId { get; set; }
-        public List<DetailNotmalEntEvaluation> DetailNotmalEntEvaluations { get; set; }
+        //public Guid NormalEntEvaId { get; set; }
+        //public List<DetailNotmalEntEvaluation> DetailNotmalEntEvaluations { get; set; }
 
-        public Guid NormalEntEvaTempId { get; set; }
-        public NormalEntEvaluationTemplate NormalEntEvaluationTemplate { get; set; }
+        //public Guid NormalEntEvaTempId { get; set; }
+        //public NormalEntEvaluationTemplate NormalEntEvaluationTemplate { get; set; }
         //public Guid NormalEnterpriseReviewId { get; set; }
         //EnterpriseReviewElement EnterpriseReviewElement { get; set; }
     }
