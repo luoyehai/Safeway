@@ -80,7 +80,7 @@ namespace Safeway.Controllers
 
         #region 导出报告
         [ActionDescription("导出报告")]
-        public IActionResult ExportReport(string id)
+        public ActionResult ExportReport(string id)
         {
             var vm = CreateVM<SmallEntEvaluationItemVM>();
             var result = vm.ExportData(id);
