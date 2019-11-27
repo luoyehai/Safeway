@@ -1,8 +1,7 @@
-﻿@model Safeway.ViewModel.SmallEntEvaluationBaseVMs.SmallEntEvaluationBaseListVM
+﻿@model Safeway.ViewModel.SmallEntEvaluationBaseVMs.SmallEntEvaluationBaseListViewVM
 
 <wt:searchpanel vm="@Model" reset-btn="true">
     <wt:row items-per-row="ItemsPerRowEnum.Three">
-        <wt:combobox field="Searcher.ProjectId" items="AllProject" />
         <wt:combobox field="Searcher.EnterpriseId" items="AllEnterprise" />
         <wt:textbox field="Searcher.Street" />
         <wt:textbox field="Searcher.Industry" />

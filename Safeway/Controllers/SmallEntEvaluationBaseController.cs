@@ -28,6 +28,16 @@ namespace Safeway.Controllers
         }
 
         [ActionDescription("搜索")]
+        public ActionResult ProjectDetail(string id)
+        {
+            var vm = CreateVM<SmallEntEvaluationBaseListViewVM>();
+            vm.Searcher.ProjectId = id;
+            var commonvm = CreateVM<CommonVM>();
+            vm.AllEnterprise = commonvm.GetEnterprises();
+            return PartialView(vm);
+        }
+
+        [ActionDescription("搜索")]
         [HttpPost]
         public string Search(SmallEntEvaluationBaseListVM vm)
         {
