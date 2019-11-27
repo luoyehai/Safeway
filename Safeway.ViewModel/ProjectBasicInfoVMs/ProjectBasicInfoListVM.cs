@@ -38,7 +38,7 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
         protected override IEnumerable<IGridColumn<ProjectBasicInfo_View>> InitGridHeader()
         {
             return new List<GridColumn<ProjectBasicInfo_View>>{
-                this.MakeGridHeader(x => x.ProjectName),
+                this.MakeGridHeader(x => x.ProjectName).SetFormat(ProjectNameFormat),
                 //this.MakeGridHeader(x => x.ProjectDescription),
                 this.MakeGridHeader(x => x.ProjectType),
                 this.MakeGridHeader(x => x.ProjectOnwer),
@@ -47,6 +47,15 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
                 this.MakeGridHeader(x => x.ProjectEndDateStr),
                 this.MakeGridHeader(x => x.ProjectStatus),
                 this.MakeGridHeaderAction(width: 200)
+            };
+        }
+
+        private List<ColumnFormatInfo> ProjectNameFormat(ProjectBasicInfo_View entity, object val)
+        {
+            var url = $"SmallEntEvaluationBase/ProjectDetail/{entity.ID}";
+            return new List<ColumnFormatInfo>
+            {
+                ColumnFormatInfo.MakeDialogButton(ButtonTypesEnum.Button , url , entity.ProjectName, width: 1400, height: 900, maxed:true)
             };
         }
 

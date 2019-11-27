@@ -27,6 +27,12 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         [Display(Name = "状态")]
         public EvaluationStatus? Status { get; set; }
 
+        [Display(Name = "属地")]
+        public string Street { get; set; }
+
+        [Display(Name = "行业")]
+        public string Industry { get; set; }
+
         protected override void InitVM()
         {
         }
