@@ -506,7 +506,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 var des = templatedata.Rows[i][6].ToString();
 
                 descriptioncell.SetCellValue(des.Contains("n") ? des.Replace("n",Environment.NewLine) :des);
-                scorecell.SetCellValue(templatedata.Rows[i][7] == null || string.IsNullOrEmpty(templatedata.Rows[i][7].ToString()) ? 0 : Convert.ToDouble(templatedata.Rows[i - 5][7]));
+                scorecell.SetCellValue(templatedata.Rows[i][7] == null || string.IsNullOrEmpty(templatedata.Rows[i][7].ToString()) ? 0 : Convert.ToDouble(templatedata.Rows[i][7]));
 
                 descriptioncell.CellStyle = borderedCellStyle;
                 scorecell.CellStyle = borderedCellStyle;

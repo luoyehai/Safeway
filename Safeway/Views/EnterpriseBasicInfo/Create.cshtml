@@ -40,8 +40,8 @@
                             <el-table :data="businessInfoList" style="width: 100%" border>
                                 <el-table-column label="安全服务类型" width="160">
                                     <template slot-scope="scope">
-                                        <el-select style="z-index:20101211"  v-model="scope.row.SafetyServiceType" placeholder="Select">
-                                            <el-option  v-for="item in ServiceTypes"
+                                        <el-select style="z-index:20101211" v-model="scope.row.SafetyServiceType" placeholder="Select">
+                                            <el-option v-for="item in ServiceTypes"
                                                        :key="item.value"
                                                        :label="item.label"
                                                        :value="item.value">
@@ -61,9 +61,9 @@
                                 </el-table-column>
                                 <el-table-column label="到期时间" width="160">
                                     <template slot-scope="scope" style="z-index:20101211">
-                                        <el-date-picker  v-model="scope.row.ExpireDate"
-                                                    type="date"
-                                                    placeholder="Pick a day">
+                                        <el-date-picker v-model="scope.row.ExpireDate"
+                                                        type="date"
+                                                        placeholder="Pick a day">
                                         </el-date-picker>
                                     </template>
                                 </el-table-column>
@@ -79,6 +79,11 @@
                                                   placeholder="Please input"
                                                   v-model="scope.row.Description">
                                         </el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="" width="55" align="center" fixed="right">
+                                    <template slot-scope="scope">
+                                        <i @@click="remove(scope.$index, scope.row)" class="el-icon-delete" style="cursor:pointer;"></i>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -106,9 +111,10 @@
         </wt:row>
     </wt:form>
     <script>
-        $(document).ready(function () {
-            document.getElementsByClassName("layui-layer-shade").style.zIndex = "1001";
-            document.getElementsByClassName("layui-layer-page").style.zIndex = "1005";
+        var form = $(".layui-form");
+        var submitbtnId ='#'+ form.attr('id') + 'submit';
+        $(submitbtnId).click(function() {
+          alert( "Handler for .click() called." );
         });
         var BusinessInfoVM = new Vue({
             el: '#BusinessInfo',
@@ -156,6 +162,11 @@
                 {
 
                      
+                },
+                remove: function (index, row) {
+                    if (this.businessInfoList.length > 0) {
+                        this.businessInfoList.splice(index, 1);
+                    }              
                 },
                 handleAddNew: function ()
                 {
