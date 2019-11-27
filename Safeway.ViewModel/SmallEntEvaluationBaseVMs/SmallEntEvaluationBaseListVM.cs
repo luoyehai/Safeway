@@ -75,7 +75,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         {
             return new List<ColumnFormatInfo>
             {
-                ColumnFormatInfo.MakeHtml(html: $"<div class='layui-progress'><div class='layui-progress-bar' lay-percent='70%'></div></div>")
+                ColumnFormatInfo.MakeHtml($"<div class='layui-progress'><div class='layui-progress-bar' lay-percent='70%'></div></div>")
             };
         }
 
