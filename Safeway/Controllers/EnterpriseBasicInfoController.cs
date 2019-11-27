@@ -255,5 +255,27 @@ namespace Safeway.Controllers
             var result = vm.GetBaseQuery().Where(x => x.ComapanyName.Contains(keywords)).Select(x => new ViewFormatClass { Text = x.ComapanyName, Value = x.ComapanyName }).ToList();
             return Json(result);
         }
+        [ActionDescription("GetProvinces")]
+        public IActionResult GetProvinces()
+        {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.GetProvinces();
+            return Json(result);
+        }
+        [ActionDescription("GetCities")]
+        public IActionResult GetCities(string provinceid)
+        {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.GetSelectedCities(provinceid);
+            return Json(result);
+        }
+        [ActionDescription("GetDistricts")]
+        public IActionResult GetDistricts(string cityid)
+        {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.GetDistricts(cityid);
+            return Json(result);
+        }
+
     }
 }

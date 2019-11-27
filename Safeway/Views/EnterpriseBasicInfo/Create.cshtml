@@ -1,17 +1,194 @@
 ﻿@model Safeway.ViewModel.EnterpriseBasicInfoVMs.EnterpriseBasicInfoVM;
 
-    <wt:form vm="@Model">
-        @*<div id="BusinessInfo">
+    @*<wt:form vm="@Model">*@
+    <div id="EnterpriseInfo">
+        <el-card class="box-card">
             <template>
                 <el-tabs v-model="activeName">
-                    <el-tab-pane label="基本信息" name="basicInfo">User</el-tab-pane>
+                    <el-tab-pane label="基本信息" name="basicInfo">
+                        <div id="BasicInfo">
+                            <el-row class="row">
+                                <el-col :span="3"><div class="grid-content bg-black">公司名称<span class="redstart">*</span></div></el-col>
+                                <el-col :span="7">
+                                    <el-input v-model="basicInfo.ComapanyName"></el-input>
+                                </el-col>
+                                <el-col :span="3"><div class="grid-content bg-black">省份</div></el-col>
+                                <el-col :span="7">
+                                    <template>
+                                        <el-select v-model="basicInfo.Province" @@change="handleProvinceChange" placeholder="请选择">
+                                            <el-option v-for="item in provinceList"
+                                                       :key="item.id"
+                                                       :label="item.name"
+                                                       :value="item.id">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
+                                </el-col>
+                            </el-row>
+                            <el-row class="row">
+                                <el-col :span="3"><div class="grid-content bg-black">市</div></el-col>
+                                <el-col :span="7">
+                                    <template>
+                                        <el-select v-model="basicInfo.City" @@change="handleCityChange" placeholder="请选择">
+                                            <el-option v-for="item in cityList"
+                                                       :key="item.id"
+                                                       :label="item.name"
+                                                       :value="item.id">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
+                                </el-col>
+                                <el-col :span="3"><div class="grid-content bg-black">区</div></el-col>
+                                <el-col :span="7">
+                                    <template>
+                                        <el-select v-model="basicInfo.District" placeholder="请选择">
+                                            <el-option v-for="item in districtList"
+                                                       :key="item.id"
+                                                       :label="item.name"
+                                                       :value="item.id">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
+                                </el-col>
+                            </el-row>
+                            <el-row class="row">
+                                <el-col :span="3"><div class="grid-content bg-black">街道</div></el-col>
+                                <el-col :span="7">
+                                    <el-input v-model="basicInfo.Street"></el-input>
+                                </el-col>
+                                <el-col :span="3"><div class="grid-content bg-black">企业类型</div></el-col>
+                                <el-col :span="7">
+                                    <el-cascader v-model="selectedIndustry"
+                                                 :options="companyTypeList"
+                                                 @@change="handleCompanyTypeChange">
+                                    </el-cascader>
+                                </el-col>
+                            </el-row>
+                            <el-row class="row">
+                                <el-col :span="3"><div class="grid-content bg-black">企业所属国家</div></el-col>
+                                <el-col :span="7">
+                                    <el-input v-model="basicInfo.ForeignCountry"></el-input>
+                                </el-col>
+                                <el-col :span="3"><div class="grid-content bg-black">法定代表人</div></el-col>
+                                <el-col :span="7">
+                                    <el-input v-model="basicInfo.LegalRepresentative"></el-input>
+                                </el-col>
+                            </el-row>
+                            <el-row class="row">
+                                <el-col :span="3"><div class="grid-content bg-black">企业规模</div></el-col>
+                                <el-col :span="7">
+                                    <el-select v-model="basicInfo.CompanyScale" placeholder="请选择">
+                                        <el-option v-for="item in companyScaleList"
+                                                   :key="item.value"
+                                                   :label="item.label"
+                                                   :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-col>
+                                <el-col :span="3"><div class="grid-content bg-black">行业</div></el-col>
+                                <el-col :span="7">
+                                    <el-cascader v-model="selectedIndustry"
+                                                 :options="industryList"
+                                                 @@change="handleIndustryChange">
+                                    </el-cascader>
+                                </el-col>
+                            </el-row>
+                            <el-row class="row">
+                                <el-col :span="3"><div class="grid-content bg-black">公司人数</div></el-col>
+                                <el-col :span="7">
+                                    <el-input v-model="basicInfo.NoofEmployees"></el-input>
+                                </el-col>
+                                <el-col :span="3"><div class="grid-content bg-black">主要产品</div></el-col>
+                                <el-col :span="7">
+                                    <el-input v-model="basicInfo.MainProducts"></el-input>
+                                </el-col>
+                            </el-row>
+                            <el-row class="row">
+                                <el-col :span="3"><div class="grid-content bg-black">贸易方式</div></el-col>
+                                <el-col :span="7">
+                                    <template>
+                                        <el-select v-model="basicInfo.TermsofTrade" placeholder="请选择">
+                                            <el-option v-for="item in tradeTermList"
+                                                       :key="item.value"
+                                                       :label="item.label"
+                                                       :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </el-tab-pane>
                     <el-tab-pane label="商务信息" name="BusinessInfo">
+                        <div id="BusinessInfo">
+                            <el-table :data="businessInfoList" style="width: 100%" border>
+                                <el-table-column label="安全服务类型" width="160">
+                                    <template slot-scope="scope">
+                                        <el-select v-model="scope.row.SafetyServiceType" placeholder="Select">
+                                            <el-option v-for="item in ServiceTypes"
+                                                       :key="item.value"
+                                                       :label="item.label"
+                                                       :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="其他">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.OtherSafetyServiceType"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="证书等级" width="130">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.CertificateLevel"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="到期时间">
+                                    <template slot-scope="scope">
+                                        <el-date-picker v-model="scope.row.ExpireDate"
+                                                        type="date"
+                                                        placeholder="Pick a day">
+                                        </el-date-picker>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="原服务公司" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.OriginalServiceCom"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="描述" width="260">
+                                    <template slot-scope="scope">
+                                        <el-input type="textarea"
+                                                  :rows="2"
+                                                  placeholder="Please input"
+                                                  v-model="scope.row.Description">
+                                        </el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="" width="55" align="center" fixed="right">
+                                    <template slot-scope="scope">
+                                        <i @@click="remove(scope.$index, scope.row)" class="el-icon-delete" style="cursor:pointer;"></i>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                            <el-row>
+                                <el-col :span="5"> <el-button @@click="handleAddNew" :loading="newLoading">新增</el-button></el-col>
+                            </el-row>
+                        </div>
                     </el-tab-pane>
                     <el-tab-pane label="财务信息" name="FinanceInfo">Role</el-tab-pane>
                 </el-tabs>
+
             </template>
-        </div>*@
-        <wt:tab>
+        </el-card>
+        <el-row style="padding-top:3em">
+            <el-col :span="20" style="align-content:center">
+                <el-button style="margin:0 auto">Submit</el-button>
+                <el-button style="margin:0 auto">Cancel</el-button>
+            </el-col>
+        </el-row>
+    </div>
+        @*<wt:tab>
             <wt:tabheaders>
                 <wt:tabheader title="基本信息" />
                 <wt:tabheader title="商务信息" />
@@ -34,65 +211,11 @@
                         <wt:textbox field="Entity.MainProducts" />
                         <wt:combobox field="Entity.TermsofTrade" />
                     </wt:row>
-                </wt:tabcontent>
-                <wt:tabcontent>  
-                        <div id="BusinessInfo">
-                            <el-table :data="businessInfoList" style="width: 100%" border>
-                                <el-table-column label="安全服务类型" width="160">
-                                    <template slot-scope="scope">
-                                        <el-select style="z-index:20101211" v-model="scope.row.SafetyServiceType" placeholder="Select">
-                                            <el-option v-for="item in ServiceTypes"
-                                                       :key="item.value"
-                                                       :label="item.label"
-                                                       :value="item.value">
-                                            </el-option>
-                                        </el-select>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="其他" width="130">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.OtherSafetyServiceType"></el-input>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="证书等级" width="130">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.CertificateLevel"></el-input>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="到期时间" width="160">
-                                    <template slot-scope="scope" style="z-index:20101211">
-                                        <el-date-picker v-model="scope.row.ExpireDate"
-                                                        type="date"
-                                                        placeholder="Pick a day">
-                                        </el-date-picker>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="原服务公司" width="180">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.OriginalServiceCom"></el-input>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="描述" width="200">
-                                    <template slot-scope="scope">
-                                        <el-input type="textarea"
-                                                  :rows="2"
-                                                  placeholder="Please input"
-                                                  v-model="scope.row.Description">
-                                        </el-input>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="" width="55" align="center" fixed="right">
-                                    <template slot-scope="scope">
-                                        <i @@click="remove(scope.$index, scope.row)" class="el-icon-delete" style="cursor:pointer;"></i>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                            <el-row>
-                                <el-col :span="5"> <el-button @@click="handleAddNew" :loading="newLoading">新增</el-button></el-col>
-                            </el-row>
-                        </div>
-                </wt:tabcontent>
-                <wt:tabcontent>
+                </wt:tabcontent>*@
+                @*<wt:tabcontent>*@  
+
+                @*</wt:tabcontent>*@
+                @*<wt:tabcontent>
                     <wt:row items-per-row="ItemsPerRowEnum.Two">
                         <wt:textbox field="EnterpriseFinanceInfo.UnifiedSocialCreditCode" />
                         <wt:textbox field="EnterpriseFinanceInfo.Company_Address" />
@@ -103,64 +226,202 @@
                     </wt:row>
                 </wt:tabcontent>
             </wt:tabcontents>
-        </wt:tab>
+        </wt:tab>*@
 
-        <wt:row align="AlignEnum.Right">
+        @*<wt:row align="AlignEnum.Right">
             <wt:submitbutton />
             <wt:closebutton />
         </wt:row>
-    </wt:form>
+    </wt:form>*@
     <script>
         var form = $(".layui-form");
         var submitbtnId ='#'+ form.attr('id') + 'submit';
         $(submitbtnId).click(function() {
           alert( "Handler for .click() called." );
         });
-        var BusinessInfoVM = new Vue({
-            el: '#BusinessInfo',
+        var EnterpriseInfoVM = new Vue({
+            el: '#EnterpriseInfo',
             data: {
                 activeName: 'basicInfo',
                 newLoading: false,
                 selectedOption: '',
-                selectedDate:'',
+                selectedDate: '',
+                selectedIndustry: [],
+                selectedCompanyType: [],
                 ServiceTypes: [
                     {
-                    label: "安全生产标准化",
-                    value: "SafetyProductionStandard",
-                    },{
-                    label: "双重预防机智",
-                    value: "DoublePreventionMechanism",
-                    },{
-                    label: "安全应急预案",
-                    value: "SafetyEmergencyPlan",
-                    },{
-                    label: "安全现状评价",
-                    value: "SageEvaluation",
-                    },{
-                    label: "就业卫生现状评价",
-                    value: "EmploymentHealthEva",
-                    },{
-                    label: "定期安全服务",
-                    value: "RegularSafetyService",
-                    },{
-                    label: "环境应急预案",
-                    value: "EnvEmergencyPlan",
-                    },{
-                    label: "其他",
-                    value: "Others",
+                        label: "安全生产标准化",
+                        value: "SafetyProductionStandard",
+                    }, {
+                        label: "双重预防机智",
+                        value: "DoublePreventionMechanism",
+                    }, {
+                        label: "安全应急预案",
+                        value: "SafetyEmergencyPlan",
+                    }, {
+                        label: "安全现状评价",
+                        value: "SageEvaluation",
+                    }, {
+                        label: "就业卫生现状评价",
+                        value: "EmploymentHealthEva",
+                    }, {
+                        label: "定期安全服务",
+                        value: "RegularSafetyService",
+                    }, {
+                        label: "环境应急预案",
+                        value: "EnvEmergencyPlan",
+                    }, {
+                        label: "其他",
+                        value: "Others",
                     }],
                 businessInfoList: [{
-                    SafetyServiceType:'',
+                    SafetyServiceType: '',
                     OtherSafetyServiceType: '',
                     CertificateLevel: '',
                     ExpireDate: '',
-                    Description:'',
+                    Description: '',
                 }],
+                basicInfo: {
+                    ComapanyName: '',
+                    Province: '',
+                    City: '',
+                    District: '',
+                    Street: '',
+                    CompanyType: '',
+                    ForeignCountry: '',
+                    LegalRepresentative: '',
+                    CompanyScale: '',
+                    Industry: '',
+                    NoofEmployees: '',
+                    MainProducts: '',
+                    TermsofTrade: '',
+                },
+                provinceList: [],
+                cityList: [],
+                districtList: [],
+                tradeTermList: [{
+                    label: '出口',
+                    value: 'Export',
+                }, {
+                    label: '内销',
+                    value: 'DomesticSales',
+                }],
+                industryList: [{
+                    label:'矿山',
+                    value:'Mine',
+                },{
+                    label:'道路运输',
+                    value:'Transportation',
+                },{
+                    label:'危化',
+                    value:'DangerChemistry',
+                },{
+                    label:'工贸',
+                    value: 'IndustryandTrade',
+                    children:
+                      [{
+                        value: 'metallurgy',
+                        label: '冶金'
+                      }, {
+                        value: 'colored',
+                        label: '有色'
+                      }, {
+                        value: 'mechanical',
+                        label: '机械'
+                      }, {
+                        value: 'buildingMaterial',
+                        label: '建材'
+                      }, {
+                        value: 'textile',
+                        label: '纺织'
+                      }, {
+                        value: 'lightIndustry',
+                        label: '轻工'
+                      }, {
+                        value: 'tobacoo',
+                        label: '烟草'
+                      }, {
+                        value: 'bizsTrade',
+                        label: '商贸'
+                      }]
+                    }],
+                companyScaleList: [{
+                        value: 'large',
+                        label: '规上'
+                    }, {
+                        value: 'small',
+                        label: '小型'
+                    }, {
+                        value: 'mini',
+                        label: '微型'
+                    }],
+                companyTypeList: [
+                    {
+                        value: 'stateOwned',
+                        label: '国有'
+                    }, {
+                        value: 'private',
+                        label: '民营'
+                    }, {
+                        value: 'foreignInvest',
+                        label: '外资',
+                        children:
+                      [{
+                        value: 'usa',
+                        label: '美国'
+                      }, {
+                        value: 'eur',
+                        label: '欧洲'
+                      }, {
+                        value: 'jpn',
+                        label: '日本'
+                      }, {
+                        value: 'twd',
+                        label: '台湾'
+                      }, {
+                        value: 'others',
+                        label: '其他'
+                      }]
+                    }
+                ],
             },
             methods: {
+                handleCompanyTypeChange: function (value) {
+
+
+
+                },
+                handleIndustryChange: function (value) {
+
+
+                },
+                handleProvinceChange: function (val) {
+                    axios.get('EnterpriseBasicInfo/GetCities?provinceid=' + val)
+                        .then(function (r) {
+                            this.cityList = r.data.Data;
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+                },
+                handleCityChange: function (val) {
+                    axios.get('EnterpriseBasicInfo/GetDistricts?cityid=' + val)
+                        .then(function (r) {
+                            this.districtList = r.data.Data;
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+                },
                 loadData: function ()
                 {
-
+                    axios.get('EnterpriseBasicInfo/GetProvinces')
+                        .then(function (r) {
+                            this.provinceList = r.data.Data;
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
                      
                 },
                 remove: function (index, row) {
@@ -180,7 +441,7 @@
                         Description:'',
                     }
                     this.businessInfoList.push(NewBusinessInfo);
-                    setTimeout("BusinessInfoVM.newLoading = false;", 500)
+                    setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
                 }
                 
             },

@@ -248,5 +248,50 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         {
             base.DoDelete();
         }
+        #region VuePage
+        public List<AdddressJsonObject> GetProvinces() 
+        {
+            List<AdddressJsonObject> provinces = new List<AdddressJsonObject>();
+            var path = Path.Combine(Directory.GetCurrentDirectory(),
+                                        "wwwroot", "custermisedui", "chinaregion", "province.json");
+            using (StreamReader reader = new StreamReader(path))
+            //using (JsonTextReader reader = new JsonTextReader(file))
+            {
+                string json = reader.ReadToEnd();
+               provinces = JsonConvert.DeserializeObject<List<AdddressJsonObject>>(json);
+            }
+            return provinces;
+        }
+
+        public List<AdddressJsonObject> GetSelectedCities(string id)
+        {
+            List<AdddressJsonObject> cities = new List<AdddressJsonObject>();
+            var path = Path.Combine(Directory.GetCurrentDirectory(),
+                                   "wwwroot", "custermisedui", "chinaregion", "city.json");
+            var cityvalues = new Dictionary<string, List<CityObject>>();
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string json = reader.ReadToEnd();
+                cityvalues = JsonConvert.DeserializeObject<Dictionary<string, List<CityObject>>>(json);
+            }
+            cities = cityvalues.Where(x => x.Key == id).SelectMany(x => x.Value).Select(x => new AdddressJsonObject { name = x.name, id = x.id }).ToList();
+            return cities;
+        }
+        public List<AdddressJsonObject> GetDistricts(string id) 
+        {
+            List<AdddressJsonObject> districts = new List<AdddressJsonObject>();
+            var path = Path.Combine(Directory.GetCurrentDirectory(),
+                           "wwwroot", "custermisedui", "chinaregion", "county.json");
+            var districtvalues = new Dictionary<string, List<DistrictObject>>();
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string json = reader.ReadToEnd();
+                districtvalues = JsonConvert.DeserializeObject<Dictionary<string, List<DistrictObject>>>(json);
+            }
+            districts = districtvalues.Where(x => x.Key == id).SelectMany(x => x.Value).Select(x => new AdddressJsonObject { name = x.name, id = x.id }).ToList();
+            return districts;
+
+        }
+        #endregion
     }
 }
