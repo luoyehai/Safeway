@@ -331,17 +331,22 @@
             },
             handleExport: function () {
                 let vData = @Html.Raw(Json.Serialize(ViewData));
-                axios.get('SmallEntEvaluationItem/ExportReport?id=' + vData["ID"])
+                let newtab = window.open('', '_blank');
+                let newurl = 'SmallEntEvaluationItem/ExportReport?id=' + vData["ID"]
+                axios.get(newurl)
                     .then(function (r) {
                         this.loading = false;
                         console.log(r);
-                        if (r.data.Data === true) {
-                            this.$notify.success({
-                                title: '提示',
-                                message: '导出评审数据成功！',
-                                position: 'bottom-right'
-                            });
-                        }
+                        
+                        this.$notify.success({
+                            title: '提示',
+                            message: '导出评审数据成功！',
+                            position: 'bottom-right'
+                        });              
+                        
+                        console.log(newtab.location);
+                        newtab.location = newurl + r;
+                        console.log(newtab.location);
                     }.bind(this))
             }
         },
