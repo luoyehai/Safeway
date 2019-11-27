@@ -11,10 +11,13 @@
         <wt:combobox field="Searcher.Status" />
     </wt:row>
 </wt:searchpanel>
-<wt:grid vm="@Model" url="/SmallEntEvaluationBase/Search"/>
+<wt:grid vm="@Model" url="/SmallEntEvaluationBase/Search" done-func="doneFunc"/>
 <script>
-    //注意进度条依赖 element 模块，否则无法进行正常渲染和功能性操作
-    layui.use('element', function () {
+
+
+    function doneFunc(res, currentCount) {
         var element = layui.element;
-    });
+        element.render()
+    }
+
 </script>

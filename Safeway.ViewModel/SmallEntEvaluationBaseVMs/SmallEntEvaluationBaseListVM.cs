@@ -73,9 +73,16 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 
         private List<ColumnFormatInfo> ProgressFormat(SmallEntEvaluationBase_View entity, object val)
         {
+            decimal progress = 0;
+            decimal.TryParse(entity.Progress, out progress);
+            var bgColor = "blue";
+            if (progress < 60)
+                bgColor = "red";
+            if (progress > 99)
+                bgColor = "green";
             return new List<ColumnFormatInfo>
             {
-                ColumnFormatInfo.MakeHtml($"<div class='layui-progress'><div class='layui-progress-bar' lay-percent='70%'></div></div>")
+                ColumnFormatInfo.MakeHtml(html: $"<div class='layui-progress' style='margin-top:10px' lay-showPercent='yes'><div class='layui-progress-bar layui-bg-{bgColor}' lay-percent='{entity.Progress}%'></div></div>")
             };
         }
 
