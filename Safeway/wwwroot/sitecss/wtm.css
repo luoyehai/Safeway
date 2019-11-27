@@ -87,3 +87,12 @@
     padding-left:3em;
 
 }
+.el-table td, .el-table th.is-leaf {
+    background: #ffffff;
+    text-align: left;
+    line-height: 25px;
+    padding: 5px;
+    font-size: 14px;
+    color: black;
+    cursor: pointer;
+}
