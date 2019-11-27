@@ -67,6 +67,9 @@ namespace Safeway.Model.SmallEntEvaluation
         [Display(Name = "得分")]
         public string Score { get; set; }
 
+        [Display(Name = "进度")]
+        public string Progress { get; set; }
+
         [Display(Name = "评审报告文件")]
         public Guid? ReportFileId { get; set; }
     }
