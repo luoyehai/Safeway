@@ -280,7 +280,8 @@ namespace Safeway.Controllers
         [HttpPost]
         public JsonResult AddEnterpriseInfo([FromBody]params string[] parameters)
         {
-             var result = "s";
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.AddNewEnterpriseInfo(parameters);
              return Json(result);
         }
 

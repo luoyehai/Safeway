@@ -239,6 +239,9 @@
                                     </template>
                                 </el-table-column>
                             </el-table>
+                            <el-row>
+                                <el-col :span="5"> <el-button @@click="handleAddNewContact" :loading="newLoading">新增</el-button></el-col>
+                            </el-row>
                         </template>
                     </el-tab-pane>
                     <el-tab-pane label="年收益" name="YieldInfo">
@@ -321,7 +324,7 @@
         var EnterpriseInfoVM = new Vue({
             el: '#EnterpriseInfo',
             data: {
-                newlaoding: false,
+                basicId: '',
                 activeName: 'basicInfo',
                 newLoading: false,
                 selectedOption: '',
@@ -360,6 +363,7 @@
                     CertificateLevel: '',
                     ExpireDate: '',
                     Description: '',
+                    EnterpriseBasicInfoId: '',                   
                 }],
                 basicInfo: {
                     ComapanyName: '',
@@ -382,7 +386,8 @@
                     Tele_Number:'',
                     Bank:'',
                     Account:'',
-                    CustomerReceiptReceiver:'',
+                    CustomerReceiptReceiver: '',
+                    EnterpriseBasicId: '',
                 },
                 provinceList: [],
                 cityList: [],
@@ -522,6 +527,7 @@
                 yearYieldList: [{
                     FiscalYear: '',
                     YearYieldValue: 0,
+                    EnterpriseBasicInfoId: '',
                 }]
             },
             methods: {
@@ -534,7 +540,20 @@
                     this.basicInfo.Industry = this.selectedIndustry.join("/");
                 },
                 generateSubmitFormat: function () {
+                    //add  ID
+                    this.basicInfo.ID = this.basicId;
+                    this.businessInfoList.map(function (row, index) {
+                        row.EnterpriseBasicInfoId = this.basicId
+                    }.bind(this));
 
+                    this.financeInfo.EnterpriseBasicId = this.basicId;
+                    this.contactList.map(function (row, index) {
+                        row.EnterpriseBasicInfoId = this.basicId;
+                    }.bind(this));
+
+                    this.yearYieldList.map(function (row, index) {
+                        row.EnterpriseBasicInfoId = this.basicId;
+                    }.bind(this))
                     this.basicInfo.CompanyType = this.selectedCompanyType.join("/");
                     this.basicInfo.Industry = this.selectedIndustry.join("/");
 
@@ -558,22 +577,28 @@
                     });
                 },
                 handleSubmit: function () {
+                    this.generateSubmitFormat();
                     var parameters = [
                                 JSON.stringify(this.basicInfo),
                                 JSON.stringify(this.businessInfoList),
                                 JSON.stringify(this.financeInfo),
                                 JSON.stringify(this.contactList),
                                 JSON.stringify(this.yearYieldList)
-                            ];
-                    this.generateSubmitFormat();
+                            ];                   
                      axios.post('EnterpriseBasicInfo/AddEnterpriseInfo',parameters)
                     .then(function (response) {
-
+                        this.$notify.success({
+                            title: '提示',
+                            message: '保存评审数据成功！',
+                            position: 'bottom-right'
+                        });
                     }.bind(this))
 
                 },
                 loadData: function ()
                 {
+                    //this.basicId = @Html.Raw(Json.Serialize(Model.Entity.ID)).ToString();
+                    this.basicId = @Html.Raw(Json.Serialize(Model.Entity.ID));
                     axios.get('EnterpriseBasicInfo/GetProvinces')
                         .then(function (r) {
                             this.provinceList = r.data.Data;
@@ -601,7 +626,20 @@
                     }
                     this.businessInfoList.push(NewBusinessInfo);
                     setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
-                }
+                },
+                handleAddNewContact: function () {
+                    this.newLoading = true;
+                    let NewContact = {
+
+                        SafetyServiceType:'',
+                        OtherSafetyServiceType: '',
+                        CertificateLevel: '',
+                        ExpireDate: '',
+                        Description:'',
+                    }
+                    this.businessInfoList.push(NewBusinessInfo);
+                    setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
+                },
                 
             },
             created: function () {
