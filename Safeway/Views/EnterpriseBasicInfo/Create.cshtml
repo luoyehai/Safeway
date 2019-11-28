@@ -122,7 +122,7 @@
                     <el-tab-pane label="商务信息" name="BusinessInfo">
                         <div id="BusinessInfo">
                             <el-table :data="businessInfoList" style="width: 100%" border class="grid-content bg-black">
-                                <el-table-column label="安全服务类型"  width="160">
+                                <el-table-column label="安全服务类型" width="160">
                                     <template slot-scope="scope">
                                         <el-select v-model="scope.row.SafetyServiceType" placeholder="Select">
                                             <el-option v-for="item in ServiceTypes"
@@ -208,13 +208,65 @@
                             </el-col>
                         </el-row>
                     </el-tab-pane>
+                    <el-tab-pane label="联系人信息" name="ContactInfo">
+                        <template>
+                            <el-table :data="contactList" style="width: 100%">
+                                <el-table-column prop="Position" label="职位" width="180">
+                                </el-table-column>
+                                <el-table-column label="部门" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.Dept"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="姓名" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.Name"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="座机" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.Tele"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="手机" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.MobilePhone"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="邮箱" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.Email"></el-input>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </el-tab-pane>
+                    <el-tab-pane label="年收益" name="YieldInfo">
+                        <div>
+                            <el-table :data="yearYieldList" style="width: 100%">
+                                <el-table-column label="财年" width="180">
+                                    <template slot-scope="scope">
+                                        <el-date-picker v-model="scope.row.FiscalYear"
+                                                        type="year"
+                                                        placeholder="选择财年">
+                                        </el-date-picker>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="年收益" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model.number="scope.row.YearYieldValue"></el-input>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </el-tab-pane>
                 </el-tabs>
 
             </template>
         </el-card>
         <el-row style="padding-top:3em">
             <el-col :span="20" style="align-content:center">
-                <el-button style="margin:0 auto">Submit</el-button>
+                <el-button style="margin:0 auto" @@click="handleSubmit">Submit</el-button>
                 <el-button style="margin:0 auto">Cancel</el-button>
             </el-col>
         </el-row>
@@ -265,14 +317,11 @@
         </wt:row>
     </wt:form>*@
     <script>
-        var form = $(".layui-form");
-        var submitbtnId ='#'+ form.attr('id') + 'submit';
-        $(submitbtnId).click(function() {
-          alert( "Handler for .click() called." );
-        });
+
         var EnterpriseInfoVM = new Vue({
             el: '#EnterpriseInfo',
             data: {
+                newlaoding: false,
                 activeName: 'basicInfo',
                 newLoading: false,
                 selectedOption: '',
@@ -421,17 +470,73 @@
                         value: 'others',
                         label: '其他'
                       }]
-                    }
-                ],
+                    }],
+                contactList: [{
+                    Dept: '',
+                    Position: '主要负责人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '安全部门负责人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '安全部门联系人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '安全部门其他人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '采购部门负责人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '采购部门联系人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    }],
+                yearYieldList: [{
+                    FiscalYear: '',
+                    YearYieldValue: 0,
+                }]
             },
             methods: {
                 handleCompanyTypeChange: function (value) {
 
-
-
+                    this.basicInfo.CompanyType = this.selectedCompanyType.join("/");
                 },
                 handleIndustryChange: function (value) {
 
+                    this.basicInfo.Industry = this.selectedIndustry.join("/");
+                },
+                generateSubmitFormat: function () {
+
+                    this.basicInfo.CompanyType = this.selectedCompanyType.join("/");
+                    this.basicInfo.Industry = this.selectedIndustry.join("/");
 
                 },
                 handleProvinceChange: function (val) {
@@ -451,6 +556,21 @@
                     .catch(function (e) {
                         console.error(e);
                     });
+                },
+                handleSubmit: function () {
+                    var parameters = [
+                                JSON.stringify(this.basicInfo),
+                                JSON.stringify(this.businessInfoList),
+                                JSON.stringify(this.financeInfo),
+                                JSON.stringify(this.contactList),
+                                JSON.stringify(this.yearYieldList)
+                            ];
+                    this.generateSubmitFormat();
+                     axios.post('EnterpriseBasicInfo/AddEnterpriseInfo',parameters)
+                    .then(function (response) {
+
+                    }.bind(this))
+
                 },
                 loadData: function ()
                 {

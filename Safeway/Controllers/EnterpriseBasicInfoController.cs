@@ -13,6 +13,7 @@ using Safeway.ViewModel.EnterpriseFinanceInfoVMs;
 using Safeway.ViewModel.EnterpriseBusinessinfoVMs;
 using Safeway.ViewModel.CommonClass;
 using Microsoft.AspNetCore.Authorization;
+using Safeway.Model.Enterprise;
 
 namespace Safeway.Controllers
 {
@@ -275,6 +276,12 @@ namespace Safeway.Controllers
             var vm = CreateVM<EnterpriseBasicInfoVM>();
             var result = vm.GetDistricts(cityid);
             return Json(result);
+        }
+        [HttpPost]
+        public JsonResult AddEnterpriseInfo([FromBody]params string[] parameters)
+        {
+             var result = "s";
+             return Json(result);
         }
 
     }
