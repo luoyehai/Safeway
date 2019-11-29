@@ -1,142 +1,487 @@
 ﻿@model Safeway.ViewModel.EnterpriseBasicInfoVMs.EnterpriseBasicInfoVM
 
-    <wt:form vm="@Model">
-        <wt:tab>
-            <wt:tabheaders>
-                <wt:tabheader title="基本信息" />
-                <wt:tabheader title="商务信息" />
-                <wt:tabheader title="财务信息" />
-                <wt:tabheader title="联系人信息" />
-                <wt:tabheader title="年收益信息" />
-            </wt:tabheaders>
-            <wt:tabcontents>
-                <wt:tabcontent>
-                    <wt:row items-per-row="ItemsPerRowEnum.Two">
-                        <wt:display field="Entity.ComapanyName" />
-                        <wt:display field="Entity.Province" />
-                        <wt:display field="Entity.City" />
-                        <wt:display field="Entity.District" />
-                        <wt:display field="Entity.Street" />
-                        <wt:display field="Entity.CompanyType" />
-                        <wt:display field="Entity.ForeignCountry" />
-                        <wt:display field="Entity.LegalRepresentative" />
-                        <wt:display field="Entity.CompanyScale" />
-                        <wt:display field="Entity.Industry" />
-                        <wt:display field="Entity.NoofEmployees" />
-                        <wt:display field="Entity.MainProducts" />
-                        <wt:display field="Entity.TermsofTrade" />
-                    </wt:row>
-                </wt:tabcontent>
-                <wt:tabcontent>
-                    <wt:row items-per-row="ItemsPerRowEnum.Two">
-                        <wt:display field="EnterpriseBusinessinfo.SafetyServiceType" />
-                        <wt:display field="EnterpriseBusinessinfo.OtherSafetyServiceType" />
-                        <wt:display field="EnterpriseBusinessinfo.CertificateLevel" />
-                        <wt:display field="EnterpriseBusinessinfo.ExpireDate" />
-                        <wt:display field="EnterpriseBusinessinfo.OriginalServiceCom" />
-                        <wt:display field="EnterpriseBusinessinfo.Description" />
-                    </wt:row>
-                </wt:tabcontent>
-                <wt:tabcontent>
-                    <wt:row items-per-row="ItemsPerRowEnum.Two">
-                        <wt:display field="EnterpriseFinanceInfo.UnifiedSocialCreditCode" />
-                        <wt:display field="EnterpriseFinanceInfo.Company_Address" />
-                        <wt:display field="EnterpriseFinanceInfo.Tele_Number" />
-                        <wt:display field="EnterpriseFinanceInfo.Bank" />
-                        <wt:display field="EnterpriseFinanceInfo.Account" />
-                        <wt:display field="EnterpriseFinanceInfo.CustomerReceiptReceiver" />
-                    </wt:row>
-                </wt:tabcontent>
-                <wt:tabcontent>
-                    <div id="contact">
-                        <el-table :data="contactList" style="width: 100%" border>
-                            <el-table-column prop="Dept"
-                                             label="Dept"
-                                             width="130">
+<div id="EnterpriseInfo">
+    <el-card class="box-card">
+        <template>
+            <el-tabs v-model="activeName">
+                <el-tab-pane label="基本信息" name="basicInfo">
+                    <div id="BasicInfo">
+                        <el-row class="row">
+                            <el-col :span="3"><div class="grid-content bg-black">公司名称<span class="redstart">*</span></div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.ComapanyName}} </el-col>
+                            <el-col :span="3"><div class="grid-content bg-black">省份</div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.Province}} </el-col>
+                        </el-row>
+                        <el-row class="row">
+                            <el-col :span="3"><div class="grid-content bg-black">市</div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.City}} </el-col>
+                            <el-col :span="3"><div class="grid-content bg-black">区</div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.District}} </el-col>
+                        </el-row>
+                        <el-row class="row">
+                            <el-col :span="3"><div class="grid-content bg-black">街道</div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.Street}} </el-col>
+                            <el-col :span="3"><div class="grid-content bg-black">企业类型</div></el-col>
+                            <el-col :span="7">
+                                <el-cascader v-model="selectedCompanyType"
+                                             disabled
+                                             :options="companyTypeList"
+                                             @@change="handleCompanyTypeChange">
+                                </el-cascader>
+                            </el-col>
+                        </el-row>
+                        <el-row class="row">
+                            <el-col :span="3"><div class="grid-content bg-black">企业所属国家</div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.ForeignCountry}} </el-col>
+                            <el-col :span="3"><div class="grid-content bg-black">法定代表人</div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.LegalRepresentative}} </el-col>
+                        </el-row>
+                        <el-row class="row">
+                            <el-col :span="3"><div class="grid-content bg-black">企业规模</div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.CompanyScale}} </el-col>
+                            <el-col :span="3"><div class="grid-content bg-black">行业</div></el-col>
+                            <el-col :span="7">
+                                <el-cascader v-model="selectedIndustry"
+                                             disabled
+                                             :options="industryList"
+                                             @@change="handleIndustryChange">
+                                </el-cascader>
+                            </el-col>
+                        </el-row>
+                        <el-row class="row">
+                            <el-col :span="3"><div class="grid-content bg-black">公司人数</div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.NoofEmployees}} </el-col>
+                            <el-col :span="3"><div class="grid-content bg-black">主要产品</div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.MainProducts}} </el-col>
+                        </el-row>
+                        <el-row class="row">
+                            <el-col :span="3"><div class="grid-content bg-black">贸易方式</div></el-col>
+                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.TermsofTrade}} </el-col>
+                        </el-row>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="商务信息" name="BusinessInfo">
+                    <div id="BusinessInfo">
+                        <el-table :data="businessInfoList" style="width: 100%" border class="grid-content bg-black">
+                            <el-table-column label="安全服务类型" width="160" prop="SafetyServiceType">
                             </el-table-column>
-                            <el-table-column prop="Position"
-                                             label="Position"
-                                             width="130">
+                            <el-table-column label="其他" prop="OtherSafetyServiceType">
                             </el-table-column>
-                            <el-table-column prop="Name"
-                                             label="Name">
+                            <el-table-column label="证书等级" width="130" prop="CertificateLevel">
                             </el-table-column>
-                            <el-table-column prop="MobilePhone"
-                                             label="MobilePhone"
-                                             width="160">
+                            <el-table-column label="到期时间" width="200" prop="ExpireDate">
                             </el-table-column>
-                            <el-table-column prop="Email"
-                                             label="Email"
-                                             width="160">
+                            <el-table-column label="原服务公司" width="180" prop="OriginalServiceCom">
                             </el-table-column>
-                            <el-table-column prop="Tele"
-                                             label="Tele">
+                            <el-table-column label="描述" width="260" prop="Description">
                             </el-table-column>
                         </el-table>
                     </div>
-                </wt:tabcontent>
-                <wt:tabcontent>
-                    <div id="yearYield">
-                        <el-table :data="yearYieldList" style="width: 100%" border>
-                            <el-table-column prop="FiscalYear"
-                                             label="财年"
-                                             width="180">
+                </el-tab-pane>
+                <el-tab-pane label="财务信息" name="FinanceInfo">
+                    <el-row class="row">
+                        <el-col :span="3"><div class="grid-content bg-black">统一社会信用代码</div></el-col>
+                        <el-col :span="7" class="grid-content bg-black">{{financeInfo.UnifiedSocialCreditCode}} </el-col>
+                        <el-col :span="3"><div class="grid-content bg-black">单位地址</div></el-col>
+                        <el-col :span="7" class="grid-content bg-black">{{financeInfo.Company_Address}} </el-col>
+                    </el-row>
+                    <el-row class="row">
+                        <el-col :span="3"><div class="grid-content bg-black">电话号码</div></el-col>
+                        <el-col :span="7" class="grid-content bg-black">{{financeInfo.Tele_Number}} </el-col>
+                        <el-col :span="3"><div class="grid-content bg-black">开户银行</div></el-col>
+                        <el-col :span="7" class="grid-content bg-black">{{financeInfo.Bank}} </el-col>
+                    </el-row>
+                    <el-row class="row">
+                        <el-col :span="3"><div class="grid-content bg-black">银行账户</div></el-col>
+                        <el-col :span="7" class="grid-content bg-black">{{financeInfo.Account}} </el-col>
+                        <el-col :span="3"><div class="grid-content bg-black">发票接收人</div></el-col>
+                        <el-col :span="7" class="grid-content bg-black">{{financeInfo.CustomerReceiptReceiver}} </el-col>
+                    </el-row>
+                </el-tab-pane>
+                <el-tab-pane label="联系人信息" name="ContactInfo">
+                    <template>
+                        <el-table :data="contactList" style="width: 100%">
+                            <el-table-column prop="Position" label="职位" width="180">
                             </el-table-column>
-                            <el-table-column prop="YearYieldValue"
-                                             label="年收益"
-                                             width="180">
+                            <el-table-column label="部门" width="180" prop="Dept">
+                            </el-table-column>
+                            <el-table-column label="姓名" width="180" prop="Name">
+                            </el-table-column>
+                            <el-table-column label="座机" width="180" prop="Tele">
+                            </el-table-column>
+                            <el-table-column label="手机" width="180" prop="MobilePhone">
+                            </el-table-column>
+                            <el-table-column label="邮箱" width="180"  prop="Email">
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </el-tab-pane>
+                <el-tab-pane label="年收益" name="YieldInfo">
+                    <div>
+                        <el-table :data="yearYieldList" style="width: 100%">
+                            <el-table-column label="财年" width="180" prop="FiscalYear">                               
+                            </el-table-column>
+                            <el-table-column label="年收益" width="180" prop="YearYieldValue">
                             </el-table-column>
                         </el-table>
                     </div>
-                </wt:tabcontent>
-            </wt:tabcontents>
-            </wt:tab>
-        <wt:row align=" AlignEnum.Right">
-            <wt:closebutton />
-        </wt:row>
-    </wt:form>
-    <script>
-    var contactVM = new Vue({
-        el: '#contact',
-        data: {
-            contactList: [{
-                Dept: '',
-                Position: '',
-                Name: '',
-                MobilePhone: '',
-                Email: '',
-                Tele: ''
-            }],
-        },
-        methods: {
-            loadData: function () {
+                </el-tab-pane>
+            </el-tabs>
 
-                this.contactList =@Html.Raw(Json.Serialize(Model.EnterpriseContacts));
+        </template>
+    </el-card>
+    <el-row style="padding-top:3em">
+        <el-col :span="20" style="align-content:center">
+            <el-button style="margin:0 auto" @@click="handleSubmit">Submit</el-button>
+            <el-button style="margin:0 auto">Cancel</el-button>
+        </el-col>
+    </el-row>
+</div>
+<script>
+
+        var EnterpriseInfoVM = new Vue({
+            el: '#EnterpriseInfo',
+            data: {
+                basicId: '',
+                activeName: 'basicInfo',
+                newLoading: false,
+                selectedOption: '',
+                selectedDate: '',
+                selectedIndustry: [],
+                selectedCompanyType: [],
+                ServiceTypes: [
+                    {
+                        label: "安全生产标准化",
+                        value: "SafetyProductionStandard",
+                    }, {
+                        label: "双重预防机智",
+                        value: "DoublePreventionMechanism",
+                    }, {
+                        label: "安全应急预案",
+                        value: "SafetyEmergencyPlan",
+                    }, {
+                        label: "安全现状评价",
+                        value: "SageEvaluation",
+                    }, {
+                        label: "就业卫生现状评价",
+                        value: "EmploymentHealthEva",
+                    }, {
+                        label: "定期安全服务",
+                        value: "RegularSafetyService",
+                    }, {
+                        label: "环境应急预案",
+                        value: "EnvEmergencyPlan",
+                    }, {
+                        label: "其他",
+                        value: "Others",
+                    }],
+                businessInfoList: [{
+                    SafetyServiceType: '',
+                    OtherSafetyServiceType: '',
+                    CertificateLevel: '',
+                    ExpireDate: '',
+                    Description: '',
+                    EnterpriseBasicInfoId: '',
+                }],
+                basicInfo: {
+                    ComapanyName: '',
+                    Province: '',
+                    City: '',
+                    District: '',
+                    Street: '',
+                    CompanyType: '',
+                    ForeignCountry: '',
+                    LegalRepresentative: '',
+                    CompanyScale: '',
+                    Industry: '',
+                    NoofEmployees: '',
+                    MainProducts: '',
+                    TermsofTrade: '',
+                },
+                financeInfo: {
+                    UnifiedSocialCreditCode:'',
+                    Company_Address:'',
+                    Tele_Number:'',
+                    Bank:'',
+                    Account:'',
+                    CustomerReceiptReceiver: '',
+                    EnterpriseBasicId: '',
+                },
+                provinceList: [],
+                cityList: [],
+                districtList: [],
+                tradeTermList: [{
+                    label: '出口',
+                    value: 'Export',
+                }, {
+                    label: '内销',
+                    value: 'DomesticSales',
+                }],
+                industryList: [{
+                    label:'矿山',
+                    value:'Mine',
+                },{
+                    label:'道路运输',
+                    value:'Transportation',
+                },{
+                    label:'危化',
+                    value:'DangerChemistry',
+                },{
+                    label:'工贸',
+                    value: 'IndustryandTrade',
+                    children:
+                      [{
+                        value: 'metallurgy',
+                        label: '冶金'
+                      }, {
+                        value: 'colored',
+                        label: '有色'
+                      }, {
+                        value: 'mechanical',
+                        label: '机械'
+                      }, {
+                        value: 'buildingMaterial',
+                        label: '建材'
+                      }, {
+                        value: 'textile',
+                        label: '纺织'
+                      }, {
+                        value: 'lightIndustry',
+                        label: '轻工'
+                      }, {
+                        value: 'tobacoo',
+                        label: '烟草'
+                      }, {
+                        value: 'bizsTrade',
+                        label: '商贸'
+                      }]
+                    }],
+                companyScaleList: [{
+                        value: 'large',
+                        label: '规上'
+                    }, {
+                        value: 'small',
+                        label: '小型'
+                    }, {
+                        value: 'mini',
+                        label: '微型'
+                    }],
+                companyTypeList: [
+                    {
+                        value: 'stateOwned',
+                        label: '国有'
+                    }, {
+                        value: 'private',
+                        label: '民营'
+                    }, {
+                        value: 'foreignInvest',
+                        label: '外资',
+                        children:
+                      [{
+                        value: 'usa',
+                        label: '美国'
+                      }, {
+                        value: 'eur',
+                        label: '欧洲'
+                      }, {
+                        value: 'jpn',
+                        label: '日本'
+                      }, {
+                        value: 'twd',
+                        label: '台湾'
+                      }, {
+                        value: 'others',
+                        label: '其他'
+                      }]
+                    }],
+                contactList: [{
+                    Dept: '',
+                    Position: '主要负责人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '安全部门负责人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '安全部门联系人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '安全部门其他人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '采购部门负责人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '采购部门联系人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    }],
+                yearYieldList: [{
+                    FiscalYear: '',
+                    YearYieldValue: 0,
+                    EnterpriseBasicInfoId: '',
+                }]
+            },
+            methods: {
+                handleCompanyTypeChange: function (value) {
+
+                    this.basicInfo.CompanyType = this.selectedCompanyType.join("/");
+                },
+                handleIndustryChange: function (value) {
+
+                    this.basicInfo.Industry = this.selectedIndustry.join("/");
+                },
+                generateSubmitFormat: function () {
+                    //add  ID
+                    this.basicInfo.ID = this.basicId;
+                    this.businessInfoList.map(function (row, index) {
+                        row.EnterpriseBasicInfoId = this.basicId
+                    }.bind(this));
+
+                    this.financeInfo.EnterpriseBasicId = this.basicId;
+                    this.contactList.map(function (row, index) {
+                        row.EnterpriseBasicInfoId = this.basicId;
+                    }.bind(this));
+
+                    this.yearYieldList.map(function (row, index) {
+                        row.EnterpriseBasicInfoId = this.basicId;
+                    }.bind(this))
+                    this.basicInfo.CompanyType = this.selectedCompanyType.join("/");
+                    this.basicInfo.Industry = this.selectedIndustry.join("/");
+
+                },
+                handleProvinceChange: function (val) {
+                    axios.get('EnterpriseBasicInfo/GetCities?provinceid=' + val)
+                        .then(function (r) {
+                            this.cityList = r.data.Data;
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+                },
+                handleCityChange: function (val) {
+                    axios.get('EnterpriseBasicInfo/GetDistricts?cityid=' + val)
+                        .then(function (r) {
+                            this.districtList = r.data.Data;
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+                },
+                handleSubmit: function () {
+                    this.generateSubmitFormat();
+                    var parameters = [
+                                JSON.stringify(this.basicInfo),
+                                JSON.stringify(this.businessInfoList),
+                                JSON.stringify(this.financeInfo),
+                                JSON.stringify(this.contactList),
+                                JSON.stringify(this.yearYieldList)
+                            ];
+                     axios.post('EnterpriseBasicInfo/EditEnterpriseInfo',parameters)
+                    .then(function (response) {
+                        this.$notify.success({
+                            title: '提示',
+                            message: '保存评审数据成功！',
+                            position: 'bottom-right'
+                        });
+                    }.bind(this))
+
+                },
+                loadData: function ()
+                {
+
+                    this.basicId = @Html.Raw(Json.Serialize(Model.Entity.ID));
+                    axios.get('EnterpriseBasicInfo/GetProvinces')
+                        .then(function (r) {
+                            this.provinceList = r.data.Data;
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+                    //Load Data
+                    axios.get('EnterpriseBasicInfo/GetEnterpriseInfo?Id=' + this.basicId)
+                        .then(function (r) {
+                            this.basicInfo = JSON.parse(r.data.Data[0]);
+                            this.businessInfoList = JSON.parse(r.data.Data[1]);
+                            this.financeInfo = JSON.parse(r.data.Data[2]);
+                            this.contactList = JSON.parse(r.data.Data[3]);
+                            this.yearYieldList = JSON.parse(r.data.Data[4]);
+
+                            this.selectedCompanyType = this.basicInfo.CompanyType.split("/");;
+                            this.selectedIndustry = this.basicInfo.Industry.split("/");;
+
+                             //Load City & District
+                            this.handleProvinceChange(this.basicInfo.Province);
+                            this.handleCityChange(this.basicInfo.City);
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+
+                },
+                remove: function (index, row) {
+                    if (this.businessInfoList.length > 0) {
+                        this.businessInfoList.splice(index, 1);
+                    }
+                },
+                handleAddNew: function ()
+                {
+                    this.newLoading = true;
+                    let NewBusinessInfo = {
+
+                        SafetyServiceType:'',
+                        OtherSafetyServiceType: '',
+                        CertificateLevel: '',
+                        ExpireDate: '',
+                        Description:'',
+                    }
+                    this.businessInfoList.push(NewBusinessInfo);
+                    setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
+                },
+                handleAddNewContact: function () {
+                    this.newLoading = true;
+                    let NewContact = {
+
+                        SafetyServiceType:'',
+                        OtherSafetyServiceType: '',
+                        CertificateLevel: '',
+                        ExpireDate: '',
+                        Description:'',
+                    }
+                    this.businessInfoList.push(NewBusinessInfo);
+                    setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
+                },
+
+            },
+            created: function () {
+                this.loadData();
             }
 
-
-        },
-        created: function () {
-            this.loadData();
-        }
-    });
-
-     var yearYieldVM = new Vue({
-        el: '#yearYield',
-        data: {
-            yearYieldList: [{
-                FiscalYear: '',
-                YearYieldValue:'',
-            }],
-        },
-        methods: {
-            loadData: function () {
-                this.yearYieldList =@Html.Raw(Json.Serialize(Model.EnterpriserYearYields));
-            }
-        },
-        created: function () {
-            this.loadData();
-        }
-
-    })
-    </script>
+        })
+</script>
