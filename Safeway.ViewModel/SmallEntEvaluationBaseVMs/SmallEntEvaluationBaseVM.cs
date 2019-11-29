@@ -85,7 +85,6 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
             var query = DC.Set<FrameworkUserBase>()
                   .Where(x => (x.Name.Contains(keyword) || x.ITCode.Contains(keyword)) && x.IsValid.Equals(true)).Select(x => new ViewFormatClass { Text = $"{x.Name}-{x.ITCode}", Value = x.ITCode }).ToList();
             return query;
-
         }
     }
 }
