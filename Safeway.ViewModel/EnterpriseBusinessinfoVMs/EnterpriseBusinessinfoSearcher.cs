@@ -14,7 +14,7 @@ namespace Safeway.ViewModel.EnterpriseBusinessinfoVMs
     public partial class EnterpriseBusinessinfoSearcher : BaseSearcher
     {
         [Display(Name = "安全服务类型")]
-        public SafetyServiceTypeEnum? SafetyServiceType { get; set; }
+        public string SafetyServiceType { get; set; }
         [Display(Name = "其他")]
         public String OtherSafetyServiceType { get; set; }
         [Display(Name = "证书等级")]

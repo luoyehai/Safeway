@@ -12,7 +12,7 @@ namespace Safeway.Model.Enterprise
     public class EnterpriseBusinessinfo : BasePoco
     {
         [Display(Name = "安全服务类型")]
-        public SafetyServiceTypeEnum? SafetyServiceType { get; set; }
+        public string SafetyServiceType { get; set; }
 
         [Display(Name = "其他")]
         public string OtherSafetyServiceType { get; set; }

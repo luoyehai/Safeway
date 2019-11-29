@@ -45,7 +45,7 @@ namespace Safeway.ViewModel.EnterpriseBusinessinfoVMs
         public override IOrderedQueryable<EnterpriseBusinessinfo_View> GetSearchQuery()
         {
             var query = DC.Set<EnterpriseBusinessinfo>()
-                .CheckEqual(Searcher.SafetyServiceType, x=>x.SafetyServiceType)
+                .CheckContain(Searcher.SafetyServiceType, x=>x.SafetyServiceType)
                 .CheckEqual(Searcher.ExpireDate, x => x.ExpireDate)
                 .CheckContain(Searcher.OtherSafetyServiceType, x=>x.OtherSafetyServiceType)
                 .CheckContain(Searcher.CertificateLevel, x=>x.CertificateLevel)

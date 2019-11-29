@@ -111,13 +111,29 @@
                 <el-tab-pane label="商务信息" name="BusinessInfo">
                     <div id="BusinessInfo">
                         <el-table :data="businessInfoList" style="width: 100%" border class="grid-content bg-black">
-                            <el-table-column label="安全服务类型" width="160" prop="SafetyServiceType">
+                            <el-table-column label="安全服务类型" width="160" >
+                                <template slot-scope="scope">
+                                    <el-select v-model="scope.row.SafetyServiceType" disabled placeholder="Select">
+                                        <el-option v-for="item in ServiceTypes"
+                                                   :key="item.value"
+                                                   :label="item.label"
+                                                   :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </template>
                             </el-table-column>
                             <el-table-column label="其他" prop="OtherSafetyServiceType">
                             </el-table-column>
                             <el-table-column label="证书等级" width="130" prop="CertificateLevel">
                             </el-table-column>
-                            <el-table-column label="到期时间" width="200" prop="ExpireDate">
+                            <el-table-column label="到期时间" width="200">
+                                <template slot-scope="scope">
+                                    <el-date-picker v-model="scope.row.ExpireDate"
+                                                    type="date"
+                                                    disabled
+                                                    placeholder="Pick a day">
+                                    </el-date-picker>
+                                </template>
                             </el-table-column>
                             <el-table-column label="原服务公司" width="180" prop="OriginalServiceCom">
                             </el-table-column>
