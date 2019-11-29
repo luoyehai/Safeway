@@ -73,13 +73,13 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public EnterpriseBasicInfoVM()
         {
             // SetInclude(x => x.FinanceInfo, x => x.EnterpriseBusinessinfo, x => x.EnterpriseContacts, x => x.EnterpriserYearYields);
-            LoadProvince();
-            LoadEnterpriseInfo();
+            //LoadProvince();
+            //LoadEnterpriseInfo();
         }
         protected override void InitVM()
         {
-            LoadProvince();
-            LoadEnterpriseInfo();
+            //LoadProvince();
+            //LoadEnterpriseInfo();
         }
 
         public void LoadEnterpriseInfo() 

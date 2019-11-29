@@ -7,12 +7,66 @@ using WalkingTec.Mvvm.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using Safeway.Model.Enterprise;
+using System.ComponentModel;
+using System.Reflection;
 
 
 namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
 {
+    public class KeyValuePair
+    {
+        public string label { get; set; }
+
+        public string value { get; set; }
+    }
     public partial class EnterpriseBasicInfoListVM : BasePagedListVM<EnterpriseBasicInfo_View, EnterpriseBasicInfoSearcher>
     {
+
+        enum tradeTermList
+        {
+            [Description("出口")]
+            Export,
+            [Description("内销")]
+            DomesticSales
+        }
+        enum companyScaleList
+        {
+            [Description("规上")]
+            large,
+            [Description("小型")]
+            small,
+            [Description("微型")]
+            mini
+
+         }
+        public List<KeyValuePair> companyTypeList = new List<KeyValuePair>() { 
+
+            new KeyValuePair() { label ="国有",value="stateOwned"},
+            new KeyValuePair() { label ="民营",value="private"},
+            new KeyValuePair() { label ="外资",value="foreignInvest"},
+            new KeyValuePair() { label ="美国",value="usa"},
+            new KeyValuePair() { label ="欧洲",value="eur"},
+            new KeyValuePair() { label ="日本",value="jpn"},
+            new KeyValuePair() { label ="其他",value="others"}
+
+        } ;
+        public List<KeyValuePair> industryList = new List<KeyValuePair>() {
+
+            new KeyValuePair() { label ="矿山",value="Mine"},
+            new KeyValuePair() { label ="道路运输",value="Transportation"},
+            new KeyValuePair() { label ="危化",value="DangerChemistry"},
+            new KeyValuePair() { label ="工贸",value="IndustryandTrade"},
+            new KeyValuePair() { label ="冶金",value="metallurgy"},
+            new KeyValuePair() { label ="有色",value="colored"},
+            new KeyValuePair() { label ="机械",value="mechanical"},
+            new KeyValuePair() { label ="建材",value="buildingMaterial"},
+            new KeyValuePair() { label ="纺织",value="textile"},
+            new KeyValuePair() { label ="轻工",value="lightIndustry"},
+            new KeyValuePair() { label ="烟草",value="tobacoo"},
+            new KeyValuePair() { label ="商贸",value="bizsTrade"}
+
+        };
+ 
         protected override List<GridAction> InitGridAction()
         {
             return new List<GridAction>
@@ -48,14 +102,15 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
 
         public override IOrderedQueryable<EnterpriseBasicInfo_View> GetSearchQuery()
         {
+            var result = new List<EnterpriseBasicInfo_View>();
             var query = DC.Set<EnterpriseBasicInfo>()
-                .CheckContain(Searcher.Province, x=> x.Province)
-                .CheckContain(Searcher.City, x=> x.City)
-                .CheckContain(Searcher.District, x=> x.District)
+                .CheckContain(Searcher.Province, x => x.Province)
+                .CheckContain(Searcher.City, x => x.City)
+                .CheckContain(Searcher.District, x => x.District)
                 .CheckEqual(Searcher.EnterpriseBasicId, x => x.ID)
                 .Select(x => new EnterpriseBasicInfo_View
                 {
-				    ID = x.ID,
+                    ID = x.ID,
                     ComapanyName = x.ComapanyName,
                     Province = x.Province,
                     City = x.City,
@@ -65,13 +120,66 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                     ForeignCountry = x.ForeignCountry,
                     LegalRepresentative = x.LegalRepresentative,
                     CompanyScale = x.CompanyScale,
+                    //GetEnumDescription((companyScaleList)Array.IndexOf(Enum.GetValues(x.CompanyScale.GetType()), x.CompanyScale)),
                     Industry = x.Industry,
                     NoofEmployees = x.NoofEmployees,
                     MainProducts = x.MainProducts,
-                    TermsofTrade = x.TermsofTrade,
+                    TermsofTrade = x.TermsofTrade
+                    //GetEnumDescription((tradeTermList)Array.IndexOf(Enum.GetValues(x.TermsofTrade.GetType()), x.TermsofTrade)),
                 })
                 .OrderBy(x => x.ID);
-            return query;
+            var data = query.ToList();
+            for (int j= 0;j < data.Count();j++) 
+            {
+                var temp = new EnterpriseBasicInfo_View();
+                temp.ID = data[j].ID;
+                temp.ComapanyName = data[j].ComapanyName;
+                temp.Province = data[j].Province;
+                temp.City = data[j].City;
+                temp.District = data[j].District;
+                temp.Street = data[j].Street;
+                temp.CompanyType = data[j].CompanyType;
+                temp.ForeignCountry = data[j].ForeignCountry;
+                temp.LegalRepresentative = data[j].LegalRepresentative;
+                temp.CompanyScale = data[j].CompanyScale;
+                //GetEnumDescription((companyScaleList)Array.Indedata[j]Of(Enum.GetValues(data[j].CompanyScale.GetType()); data[j].CompanyScale));
+                temp.Industry = data[j].Industry;
+                temp.NoofEmployees = data[j].NoofEmployees;
+                temp.MainProducts = data[j].MainProducts;
+                temp.TermsofTrade = data[j].TermsofTrade;
+                for (int i = 0; i < companyTypeList.Count; i++)
+                {
+                    if (data[j].CompanyType.Contains(companyTypeList[i].value))
+                    {
+                        temp.CompanyType=data[j].CompanyType.Replace(companyTypeList[i].value, companyTypeList[i].label);
+                    }
+                }
+                for (int i = 0; i < industryList.Count; i++) 
+                {
+                    if (data[j].Industry.Contains(industryList[i].value)) 
+                    {
+                        temp.Industry= data[j].Industry.Replace(industryList[i].value, industryList[i].label);
+                    }
+                }
+                result.Add(temp);
+            }
+            return (IOrderedQueryable<EnterpriseBasicInfo_View>)result.AsQueryable<EnterpriseBasicInfo_View>();
+
+        }
+        public static string GetEnumDescription(Enum value)
+        {
+            FieldInfo fi = value.GetType().GetField(value.ToString());
+
+            DescriptionAttribute[] attributes =
+                (DescriptionAttribute[])fi.GetCustomAttributes(
+                typeof(DescriptionAttribute),
+                false);
+
+            if (attributes != null &&
+                attributes.Length > 0)
+                return attributes[0].Description;
+            else
+                return value.ToString();
         }
 
     }
