@@ -13,6 +13,7 @@ using Safeway.ViewModel.EnterpriseFinanceInfoVMs;
 using Safeway.ViewModel.EnterpriseBusinessinfoVMs;
 using Safeway.ViewModel.CommonClass;
 using Microsoft.AspNetCore.Authorization;
+using Safeway.Model.Enterprise;
 
 namespace Safeway.Controllers
 {
@@ -248,7 +249,7 @@ namespace Safeway.Controllers
             return Json(vm.GetDistricts(id, HttpContext.Session.GetString("citynames")));
 
         }
-
+        #region VueMethod
         [AllowAnonymous]
         public JsonResult LoadEnteprise(EnterpriseBasicInfoVM vm, string keywords)
         {
@@ -276,6 +277,43 @@ namespace Safeway.Controllers
             var result = vm.GetDistricts(cityid);
             return Json(result);
         }
-
+        [HttpPost]
+        public ActionResult AddEnterpriseInfo([FromBody]params string[] parameters)
+        {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.AddNewEnterpriseInfo(parameters);
+            if (!ModelState.IsValid)
+            {
+                vm.DoReInit();
+                return PartialView(vm);
+            }
+            else
+            {
+                return FFResult().CloseDialog().RefreshGrid();
+            }
+        }
+        [HttpPost]
+        public ActionResult EditEnterpriseInfo([FromBody]params string[] parameters)
+        {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.EditNewEnterpriseInfo(parameters);
+            if (!ModelState.IsValid)
+            {
+                vm.DoReInit();
+                return PartialView(vm);
+            }
+            else
+            {
+                return FFResult().CloseDialog().RefreshGrid();
+            }
+        }
+        [HttpGet]
+        public JsonResult GetEnterpriseInfo(string Id)
+        {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.GetEnterpriseInfo(Id);
+            return Json(result);
+        }
+        #endregion
     }
 }

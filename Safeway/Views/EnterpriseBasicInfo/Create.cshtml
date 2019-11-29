@@ -1,6 +1,5 @@
 ﻿@model Safeway.ViewModel.EnterpriseBasicInfoVMs.EnterpriseBasicInfoVM;
 
-    @*<wt:form vm="@Model">*@
     <div id="EnterpriseInfo">
         <el-card class="box-card">
             <template>
@@ -58,7 +57,7 @@
                                 </el-col>
                                 <el-col :span="3"><div class="grid-content bg-black">企业类型</div></el-col>
                                 <el-col :span="7">
-                                    <el-cascader v-model="selectedIndustry"
+                                    <el-cascader v-model="selectedCompanyType"
                                                  :options="companyTypeList"
                                                  @@change="handleCompanyTypeChange">
                                     </el-cascader>
@@ -121,7 +120,7 @@
                     </el-tab-pane>
                     <el-tab-pane label="商务信息" name="BusinessInfo">
                         <div id="BusinessInfo">
-                            <el-table :data="businessInfoList" style="width: 100%" border>
+                            <el-table :data="businessInfoList" style="width: 100%" border class="grid-content bg-black">
                                 <el-table-column label="安全服务类型" width="160">
                                     <template slot-scope="scope">
                                         <el-select v-model="scope.row.SafetyServiceType" placeholder="Select">
@@ -143,7 +142,7 @@
                                         <el-input v-model="scope.row.CertificateLevel"></el-input>
                                     </template>
                                 </el-table-column>
-                                <el-table-column label="到期时间">
+                                <el-table-column label="到期时间" width="200">
                                     <template slot-scope="scope">
                                         <el-date-picker v-model="scope.row.ExpireDate"
                                                         type="date"
@@ -176,72 +175,110 @@
                             </el-row>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="财务信息" name="FinanceInfo">Role</el-tab-pane>
+                    <el-tab-pane label="财务信息" name="FinanceInfo">
+                        <el-row class="row">
+                            <el-col :span="3"><div class="grid-content bg-black">统一社会信用代码</div></el-col>
+                            <el-col :span="7">
+                                <el-input v-model="financeInfo.UnifiedSocialCreditCode"></el-input>
+                            </el-col>
+                            <el-col :span="3"><div class="grid-content bg-black">单位地址</div></el-col>
+                            <el-col :span="7">
+                                <el-input v-model="financeInfo.Company_Address"></el-input>
+                            </el-col>
+                        </el-row>
+                        <el-row class="row">
+                            <el-col :span="3"><div class="grid-content bg-black">电话号码</div></el-col>
+                            <el-col :span="7">
+                                <el-input v-model="financeInfo.Tele_Number"></el-input>
+                            </el-col>
+                            <el-col :span="3"><div class="grid-content bg-black">开户银行</div></el-col>
+                            <el-col :span="7">
+                                <el-input v-model="financeInfo.Bank"></el-input>
+                            </el-col>
+                        </el-row>
+                        <el-row class="row">
+                            <el-col :span="3"><div class="grid-content bg-black">银行账户</div></el-col>
+                            <el-col :span="7">
+                                <el-input v-model="financeInfo.Account"></el-input>
+                            </el-col>
+                            <el-col :span="3"><div class="grid-content bg-black">发票接收人</div></el-col>
+                            <el-col :span="7">
+                                <el-input v-model="financeInfo.CustomerReceiptReceiver"></el-input>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane label="联系人信息" name="ContactInfo">
+                        <template>
+                            <el-table :data="contactList" style="width: 100%">
+                                <el-table-column prop="Position" label="职位" width="180">
+                                </el-table-column>
+                                <el-table-column label="部门" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.Dept"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="姓名" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.Name"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="座机" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.Tele"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="手机" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.MobilePhone"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="邮箱" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.Email"></el-input>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                            <el-row>
+                                <el-col :span="5"> <el-button @@click="handleAddNewContact" :loading="newLoading">新增</el-button></el-col>
+                            </el-row>
+                        </template>
+                    </el-tab-pane>
+                    <el-tab-pane label="年收益" name="YieldInfo">
+                        <div>
+                            <el-table :data="yearYieldList" style="width: 100%">
+                                <el-table-column label="财年" width="180">
+                                    <template slot-scope="scope">
+                                        <el-date-picker v-model="scope.row.FiscalYear"
+                                                        type="year"
+                                                        placeholder="选择财年">
+                                        </el-date-picker>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="年收益" width="180">
+                                    <template slot-scope="scope">
+                                        <el-input v-model.number="scope.row.YearYieldValue"></el-input>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </el-tab-pane>
                 </el-tabs>
 
             </template>
         </el-card>
         <el-row style="padding-top:3em">
             <el-col :span="20" style="align-content:center">
-                <el-button style="margin:0 auto">Submit</el-button>
+                <el-button style="margin:0 auto" @@click="handleSubmit">Submit</el-button>
                 <el-button style="margin:0 auto">Cancel</el-button>
             </el-col>
         </el-row>
     </div>
-        @*<wt:tab>
-            <wt:tabheaders>
-                <wt:tabheader title="基本信息" />
-                <wt:tabheader title="商务信息" />
-                <wt:tabheader title="财务信息" />
-            </wt:tabheaders>
-            <wt:tabcontents>
-                <wt:tabcontent>
-                    <wt:row items-per-row="ItemsPerRowEnum.Two">
-                        <wt:textbox field="Entity.ComapanyName" />
-                        <wt:combobox field="Entity.Province" items="ProvinceNames" link-field="Entity.City" trigger-url="EnterpriseBasicInfo/LoadCities" />
-                        <wt:combobox field="Entity.City" link-field="Entity.District" trigger-url="EnterpriseBasicInfo/LoadDistricts" />
-                        <wt:combobox field="Entity.District" />
-                        <wt:textbox field="Entity.Street" />
-                        <wt:textbox field="Entity.CompanyType" />
-                        <wt:textbox field="Entity.ForeignCountry" />
-                        <wt:textbox field="Entity.LegalRepresentative" />
-                        <wt:combobox field="Entity.CompanyScale" />
-                        <wt:textbox field="Entity.Industry" />
-                        <wt:textbox field="Entity.NoofEmployees" />
-                        <wt:textbox field="Entity.MainProducts" />
-                        <wt:combobox field="Entity.TermsofTrade" />
-                    </wt:row>
-                </wt:tabcontent>*@
-                @*<wt:tabcontent>*@  
-
-                @*</wt:tabcontent>*@
-                @*<wt:tabcontent>
-                    <wt:row items-per-row="ItemsPerRowEnum.Two">
-                        <wt:textbox field="EnterpriseFinanceInfo.UnifiedSocialCreditCode" />
-                        <wt:textbox field="EnterpriseFinanceInfo.Company_Address" />
-                        <wt:textbox field="EnterpriseFinanceInfo.Tele_Number" />
-                        <wt:textbox field="EnterpriseFinanceInfo.Bank" />
-                        <wt:textbox field="EnterpriseFinanceInfo.Account" />
-                        <wt:textbox field="EnterpriseFinanceInfo.CustomerReceiptReceiver" search-url="EnterpriseContact/SerachReceiptReceiver" />
-                    </wt:row>
-                </wt:tabcontent>
-            </wt:tabcontents>
-        </wt:tab>*@
-
-        @*<wt:row align="AlignEnum.Right">
-            <wt:submitbutton />
-            <wt:closebutton />
-        </wt:row>
-    </wt:form>*@
     <script>
-        var form = $(".layui-form");
-        var submitbtnId ='#'+ form.attr('id') + 'submit';
-        $(submitbtnId).click(function() {
-          alert( "Handler for .click() called." );
-        });
+
         var EnterpriseInfoVM = new Vue({
             el: '#EnterpriseInfo',
             data: {
+                basicId: '',
                 activeName: 'basicInfo',
                 newLoading: false,
                 selectedOption: '',
@@ -280,6 +317,7 @@
                     CertificateLevel: '',
                     ExpireDate: '',
                     Description: '',
+                    EnterpriseBasicInfoId: '',                   
                 }],
                 basicInfo: {
                     ComapanyName: '',
@@ -295,6 +333,15 @@
                     NoofEmployees: '',
                     MainProducts: '',
                     TermsofTrade: '',
+                },
+                financeInfo: {
+                    UnifiedSocialCreditCode:'',
+                    Company_Address:'',
+                    Tele_Number:'',
+                    Bank:'',
+                    Account:'',
+                    CustomerReceiptReceiver: '',
+                    EnterpriseBasicId: '',
                 },
                 provinceList: [],
                 cityList: [],
@@ -382,17 +429,87 @@
                         value: 'others',
                         label: '其他'
                       }]
-                    }
-                ],
+                    }],
+                contactList: [{
+                    Dept: '',
+                    Position: '主要负责人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '安全部门负责人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '安全部门联系人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '安全部门其他人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '采购部门负责人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    EnterpriseBasicInfoId: ''
+                },{
+                    Dept: '',
+                    Position: '采购部门联系人',
+                    Name: '',
+                    Tele: '',
+                    MobilePhone: '',
+                    Email: '',
+                    }],
+                yearYieldList: [{
+                    FiscalYear: '',
+                    YearYieldValue: 0,
+                    EnterpriseBasicInfoId: '',
+                }]
             },
             methods: {
                 handleCompanyTypeChange: function (value) {
 
-
-
+                    this.basicInfo.CompanyType = this.selectedCompanyType.join("/");
                 },
                 handleIndustryChange: function (value) {
 
+                    this.basicInfo.Industry = this.selectedIndustry.join("/");
+                },
+                generateSubmitFormat: function () {
+                    //add  ID
+                    this.basicInfo.ID = this.basicId;
+                    this.businessInfoList.map(function (row, index) {
+                        row.EnterpriseBasicInfoId = this.basicId
+                    }.bind(this));
+
+                    this.financeInfo.EnterpriseBasicId = this.basicId;
+                    this.contactList.map(function (row, index) {
+                        row.EnterpriseBasicInfoId = this.basicId;
+                    }.bind(this));
+
+                    this.yearYieldList.map(function (row, index) {
+                        row.EnterpriseBasicInfoId = this.basicId;
+                    }.bind(this))
+                    this.basicInfo.CompanyType = this.selectedCompanyType.join("/");
+                    this.basicInfo.Industry = this.selectedIndustry.join("/");
 
                 },
                 handleProvinceChange: function (val) {
@@ -413,8 +530,29 @@
                         console.error(e);
                     });
                 },
+                handleSubmit: function () {
+                    this.generateSubmitFormat();
+                    var parameters = [
+                                JSON.stringify(this.basicInfo),
+                                JSON.stringify(this.businessInfoList),
+                                JSON.stringify(this.financeInfo),
+                                JSON.stringify(this.contactList),
+                                JSON.stringify(this.yearYieldList)
+                            ];                   
+                     axios.post('EnterpriseBasicInfo/AddEnterpriseInfo',parameters)
+                    .then(function (response) {
+                        this.$notify.success({
+                            title: '提示',
+                            message: '保存评审数据成功！',
+                            position: 'bottom-right'
+                        });
+                    }.bind(this))
+
+                },
                 loadData: function ()
                 {
+                   
+                    this.basicId = @Html.Raw(Json.Serialize(Model.Entity.ID));
                     axios.get('EnterpriseBasicInfo/GetProvinces')
                         .then(function (r) {
                             this.provinceList = r.data.Data;
@@ -442,7 +580,20 @@
                     }
                     this.businessInfoList.push(NewBusinessInfo);
                     setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
-                }
+                },
+                handleAddNewContact: function () {
+                    this.newLoading = true;
+                    let NewContact = {
+
+                        SafetyServiceType:'',
+                        OtherSafetyServiceType: '',
+                        CertificateLevel: '',
+                        ExpireDate: '',
+                        Description:'',
+                    }
+                    this.businessInfoList.push(NewBusinessInfo);
+                    setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
+                },
                 
             },
             created: function () {

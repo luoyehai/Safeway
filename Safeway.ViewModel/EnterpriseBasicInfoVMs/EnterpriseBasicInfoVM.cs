@@ -290,7 +290,116 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             }
             districts = districtvalues.Where(x => x.Key == id).SelectMany(x => x.Value).Select(x => new AdddressJsonObject { name = x.name, id = x.id }).ToList();
             return districts;
+        }
+        public string AddNewEnterpriseInfo(params string[] parameters) {
 
+            var basicInfo = new EnterpriseBasicInfo();
+            var businessInfoList = new List<EnterpriseBusinessinfo>();
+            var contactList = new List<EnterpriseContact>();
+            var yearYieldList = new List<EnterpriserYearYield>();
+            var financeInfo = new EnterpriseFinanceInfo();
+
+            if (parameters[0] != null && !string.IsNullOrEmpty(parameters[0])) 
+            {
+                basicInfo = JsonConvert.DeserializeObject<EnterpriseBasicInfo>(parameters[0]);
+                DC.Set<EnterpriseBasicInfo>().Add(basicInfo);
+            }
+            if (parameters[1] != null && !string.IsNullOrEmpty(parameters[1])) 
+            {           
+                businessInfoList = JsonConvert.DeserializeObject<List<EnterpriseBusinessinfo>>(parameters[1]);
+                DC.Set<EnterpriseBusinessinfo>().AddRange(businessInfoList);              
+            }
+            if (parameters[2] != null && !string.IsNullOrEmpty(parameters[2]))
+            {
+                financeInfo = JsonConvert.DeserializeObject<EnterpriseFinanceInfo>(parameters[2]);
+                DC.Set<EnterpriseFinanceInfo>().Add(financeInfo);
+            }
+            if (parameters[3] != null && !string.IsNullOrEmpty(parameters[3]))
+            {
+                contactList = JsonConvert.DeserializeObject<List<EnterpriseContact>>(parameters[3]);
+                DC.Set<EnterpriseContact>().AddRange(contactList);
+            }
+            if (parameters[4] != null && !string.IsNullOrEmpty(parameters[4]))
+            {
+                yearYieldList = JsonConvert.DeserializeObject<List<EnterpriserYearYield>>(parameters[4]);
+                DC.Set<EnterpriserYearYield>().AddRange(yearYieldList);
+            }
+             DC.SaveChanges();
+            return DC.SaveChanges().ToString();
+        }
+        public string EditNewEnterpriseInfo(params string[] parameters)
+        {
+
+            var basicInfo = new EnterpriseBasicInfo();
+            var businessInfoList = new List<EnterpriseBusinessinfo>();
+            var contactList = new List<EnterpriseContact>();
+            var yearYieldList = new List<EnterpriserYearYield>();
+            var financeInfo = new EnterpriseFinanceInfo();
+
+            if (parameters[0] != null && !string.IsNullOrEmpty(parameters[0]))
+            {
+                basicInfo = JsonConvert.DeserializeObject<EnterpriseBasicInfo>(parameters[0]);
+                DC.Set<EnterpriseBasicInfo>().Update(basicInfo);
+            }
+            if (parameters[1] != null && !string.IsNullOrEmpty(parameters[1]))
+            {
+                businessInfoList = JsonConvert.DeserializeObject<List<EnterpriseBusinessinfo>>(parameters[1]);
+                DC.Set<EnterpriseBusinessinfo>().UpdateRange(businessInfoList);
+            }
+            if (parameters[2] != null && !string.IsNullOrEmpty(parameters[2]))
+            {
+                financeInfo = JsonConvert.DeserializeObject<EnterpriseFinanceInfo>(parameters[2]);
+                DC.Set<EnterpriseFinanceInfo>().Update(financeInfo);
+            }
+            if (parameters[3] != null && !string.IsNullOrEmpty(parameters[3]))
+            {
+                contactList = JsonConvert.DeserializeObject<List<EnterpriseContact>>(parameters[3]);
+                DC.Set<EnterpriseContact>().UpdateRange(contactList);
+            }
+            if (parameters[4] != null && !string.IsNullOrEmpty(parameters[4]))
+            {
+                yearYieldList = JsonConvert.DeserializeObject<List<EnterpriserYearYield>>(parameters[4]);
+                DC.Set<EnterpriserYearYield>().UpdateRange(yearYieldList);
+            }
+            DC.SaveChanges();
+            return DC.SaveChanges().ToString();
+        }
+        public List<string> GetEnterpriseInfo(string basicid) 
+        {
+            List<string> result = new List<string>();
+            var data = DC.Set<EnterpriseBasicInfo>().Where(x => x.ID == new Guid(basicid)).FirstOrDefault();
+            if (data != null) 
+            {
+               var tempresult = JsonConvert.SerializeObject(data);
+                result.Add(tempresult);
+            }
+            var businessdata = DC.Set<EnterpriseBusinessinfo>().Where(x => x.EnterpriseBasicInfoId == new Guid(basicid)).ToList();
+            if (businessdata != null)
+            {
+               var tempresult = JsonConvert.SerializeObject(businessdata);
+               result.Add(tempresult);
+            }
+            var financedata = DC.Set<EnterpriseFinanceInfo>().Where(x => x.EnterpriseBasicId == new Guid(basicid)).FirstOrDefault();
+            if (financedata != null)
+            {
+                var tempresult = JsonConvert.SerializeObject(financedata);
+                result.Add(tempresult);
+            }
+
+            var contactlist = DC.Set<EnterpriseContact>().Where(x => x.EnterpriseBasicInfoId == new Guid(basicid)).ToList();
+            if (contactlist != null)
+            {
+                var tempresult = JsonConvert.SerializeObject(contactlist);
+                result.Add(tempresult);
+            }
+
+            var yearYieldList = DC.Set<EnterpriserYearYield>().Where(x => x.EnterpriseBasicInfoId == new Guid(basicid)).ToList();
+            if (yearYieldList != null)
+            {
+                var tempresult = JsonConvert.SerializeObject(yearYieldList);
+                result.Add(tempresult);
+            }
+            return result;
         }
         #endregion
     }
