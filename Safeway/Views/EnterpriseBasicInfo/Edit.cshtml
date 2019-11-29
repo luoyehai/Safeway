@@ -57,7 +57,7 @@
                             </el-col>
                             <el-col :span="3"><div class="grid-content bg-black">企业类型</div></el-col>
                             <el-col :span="7">
-                                <el-cascader v-model="selectedIndustry"
+                                <el-cascader v-model="selectedCompanyType"
                                              :options="companyTypeList"
                                              @@change="handleCompanyTypeChange">
                                 </el-cascader>
@@ -539,7 +539,7 @@
                                 JSON.stringify(this.contactList),
                                 JSON.stringify(this.yearYieldList)
                             ];
-                     axios.post('EnterpriseBasicInfo/AddEnterpriseInfo',parameters)
+                     axios.post('EnterpriseBasicInfo/EditEnterpriseInfo',parameters)
                     .then(function (response) {
                         this.$notify.success({
                             title: '提示',
@@ -568,11 +568,18 @@
                             this.financeInfo = JSON.parse(r.data.Data[2]);
                             this.contactList = JSON.parse(r.data.Data[3]);
                             this.yearYieldList = JSON.parse(r.data.Data[4]);
+
+                            this.selectedCompanyType = this.basicInfo.CompanyType.split("/");; 
+                            this.selectedIndustry = this.basicInfo.Industry.split("/");;
+
+                             //Load City & District
+                            this.handleProvinceChange(this.basicInfo.Province);
+                            this.handleCityChange(this.basicInfo.City);
                     }.bind(this))
                     .catch(function (e) {
                         console.error(e);
                     });
-
+                   
                 },
                 remove: function (index, row) {
                     if (this.businessInfoList.length > 0) {

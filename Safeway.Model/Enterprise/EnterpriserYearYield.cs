@@ -26,6 +26,5 @@ namespace Safeway.Model.Enterprise
         [Display(Name = "企业名称")]
         [Required(ErrorMessage = "{0}是必填项")]
         public Guid EnterpriseBasicInfoId { get; set; }
-       // public EnterpriseBasicInfo EnterpriseBasicInfo { get; set; }
     }
 }

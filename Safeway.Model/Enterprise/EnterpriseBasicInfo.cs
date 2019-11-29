@@ -40,7 +40,8 @@ namespace Safeway.Model.Enterprise
         [StringLength(100)]
         public string LegalRepresentative { get; set; }
         [Display(Name = "企业规模")]
-        public CompanyScaleEnum? CompanyScale { get; set; }
+        [StringLength(150)]
+        public string CompanyScale { get; set; }
         [Display(Name = "行业")]
         [StringLength(100)]
         public string Industry { get; set; }
@@ -51,19 +52,20 @@ namespace Safeway.Model.Enterprise
         [StringLength(100)]
         public string MainProducts { get; set; }
         [Display(Name = "贸易方式")]
-        public TermsofTradeEnum? TermsofTrade { get; set; }
+        [StringLength(100)]
+        public string TermsofTrade { get; set; }
 
-        [Display(Name = "财务信息")]
-        public EnterpriseFinanceInfo FinanceInfo { get; set; }
+        //[Display(Name = "财务信息")]
+        //public EnterpriseFinanceInfo FinanceInfo { get; set; }
 
-        [Display(Name = "商务信息")]
-        public EnterpriseBusinessinfo EnterpriseBusinessinfo { get; set; }
+        //[Display(Name = "商务信息")]
+        //public EnterpriseBusinessinfo EnterpriseBusinessinfo { get; set; }
 
-        [Display(Name = "联系人信息")]
-        public List<EnterpriseContact> EnterpriseContacts { get; set; }
+        //[Display(Name = "联系人信息")]
+        //public List<EnterpriseContact> EnterpriseContacts { get; set; }
 
-        [Display(Name = "年收益")]
-        public List<EnterpriserYearYield> EnterpriserYearYields { get; set; }
+        //[Display(Name = "年收益")]
+        //public List<EnterpriserYearYield> EnterpriserYearYields { get; set; }
 
         //public NormalEntEvaluationTemplate NormalEntEvaluationTemplate { get; set; }
 
