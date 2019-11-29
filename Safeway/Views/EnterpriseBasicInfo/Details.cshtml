@@ -10,13 +10,43 @@
                             <el-col :span="3"><div class="grid-content bg-black">公司名称<span class="redstart">*</span></div></el-col>
                             <el-col :span="7" class="grid-content bg-black">{{basicInfo.ComapanyName}} </el-col>
                             <el-col :span="3"><div class="grid-content bg-black">省份</div></el-col>
-                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.Province}} </el-col>
+                            <el-col :span="7">
+                                <template>
+                                    <el-select v-model="basicInfo.Province" disabled placeholder="请选择">
+                                        <el-option v-for="item in provinceList"
+                                                   :key="item.id"
+                                                   :label="item.name"
+                                                   :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </template>
+                            </el-col>
                         </el-row>
                         <el-row class="row">
                             <el-col :span="3"><div class="grid-content bg-black">市</div></el-col>
-                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.City}} </el-col>
+                            <el-col :span="7">
+                                <template>
+                                    <el-select v-model="basicInfo.City" disabled placeholder="请选择">
+                                        <el-option v-for="item in cityList"
+                                                   :key="item.id"
+                                                   :label="item.name"
+                                                   :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </template>
+                            </el-col>
                             <el-col :span="3"><div class="grid-content bg-black">区</div></el-col>
-                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.District}} </el-col>
+                            <el-col :span="7">
+                                <template>
+                                    <el-select v-model="basicInfo.District" disabled placeholder="请选择">
+                                        <el-option v-for="item in districtList"
+                                                   :key="item.id"
+                                                   :label="item.name"
+                                                   :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </template>
+                            </el-col>
                         </el-row>
                         <el-row class="row">
                             <el-col :span="3"><div class="grid-content bg-black">街道</div></el-col>
@@ -38,7 +68,15 @@
                         </el-row>
                         <el-row class="row">
                             <el-col :span="3"><div class="grid-content bg-black">企业规模</div></el-col>
-                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.CompanyScale}} </el-col>
+                            <el-col :span="7">
+                                <el-select v-model="basicInfo.CompanyScale" disabled placeholder="请选择">
+                                    <el-option v-for="item in companyScaleList"
+                                               :key="item.value"
+                                               :label="item.label"
+                                               :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-col>
                             <el-col :span="3"><div class="grid-content bg-black">行业</div></el-col>
                             <el-col :span="7">
                                 <el-cascader v-model="selectedIndustry"
@@ -56,7 +94,17 @@
                         </el-row>
                         <el-row class="row">
                             <el-col :span="3"><div class="grid-content bg-black">贸易方式</div></el-col>
-                            <el-col :span="7" class="grid-content bg-black">{{basicInfo.TermsofTrade}} </el-col>
+                            <el-col :span="7">
+                                <template>
+                                    <el-select v-model="basicInfo.TermsofTrade" disabled placeholder="请选择">
+                                        <el-option v-for="item in tradeTermList"
+                                                   :key="item.value"
+                                                   :label="item.label"
+                                                   :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </template>
+                            </el-col>
                         </el-row>
                     </div>
                 </el-tab-pane>
@@ -119,7 +167,14 @@
                 <el-tab-pane label="年收益" name="YieldInfo">
                     <div>
                         <el-table :data="yearYieldList" style="width: 100%">
-                            <el-table-column label="财年" width="180" prop="FiscalYear">                               
+                            <el-table-column label="财年" width="180" >      
+                                <template slot-scope="scope">
+                                    <el-date-picker v-model="scope.row.FiscalYear"
+                                                    disabled
+                                                    type="year"
+                                                    placeholder="选择财年">
+                                    </el-date-picker>
+                                </template>
                             </el-table-column>
                             <el-table-column label="年收益" width="180" prop="YearYieldValue">
                             </el-table-column>
