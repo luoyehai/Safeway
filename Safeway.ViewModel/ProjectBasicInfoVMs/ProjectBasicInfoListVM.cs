@@ -55,7 +55,7 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
             var url = $"SmallEntEvaluationBase/ProjectDetail/{entity.ID}";
             return new List<ColumnFormatInfo>
             {
-                ColumnFormatInfo.MakeDialogButton(ButtonTypesEnum.Button , url , entity.ProjectName, width: 1400, height: 900, maxed:true)
+                ColumnFormatInfo.MakeDialogButton(ButtonTypesEnum.Button , url , entity.ProjectName, width: 1920, height: 900, maxed:true)
             };
         }
 

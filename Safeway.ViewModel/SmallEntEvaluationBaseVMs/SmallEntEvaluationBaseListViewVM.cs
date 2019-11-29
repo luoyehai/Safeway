@@ -45,7 +45,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 this.MakeGridHeader(x => x.ModuleTwo, width: 80),
                 this.MakeGridHeader(x => x.ModuleThree, width: 80),
                 this.MakeGridHeader(x => x.ReportFileId, width: 100).SetFormat(ReportFileIdFormat),
-                this.MakeGridHeaderAction(width: 120)
+                this.MakeGridHeaderAction()
             };
         }
 
@@ -125,6 +125,5 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 .OrderBy(x => x.ID);
             return query;
         }
-
     }
 }
