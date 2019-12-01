@@ -80,7 +80,8 @@ namespace Safeway.Controllers
 
         #region 导出报告
         [ActionDescription("导出报告")]
-        public ActionResult ExportReport(string id)
+        [HttpPost]
+        public IActionResult ExportReport([FromBody]string id)
         {
             var vm = CreateVM<SmallEntEvaluationItemVM>();
             var result = vm.ExportData(id);
@@ -88,7 +89,7 @@ namespace Safeway.Controllers
             string sFileName = @"小微评审.xlsx";
             result.Write(memoryStream);
             memoryStream.Position = 0;
-            return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            return File(memoryStream.ToArray(), "application/vnd.ms-excel", sFileName);
         }
         #endregion
     }

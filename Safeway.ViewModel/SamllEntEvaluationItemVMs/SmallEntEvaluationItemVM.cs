@@ -377,9 +377,66 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 descriptioncell.CellStyle = borderedCellStyle;
                 scorecell.CellStyle = borderedCellStyle;
             }
+            template = ExportUnmatchedItemsData(template, id);
             return template;
         }
+        public XSSFWorkbook ExportUnmatchedItemsData(XSSFWorkbook input , string id)
+        {
+            var unMatchedData = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaUnmatchedTemplate @baseId = {0}", id).ToList();
+            ISheet templatesheet = input.GetSheet("扣分项");
+           // DataTable templatedata = new DataTable();
+
+            XSSFFont myFont = (XSSFFont)input.CreateFont();
+            myFont.FontHeightInPoints = (short)10.5;
+            myFont.FontName = "宋体";
+            //set style
+            XSSFCellStyle borderedCellStyle = (XSSFCellStyle)input.CreateCellStyle();
+            borderedCellStyle.SetFont(myFont);
+            borderedCellStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+            borderedCellStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+            borderedCellStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
+            borderedCellStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+
+            //set middle
+            borderedCellStyle.Alignment = HorizontalAlignment.Center;
+            borderedCellStyle.VerticalAlignment = VerticalAlignment.Center;
+
+            borderedCellStyle.WrapText = true;
+
+            IRow row;
+            ICell levelOneCell;
+            ICell levelTwoCell;
+            ICell standardCell;
+            ICell descriptioncell;
+            ICell scorecell;
+            for (int i = 0; i < unMatchedData.Count(); i++)
+            {
+                row = templatesheet.GetRow(i + 2);
+
+                levelOneCell = row.CreateCell(0);
+                levelTwoCell = row.CreateCell(1);
+                standardCell = row.CreateCell(2);
+                descriptioncell = row.CreateCell(3);
+                scorecell = row.CreateCell(4);
+
+                levelOneCell.SetCellValue(unMatchedData[i].LevelOneElement.ToString());
+                levelTwoCell.SetCellValue(unMatchedData[i].LevelTwoElement.ToString());
+                standardCell.SetCellValue(unMatchedData[i].ComplianceStandard.ToString());
+                var des = unMatchedData[i].UnMatchedItemDescription.ToString();
+                descriptioncell.SetCellValue(des.Contains("n") ? des.Replace("n", Environment.NewLine) : des);
+                scorecell.SetCellValue(string.IsNullOrEmpty(unMatchedData[i].ActualScore.ToString()) ? 0 : Convert.ToDouble(unMatchedData[i].ActualScore));
+
+                levelOneCell.CellStyle = borderedCellStyle;
+                levelTwoCell.CellStyle = borderedCellStyle;
+                standardCell.CellStyle = borderedCellStyle;
+                descriptioncell.CellStyle = borderedCellStyle;
+                scorecell.CellStyle = borderedCellStyle;
+            }
+
+            return input;
+        }
     }
+
     public class SmallEntEvaluationItemView: SmallEntEvaluationItem
     {
         public string UnMatchedItemDescription { get; set; }

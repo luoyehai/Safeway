@@ -282,17 +282,17 @@
             {
                  let vData = @Html.Raw(Json.Serialize(ViewData));;
                     //this.loading = true;
-                    axios.get('SmallEntEvaluationItem/ExportReport?id=' + vData["ID"])
+                    axios.post('SmallEntEvaluationItem/ExportReport',vData["ID"])
                     .then(function (r) {
                         this.loading = false;
                         console.log(r);
-                        if (r.data.Data === true) {
-                            this.$notify.success({
-                                title: '提示',
-                                message: '导出评审数据成功！',
-                                position: 'bottom-right'
-                            });
-                        }
+                        
+                        this.$notify.success({
+                            title: '提示',
+                            message: '导出评审数据成功！',
+                            position: 'bottom-right'
+                        });
+                        
                     }.bind(this))
                     .catch(function (e) {
                         console.error(e);

@@ -332,9 +332,9 @@
             },
             handleExport: function () {
                 let vData = @Html.Raw(Json.Serialize(ViewData));
-                let newtab = window.open('', '_blank');
-                let newurl = 'SmallEntEvaluationItem/ExportReport?id=' + vData["ID"]
-                axios.get(newurl)
+               // let newtab = window.open('', '_blank');
+                let newurl = 'SmallEntEvaluationItem/ExportReport';
+                axios.post(newurl, vData["ID"])
                     .then(function (r) {
                         this.loading = false;
                         console.log(r);
@@ -343,11 +343,28 @@
                             title: '提示',
                             message: '导出评审数据成功！',
                             position: 'bottom-right'
-                        });              
-                        
-                        console.log(newtab.location);
-                        newtab.location = newurl + r;
-                        console.log(newtab.location);
+                        });
+
+                        //window.open("data:application/vnd.ms-excel;base64, " + r.data, '', "height=600,width=800");
+        
+
+                        const buf = new ArrayBuffer(r.data.length);
+                        const view = new Uint8Array(buf)
+                        for (let i = 0; i != r.data.length; ++i) view[i] = r.data.charCodeAt(i) & 0xFF;
+                        const blob = new Blob([buf], {
+                        type: 'application/vnd.ms-excel'
+                        });
+
+                        // Automatically download the file by appending an a element,
+                        // 'clicking' it, and removing the element
+                        const a = window.document.createElement('a');
+                        a.href = window.URL.createObjectURL(blob, {
+                        type: 'data:attachment/xlsx'
+                        });
+                        a.download = '小微评审.xlsx';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
                     }.bind(this))
             }
         },
