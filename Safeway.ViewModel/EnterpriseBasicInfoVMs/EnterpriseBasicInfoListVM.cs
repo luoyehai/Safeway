@@ -21,24 +21,17 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
     }
     public partial class EnterpriseBasicInfoListVM : BasePagedListVM<EnterpriseBasicInfo_View, EnterpriseBasicInfoSearcher>
     {
-
-        enum tradeTermList
+        public List<KeyValuePair> tradeTermList = new List<KeyValuePair>()
         {
-            [Description("出口")]
-            Export,
-            [Description("内销")]
-            DomesticSales
-        }
-        enum companyScaleList
+             new KeyValuePair() { label ="出口",value="Export"},
+             new KeyValuePair() { label ="内销",value="DomesticSales"}
+        };
+        public List<KeyValuePair> companyScaleList = new List<KeyValuePair>()
         {
-            [Description("规上")]
-            large,
-            [Description("小型")]
-            small,
-            [Description("微型")]
-            mini
-
-         }
+             new KeyValuePair() { label ="规上",value="large"},
+             new KeyValuePair() { label ="小型",value="small"},
+             new KeyValuePair() { label ="微型",value="mini"}
+        };
         public List<KeyValuePair> companyTypeList = new List<KeyValuePair>() { 
 
             new KeyValuePair() { label ="国有",value="stateOwned"},
@@ -142,25 +135,43 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                 temp.ForeignCountry = data[j].ForeignCountry;
                 temp.LegalRepresentative = data[j].LegalRepresentative;
                 temp.CompanyScale = data[j].CompanyScale;
-                //GetEnumDescription((companyScaleList)Array.Indedata[j]Of(Enum.GetValues(data[j].CompanyScale.GetType()); data[j].CompanyScale));
                 temp.Industry = data[j].Industry;
                 temp.NoofEmployees = data[j].NoofEmployees;
                 temp.MainProducts = data[j].MainProducts;
                 temp.TermsofTrade = data[j].TermsofTrade;
+                temp.CompanyType = data[j].CompanyType;
+                temp.Industry = data[j].Industry;
                 for (int i = 0; i < companyTypeList.Count; i++)
                 {
-                    if (data[j].CompanyType.Contains(companyTypeList[i].value))
+                    if (temp.CompanyType!= null && temp.CompanyType.Contains(companyTypeList[i].value))
                     {
-                        temp.CompanyType=data[j].CompanyType.Replace(companyTypeList[i].value, companyTypeList[i].label);
+                        temp.CompanyType= temp.CompanyType.Replace(companyTypeList[i].value, companyTypeList[i].label);
                     }
                 }
                 for (int i = 0; i < industryList.Count; i++) 
                 {
-                    if (data[j].Industry.Contains(industryList[i].value)) 
+                    if (temp.Industry != null && temp.Industry.Contains(industryList[i].value)) 
                     {
-                        temp.Industry= data[j].Industry.Replace(industryList[i].value, industryList[i].label);
+                        temp.Industry = temp.Industry.Replace(industryList[i].value, industryList[i].label);
                     }
                 }
+                for (int i = 0; i < companyScaleList.Count; i++)
+                {
+                    if (temp.CompanyScale != null && temp.CompanyScale.Equals(companyScaleList[i].value)) 
+                    {
+                        temp.CompanyScale = temp.CompanyScale.Replace(companyScaleList[i].value, companyScaleList[i].label);
+                    }
+                
+                }
+                for (int i = 0; i < tradeTermList.Count; i++)
+                {
+                    if (temp.TermsofTrade != null && temp.TermsofTrade.Equals(tradeTermList[i].value))
+                    {
+                        temp.TermsofTrade = temp.TermsofTrade.Replace(tradeTermList[i].value, tradeTermList[i].label);
+                    }
+
+                }
+
                 result.Add(temp);
             }
             return (IOrderedQueryable<EnterpriseBasicInfo_View>)result.AsQueryable<EnterpriseBasicInfo_View>();

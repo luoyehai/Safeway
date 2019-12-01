@@ -86,12 +86,6 @@ namespace Safeway.Controllers
             var result = vm.ExportData(id);
             var memoryStream = new MemoryStream();
             string sFileName = @"小微评审.xlsx";
-            //var reportpath = Path.Combine(Directory.GetCurrentDirectory(),
-            //                       "wwwroot", "exportTemplate", "小微评审.xlsx");
-            //using (var fileStream = new FileStream(reportpath, FileMode.Open))
-            //{
-            //    fileStream.CopyTo(memoryStream);
-            //}
             result.Write(memoryStream);
             memoryStream.Position = 0;
             return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);

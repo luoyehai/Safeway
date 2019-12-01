@@ -15,6 +15,8 @@ namespace Safeway.Model.ExportTemplate
         [Key]
         public Guid ID { get; set; }
         public Guid LevelFourID { get; set; }
+        public string LevelOneElement { get; set; }
+        public string LevelTwoElement { get; set; }
         public string ComplianceStandard { get; set; }
         public decimal ActualScore { get; set; }
         public string ScoringMethod { get; set; }
