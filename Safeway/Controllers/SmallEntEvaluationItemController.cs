@@ -85,11 +85,20 @@ namespace Safeway.Controllers
         {
             var vm = CreateVM<SmallEntEvaluationItemVM>();
             var result = vm.ExportData(id);
-            var memoryStream = new MemoryStream();
+            //var memoryStream = new MemoryStream();
             string sFileName = @"小微评审.xlsx";
-            result.Write(memoryStream);
-            memoryStream.Position = 0;
-            return File(memoryStream.ToArray(), "application/vnd.ms-excel", sFileName);
+            //result.Write(memoryStream);
+            //memoryStream.Flush();
+            //memoryStream.Position = 0;
+            byte[] rv = new byte[] { };
+            using (MemoryStream ms = new MemoryStream())
+            {
+                result.Write(ms);
+                ms.Flush();
+                ms.Position = 0;
+                rv = ms.ToArray();
+            }
+            return File(rv, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
         }
         #endregion
     }

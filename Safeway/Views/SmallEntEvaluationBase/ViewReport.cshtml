@@ -345,26 +345,21 @@
                             position: 'bottom-right'
                         });
 
-                        //window.open("data:application/vnd.ms-excel;base64, " + r.data, '', "height=600,width=800");
-        
+                        //const buf = new ArrayBuffer(r.data.length);
+                        //const view = new Uint8Array(buf)
+                        //for (let i = 0; i != r.data.length; ++i) view[i] = r.data.charCodeAt(i) & 0xFF;
+                        //const blob = new Blob([view], {
+                        //type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                        //});
 
-                        const buf = new ArrayBuffer(r.data.length);
-                        const view = new Uint8Array(buf)
-                        for (let i = 0; i != r.data.length; ++i) view[i] = r.data.charCodeAt(i) & 0xFF;
-                        const blob = new Blob([buf], {
-                        type: 'application/vnd.ms-excel'
-                        });
-
-                        // Automatically download the file by appending an a element,
-                        // 'clicking' it, and removing the element
-                        const a = window.document.createElement('a');
-                        a.href = window.URL.createObjectURL(blob, {
-                        type: 'data:attachment/xlsx'
-                        });
-                        a.download = '小微评审.xlsx';
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
+                        //const a = window.document.createElement('a');
+                        //a.href = window.URL.createObjectURL(blob, {
+                        //type: 'data:attachment/xlsx'
+                        //});
+                        //a.download = '小微评审.xlsx';
+                        //document.body.appendChild(a);
+                        //a.click();
+                        //document.body.removeChild(a);
                     }.bind(this))
             }
         },
