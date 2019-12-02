@@ -1,5 +1,14 @@
 ﻿@model Safeway.ViewModel.EnterpriseBasicInfoVMs.EnterpriseBasicInfoVM
-
+<style>
+    .el-table td, .el-table th.is-leaf {
+        text-align: left;
+        line-height: 25px;
+        padding: 5px;
+        font-size: 14px;
+        color: black;
+        cursor: pointer;
+    }
+</style>
 <div id="EnterpriseInfo">
     <el-card class="box-card">
         <template>
@@ -568,7 +577,7 @@
                     this.yearYieldList.push(NewYearYield);
                     setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
 
-                }, 
+                },
                 loadData: function ()
                 {
 
@@ -589,7 +598,7 @@
                             this.contactList = JSON.parse(r.data.Data[3]);
                             this.yearYieldList = JSON.parse(r.data.Data[4]);
 
-                            this.selectedCompanyType = this.basicInfo.CompanyType.split("/");; 
+                            this.selectedCompanyType = this.basicInfo.CompanyType.split("/");;
                             this.selectedIndustry = this.basicInfo.Industry.split("/");;
 
                              //Load City & District
@@ -599,7 +608,7 @@
                     .catch(function (e) {
                         console.error(e);
                     });
-                   
+
                 },
                 remove: function (index, row) {
                     if (this.businessInfoList.length > 0) {
@@ -609,7 +618,7 @@
                 removeYearYield: function (index, row) {
                     if (this.yearYieldList.length > 0) {
                         this.yearYieldList.splice(index, 1);
-                    }  
+                    }
                 },
                 handleAddNew: function ()
                 {

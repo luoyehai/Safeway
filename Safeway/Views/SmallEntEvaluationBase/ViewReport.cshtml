@@ -152,8 +152,9 @@
         },
         methods: {
             tableRowClassName({ row, rowIndex }) {
-                if (row.IsEvaluated)
+                if (row.IsEvaluated) {
                     return 'success-row';
+                }
                 return '';
             },
             initialReport() {

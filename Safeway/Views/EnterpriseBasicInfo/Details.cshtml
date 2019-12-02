@@ -1,5 +1,14 @@
 ﻿@model Safeway.ViewModel.EnterpriseBasicInfoVMs.EnterpriseBasicInfoVM
-
+<style>
+    .el-table td, .el-table th.is-leaf {
+        text-align: left;
+        line-height: 25px;
+        padding: 5px;
+        font-size: 14px;
+        color: black;
+        cursor: pointer;
+    }
+</style>
 <div id="EnterpriseInfo">
     <el-card class="box-card">
         <template>
@@ -111,7 +120,7 @@
                 <el-tab-pane label="商务信息" name="BusinessInfo">
                     <div id="BusinessInfo">
                         <el-table :data="businessInfoList" style="width: 100%" border class="grid-content bg-black">
-                            <el-table-column label="安全服务类型" width="160" >
+                            <el-table-column label="安全服务类型" width="160">
                                 <template slot-scope="scope">
                                     <el-select v-model="scope.row.SafetyServiceType" disabled placeholder="Select">
                                         <el-option v-for="item in ServiceTypes"
@@ -175,7 +184,7 @@
                             </el-table-column>
                             <el-table-column label="手机" width="180" prop="MobilePhone">
                             </el-table-column>
-                            <el-table-column label="邮箱" width="180"  prop="Email">
+                            <el-table-column label="邮箱" width="180" prop="Email">
                             </el-table-column>
                         </el-table>
                     </template>
@@ -183,7 +192,7 @@
                 <el-tab-pane label="年收益" name="YieldInfo">
                     <div>
                         <el-table :data="yearYieldList" style="width: 100%">
-                            <el-table-column label="财年" width="180" >      
+                            <el-table-column label="财年" width="180">
                                 <template slot-scope="scope">
                                     <el-date-picker v-model="scope.row.FiscalYear"
                                                     disabled
