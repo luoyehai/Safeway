@@ -238,9 +238,6 @@
                                     </template>
                                 </el-table-column>
                             </el-table>
-                            <el-row>
-                                <el-col :span="5"> <el-button @@click="handleAddNewContact" :loading="newLoading">新增</el-button></el-col>
-                            </el-row>
                         </template>
                     </el-tab-pane>
                     <el-tab-pane label="年收益" name="YieldInfo">
@@ -259,7 +256,15 @@
                                         <el-input v-model.number="scope.row.YearYieldValue"></el-input>
                                     </template>
                                 </el-table-column>
+                                <el-table-column label="" width="55" align="center" fixed="right">
+                                    <template slot-scope="scope">
+                                        <i @@click="removeYearYield(scope.$index, scope.row)" class="el-icon-delete" style="cursor:pointer;"></i>
+                                    </template>
+                                </el-table-column>
                             </el-table>
+                            <el-row>
+                                <el-col :span="5"> <el-button @@click="handleAddNewYearYield" :loading="newLoading">新增</el-button></el-col>
+                            </el-row>
                         </div>
                     </el-tab-pane>
                 </el-tabs>
@@ -567,6 +572,11 @@
                         this.businessInfoList.splice(index, 1);
                     }              
                 },
+                removeYearYield: function (index, row) {
+                    if (this.yearYieldList.length > 0) {
+                        this.yearYieldList.splice(index, 1);
+                    }  
+                },
                 handleAddNew: function ()
                 {
                     this.newLoading = true;
@@ -581,20 +591,18 @@
                     this.businessInfoList.push(NewBusinessInfo);
                     setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
                 },
-                handleAddNewContact: function () {
-                    this.newLoading = true;
-                    let NewContact = {
-
-                        SafetyServiceType:'',
-                        OtherSafetyServiceType: '',
-                        CertificateLevel: '',
-                        ExpireDate: '',
-                        Description:'',
+                handleAddNewYearYield: function ()
+                {
+                     this.newLoading = true;
+                    let NewYearYield = {
+                        FiscalYear: '',
+                        YearYieldValue: 0,
+                        EnterpriseBasicInfoId: '',
                     }
-                    this.businessInfoList.push(NewBusinessInfo);
+                    this.yearYieldList.push(NewYearYield);
                     setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
-                },
-                
+
+                },                
             },
             created: function () {
                 this.loadData();

@@ -259,7 +259,15 @@
                                     <el-input v-model.number="scope.row.YearYieldValue"></el-input>
                                 </template>
                             </el-table-column>
+                            <el-table-column label="" width="55" align="center" fixed="right">
+                                <template slot-scope="scope">
+                                    <i @@click="removeYearYield(scope.$index, scope.row)" class="el-icon-delete" style="cursor:pointer;"></i>
+                                </template>
+                            </el-table-column>
                         </el-table>
+                        <el-row>
+                            <el-col :span="5"> <el-button @@click="handleAddNewYearYield" :loading="newLoading">新增</el-button></el-col>
+                        </el-row>
                     </div>
                 </el-tab-pane>
             </el-tabs>
@@ -549,6 +557,18 @@
                     }.bind(this))
 
                 },
+                handleAddNewYearYield: function ()
+                {
+                     this.newLoading = true;
+                    let NewYearYield = {
+                        FiscalYear: '',
+                        YearYieldValue: 0,
+                        EnterpriseBasicInfoId: '',
+                    }
+                    this.yearYieldList.push(NewYearYield);
+                    setTimeout("EnterpriseInfoVM.newLoading = false;", 500)
+
+                }, 
                 loadData: function ()
                 {
 
@@ -585,6 +605,11 @@
                     if (this.businessInfoList.length > 0) {
                         this.businessInfoList.splice(index, 1);
                     }
+                },
+                removeYearYield: function (index, row) {
+                    if (this.yearYieldList.length > 0) {
+                        this.yearYieldList.splice(index, 1);
+                    }  
                 },
                 handleAddNew: function ()
                 {
