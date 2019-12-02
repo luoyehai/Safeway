@@ -411,7 +411,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             ICell scorecell;
             for (int i = 0; i < unMatchedData.Count(); i++)
             {
-                row = templatesheet.GetRow(i + 2);
+                row = templatesheet.GetRow(i + 4);
 
                 levelOneCell = row.CreateCell(0);
                 levelTwoCell = row.CreateCell(1);
