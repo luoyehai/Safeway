@@ -333,8 +333,8 @@
             handleExport: function () {
                 let vData = @Html.Raw(Json.Serialize(ViewData));
                // let newtab = window.open('', '_blank');
-                let newurl = 'SmallEntEvaluationItem/ExportReport';
-                axios.post(newurl, vData["ID"])
+                let newurl = 'SmallEntEvaluationItem/ExportReport?id='+vData["ID"];
+                axios.get(newurl)
                     .then(function (r) {
                         this.loading = false;
                         console.log(r);
@@ -344,22 +344,7 @@
                             message: '导出评审数据成功！',
                             position: 'bottom-right'
                         });
-
-                        //const buf = new ArrayBuffer(r.data.length);
-                        //const view = new Uint8Array(buf)
-                        //for (let i = 0; i != r.data.length; ++i) view[i] = r.data.charCodeAt(i) & 0xFF;
-                        //const blob = new Blob([view], {
-                        //type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                        //});
-
-                        //const a = window.document.createElement('a');
-                        //a.href = window.URL.createObjectURL(blob, {
-                        //type: 'data:attachment/xlsx'
-                        //});
-                        //a.download = '小微评审.xlsx';
-                        //document.body.appendChild(a);
-                        //a.click();
-                        //document.body.removeChild(a);
+                        window.open(newurl, '', "height=600,width=800");
                     }.bind(this))
             }
         },
