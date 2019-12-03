@@ -286,7 +286,7 @@
     <el-row style="padding-top:3em">
         <el-col :span="20" style="align-content:center">
             <el-button style="margin:0 auto" @@click="handleSubmit">Submit</el-button>
-            <el-button style="margin:0 auto">Cancel</el-button>
+            <el-button style="margin:0 auto" @@click="handleCancel">Cancel</el-button>
         </el-col>
     </el-row>
 </div>
@@ -502,6 +502,10 @@
                 }]
             },
             methods: {
+                handleCancel: function ()
+                {
+                    ff.CloseDialog();
+                },
                 handleCompanyTypeChange: function (value) {
 
                     this.basicInfo.CompanyType = this.selectedCompanyType.join("/");
@@ -563,6 +567,8 @@
                             message: '保存评审数据成功！',
                             position: 'bottom-right'
                         });
+                        ff.CloseDialog();
+                        ff.RefreshGrid('LAY_app_body',0);
                     }.bind(this))
 
                 },
