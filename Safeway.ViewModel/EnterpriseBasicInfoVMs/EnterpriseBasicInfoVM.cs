@@ -299,27 +299,27 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             var yearYieldList = new List<EnterpriserYearYield>();
             var financeInfo = new EnterpriseFinanceInfo();
 
-            if (parameters[0] != null && !string.IsNullOrEmpty(parameters[0])) 
+            if (parameters[0] != null && parameters[0].Length >2 && !string.IsNullOrEmpty(parameters[0])) 
             {
                 basicInfo = JsonConvert.DeserializeObject<EnterpriseBasicInfo>(parameters[0]);
                 DC.Set<EnterpriseBasicInfo>().Add(basicInfo);
             }
-            if (parameters[1] != null && !string.IsNullOrEmpty(parameters[1])) 
+            if (parameters[1] != null && parameters[1].Length > 2 &&  !string.IsNullOrEmpty(parameters[1])) 
             {           
                 businessInfoList = JsonConvert.DeserializeObject<List<EnterpriseBusinessinfo>>(parameters[1]);
                 DC.Set<EnterpriseBusinessinfo>().AddRange(businessInfoList);              
             }
-            if (parameters[2] != null && !string.IsNullOrEmpty(parameters[2]))
+            if (parameters[2] != null && parameters[2].Length > 2 && !string.IsNullOrEmpty(parameters[2]))
             {
                 financeInfo = JsonConvert.DeserializeObject<EnterpriseFinanceInfo>(parameters[2]);
                 DC.Set<EnterpriseFinanceInfo>().Add(financeInfo);
             }
-            if (parameters[3] != null && !string.IsNullOrEmpty(parameters[3]))
+            if (parameters[3] != null && parameters[3].Length > 2 && !string.IsNullOrEmpty(parameters[3]))
             {
                 contactList = JsonConvert.DeserializeObject<List<EnterpriseContact>>(parameters[3]);
                 DC.Set<EnterpriseContact>().AddRange(contactList);
             }
-            if (parameters[4] != null && !string.IsNullOrEmpty(parameters[4]))
+            if (parameters[4] != null && parameters[4].Length > 2 && !string.IsNullOrEmpty(parameters[4]))
             {
                 yearYieldList = JsonConvert.DeserializeObject<List<EnterpriserYearYield>>(parameters[4]);
                 DC.Set<EnterpriserYearYield>().AddRange(yearYieldList);
@@ -336,27 +336,27 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             var yearYieldList = new List<EnterpriserYearYield>();
             var financeInfo = new EnterpriseFinanceInfo();
 
-            if (parameters[0] != null && !string.IsNullOrEmpty(parameters[0]))
+            if (parameters[0] != null && parameters[0].Length > 2 && !string.IsNullOrEmpty(parameters[0]))
             {
                 basicInfo = JsonConvert.DeserializeObject<EnterpriseBasicInfo>(parameters[0]);
                 DC.Set<EnterpriseBasicInfo>().Update(basicInfo);
             }
-            if (parameters[1] != null && !string.IsNullOrEmpty(parameters[1]))
+            if (parameters[1] != null && parameters[1].Length >2 && !string.IsNullOrEmpty(parameters[1]))
             {
                 businessInfoList = JsonConvert.DeserializeObject<List<EnterpriseBusinessinfo>>(parameters[1]);
                 DC.Set<EnterpriseBusinessinfo>().UpdateRange(businessInfoList);
             }
-            if (parameters[2] != null && !string.IsNullOrEmpty(parameters[2]))
+            if (parameters[2] != null && parameters[2].Length > 2 && !string.IsNullOrEmpty(parameters[2]))
             {
                 financeInfo = JsonConvert.DeserializeObject<EnterpriseFinanceInfo>(parameters[2]);
                 DC.Set<EnterpriseFinanceInfo>().Update(financeInfo);
             }
-            if (parameters[3] != null && !string.IsNullOrEmpty(parameters[3]))
+            if (parameters[3] != null && parameters[3].Length > 2 && !string.IsNullOrEmpty(parameters[3]))
             {
                 contactList = JsonConvert.DeserializeObject<List<EnterpriseContact>>(parameters[3]);
                 DC.Set<EnterpriseContact>().UpdateRange(contactList);
             }
-            if (parameters[4] != null && !string.IsNullOrEmpty(parameters[4]))
+            if (parameters[4] != null && parameters[4].Length >2 && !string.IsNullOrEmpty(parameters[4]))
             {
                 yearYieldList = JsonConvert.DeserializeObject<List<EnterpriserYearYield>>(parameters[4]);
                 DC.Set<EnterpriserYearYield>().UpdateRange(yearYieldList);
