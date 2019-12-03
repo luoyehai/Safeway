@@ -1,0 +1,20 @@
+﻿@model Safeway.ViewModel.MyTaskVMs.MyTaskListVM
+
+<wt:searchpanel vm="@Model" reset-btn="true">
+    <wt:row items-per-row="ItemsPerRowEnum.Three">
+        <wt:combobox field="Searcher.ProjectId" items="AllProject" />
+        <wt:combobox field="Searcher.EnterpriseId" items="AllEnterprise" />
+        <wt:textbox field="Searcher.Street" />
+        <wt:textbox field="Searcher.Industry" />
+        <wt:datetime field="Searcher.EvaluationStartDate" />
+        <wt:datetime field="Searcher.EvaluationEndDate" />
+        <wt:combobox field="Searcher.Status" />
+    </wt:row>
+</wt:searchpanel>
+<wt:grid vm="@Model" url="/SmallEntEvaluationBase/Search" done-func="doneFunc" hidden-checkbox="true" />
+<script>
+    var element = layui.element;
+    function doneFunc(res, currentCount) {
+        element.init()
+    }
+</script>
