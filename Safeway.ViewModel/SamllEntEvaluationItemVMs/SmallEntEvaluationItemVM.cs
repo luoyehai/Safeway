@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Safeway.ViewModel.SmallEntEvaluationBaseVMs;
 using Safeway.Model.Enterprise;
 using Safeway.Model.Project;
+using System.Data.SqlClient;
 
 namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 {
@@ -378,6 +379,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 scorecell.CellStyle = borderedCellStyle;
             }
             template = ExportUnmatchedItemsData(template, id);
+            template = ExportReportData(template, id);
             return template;
         }
         public XSSFWorkbook ExportUnmatchedItemsData(XSSFWorkbook input , string id)
@@ -438,31 +440,33 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 
         public XSSFWorkbook ExportReportData(XSSFWorkbook input, string id)
         {
-            var baseInfoData = DC.Set<EvaluationTeamInfo>().FromSql("SmEnt_Get_EvaluationGeneralInfo @baseId = {0}", id).ToList();
+
+            var baseInfoData = DC.Set<SmEntEvaluationGeneral>().FromSql("SmEnt_Get_EvaluationGeneralInfo @baseId = {0}", id).FirstOrDefault();
             var evaluationTeamDetailData = DC.Set<EvaluationTeamInfo>().FromSql("SmEnt_Get_EvaluationTeamInfo @baseId = {0}", id).ToList();
-            var fileDetailData = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaluationReport @baseId = {0}", id, 0).ToList();
-            var sceneDetailData = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaluationReport @baseId = {0}", id, 1).ToList();
+            var fileDetailData = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaluationReport @baseId = {0},@type = {1}", id, 0).ToList();
+            var sceneDetailData = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaluationReport @baseId = {0},@type = {1}", id, 1).ToList();
             ISheet templatesheet = input.GetSheet("报告");
             XSSFFont myFont = (XSSFFont)input.CreateFont();
-            myFont.FontHeightInPoints = (short)10.5;
-            myFont.FontName = "宋体";
+            myFont.FontHeightInPoints = (short)16;
+            myFont.FontName = "Calibri";
             //set style
             XSSFCellStyle borderedCellStyle = (XSSFCellStyle)input.CreateCellStyle();
             borderedCellStyle.SetFont(myFont);
-            borderedCellStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-            borderedCellStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
-            borderedCellStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-            borderedCellStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
 
             //set middle
-            borderedCellStyle.Alignment = HorizontalAlignment.Center;
+            borderedCellStyle.Alignment = HorizontalAlignment.Left;
             borderedCellStyle.VerticalAlignment = VerticalAlignment.Center;
 
-            borderedCellStyle.WrapText = true;
             IRow row;
             row = templatesheet.GetRow(15);
             ICell page1cell = row.CreateCell(3);
-            //page1cell.SetCellValue()
+            page1cell.SetCellValue(baseInfoData.ComapanyName);
+            page1cell.CellStyle = borderedCellStyle;
+
+            row = templatesheet.GetRow(17);
+            page1cell = row.CreateCell(3);
+            page1cell.SetCellValue(baseInfoData.Industry);
+            page1cell.CellStyle = borderedCellStyle;
 
             return input;
         }
