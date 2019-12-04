@@ -1,0 +1,11 @@
+﻿@model Safeway.ViewModel.SysDictionaryTypeVMs.SysDictionaryTypeVM
+
+<wt:form vm="@Model">
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:display field="Entity.Code" />
+<wt:display field="Entity.Name" />
+</wt:row>
+    <wt:row align=" AlignEnum.Right">
+        <wt:closebutton />
+    </wt:row>
+</wt:form>

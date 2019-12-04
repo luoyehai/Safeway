@@ -1,0 +1,11 @@
+﻿@model Safeway.ViewModel.SysDictionaryItemVMs.SysDictionaryItemListVM
+
+<wt:searchpanel vm="@Model" reset-btn="true">
+<wt:row items-per-row="ItemsPerRowEnum.Three">
+<wt:textbox field="Searcher.Code" />
+<wt:textbox field="Searcher.Name" />
+<wt:textbox field="Searcher.Value" />
+<wt:textbox field="Searcher.Remark" />
+</wt:row>
+</wt:searchpanel>
+<wt:grid vm="@Model" url="/SysDictionaryItem/Search"/>
