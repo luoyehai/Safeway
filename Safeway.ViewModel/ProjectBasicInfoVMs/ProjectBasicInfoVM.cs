@@ -14,6 +14,7 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
     public partial class ProjectBasicInfoVM : BaseCRUDVM<ProjectBasicInfo>
     {
         public List<ComboSelectListItem> EnterpriseList { get; set; }
+        public List<ComboSelectListItem> StaffList { get; set; }
 
         [Display(Name = "企业列表")]
         public string[] SelectedEnterpriseIds { get; set; }
@@ -25,6 +26,7 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
         protected override void InitVM()
         {
             this.EnterpriseList = GetEnterpriseList();
+           // this.StaffList = GetStaff();
         }
 
         public string[] GetSelectedEnterpriseIds(string id)
@@ -45,6 +47,17 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
             {
                 Text = x.ComapanyName,
                 Value = x.ID.ToString(),
+                Disabled = false,
+                Selected = false
+            }).ToList();
+        }
+        public List<ComboSelectListItem> GetStaff()
+        {
+            var staffList = DC.Set<FrameworkUserBase>().OrderBy(x => x.Name).Where(x => x.IsValid==true);
+            return staffList.Select(x => new ComboSelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Name.ToString(),
                 Disabled = false,
                 Selected = false
             }).ToList();
