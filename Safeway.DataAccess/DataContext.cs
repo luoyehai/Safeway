@@ -39,9 +39,11 @@ namespace Safeway.DataAccess
         public DbSet<SmallEntEvaluationItem> SmallEntEvaluationItems { get; set; }
         public DbSet<SmallEntEvaluationUnMatchedItem> SmallEntEvaluationUnMatchedItems { get; set; }
         #region SmallEnt
-        #region SmExportTemplate
         #endregion
+        #region SmExportTemplate
         public DbSet<SmEntEvaluationTemplate> SmEntEvaluationTemplates { get; set; }
+        public DbSet<EvaluationTeamInfo> EvaluationTeamInfos { get; set; }
+        public DbSet<SmEntEvaluationGeneral> SmEntEvaluationGenerals { get; set; }
         #endregion
         public DataContext(string cs, DBTypeEnum dbtype)
              : base(cs, dbtype)
