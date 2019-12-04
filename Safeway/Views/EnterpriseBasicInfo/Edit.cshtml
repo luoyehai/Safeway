@@ -8,19 +8,22 @@
         color: black;
         cursor: pointer;
     }
+    .layui-layer-page .layui-layer-content{
+        overflow: hidden;
+    }
 </style>
 <div id="EnterpriseInfo">
-    <el-card class="box-card">
+    <el-card class="box-card"  style="overflow: hidden;">
         <template>
             <el-tabs v-model="activeName">
                 <el-tab-pane label="基本信息" name="basicInfo">
                     <div id="BasicInfo">
                         <el-row class="row">
-                            <el-col :span="3"><div class="grid-content bg-black">公司名称<span class="redstart">*</span></div></el-col>
+                            <el-col :span="2"><div class="grid-content bg-black">公司名称<span class="redstart">*</span></div></el-col>
                             <el-col :span="7">
                                 <el-input v-model="basicInfo.ComapanyName"></el-input>
                             </el-col>
-                            <el-col :span="3"><div class="grid-content bg-black">省份</div></el-col>
+                            <el-col :span="2" :offset="1"><div class="grid-content bg-black">省份</div></el-col>
                             <el-col :span="7">
                                 <template>
                                     <el-select v-model="basicInfo.Province" @@change="handleProvinceChange" placeholder="请选择">
@@ -34,7 +37,7 @@
                             </el-col>
                         </el-row>
                         <el-row class="row">
-                            <el-col :span="3"><div class="grid-content bg-black">市</div></el-col>
+                            <el-col :span="2"><div class="grid-content bg-black">市</div></el-col>
                             <el-col :span="7">
                                 <template>
                                     <el-select v-model="basicInfo.City" @@change="handleCityChange" placeholder="请选择">
@@ -46,7 +49,7 @@
                                     </el-select>
                                 </template>
                             </el-col>
-                            <el-col :span="3"><div class="grid-content bg-black">区</div></el-col>
+                            <el-col :span="2" :offset="1"><div class="grid-content bg-black">区</div></el-col>
                             <el-col :span="7">
                                 <template>
                                     <el-select v-model="basicInfo.District" placeholder="请选择">
@@ -60,11 +63,11 @@
                             </el-col>
                         </el-row>
                         <el-row class="row">
-                            <el-col :span="3"><div class="grid-content bg-black">街道</div></el-col>
+                            <el-col :span="2"><div class="grid-content bg-black">街道</div></el-col>
                             <el-col :span="7">
                                 <el-input v-model="basicInfo.Street"></el-input>
                             </el-col>
-                            <el-col :span="3"><div class="grid-content bg-black">企业类型</div></el-col>
+                            <el-col :span="2" :offset="1"><div class="grid-content bg-black">企业类型</div></el-col>
                             <el-col :span="7">
                                 <el-cascader v-model="selectedCompanyType"
                                              :options="companyTypeList"
@@ -73,17 +76,17 @@
                             </el-col>
                         </el-row>
                         <el-row class="row">
-                            <el-col :span="3"><div class="grid-content bg-black">企业所属国家</div></el-col>
+                            <el-col :span="2"><div class="grid-content bg-black">企业所属国家</div></el-col>
                             <el-col :span="7">
                                 <el-input v-model="basicInfo.ForeignCountry"></el-input>
                             </el-col>
-                            <el-col :span="3"><div class="grid-content bg-black">法定代表人</div></el-col>
+                            <el-col :span="2" :offset="1"><div class="grid-content bg-black">法定代表人</div></el-col>
                             <el-col :span="7">
                                 <el-input v-model="basicInfo.LegalRepresentative"></el-input>
                             </el-col>
                         </el-row>
                         <el-row class="row">
-                            <el-col :span="3"><div class="grid-content bg-black">企业规模</div></el-col>
+                            <el-col :span="2"><div class="grid-content bg-black">企业规模</div></el-col>
                             <el-col :span="7">
                                 <el-select v-model="basicInfo.CompanyScale" placeholder="请选择">
                                     <el-option v-for="item in companyScaleList"
@@ -93,7 +96,7 @@
                                     </el-option>
                                 </el-select>
                             </el-col>
-                            <el-col :span="3"><div class="grid-content bg-black">行业</div></el-col>
+                            <el-col :span="2" :offset="1"><div class="grid-content bg-black">行业</div></el-col>
                             <el-col :span="7">
                                 <el-cascader v-model="selectedIndustry"
                                              :options="industryList"
@@ -102,17 +105,17 @@
                             </el-col>
                         </el-row>
                         <el-row class="row">
-                            <el-col :span="3"><div class="grid-content bg-black">公司人数</div></el-col>
+                            <el-col :span="2"><div class="grid-content bg-black">公司人数</div></el-col>
                             <el-col :span="7">
                                 <el-input v-model="basicInfo.NoofEmployees"></el-input>
                             </el-col>
-                            <el-col :span="3"><div class="grid-content bg-black">主要产品</div></el-col>
+                            <el-col :span="2" :offset="1"><div class="grid-content bg-black">主要产品</div></el-col>
                             <el-col :span="7">
                                 <el-input v-model="basicInfo.MainProducts"></el-input>
                             </el-col>
                         </el-row>
                         <el-row class="row">
-                            <el-col :span="3"><div class="grid-content bg-black">贸易方式</div></el-col>
+                            <el-col :span="2"><div class="grid-content bg-black">贸易方式</div></el-col>
                             <el-col :span="7">
                                 <template>
                                     <el-select v-model="basicInfo.TermsofTrade" placeholder="请选择">
@@ -132,7 +135,7 @@
                         <el-table :data="businessInfoList" style="width: 100%" border class="grid-content bg-black">
                             <el-table-column label="安全服务类型" width="160">
                                 <template slot-scope="scope">
-                                    <el-select v-model="scope.row.SafetyServiceType" placeholder="Select">
+                                    <el-select v-model="scope.row.SafetyServiceType" placeholder="请选择">
                                         <el-option v-for="item in ServiceTypes"
                                                    :key="item.value"
                                                    :label="item.label"
@@ -141,21 +144,21 @@
                                     </el-select>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="其他">
+                            <el-table-column label="其他" width="180">
                                 <template slot-scope="scope">
                                     <el-input v-model="scope.row.OtherSafetyServiceType"></el-input>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="证书等级" width="130">
+                            <el-table-column label="证书等级" width="120">
                                 <template slot-scope="scope">
                                     <el-input v-model="scope.row.CertificateLevel"></el-input>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="到期时间" width="200">
+                            <el-table-column label="到期时间" width="260">
                                 <template slot-scope="scope">
                                     <el-date-picker v-model="scope.row.ExpireDate"
                                                     type="date"
-                                                    placeholder="Pick a day">
+                                                    placeholder="请选择">
                                     </el-date-picker>
                                 </template>
                             </el-table-column>
@@ -167,13 +170,12 @@
                             <el-table-column label="描述" width="260">
                                 <template slot-scope="scope">
                                     <el-input type="textarea"
-                                              :rows="2"
-                                              placeholder="Please input"
+                                              :rows="1"
                                               v-model="scope.row.Description">
                                     </el-input>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="" width="55" align="center" fixed="right">
+                            <el-table-column label="" width="55" align="center">
                                 <template slot-scope="scope">
                                     <i @@click="remove(scope.$index, scope.row)" class="el-icon-delete" style="cursor:pointer;"></i>
                                 </template>
@@ -255,7 +257,7 @@
                 <el-tab-pane label="年收益" name="YieldInfo">
                     <div>
                         <el-table :data="yearYieldList" style="width: 100%">
-                            <el-table-column label="财年" width="180">
+                            <el-table-column label="财年" width="250">
                                 <template slot-scope="scope">
                                     <el-date-picker v-model="scope.row.FiscalYear"
                                                     type="year"
@@ -268,7 +270,7 @@
                                     <el-input v-model.number="scope.row.YearYieldValue"></el-input>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="" width="55" align="center" fixed="right">
+                            <el-table-column label="" width="55" align="center">
                                 <template slot-scope="scope">
                                     <i @@click="removeYearYield(scope.$index, scope.row)" class="el-icon-delete" style="cursor:pointer;"></i>
                                 </template>
@@ -283,10 +285,10 @@
 
         </template>
     </el-card>
-    <el-row style="padding-top:3em">
-        <el-col :span="20" style="align-content:center">
-            <el-button style="margin:0 auto" @@click="handleSubmit">Submit</el-button>
-            <el-button style="margin:0 auto" @@click="handleCancel">Cancel</el-button>
+    <el-row :gutter="20">
+        <el-col :span="20" :offset="20">
+            <el-button style="margin:0 auto" @@click="handleSubmit" type="primary">提交</el-button>
+            <el-button style="margin:0 auto" @@click="handleCancel">取消</el-button>
         </el-col>
     </el-row>
 </div>
