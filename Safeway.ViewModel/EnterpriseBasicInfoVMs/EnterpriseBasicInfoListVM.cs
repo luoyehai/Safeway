@@ -64,8 +64,8 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         {
             return new List<GridAction>
             {
-                this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Create, "新建","", dialogWidth: 1000, dialogHeight:800),
-                this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Edit, "修改","", dialogWidth: 1000, dialogHeight:800),
+                this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Create, "新建","", dialogWidth: 1400, dialogHeight:800),
+                this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Edit, "修改","", dialogWidth: 1400, dialogHeight:800),
                 this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Delete, "删除", "",dialogWidth: 800),
                 this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Details, "详细","", dialogWidth: 1000, dialogHeight:800),
                 //this.MakeStandardAction("EnterpriseBasicInfo", GridActionStandardTypesEnum.Import, "导入","", dialogWidth: 800),
