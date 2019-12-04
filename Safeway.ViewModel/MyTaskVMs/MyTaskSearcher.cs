@@ -11,10 +11,13 @@ namespace Safeway.ViewModel.MyTaskVMs
     {
         [Display(Name = "项目名称")]
         public String ProjectId { get; set; }
+
         [Display(Name = "企业名称")]
         public String EnterpriseId { get; set; }
+
         [Display(Name = "开始时间")]
         public DateTime? EvaluationStartDate { get; set; }
+
         [Display(Name = "结束时间")]
         public DateTime? EvaluationEndDate { get; set; }
 

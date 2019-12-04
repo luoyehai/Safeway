@@ -9,7 +9,7 @@ using Safeway.Model.SmallEntEvaluation;
 using Safeway.Model.EnterpriseReview;
 using Safeway.Model.Common;
 using Safeway.ViewModel.CommonClass;
-
+using Safeway.Model.Enterprise;
 
 namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 {
@@ -23,6 +23,19 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         protected override void InitVM()
         {
             base.InitVM();
+        }
+
+        public SmallEntEvaluationBase_View EntityView { get; set; }
+
+        protected override SmallEntEvaluationBase GetById(object Id)
+        {
+            var entity = base.GetById(Id);
+            var entityView = new SmallEntEvaluationBase_View();
+            entityView.EvaluateStartDateStr = entity.EvaluationStartDate.ToShortDateFormatString();
+            entityView.EvaluateEndDateStr = entity.EvaluationEndDate.ToShortDateFormatString();
+            entityView.EnterpriseName = DC.Set<EnterpriseBasicInfo>().FirstOrDefault(x => x.ID.Equals(Guid.Parse(entity.EnterpriseId))).ComapanyName;
+            this.EntityView = entityView;
+            return entity;
         }
 
         // Add all the relative elements into item table-Linq

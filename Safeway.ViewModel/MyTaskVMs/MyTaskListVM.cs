@@ -23,7 +23,7 @@ namespace Safeway.ViewModel.MyTaskVMs
             return new List<GridAction>
             {
                 this.MakeAction("SmallEntEvaluationBase", "ViewReport", "评审报告", "评审报告",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
-                this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Edit, "修改","", dialogWidth: 800)
+                this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Details, "详细","", dialogWidth: 800)
                 //this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Delete, "删除", "",dialogWidth: 800),
                 //this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.ExportExcel, "导出","")
             };
@@ -96,6 +96,9 @@ namespace Safeway.ViewModel.MyTaskVMs
                 .CheckContain(Searcher.Industry, x => x.eb.Industry)
                 .CheckEqual(Searcher.Status, x => x.se.Status)
                 .CheckEqual(Searcher.IsValid, x => x.se.IsValid.Equals(true))
+                .Where(x => x.se.ModuleOne.Contains(LoginUserInfo.Name.ToString()) 
+                || x.se.ModuleTwo.Contains(LoginUserInfo.Name.ToString()) 
+                || x.se.ModuleThree.Contains(LoginUserInfo.Name.ToString()))
                 .Select(x => new MyTask_View
                 {
                     ID = x.se.ID,

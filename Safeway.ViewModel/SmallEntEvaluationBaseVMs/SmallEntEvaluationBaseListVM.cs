@@ -26,6 +26,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 this.MakeAction("SmallEntEvaluationBase", "ViewReport", "评审报告", "评审报告",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Edit, "修改","", dialogWidth: 800),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Delete, "删除", "",dialogWidth: 800),
+                this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Details, "详细","", dialogWidth: 800),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.ExportExcel, "导出","")
                 //this.MakeAction("SmallEntEvaluationItem","ViewReport","查看报告","查看报告", GridActionParameterTypesEnum.SingleId).SetMax(true)
             };
@@ -48,7 +49,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 this.MakeGridHeader(x => x.ModuleTwo),
                 this.MakeGridHeader(x => x.ModuleThree),
                 this.MakeGridHeader(x => x.ReportFileId).SetFormat(ReportFileIdFormat),
-                this.MakeGridHeaderAction(width: 200)
+                this.MakeGridHeaderAction(width: 240)
             };
         }
 
