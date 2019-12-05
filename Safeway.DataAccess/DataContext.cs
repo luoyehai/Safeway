@@ -10,6 +10,7 @@ using Safeway.Model.NormalEntEvaluation;
 using Safeway.Model.SmallEntEvaluation;
 using Safeway.Model.ExportTemplate;
 using Safeway.Model.Project;
+using Safeway.Model.System;
 
 namespace Safeway.DataAccess
 {
@@ -17,6 +18,12 @@ namespace Safeway.DataAccess
     {
 
         public DbSet<EnterpriseReviewElement> EnterpriseReviewElements { get; set; }
+
+        #region Dictionary
+        public DbSet<SysDictionaryType> SysDictionaryTypes { get; set; }
+
+        public DbSet<SysDictionaryItem> SysDictionaryItems { get; set; }
+        #endregion
 
         #region Project
         public DbSet<ProjectBasicInfo> ProjectBasicInfos { get; set; }
