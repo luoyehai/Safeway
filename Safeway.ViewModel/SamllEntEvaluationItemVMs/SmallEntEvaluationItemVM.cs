@@ -453,6 +453,8 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             XSSFCellStyle noborderedCellStyle = (XSSFCellStyle)input.CreateCellStyle();
             noborderedCellStyle.SetFont(myFont);
 
+            noborderedCellStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+
             //set middle
             noborderedCellStyle.Alignment = HorizontalAlignment.Left;
             noborderedCellStyle.VerticalAlignment = VerticalAlignment.Center;
@@ -564,6 +566,38 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             appliedEnt.SetCellValue(baseInfoData.ContactEmail);
             appliedEnt.CellStyle = borderedCellStyle;
 
+            //write scene info
+            XSSFFont myFont03 = (XSSFFont)input.CreateFont();
+            myFont02.FontHeightInPoints = (short)12;
+            myFont02.FontName = "宋体";
+            //set style
+            XSSFCellStyle listInfoStyle = (XSSFCellStyle)input.CreateCellStyle();
+            listInfoStyle.SetFont(myFont03);
+
+            //set middle
+            listInfoStyle.Alignment = HorizontalAlignment.Left;
+            listInfoStyle.VerticalAlignment = VerticalAlignment.Center;
+            //write file info
+            ICell listcell;
+            i = 82;
+            foreach (var obj in fileDetailData) 
+            {
+                row = templatesheet.GetRow(i);
+                listcell = row.CreateCell(1);
+                listcell.SetCellValue(obj.UnMatchedItemDescription);
+                listcell.CellStyle = listInfoStyle;
+                i++;
+            }
+
+            i = 95;
+            foreach (var obj in sceneDetailData)
+            {
+                row = templatesheet.GetRow(i);
+                listcell = row.CreateCell(1);
+                listcell.SetCellValue(obj.UnMatchedItemDescription);
+                listcell.CellStyle = listInfoStyle;
+                i++;
+            }
             return input;
         }
      }
