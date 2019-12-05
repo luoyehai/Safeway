@@ -450,23 +450,119 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             myFont.FontHeightInPoints = (short)16;
             myFont.FontName = "Calibri";
             //set style
-            XSSFCellStyle borderedCellStyle = (XSSFCellStyle)input.CreateCellStyle();
-            borderedCellStyle.SetFont(myFont);
+            XSSFCellStyle noborderedCellStyle = (XSSFCellStyle)input.CreateCellStyle();
+            noborderedCellStyle.SetFont(myFont);
 
             //set middle
-            borderedCellStyle.Alignment = HorizontalAlignment.Left;
-            borderedCellStyle.VerticalAlignment = VerticalAlignment.Center;
+            noborderedCellStyle.Alignment = HorizontalAlignment.Left;
+            noborderedCellStyle.VerticalAlignment = VerticalAlignment.Center;
 
             IRow row;
             row = templatesheet.GetRow(15);
             ICell page1cell = row.CreateCell(3);
             page1cell.SetCellValue(baseInfoData.ComapanyName);
-            page1cell.CellStyle = borderedCellStyle;
+            page1cell.CellStyle = noborderedCellStyle;
 
             row = templatesheet.GetRow(17);
             page1cell = row.CreateCell(3);
             page1cell.SetCellValue(baseInfoData.Industry);
-            page1cell.CellStyle = borderedCellStyle;
+            page1cell.CellStyle = noborderedCellStyle;
+
+            row = templatesheet.GetRow(19);
+            page1cell = row.CreateCell(3);
+            page1cell.SetCellValue(baseInfoData.EvaluationStartDate.ToString("yyyy-MM-dd"));
+            page1cell.CellStyle = noborderedCellStyle;
+
+            var teamLeader = evaluationTeamDetailData.Where(y => y.Position == "组长").FirstOrDefault();
+
+            XSSFFont myFont02 = (XSSFFont)input.CreateFont();
+            myFont02.FontHeightInPoints = (short)12;
+            myFont02.FontName = "宋体";
+            //set style
+            XSSFCellStyle borderedCellStyle = (XSSFCellStyle)input.CreateCellStyle();
+            borderedCellStyle.SetFont(myFont02);
+
+            //set middle
+            borderedCellStyle.Alignment = HorizontalAlignment.Center;
+            borderedCellStyle.VerticalAlignment = VerticalAlignment.Center;
+
+            borderedCellStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+            borderedCellStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+            borderedCellStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+            borderedCellStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
+
+            row = templatesheet.GetRow(56);
+            ICell evaTeam = row.CreateCell(2);
+            evaTeam.SetCellValue(teamLeader.Name);
+            evaTeam.CellStyle = borderedCellStyle;
+
+            evaTeam = row.CreateCell(3);
+            evaTeam.SetCellValue(teamLeader.Position);
+            evaTeam.CellStyle = borderedCellStyle;
+
+            evaTeam = row.CreateCell(4);
+            evaTeam.SetCellValue(teamLeader.Mobile);
+            evaTeam.CellStyle = borderedCellStyle;
+
+            var evaTeamList = evaluationTeamDetailData.Where(y => y.Position == "成员").ToList();
+            var i = 57;
+            foreach (var obj in evaTeamList) 
+            {
+                row = templatesheet.GetRow(i);
+                evaTeam = row.CreateCell(2);
+                evaTeam.SetCellValue(obj.Name);
+                evaTeam.CellStyle = borderedCellStyle;
+
+                evaTeam = row.CreateCell(3);
+                evaTeam.SetCellValue(obj.Position);
+                evaTeam.CellStyle = borderedCellStyle;
+
+                evaTeam = row.CreateCell(4);
+                evaTeam.SetCellValue(obj.Mobile);
+                evaTeam.CellStyle = borderedCellStyle;
+                i++;
+            }
+
+            //Applied Enterprise Info
+            row = templatesheet.GetRow(64);
+            ICell appliedEnt = row.CreateCell(1);
+            appliedEnt.SetCellValue(baseInfoData.ComapanyName);
+            appliedEnt.CellStyle = borderedCellStyle;
+
+            row = templatesheet.GetRow(65);
+            appliedEnt = row.CreateCell(1);
+            appliedEnt.SetCellValue(baseInfoData.LegalRepresentative);
+            appliedEnt.CellStyle = borderedCellStyle;
+
+            appliedEnt = row.CreateCell(3);
+            appliedEnt.SetCellValue(baseInfoData.LegalRepTel);
+            appliedEnt.CellStyle = borderedCellStyle;
+
+            appliedEnt = row.CreateCell(6);
+            appliedEnt.SetCellValue(baseInfoData.LegalRepMobile);
+            appliedEnt.CellStyle = borderedCellStyle;
+
+            row = templatesheet.GetRow(66);
+            appliedEnt = row.CreateCell(1);
+            appliedEnt.SetCellValue(baseInfoData.ContactName);
+            appliedEnt.CellStyle = borderedCellStyle;
+
+            appliedEnt = row.CreateCell(3);
+            appliedEnt.SetCellValue(baseInfoData.ContactTel);
+            appliedEnt.CellStyle = borderedCellStyle;
+
+            appliedEnt = row.CreateCell(6);
+            appliedEnt.SetCellValue(baseInfoData.ContactFax);
+            appliedEnt.CellStyle = borderedCellStyle;
+
+            row = templatesheet.GetRow(67);
+            appliedEnt = row.CreateCell(3);
+            appliedEnt.SetCellValue(baseInfoData.ContactMobile);
+            appliedEnt.CellStyle = borderedCellStyle;
+
+            appliedEnt = row.CreateCell(6);
+            appliedEnt.SetCellValue(baseInfoData.ContactEmail);
+            appliedEnt.CellStyle = borderedCellStyle;
 
             return input;
         }
