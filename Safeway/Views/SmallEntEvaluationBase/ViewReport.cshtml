@@ -334,19 +334,15 @@
             handleExport: function () {
                 let vData = @Html.Raw(Json.Serialize(ViewData));
                // let newtab = window.open('', '_blank');
-                let newurl = 'SmallEntEvaluationItem/ExportReport?id='+vData["ID"];
-                axios.get(newurl)
-                    .then(function (r) {
-                        this.loading = false;
-                        console.log(r);
-                        
-                        this.$notify.success({
-                            title: '提示',
-                            message: '导出评审数据成功！',
-                            position: 'bottom-right'
-                        });
-                        window.open(newurl, '', "height=600,width=800");
-                    }.bind(this))
+                let newurl = 'SmallEntEvaluationItem/ExportReport?id=' + vData["ID"];
+                var hreflink = document.createElement("a");
+                hreflink.setAttribute("href", newurl);
+                hreflink.click();
+                this.$notify.success({
+                    title: '提示',
+                    message: '导出评审数据成功！',
+                    position: 'bottom-right'
+                });
             }
         },
         created: function () {
