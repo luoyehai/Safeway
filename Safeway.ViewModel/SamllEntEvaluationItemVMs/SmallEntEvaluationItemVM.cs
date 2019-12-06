@@ -568,8 +568,8 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 
             //write scene info
             XSSFFont myFont03 = (XSSFFont)input.CreateFont();
-            myFont02.FontHeightInPoints = (short)12;
-            myFont02.FontName = "宋体";
+            myFont03.FontHeightInPoints = (short)12;
+            myFont03.FontName = "宋体";
             //set style
             XSSFCellStyle listInfoStyle = (XSSFCellStyle)input.CreateCellStyle();
             listInfoStyle.SetFont(myFont03);
@@ -577,6 +577,13 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             //set middle
             listInfoStyle.Alignment = HorizontalAlignment.Left;
             listInfoStyle.VerticalAlignment = VerticalAlignment.Center;
+            listInfoStyle.FillBackgroundColor = NPOI.HSSF.Util.HSSFColor.White.Index;
+
+            listInfoStyle.BorderBottom = BorderStyle.None;
+            listInfoStyle.BorderLeft = BorderStyle.None;
+            listInfoStyle.BorderRight = BorderStyle.None;
+            listInfoStyle.BorderTop = BorderStyle.None;
+
             //write file info
             ICell listcell;
             i = 82;
