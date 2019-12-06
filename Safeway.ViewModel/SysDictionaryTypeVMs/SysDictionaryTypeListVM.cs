@@ -33,6 +33,7 @@ namespace Safeway.ViewModel.SysDictionaryTypeVMs
             return new List<GridColumn<SysDictionaryType_View>>{
                 this.MakeGridHeader(x => x.Code),
                 this.MakeGridHeader(x => x.Name),
+                this.MakeGridHeader(x => x.ParentCode),
                 this.MakeGridHeaderAction(width: 200)
             };
         }
@@ -42,11 +43,13 @@ namespace Safeway.ViewModel.SysDictionaryTypeVMs
             var query = DC.Set<SysDictionaryType>()
                 .CheckContain(Searcher.Code, x=>x.Code)
                 .CheckContain(Searcher.Name, x=>x.Name)
+                .CheckContain(Searcher.ParentCode, x=>x.ParentCode)
                 .Select(x => new SysDictionaryType_View
                 {
 				    ID = x.ID,
                     Code = x.Code,
                     Name = x.Name,
+                    ParentCode = x.ParentCode,
                 })
                 .OrderBy(x => x.ID);
             return query;
