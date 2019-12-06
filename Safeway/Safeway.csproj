@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-  
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
 </PropertyGroup>
 
