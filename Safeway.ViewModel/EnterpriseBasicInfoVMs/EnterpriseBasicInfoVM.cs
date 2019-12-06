@@ -9,6 +9,8 @@ using Safeway.Model.Enterprise;
 using System.IO;
 using Newtonsoft.Json;
 using System.Data;
+using Safeway.ViewModel.CommonClass;
+using Safeway.Model.System;
 
 namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
 {
@@ -399,6 +401,16 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                 var tempresult = JsonConvert.SerializeObject(yearYieldList);
                 result.Add(tempresult);
             }
+            return result;
+        }
+
+
+        public List<DictionaryItem> GetDictionaryData(string dictionaryCode)
+        {
+            List<DictionaryItem> result = new List<DictionaryItem>();
+            var dictionaryname = DC.Set<SysDictionaryType>().Where(x => x.Code == dictionaryCode && x.IsValid == true).FirstOrDefault();
+
+
             return result;
         }
         #endregion

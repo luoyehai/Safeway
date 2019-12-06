@@ -13,5 +13,8 @@ namespace Safeway.Model.System
 
         [Display(Name = "字典名称")]
         public string Name { get; set; }
+
+        [Display(Name = "父字典编码")]
+        public string ParentCode { get; set; }
     }
 }

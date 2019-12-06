@@ -314,6 +314,14 @@ namespace Safeway.Controllers
             var result = vm.GetEnterpriseInfo(Id);
             return Json(result);
         }
+
+        [HttpGet]
+        public List<DictionaryItem> GetDictionaryData(string dictionaryCode)
+        {
+            List<DictionaryItem> result = new List<DictionaryItem>();
+
+            return result;
+        }
         #endregion
     }
 }
