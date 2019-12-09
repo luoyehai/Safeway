@@ -11,9 +11,6 @@ namespace Safeway.Model.Enterprise
 {
     public class EnterpriseBasicInfo : BasePoco
     {
-        //[Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        //public Guid EnterpriseId { get; set; }
         [Display(Name = "公司名称")]
         [Required(ErrorMessage = "{0}是必填项")]
         [StringLength(300)]

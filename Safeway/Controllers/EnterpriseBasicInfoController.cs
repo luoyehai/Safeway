@@ -125,11 +125,7 @@ namespace Safeway.Controllers
         public ActionResult Delete(string id, IFormCollection nouse)
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>(id);
-            vm.DoDelete();
-            //delete business info
-            vm.DoDeleteBusinnessInfo(vm.EnterpriseBusinessinfo);
-            //delete finance info
-            vm.DoDeleteFinanceInfo(vm.EnterpriseFinanceInfo);
+            vm.DeleteEnterpriseInfo(id);
             if (!ModelState.IsValid)
             {
                 return PartialView(vm);
