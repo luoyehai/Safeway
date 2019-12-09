@@ -21,44 +21,44 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
     }
     public partial class EnterpriseBasicInfoListVM : BasePagedListVM<EnterpriseBasicInfo_View, EnterpriseBasicInfoSearcher>
     {
-        public List<KeyValuePair> tradeTermList = new List<KeyValuePair>()
-        {
-             new KeyValuePair() { label ="出口",value="Export"},
-             new KeyValuePair() { label ="内销",value="DomesticSales"}
-        };
-        public List<KeyValuePair> companyScaleList = new List<KeyValuePair>()
-        {
-             new KeyValuePair() { label ="规上",value="large"},
-             new KeyValuePair() { label ="小型",value="small"},
-             new KeyValuePair() { label ="微型",value="mini"}
-        };
-        public List<KeyValuePair> companyTypeList = new List<KeyValuePair>() { 
+        //public List<KeyValuePair> tradeTermList = new List<KeyValuePair>()
+        //{
+        //     new KeyValuePair() { label ="出口",value="Export"},
+        //     new KeyValuePair() { label ="内销",value="DomesticSales"}
+        //};
+        //public List<KeyValuePair> companyScaleList = new List<KeyValuePair>()
+        //{
+        //     new KeyValuePair() { label ="规上",value="large"},
+        //     new KeyValuePair() { label ="小型",value="small"},
+        //     new KeyValuePair() { label ="微型",value="mini"}
+        //};
+        //public List<KeyValuePair> companyTypeList = new List<KeyValuePair>() { 
 
-            new KeyValuePair() { label ="国有",value="stateOwned"},
-            new KeyValuePair() { label ="民营",value="private"},
-            new KeyValuePair() { label ="外资",value="foreignInvest"},
-            new KeyValuePair() { label ="美国",value="usa"},
-            new KeyValuePair() { label ="欧洲",value="eur"},
-            new KeyValuePair() { label ="日本",value="jpn"},
-            new KeyValuePair() { label ="其他",value="others"}
+        //    new KeyValuePair() { label ="国有",value="stateOwned"},
+        //    new KeyValuePair() { label ="民营",value="private"},
+        //    new KeyValuePair() { label ="外资",value="foreignInvest"},
+        //    new KeyValuePair() { label ="美国",value="usa"},
+        //    new KeyValuePair() { label ="欧洲",value="eur"},
+        //    new KeyValuePair() { label ="日本",value="jpn"},
+        //    new KeyValuePair() { label ="其他",value="others"}
 
-        } ;
-        public List<KeyValuePair> industryList = new List<KeyValuePair>() {
+        //} ;
+        //public List<KeyValuePair> industryList = new List<KeyValuePair>() {
 
-            new KeyValuePair() { label ="矿山",value="Mine"},
-            new KeyValuePair() { label ="道路运输",value="Transportation"},
-            new KeyValuePair() { label ="危化",value="DangerChemistry"},
-            new KeyValuePair() { label ="工贸",value="IndustryandTrade"},
-            new KeyValuePair() { label ="冶金",value="metallurgy"},
-            new KeyValuePair() { label ="有色",value="colored"},
-            new KeyValuePair() { label ="机械",value="mechanical"},
-            new KeyValuePair() { label ="建材",value="buildingMaterial"},
-            new KeyValuePair() { label ="纺织",value="textile"},
-            new KeyValuePair() { label ="轻工",value="lightIndustry"},
-            new KeyValuePair() { label ="烟草",value="tobacoo"},
-            new KeyValuePair() { label ="商贸",value="bizsTrade"}
+        //    new KeyValuePair() { label ="矿山",value="Mine"},
+        //    new KeyValuePair() { label ="道路运输",value="Transportation"},
+        //    new KeyValuePair() { label ="危化",value="DangerChemistry"},
+        //    new KeyValuePair() { label ="工贸",value="IndustryandTrade"},
+        //    new KeyValuePair() { label ="冶金",value="metallurgy"},
+        //    new KeyValuePair() { label ="有色",value="colored"},
+        //    new KeyValuePair() { label ="机械",value="mechanical"},
+        //    new KeyValuePair() { label ="建材",value="buildingMaterial"},
+        //    new KeyValuePair() { label ="纺织",value="textile"},
+        //    new KeyValuePair() { label ="轻工",value="lightIndustry"},
+        //    new KeyValuePair() { label ="烟草",value="tobacoo"},
+        //    new KeyValuePair() { label ="商贸",value="bizsTrade"}
 
-        };
+        //};
  
         protected override List<GridAction> InitGridAction()
         {
@@ -114,69 +114,13 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                     ForeignCountry = x.ForeignCountry,
                     LegalRepresentative = x.LegalRepresentative,
                     CompanyScale = x.CompanyScale,
-                    //GetEnumDescription((companyScaleList)Array.IndexOf(Enum.GetValues(x.CompanyScale.GetType()), x.CompanyScale)),
                     Industry = x.Industry,
                     NoofEmployees = x.NoofEmployees,
                     MainProducts = x.MainProducts,
                     TermsofTrade = x.TermsofTrade
-                    //GetEnumDescription((tradeTermList)Array.IndexOf(Enum.GetValues(x.TermsofTrade.GetType()), x.TermsofTrade)),
                 })
                 .OrderBy(x => x.ID);
             return query;
-            //var data = query.ToList();
-            //for (int j= 0;j < data.Count();j++) 
-            //{
-            //    var temp = new EnterpriseBasicInfo_View();
-            //    temp.ID = data[j].ID;
-            //    temp.ComapanyName = data[j].ComapanyName;
-            //    temp.Province = data[j].Province;
-            //    temp.City = data[j].City;
-            //    temp.District = data[j].District;
-            //    temp.Street = data[j].Street;
-            //    temp.CompanyType = data[j].CompanyType;
-            //    temp.ForeignCountry = data[j].ForeignCountry;
-            //    temp.LegalRepresentative = data[j].LegalRepresentative;
-            //    temp.CompanyScale = data[j].CompanyScale;
-            //    temp.Industry = data[j].Industry;
-            //    temp.NoofEmployees = data[j].NoofEmployees;
-            //    temp.MainProducts = data[j].MainProducts;
-            //    temp.TermsofTrade = data[j].TermsofTrade;
-            //    temp.CompanyType = data[j].CompanyType;
-            //    temp.Industry = data[j].Industry;
-            //    for (int i = 0; i < companyTypeList.Count; i++)
-            //    {
-            //        if (temp.CompanyType!= null && temp.CompanyType.Contains(companyTypeList[i].value))
-            //        {
-            //            temp.CompanyType= temp.CompanyType.Replace(companyTypeList[i].value, companyTypeList[i].label);
-            //        }
-            //    }
-            //    for (int i = 0; i < industryList.Count; i++) 
-            //    {
-            //        if (temp.Industry != null && temp.Industry.Contains(industryList[i].value)) 
-            //        {
-            //            temp.Industry = temp.Industry.Replace(industryList[i].value, industryList[i].label);
-            //        }
-            //    }
-            //    for (int i = 0; i < companyScaleList.Count; i++)
-            //    {
-            //        if (temp.CompanyScale != null && temp.CompanyScale.Equals(companyScaleList[i].value)) 
-            //        {
-            //            temp.CompanyScale = temp.CompanyScale.Replace(companyScaleList[i].value, companyScaleList[i].label);
-            //        }
-                
-            //    }
-            //    for (int i = 0; i < tradeTermList.Count; i++)
-            //    {
-            //        if (temp.TermsofTrade != null && temp.TermsofTrade.Equals(tradeTermList[i].value))
-            //        {
-            //            temp.TermsofTrade = temp.TermsofTrade.Replace(tradeTermList[i].value, tradeTermList[i].label);
-            //        }
-
-            //    }
-
-            //    result.Add(temp);
-            //}
-            //return (IOrderedQueryable<EnterpriseBasicInfo_View>)result.AsQueryable<EnterpriseBasicInfo_View>();
 
         }
         public static string GetEnumDescription(Enum value)
