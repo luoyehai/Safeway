@@ -355,91 +355,20 @@
                 provinceList: [],
                 cityList: [],
                 districtList: [],
-                tradeTermList: [{
-                    label: '出口',
-                    value: 'Export',
-                }, {
-                    label: '内销',
-                    value: 'DomesticSales',
-                    }],
+                tradeTermList: [],
                 industryList:[],
-                //industryList: [{
-                //    label:'矿山',
-                //    value:'Mine',
-                //},{
-                //    label:'道路运输',
-                //    value:'Transportation',
-                //},{
-                //    label:'危化',
-                //    value:'DangerChemistry',
-                //},{
-                //    label:'工贸',
-                //    value: 'IndustryandTrade',
-                //    children:
-                //      [{
-                //        value: 'metallurgy',
-                //        label: '冶金'
-                //      }, {
-                //        value: 'colored',
-                //        label: '有色'
-                //      }, {
-                //        value: 'mechanical',
-                //        label: '机械'
-                //      }, {
-                //        value: 'buildingMaterial',
-                //        label: '建材'
-                //      }, {
-                //        value: 'textile',
-                //        label: '纺织'
-                //      }, {
-                //        value: 'lightIndustry',
-                //        label: '轻工'
-                //      }, {
-                //        value: 'tobacoo',
-                //        label: '烟草'
-                //      }, {
-                //        value: 'bizsTrade',
-                //        label: '商贸'
-                //      }]
+                companyScaleList: [],
+                //[{
+                //        value: 'large',
+                //        label: '规上'
+                //    }, {
+                //        value: 'small',
+                //        label: '小型'
+                //    }, {
+                //        value: 'mini',
+                //        label: '微型'
                 //    }],
-                companyScaleList: [{
-                        value: 'large',
-                        label: '规上'
-                    }, {
-                        value: 'small',
-                        label: '小型'
-                    }, {
-                        value: 'mini',
-                        label: '微型'
-                    }],
-                companyTypeList: [
-                    {
-                        value: 'stateOwned',
-                        label: '国有'
-                    }, {
-                        value: 'private',
-                        label: '民营'
-                    }, {
-                        value: 'foreignInvest',
-                        label: '外资',
-                        children:
-                      [{
-                        value: 'usa',
-                        label: '美国'
-                      }, {
-                        value: 'eur',
-                        label: '欧洲'
-                      }, {
-                        value: 'jpn',
-                        label: '日本'
-                      }, {
-                        value: 'twd',
-                        label: '台湾'
-                      }, {
-                        value: 'others',
-                        label: '其他'
-                      }]
-                    }],
+                companyTypeList: [],
                 contactList: [{
                     Dept: '',
                     Position: '法人',
@@ -628,6 +557,22 @@
                             console.log(r.data.Data);
                             this.industryList = r.data.Data;
                     }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+
+                    axios.all([
+                        axios.get('EnterpriseBasicInfo/GetDictionaryData?dictionaryCode=industryList'),
+                        axios.get('EnterpriseBasicInfo/GetDictionaryData?dictionaryCode=CompanyType'),
+                        axios.get('EnterpriseBasicInfo/GetDictionaryData?dictionaryCode=tradeTermList'),
+                        axios.get('EnterpriseBasicInfo/GetDictionaryData?dictionaryCode=companyScaleList'),
+                    ])
+                    .then(axios.spread(function (r1, r2, r3, r4) {
+                        this.industryList = r1.data.Data;
+                        this.companyTypeList = r2.data.Data;
+                        this.tradeTermList = r3.data.Data;
+                        this.companyScaleList = r4.data.Data;
+                    }.bind(this)))
                     .catch(function (e) {
                         console.error(e);
                     });
