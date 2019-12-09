@@ -543,14 +543,6 @@
 
                 },
                 loadDictionaryData: function () {
-                    axios.get('EnterpriseBasicInfo/GetDictionaryData?dictionaryCode=industryList')
-                        .then(function (r) {
-                            console.log(r.data.Data);
-                            this.industryList = r.data.Data;
-                    }.bind(this))
-                    .catch(function (e) {
-                        console.error(e);
-                    });
 
                     axios.all([
                         axios.get('EnterpriseBasicInfo/GetDictionaryData?dictionaryCode=industryList'),
