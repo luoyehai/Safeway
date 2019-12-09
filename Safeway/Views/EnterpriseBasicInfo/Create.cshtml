@@ -361,46 +361,47 @@
                 }, {
                     label: '内销',
                     value: 'DomesticSales',
-                }],
-                industryList: [{
-                    label:'矿山',
-                    value:'Mine',
-                },{
-                    label:'道路运输',
-                    value:'Transportation',
-                },{
-                    label:'危化',
-                    value:'DangerChemistry',
-                },{
-                    label:'工贸',
-                    value: 'IndustryandTrade',
-                    children:
-                      [{
-                        value: 'metallurgy',
-                        label: '冶金'
-                      }, {
-                        value: 'colored',
-                        label: '有色'
-                      }, {
-                        value: 'mechanical',
-                        label: '机械'
-                      }, {
-                        value: 'buildingMaterial',
-                        label: '建材'
-                      }, {
-                        value: 'textile',
-                        label: '纺织'
-                      }, {
-                        value: 'lightIndustry',
-                        label: '轻工'
-                      }, {
-                        value: 'tobacoo',
-                        label: '烟草'
-                      }, {
-                        value: 'bizsTrade',
-                        label: '商贸'
-                      }]
                     }],
+                industryList:[],
+                //industryList: [{
+                //    label:'矿山',
+                //    value:'Mine',
+                //},{
+                //    label:'道路运输',
+                //    value:'Transportation',
+                //},{
+                //    label:'危化',
+                //    value:'DangerChemistry',
+                //},{
+                //    label:'工贸',
+                //    value: 'IndustryandTrade',
+                //    children:
+                //      [{
+                //        value: 'metallurgy',
+                //        label: '冶金'
+                //      }, {
+                //        value: 'colored',
+                //        label: '有色'
+                //      }, {
+                //        value: 'mechanical',
+                //        label: '机械'
+                //      }, {
+                //        value: 'buildingMaterial',
+                //        label: '建材'
+                //      }, {
+                //        value: 'textile',
+                //        label: '纺织'
+                //      }, {
+                //        value: 'lightIndustry',
+                //        label: '轻工'
+                //      }, {
+                //        value: 'tobacoo',
+                //        label: '烟草'
+                //      }, {
+                //        value: 'bizsTrade',
+                //        label: '商贸'
+                //      }]
+                //    }],
                 companyScaleList: [{
                         value: 'large',
                         label: '规上'
@@ -622,12 +623,20 @@
 
                 },
                 loadDictionaryData: function () {
-
+                    axios.get('EnterpriseBasicInfo/GetDictionaryData?dictionaryCode=industryList')
+                        .then(function (r) {
+                            console.log(r.data.Data);
+                            this.industryList = r.data.Data;
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
 
                 },
             },
             created: function () {
                 this.loadData();
+                this.loadDictionaryData();
             }
 
         })

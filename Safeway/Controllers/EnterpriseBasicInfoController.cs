@@ -316,11 +316,11 @@ namespace Safeway.Controllers
         }
 
         [HttpGet]
-        public List<DictionaryItem> GetDictionaryData(string dictionaryCode)
+        public JsonResult GetDictionaryData(string dictionaryCode)
         {
-            List<DictionaryItem> result = new List<DictionaryItem>();
-
-            return result;
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.GetDictionaryData(dictionaryCode);
+            return Json(result);
         }
         #endregion
     }

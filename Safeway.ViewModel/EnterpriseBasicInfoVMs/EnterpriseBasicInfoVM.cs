@@ -408,8 +408,32 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public List<DictionaryItem> GetDictionaryData(string dictionaryCode)
         {
             List<DictionaryItem> result = new List<DictionaryItem>();
-            var dictionaryname = DC.Set<SysDictionaryType>().Where(x => x.Code == dictionaryCode && x.IsValid == true).FirstOrDefault();
+            var childrenCodes = DC.Set<SysDictionaryType>().Where(x => x.ParentCode == dictionaryCode && x.IsValid == true).Select(x => new DictionaryItem() { 
+              label =x.Name,
+              value =x.Code          
+            }).ToList();
 
+            result = DC.Set<SysDictionaryItem>().Where(x => x.Code == dictionaryCode).OrderBy(x => x.Sort).Select(x => new DictionaryItem()
+            {
+                label = x.Value,
+                value = x.Value
+            }).ToList();
+
+            for (int i = 0; i < result.Count; i++) 
+            {
+                for (int j = 0; j < childrenCodes.Count; j++) 
+                {
+                    if (result[i].label == childrenCodes[j].label) 
+                    {
+                        result[i].children = DC.Set<SysDictionaryItem>().Where(x => x.Code ==childrenCodes[j].value).OrderBy(x => x.Sort).Select(x => new DictionaryItem()
+                        {
+                            label = x.Value,
+                            value = x.Value
+                        }).ToList();
+                    }
+                
+                }            
+            }
 
             return result;
         }
