@@ -19,6 +19,14 @@ namespace Safeway.Model.Common
         ReportCompleted
     }
 
+    public enum EvaluationResultEnum
+    {
+        [Display(Name = "合格")]
+        Pass,
+        [Display(Name = "不合格")]
+        NotPass
+    }
+
     public enum ProjectTypeEnum
     {
         [Display(Name = "企业安全生产标准化小微评审")]

@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using Safeway.Model.SmallEntEvaluation;
 using Safeway.ViewModel.CommonClass;
 using Safeway.Model.Enterprise;
+using Safeway.Model.Common;
 
 namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 {
@@ -129,7 +130,6 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 .OrderBy(x => x.ID);
             return query;
         }
-
     }
 
     public class SmallEntEvaluationBase_View : SmallEntEvaluationBase{
@@ -151,6 +151,9 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         [Display(Name = "行业")]
         public string Industry { get; set; }
 
-        public string EvalationProgress { get; set; }
+        public string EvaluationProgress { get; set; }
+
+        [Display(Name = "评审结果")]
+        public string EvaluationResult { get; set; }
     }
 }

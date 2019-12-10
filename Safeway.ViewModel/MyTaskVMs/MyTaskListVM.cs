@@ -22,7 +22,7 @@ namespace Safeway.ViewModel.MyTaskVMs
         {
             return new List<GridAction>
             {
-                this.MakeAction("SmallEntEvaluationBase", "ViewReport", "评审报告", "评审报告",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
+                this.MakeAction("SmallEntEvaluationBase", "ViewReport", "开始评审", "开始评审",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Details, "详细","", dialogWidth: 800)
                 //this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Delete, "删除", "",dialogWidth: 800),
                 //this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.ExportExcel, "导出","")
