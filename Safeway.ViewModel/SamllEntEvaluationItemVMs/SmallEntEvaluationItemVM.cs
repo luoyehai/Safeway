@@ -340,7 +340,6 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                         templatedata.Rows[j][7] = exportdata[i].ActualScore;
                     }
                 }
-
             }
             //define format
             //set format
@@ -378,6 +377,40 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 descriptioncell.CellStyle = borderedCellStyle;
                 scorecell.CellStyle = borderedCellStyle;
             }
+            //export total score
+            var standardTotalScore = exportdata.Sum(x => x.StandardScore);
+            // get uninvolved total score
+            var uninvolvedTotalScore = exportdata.Where(x => x.UnInvolved == true).Sum(x => x.StandardScore);
+            // get actual total score
+            var actualTotalScore = exportdata.Where(x => x.UnInvolved == false).Sum(x => x.ActualScore);
+
+
+            XSSFFont scoreFont = (XSSFFont)template.CreateFont();
+            scoreFont.FontHeightInPoints = (short)10.5;
+            scoreFont.FontName = "宋体";
+            scoreFont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+
+            XSSFCellStyle scoreStyle = (XSSFCellStyle)template.CreateCellStyle();
+            scoreStyle.SetFont(scoreFont);
+            scoreStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+            scoreStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+            scoreStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+
+            scoreStyle.Alignment = HorizontalAlignment.Left;
+            scoreStyle.VerticalAlignment = VerticalAlignment.Center;
+
+            row = templatesheet.GetRow(72);
+            ICell uninvolvedTotalCell = row.CreateCell(5);
+            ICell uninvolvedTotalCell02 = row.CreateCell(6);
+            var cra = new NPOI.SS.Util.CellRangeAddress(72, 72, 5, 6);
+            
+            ICell actualTotalCell = row.CreateCell(7);
+            uninvolvedTotalCell.SetCellValue(String.Format("得分总计:                             {0}", Convert.ToDouble(standardTotalScore - uninvolvedTotalScore).ToString()));
+            uninvolvedTotalCell.CellStyle = scoreStyle;
+            uninvolvedTotalCell02.CellStyle = scoreStyle;
+            actualTotalCell.SetCellValue(Convert.ToDouble(actualTotalScore));
+            actualTotalCell.CellStyle = borderedCellStyle;
+
             template = ExportUnmatchedItemsData(template, id);
             template = ExportReportData(template, id);
             return template;
@@ -582,6 +615,8 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             //set middle
             listInfoStyle.Alignment = HorizontalAlignment.Left;
             listInfoStyle.VerticalAlignment = VerticalAlignment.Center;
+
+            listInfoStyle.FillPattern = FillPattern.SolidForeground;
             ((XSSFCellStyle)listInfoStyle).SetFillBackgroundColor(white);
             ((XSSFCellStyle)listInfoStyle).SetFillForegroundColor(white);
 

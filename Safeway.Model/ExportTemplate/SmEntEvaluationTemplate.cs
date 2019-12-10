@@ -23,5 +23,6 @@ namespace Safeway.Model.ExportTemplate
         public decimal Deduction { get; set; }
         public string UnMatchedItemDescription { get; set; }
         public bool UnInvolved { get; set; }
+        public decimal StandardScore { get; set; }
     }
 }
