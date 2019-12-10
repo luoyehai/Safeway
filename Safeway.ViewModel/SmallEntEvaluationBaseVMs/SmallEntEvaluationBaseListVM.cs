@@ -24,7 +24,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         {
             return new List<GridAction>
             {
-                this.MakeAction("SmallEntEvaluationBase", "ViewReport", "评审报告", "评审报告",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
+                this.MakeAction("SmallEntEvaluationBase", "ViewReport", "评审", "评审",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Edit, "修改","", dialogWidth: 800),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Delete, "删除", "",dialogWidth: 800),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Details, "详细","", dialogWidth: 800),
@@ -39,19 +39,54 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 this.MakeGridHeader(x => x.EnterpriseName, width: 150),
                 this.MakeGridHeader(x => x.Street),
                 this.MakeGridHeader(x => x.Industry),
+                this.MakeGridHeader(x => x.Scale),
                 this.MakeGridHeader(x => x.EvaluateStartDateStr),
                 this.MakeGridHeader(x => x.EvaluateEndDateStr),
                 this.MakeGridHeader(x => x.EvaluationLeader),
                 this.MakeGridHeader(x => x.ReportLeader),
                 this.MakeGridHeader(x => x.Status).SetFormat(ReportStatusFormat),
-                this.MakeGridHeader(x => x.Score),
+                this.MakeGridHeader(x => x.Score, width: 120),
+                this.MakeGridHeader(x => x.EvaluationResult).SetFormat(EvaluationResultFormat),
                 this.MakeGridHeader(x => x.Progress).SetFormat(ProgressFormat),
-                this.MakeGridHeader(x => x.ModuleOne),
-                this.MakeGridHeader(x => x.ModuleTwo),
-                this.MakeGridHeader(x => x.ModuleThree),
+                //this.MakeGridHeader(x => x.ModuleOne),
+                //this.MakeGridHeader(x => x.ModuleTwo),
+                //this.MakeGridHeader(x => x.ModuleThree),
                 this.MakeGridHeader(x => x.ReportFileId).SetFormat(ReportFileIdFormat),
-                this.MakeGridHeaderAction(width: 240)
+                this.MakeGridHeaderAction(width: 220)
             };
+        }
+
+        public List<ColumnFormatInfo> EvaluationResultFormat(SmallEntEvaluationBase_View entity, object val)
+        {
+            var result = string.Empty;
+            var bgColor = "green";
+            // todo:小微评审合格标准：小型75分，微型60分
+            if (entity.Status == EvaluationStatus.Completed || entity.Status == EvaluationStatus.ReportCompleted)
+            {
+                decimal numberScore = 0;
+                decimal.TryParse(entity.Score, out numberScore);
+                if ((entity.Scale == "小型" && numberScore >= 75) || (entity.Scale == "微型" && numberScore >= 60))
+                {
+                    result = "合格";
+                }
+                else
+                {
+                    result = "不合格";
+                    bgColor = "red";
+                }
+            }
+            var format = new List<ColumnFormatInfo>
+            {
+                ColumnFormatInfo.MakeHtml(html: $"<span class='layui-badge layui-bg-{bgColor}'>{ result }</span>")
+            };
+            if (string.IsNullOrEmpty(result))
+            {
+                format = new List<ColumnFormatInfo>
+                {
+                    ColumnFormatInfo.MakeHtml(html: "<span></span>")
+                };
+            }
+            return format;
         }
 
         private List<ColumnFormatInfo> ReportFileIdFormat(SmallEntEvaluationBase_View entity, object val)
@@ -112,6 +147,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                     EnterpriseName = x.eb.ComapanyName,
                     Street = x.eb.Street,
                     Industry = x.eb.Industry,
+                    Scale = x.eb.CompanyScale,
                     EvaluationStartDate = x.se.EvaluationStartDate,
                     EvaluateStartDateStr = x.se.EvaluationStartDate.ToShortDateFormatString(),
                     EvaluationEndDate = x.se.EvaluationEndDate,
@@ -122,6 +158,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                     EvaluationTeamMember = x.se.EvaluationTeamMember,
                     Status = x.se.Status,
                     Score = x.se.Score,
+                    EvaluationResult = x.se.Score,
                     Progress = x.se.Progress,
                     ModuleOne = x.se.ModuleOne,
                     ModuleTwo = x.se.ModuleTwo,
@@ -155,5 +192,8 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 
         [Display(Name = "评审结果")]
         public string EvaluationResult { get; set; }
+
+        [Display(Name = "规模")]
+        public string Scale { get; set; }
     }
 }
