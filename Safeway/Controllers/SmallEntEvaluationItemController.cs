@@ -9,6 +9,8 @@ using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Mvc;
 using System.IO;
 using Safeway.ViewModel.SmallEntEvaluationBaseVMs;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace Safeway.Controllers
 {
@@ -81,11 +83,29 @@ namespace Safeway.Controllers
         #region 导出报告
         [ActionDescription("导出报告")]
         [HttpGet]
-        public IActionResult ExportReport(string id)
+        public IActionResult ExportReport(string id, string type)
         {
             var vm = CreateVM<SmallEntEvaluationItemVM>();
-            var result = vm.ExportData(id);
-            string sFileName = @"小微评审.xlsx";
+            XSSFWorkbook result = new XSSFWorkbook();
+            string sFileName = "";
+            switch (type)
+            {
+                case "0":
+                     result = vm.ExportData(id);
+                     sFileName = @"小微评审.xlsx";
+                    break;
+                case "1":
+                     result = vm.ExportUnmatchedItemsData(id);
+                    sFileName = @"不符合项.xlsx";
+                    break;
+                case "2":
+                     result = vm.ExportReportData(id);
+                    sFileName = @"小微评审报告.xlsx";
+                    break;
+            }
+                
+            //var result = vm.ExportData(id);
+            
             byte[] rv = new byte[] { };
             using (MemoryStream ms = new MemoryStream())
             {

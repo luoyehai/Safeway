@@ -31,10 +31,29 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             get 
             { 
                  return Path.Combine(Directory.GetCurrentDirectory(),
-                                    "wwwroot", "exportTemplate", "小微评审.xlsx");
+                                    "wwwroot", "exportTemplate", "小微评审内容.xlsx");
             }
         
         }
+        public string unmatchedReportPath
+        {
+            get
+            {
+                return Path.Combine(Directory.GetCurrentDirectory(),
+                                   "wwwroot", "exportTemplate", "小微不符合项.xlsx");
+            }
+
+        }
+        public string FinalReportPath
+        {
+            get
+            {
+                return Path.Combine(Directory.GetCurrentDirectory(),
+                                   "wwwroot", "exportTemplate", "小微评审报告.xlsx");
+            }
+
+        }
+
 
         public SmallEntEvaluationBase EntEvaluationBase { get; set; }
 
@@ -411,15 +430,20 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             actualTotalCell.SetCellValue(Convert.ToDouble(actualTotalScore));
             actualTotalCell.CellStyle = borderedCellStyle;
 
-            template = ExportUnmatchedItemsData(template, id);
-            template = ExportReportData(template, id);
+            //template = ExportUnmatchedItemsData(template, id);
+            //template = ExportReportData(template, id);
             return template;
         }
-        public XSSFWorkbook ExportUnmatchedItemsData(XSSFWorkbook input , string id)
+        public XSSFWorkbook ExportUnmatchedItemsData(string id)
         {
             var unMatchedData = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaUnmatchedTemplate @baseId = {0}", id).ToList();
+            XSSFWorkbook input;
+            using (FileStream file = new FileStream(unmatchedReportPath, FileMode.Open, FileAccess.Read))
+            {
+                input = new XSSFWorkbook(file);
+            }
             ISheet templatesheet = input.GetSheet("扣分项");
-           // DataTable templatedata = new DataTable();
+           
 
             XSSFFont myFont = (XSSFFont)input.CreateFont();
             myFont.FontHeightInPoints = (short)10.5;
@@ -471,13 +495,19 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             return input;
         }
 
-        public XSSFWorkbook ExportReportData(XSSFWorkbook input, string id)
+        public XSSFWorkbook ExportReportData(string id)
         {
 
             var baseInfoData = DC.Set<SmEntEvaluationGeneral>().FromSql("SmEnt_Get_EvaluationGeneralInfo @baseId = {0}", id).FirstOrDefault();
             var evaluationTeamDetailData = DC.Set<EvaluationTeamInfo>().FromSql("SmEnt_Get_EvaluationTeamInfo @baseId = {0}", id).ToList();
             var fileDetailData = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaluationReport @baseId = {0},@type = {1}", id, 0).ToList();
             var sceneDetailData = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaluationReport @baseId = {0},@type = {1}", id, 1).ToList();
+
+            XSSFWorkbook input;
+            using (FileStream file = new FileStream(FinalReportPath, FileMode.Open, FileAccess.Read))
+            {
+                input = new XSSFWorkbook(file);
+            }           
             ISheet templatesheet = input.GetSheet("报告");
             XSSFFont myFont = (XSSFFont)input.CreateFont();
             myFont.FontHeightInPoints = (short)16;

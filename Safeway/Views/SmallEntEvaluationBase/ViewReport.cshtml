@@ -18,7 +18,9 @@
 
             <div style="margin-top: 20px; float:right;">
                 <el-button @@click="handleSave">保存评审数据</el-button>
-                <el-button @@click="handleExport">导出评审报告</el-button>
+                <el-button @@click="handleExport(0)">导出评审</el-button>
+                <el-button @@click="handleExport(1)">导出不符合项</el-button>
+                <el-button @@click="handleExport(2)">导出评审报告</el-button>
             </div>
         </div>
         <div class="text item">
@@ -331,10 +333,10 @@
                     return '现场';
                 return null;
             },
-            handleExport: function () {
+            handleExport: function (val) {
                 let vData = @Html.Raw(Json.Serialize(ViewData));
-               // let newtab = window.open('', '_blank');
-                let newurl = 'SmallEntEvaluationItem/ExportReport?id=' + vData["ID"];
+                // let newtab = window.open('', '_blank');
+                let newurl = 'SmallEntEvaluationItem/ExportReport?id=' + vData["ID"] + '&type=' + val;
                 var hreflink = document.createElement("a");
                 hreflink.setAttribute("href", newurl);
                 hreflink.click();
