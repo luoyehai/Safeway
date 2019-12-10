@@ -35,6 +35,7 @@ namespace Safeway.ViewModel.MyTaskVMs
                 this.MakeGridHeader(x => x.EnterpriseName, width: 150),
                 this.MakeGridHeader(x => x.Street),
                 this.MakeGridHeader(x => x.Industry),
+                this.MakeGridHeader(x => x.Scale),
                 this.MakeGridHeader(x => x.EvaluateStartDateStr),
                 this.MakeGridHeader(x => x.EvaluateEndDateStr),
                 this.MakeGridHeader(x => x.EvaluationLeader),
@@ -106,6 +107,7 @@ namespace Safeway.ViewModel.MyTaskVMs
                     EnterpriseName = x.eb.ComapanyName,
                     Street = x.eb.Street,
                     Industry = x.eb.Industry,
+                    Scale = x.eb.CompanyScale,
                     EvaluationStartDate = x.se.EvaluationStartDate,
                     EvaluateStartDateStr = x.se.EvaluationStartDate.ToShortDateFormatString(),
                     EvaluationEndDate = x.se.EvaluationEndDate,
@@ -148,5 +150,8 @@ namespace Safeway.ViewModel.MyTaskVMs
         public string Industry { get; set; }
 
         public string EvalationProgress { get; set; }
+
+        [Display(Name = "规模")]
+        public string Scale { get; set; }
     }
 }

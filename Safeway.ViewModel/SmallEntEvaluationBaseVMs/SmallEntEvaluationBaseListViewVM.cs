@@ -35,20 +35,54 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 this.MakeGridHeader(x => x.EnterpriseName, width: 180),
                 this.MakeGridHeader(x => x.Street, width: 150),
                 this.MakeGridHeader(x => x.Industry, width: 80),
+                this.MakeGridHeader(x => x.Scale, width: 80),
                 this.MakeGridHeader(x => x.EvaluateStartDateStr, width: 120),
                 this.MakeGridHeader(x => x.EvaluateEndDateStr, width: 120),
                 this.MakeGridHeader(x => x.EvaluationLeader, width: 100),
                 this.MakeGridHeader(x => x.ReportLeader, width: 100),
                 this.MakeGridHeader(x => x.Status, width: 120).SetFormat(ReportStatusFormat),
                 this.MakeGridHeader(x => x.Score, width: 80),
-                //this.MakeGridHeader(x => x.EvaluationResult, width: 80),
+                this.MakeGridHeader(x => x.EvaluationResult, width: 90).SetFormat(EvaluationResultFormat),
                 this.MakeGridHeader(x => x.Progress, width: 100).SetFormat(ProgressFormat),
-                this.MakeGridHeader(x => x.ModuleOne, width: 80),
-                this.MakeGridHeader(x => x.ModuleTwo, width: 80),
-                this.MakeGridHeader(x => x.ModuleThree, width: 80),
+                //this.MakeGridHeader(x => x.ModuleOne, width: 80),
+                //this.MakeGridHeader(x => x.ModuleTwo, width: 80),
+                //this.MakeGridHeader(x => x.ModuleThree, width: 80),
                 this.MakeGridHeader(x => x.ReportFileId, width: 120).SetFormat(ReportFileIdFormat),
                 this.MakeGridHeaderAction()
             };
+        }
+
+        public List<ColumnFormatInfo> EvaluationResultFormat(SmallEntEvaluationBase_View entity, object val)
+        {
+            var result = string.Empty;
+            var bgColor = "green";
+            // todo:小微评审合格标准：小型75分，微型60分
+            if (entity.Status == EvaluationStatus.Completed || entity.Status == EvaluationStatus.ReportCompleted)
+            {
+                decimal numberScore = 0;
+                decimal.TryParse(entity.Score, out numberScore);
+                if ((entity.Scale == "小型" && numberScore >= 75) || (entity.Scale == "微型" && numberScore >= 60))
+                {
+                    result = "合格";
+                }
+                else
+                {
+                    result = "不合格";
+                    bgColor = "red";
+                }
+            }
+            var format = new List<ColumnFormatInfo>
+            {
+                ColumnFormatInfo.MakeHtml(html: $"<span class='layui-badge layui-bg-{bgColor}'>{ result }</span>")
+            };
+            if (string.IsNullOrEmpty(result))
+            {
+                format = new List<ColumnFormatInfo>
+                {
+                    ColumnFormatInfo.MakeHtml(html: "<span></span>")
+                };
+            }
+            return format;
         }
 
         private List<ColumnFormatInfo> ReportFileIdFormat(SmallEntEvaluationBase_View entity, object val)
@@ -127,20 +161,6 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 })
                 .OrderBy(x => x.ID);
             return query;
-        }
-
-        public string GetEvaluationResult(string scale, EvaluationStatus? status, string score)
-        {
-            // todo:小微评审合格标准：小型75分，微型60分
-            if (status == EvaluationStatus.Completed || status == EvaluationStatus.ReportCompleted)
-            {
-                decimal numberScore = 0;
-                decimal.TryParse(score, out numberScore);
-                if ((scale == "小型" && numberScore >= 75) || (score == "微型" && numberScore >= 60))
-                    return "合格";
-                return "不合格";
-            }
-            return string.Empty;
         }
     }
 }
