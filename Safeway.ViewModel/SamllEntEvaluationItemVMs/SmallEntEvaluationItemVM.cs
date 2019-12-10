@@ -574,10 +574,13 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
             XSSFCellStyle listInfoStyle = (XSSFCellStyle)input.CreateCellStyle();
             listInfoStyle.SetFont(myFont03);
 
+            byte[] rgb = new byte[3] { 255, 255, 255 };
+            XSSFColor white = new XSSFColor(rgb);
             //set middle
             listInfoStyle.Alignment = HorizontalAlignment.Left;
             listInfoStyle.VerticalAlignment = VerticalAlignment.Center;
-            listInfoStyle.FillBackgroundColor = NPOI.HSSF.Util.HSSFColor.White.Index;
+            ((XSSFCellStyle)listInfoStyle).SetFillBackgroundColor(white);
+            ((XSSFCellStyle)listInfoStyle).SetFillForegroundColor(white);
 
             listInfoStyle.BorderBottom = BorderStyle.None;
             listInfoStyle.BorderLeft = BorderStyle.None;
