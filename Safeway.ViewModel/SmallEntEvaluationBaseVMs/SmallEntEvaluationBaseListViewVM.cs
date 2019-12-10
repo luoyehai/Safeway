@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using Safeway.Model.SmallEntEvaluation;
 using Safeway.ViewModel.CommonClass;
 using Safeway.Model.Enterprise;
+using Safeway.Model.Common;
 
 namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
 {
@@ -40,11 +41,12 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 this.MakeGridHeader(x => x.ReportLeader, width: 100),
                 this.MakeGridHeader(x => x.Status, width: 120).SetFormat(ReportStatusFormat),
                 this.MakeGridHeader(x => x.Score, width: 80),
+                //this.MakeGridHeader(x => x.EvaluationResult, width: 80),
                 this.MakeGridHeader(x => x.Progress, width: 100).SetFormat(ProgressFormat),
                 this.MakeGridHeader(x => x.ModuleOne, width: 80),
                 this.MakeGridHeader(x => x.ModuleTwo, width: 80),
                 this.MakeGridHeader(x => x.ModuleThree, width: 80),
-                this.MakeGridHeader(x => x.ReportFileId, width: 100).SetFormat(ReportFileIdFormat),
+                this.MakeGridHeader(x => x.ReportFileId, width: 120).SetFormat(ReportFileIdFormat),
                 this.MakeGridHeaderAction()
             };
         }
@@ -117,6 +119,7 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                     EvaluationTeamMember = x.se.EvaluationTeamMember,
                     Status = x.se.Status,
                     Score = x.se.Score,
+                    EvaluationResult = x.eb.CompanyScale,
                     Progress = x.se.Progress,
                     ModuleOne = x.se.ModuleOne,
                     ModuleTwo = x.se.ModuleTwo,
@@ -124,6 +127,20 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
                 })
                 .OrderBy(x => x.ID);
             return query;
+        }
+
+        public string GetEvaluationResult(string scale, EvaluationStatus? status, string score)
+        {
+            // todo:小微评审合格标准：小型75分，微型60分
+            if (status == EvaluationStatus.Completed || status == EvaluationStatus.ReportCompleted)
+            {
+                decimal numberScore = 0;
+                decimal.TryParse(score, out numberScore);
+                if ((scale == "小型" && numberScore >= 75) || (score == "微型" && numberScore >= 60))
+                    return "合格";
+                return "不合格";
+            }
+            return string.Empty;
         }
     }
 }
