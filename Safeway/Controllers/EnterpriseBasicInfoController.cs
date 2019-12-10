@@ -125,11 +125,7 @@ namespace Safeway.Controllers
         public ActionResult Delete(string id, IFormCollection nouse)
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>(id);
-            vm.DoDelete();
-            //delete business info
-            vm.DoDeleteBusinnessInfo(vm.EnterpriseBusinessinfo);
-            //delete finance info
-            vm.DoDeleteFinanceInfo(vm.EnterpriseFinanceInfo);
+            vm.DeleteEnterpriseInfo(id);
             if (!ModelState.IsValid)
             {
                 return PartialView(vm);
@@ -316,11 +312,11 @@ namespace Safeway.Controllers
         }
 
         [HttpGet]
-        public List<DictionaryItem> GetDictionaryData(string dictionaryCode)
+        public JsonResult GetDictionaryData(string dictionaryCode)
         {
-            List<DictionaryItem> result = new List<DictionaryItem>();
-
-            return result;
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.GetDictionaryData(dictionaryCode);
+            return Json(result);
         }
         #endregion
     }

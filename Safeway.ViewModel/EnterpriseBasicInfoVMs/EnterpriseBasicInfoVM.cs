@@ -366,8 +366,38 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             DC.SaveChanges();
             return DC.SaveChanges().ToString();
         }
-        public List<string> GetEnterpriseInfo(string basicid) 
-        {
+            //Delete Enterprise Info
+            public string DeleteEnterpriseInfo(string id)
+            {
+                Guid enterpriseId = new Guid(id);
+                var businessData = DC.Set<EnterpriseBusinessinfo>().Where(x => x.EnterpriseBasicInfoId == enterpriseId).ToList();
+                var financeData = DC.Set<EnterpriseFinanceInfo>().Where(x => x.EnterpriseBasicId == enterpriseId).FirstOrDefault();
+                var contactData = DC.Set<EnterpriseContact>().Where(x => x.EnterpriseBasicInfoId == enterpriseId).ToList();
+                var yearYieldData = DC.Set<EnterpriserYearYield>().Where(x => x.EnterpriseBasicInfoId == enterpriseId).ToList();
+                base.DoDelete();
+                if (businessData.Count>0) 
+                {
+                    DC.Set<EnterpriseBusinessinfo>().RemoveRange(businessData);                  
+                }
+                if (financeData != null) 
+                {
+                    DC.Set<EnterpriseFinanceInfo>().Remove(financeData);
+                }
+                if (contactData.Count > 0)
+                {
+                    DC.Set<EnterpriseContact>().RemoveRange(contactData);
+                }
+
+                if (yearYieldData.Count > 0)
+                {
+                    DC.Set<EnterpriserYearYield>().RemoveRange(yearYieldData);
+                }
+
+            DC.SaveChanges();
+                return DC.SaveChanges().ToString();
+            }
+            public List<string> GetEnterpriseInfo(string basicid) 
+            {
             List<string> result = new List<string>();
             var data = DC.Set<EnterpriseBasicInfo>().Where(x => x.ID == new Guid(basicid)).FirstOrDefault();
             if (data != null) 
@@ -408,8 +438,33 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public List<DictionaryItem> GetDictionaryData(string dictionaryCode)
         {
             List<DictionaryItem> result = new List<DictionaryItem>();
-            var dictionaryname = DC.Set<SysDictionaryType>().Where(x => x.Code == dictionaryCode && x.IsValid == true).FirstOrDefault();
+            var alldata = DC.Set<SysDictionaryItem>().ToList();
+            var childrenCodes = DC.Set<SysDictionaryType>().Where(x => x.ParentCode == dictionaryCode && x.IsValid == true).Select(x => new DictionaryItem() { 
+              label =x.Name,
+              value =x.Code          
+            }).ToList();
 
+            result = alldata.Where(x => x.Code == dictionaryCode).OrderBy(x => x.Sort).Select(x => new DictionaryItem()
+            {
+                label = x.Value,
+                value = x.Value
+            }).ToList();
+
+            for (int i = 0; i < result.Count; i++) 
+            {
+                for (int j = 0; j < childrenCodes.Count; j++) 
+                {
+                    if (result[i].label == childrenCodes[j].label) 
+                    {
+                        result[i].children = alldata.Where(x => x.Code ==childrenCodes[j].value).OrderBy(x => x.Sort).Select(x => new DictionaryItem()
+                        {
+                            label = x.Value,
+                            value = x.Value
+                        }).ToList();
+                    }
+                
+                }            
+            }
 
             return result;
         }
