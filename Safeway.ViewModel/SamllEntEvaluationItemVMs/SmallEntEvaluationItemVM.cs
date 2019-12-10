@@ -495,16 +495,19 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 
             row = templatesheet.GetRow(56);
             ICell evaTeam = row.CreateCell(2);
-            evaTeam.SetCellValue(teamLeader.Name);
-            evaTeam.CellStyle = borderedCellStyle;
+            if (teamLeader != null)
+            {
+                evaTeam.SetCellValue(teamLeader.Name);
+                evaTeam.CellStyle = borderedCellStyle;
 
-            evaTeam = row.CreateCell(3);
-            evaTeam.SetCellValue(teamLeader.Position);
-            evaTeam.CellStyle = borderedCellStyle;
+                evaTeam = row.CreateCell(3);
+                evaTeam.SetCellValue(teamLeader.Position);
+                evaTeam.CellStyle = borderedCellStyle;
 
-            evaTeam = row.CreateCell(4);
-            evaTeam.SetCellValue(teamLeader.Mobile);
-            evaTeam.CellStyle = borderedCellStyle;
+                evaTeam = row.CreateCell(4);
+                evaTeam.SetCellValue(teamLeader.Mobile);
+                evaTeam.CellStyle = borderedCellStyle;
+            }
 
             var evaTeamList = evaluationTeamDetailData.Where(y => y.Position == "成员").ToList();
             var i = 57;
