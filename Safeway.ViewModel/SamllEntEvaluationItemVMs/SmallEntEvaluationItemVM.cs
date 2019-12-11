@@ -185,7 +185,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 evaluationViewItem.UnMatched = item.UnMatched;
                 evaluationViewItem.UnInvolved = item.UnInvolved;
                 evaluationViewItem.ActualScore = item.ActualScore;
-                evaluationViewItem.DeductScore = 0;
+                evaluationViewItem.DeductScore = item.DeductScore;
                 evaluationViewItem.ScoringMethod = item.ScoringMethod;
                 evaluationViewItem.EvaluationType = item.EvaluationType;
                 evaluationViewItem.UnMatchedItemDescription = string.Empty;
@@ -232,7 +232,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 evaluationViewItem.ActualScore = item.ActualScore;
                 evaluationViewItem.AllMatched = item.AllMatched;
                 evaluationViewItem.IsEvaluated = item.IsEvaluated;
-                evaluationViewItem.DeductScore = 0;
+                evaluationViewItem.DeductScore = item.DeductScore;
                 evaluationViewItem.ScoringMethod = item.ScoringMethod;
                 evaluationViewItem.EvaluationType = item.EvaluationType;
                 evaluationViewItem.UnMatchedItemDescription = string.Empty;

@@ -24,7 +24,8 @@ namespace Safeway.ViewModel.SmallEntEvaluationBaseVMs
         {
             return new List<GridAction>
             {
-                this.MakeAction("SmallEntEvaluationBase", "ViewReport", "查看报告", "查看报告",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
+                //this.MakeAction("SmallEntEvaluationBase", "Report", "查看报告", "查看报告",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
+                this.MakeAction("SmallEntEvaluationBase", "Report", "查看报告", "查看报告",  GridActionParameterTypesEnum.SingleId).SetShowDialog(true).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.ExportExcel, "导出","")
             };
         }

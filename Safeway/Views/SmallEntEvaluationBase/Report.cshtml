@@ -1,12 +1,12 @@
 ﻿@model Safeway.ViewModel.SamllEntEvaluationItemVMs.SmallEntEvaluationItemVM
-    <style>
-        .el-table .success-row {
-            background: #f0f9eb;
-        }
-    </style>
-    <div class='layui-progress'><div class='layui-progress-bar' lay-percent='70%'></div></div>
+<style>
+    .el-table .error-row {
+        background: #FEF0F0;
+    }
+</style>
+<div class='layui-progress'><div class='layui-progress-bar' lay-percent='70%'></div></div>
 <div id="reviewReport">
-    <el-card class="box-card" 
+    <el-card class="box-card"
              v-loading="ploading"
              :element-loading-text="loadingText"
              element-loading-spinner="el-icon-loading"
@@ -17,7 +17,6 @@
             </span>
 
             <div style="margin-top: 20px; float:right;">
-                <el-button @@click="handleSave" type="primary">保存评审数据</el-button>
                 <el-button @@click="handleExport(0)">导出评审</el-button>
                 <el-button @@click="handleExport(1)">导出不符合项</el-button>
                 <el-button @@click="handleExport(2)">导出评审报告</el-button>
@@ -42,45 +41,38 @@
                               element-loading-background="rgba(0, 0, 0, 0.8)">
                         <el-table-column prop="LevelThreeElement"
                                          label="基本要求规范"
-                                         width="180"
+                                         width="240"
                                          align="left">
                         </el-table-column>
                         <el-table-column prop="ComplianceStandard"
                                          label="企业达标标准"
-                                         width="260"
+                                         width="300"
                                          align="left">
                         </el-table-column>
                         <el-table-column prop="ScoringMethod"
                                          label="评分方式"
-                                         width="160"
+                                         width="180"
                                          align="left">
                         </el-table-column>
                         <el-table-column label="标准分值"
                                          width="60"
                                          align="center">
                             <template slot-scope="scope">
-                                <el-tag type="warning">{{ scope.row.StandardScore}}</el-tag>
+                                <el-tag type="info">{{ scope.row.StandardScore}}</el-tag>
                             </template>
                         </el-table-column>
                         <el-table-column label="不符合项描述"
-                                         width="350"
-                                         align="center">
+                                         width="450"
+                                         align="left">
                             <template slot-scope="scope">
                                 <el-row v-for="item in scope.row.EvaluatedUnMatchedItems">
                                     <el-col :span="20">
-                                        <el-input type="textarea"
-                                                  :rows="2"
-                                                  v-model="item.UnMatchedItemDescription">
-                                        </el-input>
+                                        {{ item.UnMatchedItemDescription }} 
                                     </el-col>
                                     <el-col :span="4">
-                                        <el-input @@change="calculateEvaluatedUnMatcheScore(scope.row)"
-                                                  v-model="item.Deduction">
-                                            <el-input>
-                                    </el-col>
+                                        ( -{{ item.Deduction}}分 )
+                                    </el-col> 
                                 </el-row>
-                                <el-button v-show="scope.row.UnMatched" type="primary" size="mini" icon="el-icon-plus" circle @@click="addUnMatchedItem(scope.row)"></el-button>
-                                <el-button v-show="scope.row.UnMatched" type="warning" size="mini" icon="el-icon-minus" circle @@click="removeUnMatchedItem(scope.row)"></el-button>
                             </template>
                         </el-table-column>
                         <el-table-column label="扣分"
@@ -91,24 +83,24 @@
                             </template>
                         </el-table-column>
                         <el-table-column label="不符合"
-                                         width="380"
-                                         align="left">
+                                         width="60"
+                                         align="center">
                             <template slot-scope="scope">
-                                <el-checkbox v-for="item in scope.row.UnMatchedItems" v-model="item.IsValid" @@change="handleUnMatched(item, scope.row)">{{ item.ElementName }}</el-checkbox>
+                                <i class="el-icon-check" v-if="scope.row.UnMatched"></i>
                             </template>
                         </el-table-column>
                         <el-table-column label="未见不符合"
                                          width="60"
                                          align="center">
                             <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.AllMatched" @@change="handleAllMatched(scope.row)"></el-checkbox>
+                                <i class="el-icon-check" v-if="scope.row.AllMatched"></i>
                             </template>
                         </el-table-column>
                         <el-table-column label="不涉及"
                                          width="60"
                                          align="center">
                             <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.UnInvolved" @@change="handleUnInvolved(scope.row)"></el-checkbox>
+                                <i class="el-icon-check" v-if="scope.row.UnInvolved"></i>
                             </template>
                         </el-table-column>
                         <el-table-column label="实际得分"
@@ -156,8 +148,8 @@
         },
         methods: {
             tableRowClassName({ row, rowIndex }) {
-                if (row.IsEvaluated) {
-                    return 'success-row';
+                if (row.UnMatched) {
+                    return '';
                 }
                 return '';
             },
@@ -201,157 +193,8 @@
                         console.error(e);
                     });
             },
-            handleAllMatched(row) {
-                if (row.AllMatched) {
-                    row.UnMatchedItems.map(function (row) {
-                        row.IsValid = false;
-                    })
-                    row.UnInvolved = false;
-                    row.UnMatched = false;
-                    // unmatched items
-                    row.EvaluatedUnMatchedItems = [];
-                    // score
-                    row.ActualScore = row.StandardScore;
-                    row.DeductScore = 0;
-                }
-            },
-            handleUnInvolved(row) {
-                if (row.UnInvolved) {
-                    // description of unmatched item
-                    let evaluatedUnMatchedItem = {
-                        SmallEntEvaluationItemId: row.ID,
-                        UnMatchedItemReferDescription: '不涉及',
-                        UnMatchedItemDescription: '不涉及',
-                        DeductionReference: 0,
-                        Deduction: 0,
-                        SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
-                    };
-                    row.EvaluatedUnMatchedItems = [];
-                    row.UnMatchedItems.map(function (row) {
-                        row.IsValid = false;
-                    })
-                    row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
-                    row.AllMatched = false;
-                    row.UnMatched = false;
-                }
-                else {
-                    row.EvaluatedUnMatchedItems = [];
-                }
-                this.calculateUnInvolvedScore(row);
-            },
-            handleUnMatched(item, row) {
-                if (item.IsValid) {
-                    let evaluatedUnMatchedItem = {
-                        //ID: item.ID,
-                        SmallEntEvaluationItemId: row.ID,
-                        UnMatchedItemReferDescription: item.ElementName,
-                        UnMatchedItemDescription: item.ElementName,
-                        DeductionReference: item.TotalScore,
-                        Deduction: item.TotalScore,
-                        EvaluationType: item.EvaluationType,
-                        ReviewElementId: item.ID,
-                        SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
-                    };
-                    // 
-                    if (this.defaultTab === '设备设施' && this.defaultLevel2Element === '生产设备设施运行管理') {
-                        evaluatedUnMatchedItem.UnMatchedItemDescription = '';
-                    }
-                    row.EvaluatedUnMatchedItems.push(evaluatedUnMatchedItem);
-                    row.UnInvolved = false;
-                    row.AllMatched = false;
-                    row.UnMatched = true;
-                }
-                else {
-                    row.EvaluatedUnMatchedItems = row.EvaluatedUnMatchedItems.filter(function (row) {
-                        return item.ID != row.ReviewElementId
-                    })
-                    if (row.EvaluatedUnMatchedItems.length === 0)
-                        row.UnMatched = false;
-                }
-                this.calculateUnMatcheScore(row);
-            },
-            addUnMatchedItem(row) {
-                let unMatchedItem = {
-                        SmallEntEvaluationItemId: row.ID,
-                        UnMatchedItemReferDescription: '',
-                        UnMatchedItemDescription: '',
-                        DeductionReference: 0,
-                        Deduction: 0,
-                        EvaluationType: 1,
-                        ReviewElementId: '',
-                        SmallEntEvaluationBaseId: row.SmallEntEvaluationBaseId
-                };
-                row.EvaluatedUnMatchedItems.push(unMatchedItem);
-                row.UnMatched = true;
-            },
-            removeUnMatchedItem(row) {
-                if (row.EvaluatedUnMatchedItems.length === 0) {
-                    row.UnMatched = false;
-                    return;
-                }
-                if (row.EvaluatedUnMatchedItems[row.EvaluatedUnMatchedItems.length - 1].ReviewElementId === '') {
-                    row.EvaluatedUnMatchedItems.pop();
-                }
-                this.calculateUnMatcheScore(row);
-            },
-            calculateUnInvolvedScore: function (item) {
-                // check is uninvolve checked
-                if (item.UnInvolved) {
-                    item.ActualScore = 0;
-                    item.DeductScore = 0;
-                }
-                else {
-                    item.ActualScore = item.StandardScore;
-                }
-            },
-            calculateEvaluatedUnMatcheScore(item) {
-                let unMatchedScore = 0;
-                item.EvaluatedUnMatchedItems.map(function (row) {
-                    unMatchedScore += parseInt(row.Deduction);
-                })
-                item.DeductScore = unMatchedScore > item.StandardScore ? item.StandardScore : unMatchedScore;
-                item.ActualScore = item.StandardScore - item.DeductScore;
-            },
-            calculateUnMatcheScore: function (item) {
-                let unMatchedScore = 0;
-                item.EvaluatedUnMatchedItems.map(function (row) {
-                    unMatchedScore += parseInt(row.Deduction);
-                })
-                //console.log('unMatchedScore:' + unMatchedScore);
-                //console.log('StandardScore:' + item.StandardScore);
-                item.DeductScore = unMatchedScore > item.StandardScore ? item.StandardScore : unMatchedScore;
-                item.ActualScore = item.StandardScore - item.DeductScore;
-            },
             handleTabClick(value) {
-                this.loading = true;
-                axios.post('SmallEntEvaluationItem/SaveEvaluationItem',this.reportData)
-                .then(function (r) {
-                    if (r.data.Data === true) {
-                        this.$notify.success({
-                            title: '提示',
-                            message: '评审数据保存成功！',
-                            position: 'bottom-right'
-                        });
-                    }
-                    this.loadData();
-                }.bind(this))
-                //console.log(value.paneName);
-                //console.log(value.$vnode);
-            },
-            handleSave() {
-                this.loading = true;
-                axios.post('SmallEntEvaluationItem/SaveEvaluationItem',this.reportData)
-                .then(function (r) {
-                    this.loading = false;
-                    console.log(r);
-                    if (r.data.Data === true) {
-                        this.$notify.success({
-                            title: '提示',
-                            message: '保存评审数据成功！',
-                            position: 'bottom-right'
-                        });
-                    }
-                }.bind(this))
+                this.loadData();
             },
             getEvaluationTypeStr(value) {
                 if (value == 0)
@@ -362,7 +205,6 @@
             },
             handleExport: function (val) {
                 let vData = @Html.Raw(Json.Serialize(ViewData));
-                // let newtab = window.open('', '_blank');
                 let newurl = 'SmallEntEvaluationItem/ExportReport?id=' + vData["ID"] + '&type=' + val;
                 var hreflink = document.createElement("a");
                 hreflink.setAttribute("href", newurl);

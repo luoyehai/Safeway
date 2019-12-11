@@ -157,6 +157,15 @@ namespace Safeway.Controllers
             ViewData["ID"] = id;
             return PartialView(vm);
         }
+
+        public async Task<ActionResult> Report(string id)
+        {
+            var vm = CreateVM<SmallEntEvaluationItemVM>();
+            var entEvaluationBase = await vm.GetSmallEntEvaluationBaseView(id);
+            vm.EntEvaluationBaseView = entEvaluationBase;
+            ViewData["ID"] = id;
+            return PartialView(vm);
+        }
         #endregion
 
         #region 批量修改
