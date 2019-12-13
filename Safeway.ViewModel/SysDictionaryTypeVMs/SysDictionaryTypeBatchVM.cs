@@ -25,6 +25,10 @@ namespace Safeway.ViewModel.SysDictionaryTypeVMs
     /// </summary>
     public class SysDictionaryType_BatchEdit : BaseVM
     {
+        [Display(Name = "字典编码")]
+        public String Code { get; set; }
+        [Display(Name = "字典名称")]
+        public String Name { get; set; }
 
         protected override void InitVM()
         {

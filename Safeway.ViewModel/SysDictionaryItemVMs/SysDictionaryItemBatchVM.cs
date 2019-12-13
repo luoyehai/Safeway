@@ -26,7 +26,7 @@ namespace Safeway.ViewModel.SysDictionaryItemVMs
     public class SysDictionaryItem_BatchEdit : BaseVM
     {
         [Display(Name = "字典代码")]
-        public Int32? Code { get; set; }
+        public String Code { get; set; }
         [Display(Name = "字典项名称")]
         public String Name { get; set; }
         [Display(Name = "字典项值")]
@@ -35,6 +35,8 @@ namespace Safeway.ViewModel.SysDictionaryItemVMs
         public String Remark { get; set; }
         [Display(Name = "顺序")]
         public Int32? Sort { get; set; }
+        [Display(Name = "子代码")]
+        public String ChildrenCode { get; set; }
 
         protected override void InitVM()
         {

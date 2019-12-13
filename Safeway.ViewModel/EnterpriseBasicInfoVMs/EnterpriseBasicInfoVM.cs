@@ -437,36 +437,18 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
 
         public List<DictionaryItem> GetDictionaryData(string dictionaryCode)
         {
-            List<DictionaryItem> result = new List<DictionaryItem>();
             var alldata = DC.Set<SysDictionaryItem>().ToList();
-            var childrenCodes = DC.Set<SysDictionaryType>().Where(x => x.ParentCode == dictionaryCode && x.IsValid == true).Select(x => new DictionaryItem() { 
-              label =x.Name,
-              value =x.Code          
-            }).ToList();
-
-            result = alldata.Where(x => x.Code == dictionaryCode).OrderBy(x => x.Sort).Select(x => new DictionaryItem()
+            var res = alldata.Where(x => x.Code == dictionaryCode).OrderBy(x=> x.Sort).Select(x => new DictionaryItem()
             {
                 label = x.Value,
-                value = x.Value
+                value = x.Value,
+                children = String.IsNullOrEmpty(x.ChildrenCode)? null:alldata.Where(y => y.Code == x.ChildrenCode).OrderBy(y => y.Sort).Select(y => new DictionaryItem() {
+                    label = y.Value,
+                    value = y.Value
+                }).ToList()
             }).ToList();
 
-            for (int i = 0; i < result.Count; i++) 
-            {
-                for (int j = 0; j < childrenCodes.Count; j++) 
-                {
-                    if (result[i].label == childrenCodes[j].label) 
-                    {
-                        result[i].children = alldata.Where(x => x.Code ==childrenCodes[j].value).OrderBy(x => x.Sort).Select(x => new DictionaryItem()
-                        {
-                            label = x.Value,
-                            value = x.Value
-                        }).ToList();
-                    }
-                
-                }            
-            }
-
-            return result;
+            return res;
         }
         public string GetEnterprisebyEvaluationId(string id) 
         {

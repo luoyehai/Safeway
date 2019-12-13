@@ -9,7 +9,7 @@ using Safeway.ViewModel.SysDictionaryItemVMs;
 namespace Safeway.Controllers
 {
     
-    [ActionDescription("系统字典子表")]
+    [ActionDescription("字典子表")]
     public partial class SysDictionaryItemController : BaseController
     {
         #region 搜索

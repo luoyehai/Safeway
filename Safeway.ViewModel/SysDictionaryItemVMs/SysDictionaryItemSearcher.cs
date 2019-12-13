@@ -13,13 +13,17 @@ namespace Safeway.ViewModel.SysDictionaryItemVMs
     public partial class SysDictionaryItemSearcher : BaseSearcher
     {
         [Display(Name = "字典代码")]
-        public string Code { get; set; }
+        public String Code { get; set; }
         [Display(Name = "字典项名称")]
         public String Name { get; set; }
         [Display(Name = "字典项值")]
         public String Value { get; set; }
         [Display(Name = "备注")]
         public String Remark { get; set; }
+        [Display(Name = "顺序")]
+        public Int32? Sort { get; set; }
+        [Display(Name = "子代码")]
+        public String ChildrenCode { get; set; }
 
         protected override void InitVM()
         {

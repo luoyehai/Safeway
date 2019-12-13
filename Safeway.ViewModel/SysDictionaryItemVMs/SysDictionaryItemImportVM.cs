@@ -22,6 +22,8 @@ namespace Safeway.ViewModel.SysDictionaryItemVMs
         public ExcelPropety Remark_Excel = ExcelPropety.CreateProperty<SysDictionaryItem>(x => x.Remark);
         [Display(Name = "顺序")]
         public ExcelPropety Sort_Excel = ExcelPropety.CreateProperty<SysDictionaryItem>(x => x.Sort);
+        [Display(Name = "子代码")]
+        public ExcelPropety ChildrenCode_Excel = ExcelPropety.CreateProperty<SysDictionaryItem>(x => x.ChildrenCode);
 
 	    protected override void InitVM()
         {
