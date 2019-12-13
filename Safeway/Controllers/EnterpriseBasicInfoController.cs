@@ -26,6 +26,10 @@ namespace Safeway.Controllers
         public ActionResult Index()
         {
             var vm = CreateVM<EnterpriseBasicInfoListVM>();
+            var commonvm = CreateVM<CommonVM>();
+            vm.CompanyScaleList = commonvm.GetDictionaryItems("companyScaleList");
+            vm.CompanyTypeList = commonvm.GetDictionaryItems("CompanyType");
+            vm.TradeMethodList = commonvm.GetDictionaryItems("tradeTermList");
             return PartialView(vm);
         }
 

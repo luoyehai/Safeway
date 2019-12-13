@@ -21,45 +21,13 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
     }
     public partial class EnterpriseBasicInfoListVM : BasePagedListVM<EnterpriseBasicInfo_View, EnterpriseBasicInfoSearcher>
     {
-        //public List<KeyValuePair> tradeTermList = new List<KeyValuePair>()
-        //{
-        //     new KeyValuePair() { label ="出口",value="Export"},
-        //     new KeyValuePair() { label ="内销",value="DomesticSales"}
-        //};
-        //public List<KeyValuePair> companyScaleList = new List<KeyValuePair>()
-        //{
-        //     new KeyValuePair() { label ="规上",value="large"},
-        //     new KeyValuePair() { label ="小型",value="small"},
-        //     new KeyValuePair() { label ="微型",value="mini"}
-        //};
-        //public List<KeyValuePair> companyTypeList = new List<KeyValuePair>() { 
 
-        //    new KeyValuePair() { label ="国有",value="stateOwned"},
-        //    new KeyValuePair() { label ="民营",value="private"},
-        //    new KeyValuePair() { label ="外资",value="foreignInvest"},
-        //    new KeyValuePair() { label ="美国",value="usa"},
-        //    new KeyValuePair() { label ="欧洲",value="eur"},
-        //    new KeyValuePair() { label ="日本",value="jpn"},
-        //    new KeyValuePair() { label ="其他",value="others"}
+        public List<ComboSelectListItem> CompanyScaleList { get; set; }
 
-        //} ;
-        //public List<KeyValuePair> industryList = new List<KeyValuePair>() {
+        public List<ComboSelectListItem> CompanyTypeList { get; set; }
 
-        //    new KeyValuePair() { label ="矿山",value="Mine"},
-        //    new KeyValuePair() { label ="道路运输",value="Transportation"},
-        //    new KeyValuePair() { label ="危化",value="DangerChemistry"},
-        //    new KeyValuePair() { label ="工贸",value="IndustryandTrade"},
-        //    new KeyValuePair() { label ="冶金",value="metallurgy"},
-        //    new KeyValuePair() { label ="有色",value="colored"},
-        //    new KeyValuePair() { label ="机械",value="mechanical"},
-        //    new KeyValuePair() { label ="建材",value="buildingMaterial"},
-        //    new KeyValuePair() { label ="纺织",value="textile"},
-        //    new KeyValuePair() { label ="轻工",value="lightIndustry"},
-        //    new KeyValuePair() { label ="烟草",value="tobacoo"},
-        //    new KeyValuePair() { label ="商贸",value="bizsTrade"}
+        public List<ComboSelectListItem> TradeMethodList { get; set; }
 
-        //};
- 
         protected override List<GridAction> InitGridAction()
         {
             return new List<GridAction>
@@ -76,7 +44,7 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         protected override IEnumerable<IGridColumn<EnterpriseBasicInfo_View>> InitGridHeader()
         {
             return new List<GridColumn<EnterpriseBasicInfo_View>>{
-                this.MakeGridHeader(x => x.ComapanyName, width: 200),
+                this.MakeGridHeader(x => x.ComapanyName, width: 260),
                 //this.MakeGridHeader(x => x.Province),
                 //this.MakeGridHeader(x => x.City),
                 //this.MakeGridHeader(x => x.District),
@@ -84,7 +52,7 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                 this.MakeGridHeader(x => x.CompanyType, width: 100),
                 //this.MakeGridHeader(x => x.ForeignCountry, width: 100),
                 this.MakeGridHeader(x => x.LegalRepresentative, width: 100),
-                this.MakeGridHeader(x => x.CompanyScale, width: 80),
+                this.MakeGridHeader(x => x.CompanyScale, width: 100),
                 this.MakeGridHeader(x => x.Industry),
                 this.MakeGridHeader(x => x.NoofEmployees, width: 100),
                 this.MakeGridHeader(x => x.MainProducts, width: 100),
@@ -101,6 +69,7 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                 .CheckContain(Searcher.Industry, x => x.Industry)
                 .CheckContain(Searcher.CompanyType, x => x.CompanyType)
                 .CheckContain(Searcher.CompanyScale, x => x.CompanyScale)
+                .CheckContain(Searcher.TermsofTrade, x => x.TermsofTrade)
                 .CheckEqual(Searcher.EnterpriseBasicId, x => x.ID)
                 .Select(x => new EnterpriseBasicInfo_View
                 {

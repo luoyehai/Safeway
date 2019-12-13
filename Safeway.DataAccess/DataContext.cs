@@ -16,7 +16,6 @@ namespace Safeway.DataAccess
 {
     public class DataContext : FrameworkContext
     {
-
         public DbSet<EnterpriseReviewElement> EnterpriseReviewElements { get; set; }
 
         #region Dictionary
@@ -45,17 +44,20 @@ namespace Safeway.DataAccess
         public DbSet<SmallEntEvaluationBase> smallEntEvaluationBases { get; set; }
         public DbSet<SmallEntEvaluationItem> SmallEntEvaluationItems { get; set; }
         public DbSet<SmallEntEvaluationUnMatchedItem> SmallEntEvaluationUnMatchedItems { get; set; }
+
         #region SmallEnt
         #endregion
+
         #region SmExportTemplate
         public DbSet<SmEntEvaluationTemplate> SmEntEvaluationTemplates { get; set; }
         public DbSet<EvaluationTeamInfo> EvaluationTeamInfos { get; set; }
         public DbSet<SmEntEvaluationGeneral> SmEntEvaluationGenerals { get; set; }
         #endregion
+
         public DataContext(string cs, DBTypeEnum dbtype)
              : base(cs, dbtype)
         {
-            
+
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -106,10 +108,9 @@ namespace Safeway.DataAccess
     {
         public DataContext CreateDbContext(string[] args)
         {
+            //return new DataContext("Server=121.41.79.227;Database=SafeWay_DB;User Id=sa;Password=1qaz!QAZ;Integrated Security=false;MultipleActiveResultSets=true", DBTypeEnum.SqlServer);
             return new DataContext("Server=SCNSZHS0016\\SHAREPOINT;Database=SafeWay_Dev;Trusted_Connection=True;MultipleActiveResultSets=true", DBTypeEnum.SqlServer);
             //return new DataContext("Server=SCNSZHM101106\\SQLEXPRESS01;Database=SafeWay_Dev;Trusted_Connection=True;MultipleActiveResultSets=true", DBTypeEnum.SqlServer);
         }
     }
-
-
 }

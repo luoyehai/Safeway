@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq;
 using WalkingTec.Mvvm.Core;
 using Safeway.Model.Enterprise;
+using Safeway.Model.System;
 
 namespace Safeway.ViewModel.CommonClass
 {
@@ -27,6 +28,16 @@ namespace Safeway.ViewModel.CommonClass
             {
                 Text = x.ComapanyName,
                 Value = x.ID.ToString()
+            }).ToList();
+        }
+
+        public List<ComboSelectListItem> GetDictionaryItems(string code)
+        {
+            return DC.Set<SysDictionaryItem>().Where(x => x.Code.Equals(code)).OrderBy(x => x.Name).Select(x =>
+            new ComboSelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Value
             }).ToList();
         }
     }

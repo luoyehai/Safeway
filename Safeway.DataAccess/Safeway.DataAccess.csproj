@@ -21,4 +21,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Safeway.Model\Safeway.Model.csproj" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Migraion-Archive\" />
+  </ItemGroup>
 </Project>

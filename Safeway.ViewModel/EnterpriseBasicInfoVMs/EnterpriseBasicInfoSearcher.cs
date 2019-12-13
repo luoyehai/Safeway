@@ -22,6 +22,10 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         [StringLength(150)]
         public string CompanyScale { get; set; }
 
+
+        [Display(Name = "贸易方式")]
+        public string TermsofTrade { get; set; }
+
         [Display(Name = "行业")]
         [StringLength(100)]
         public string Industry { get; set; }
