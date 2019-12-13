@@ -8,7 +8,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[SmEnt_Get_EvaluationGeneralInfo] 
+ALTER PROCEDURE [dbo].[SmEnt_Get_EvaluationGeneralInfo] 
 	@baseId  nvarchar(200)
 AS
 BEGIN
@@ -20,6 +20,7 @@ BEGIN
 		ComapanyName nvarchar(300) null,
 		Industry nvarchar(300) null,
 		EvaluationStartDate datetime null,
+		EvaluationEndDate datetime null,
 		LegalRepresentative nvarchar(300) null,
 		LegalRepTel nvarchar(300) null,
 		LegalRepMobile nvarchar(300) null,
@@ -27,16 +28,21 @@ BEGIN
 		ContactTel nvarchar(300) null,
 		ContactFax nvarchar(300) null,
 		ContactMobile nvarchar(300) null,
-		ContactEmail nvarchar(300) null
+		ContactEmail nvarchar(300) null,
+		EvaluationLeader nvarchar(300) null,
+		EvaluationTeamMember nvarchar(300) null
 	) 
 	
 	INSERT INTO @EvaluationGeneral(
 		EnterpriseID,
 		ComapanyName,
 		Industry,
-		EvaluationStartDate
+		EvaluationStartDate,
+		EvaluationEndDate,
+		EvaluationLeader,
+		EvaluationTeamMember
 	)
-	SELECT bi.ID, bi.ComapanyName,bi.Industry,b.EvaluationStartDate
+	SELECT bi.ID, bi.ComapanyName,bi.Industry,b.EvaluationStartDate,b.EvaluationEndDate,b.EvaluationLeader,b.EvaluationTeamMember
 	FROM [dbo].[smallEntEvaluationBases] b
 	INNER JOIN [dbo].[EnterpriseBasicInfos] bi
 	ON b.EnterpriseId  = bi.ID
@@ -60,6 +66,8 @@ BEGIN
 	SELECT * FROM @EvaluationGeneral
 	
 END
+
+GO
 
 
 

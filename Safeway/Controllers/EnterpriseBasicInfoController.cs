@@ -318,6 +318,19 @@ namespace Safeway.Controllers
             var result = vm.GetDictionaryData(dictionaryCode);
             return Json(result);
         }
+
+        [ActionDescription("企业基本信息")]
+        public IActionResult LimitedEnterpriseInfo(string id) 
+        {
+
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            string enterpriseId = vm.GetEnterprisebyEvaluationId(id);
+            var entEvaluationBase = vm.GetEnterpriseInfo(enterpriseId);
+            vm.Entity.ID = new Guid(enterpriseId);
+            ViewData["ID"] = enterpriseId;
+            return PartialView(vm);
+
+        }
         #endregion
     }
 }

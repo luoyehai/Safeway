@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using System.Data;
 using Safeway.ViewModel.CommonClass;
 using Safeway.Model.System;
-
+using Safeway.Model.SmallEntEvaluation;
 namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
 {
     public class AdddressJsonObject
@@ -393,7 +393,7 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
                     DC.Set<EnterpriserYearYield>().RemoveRange(yearYieldData);
                 }
 
-            DC.SaveChanges();
+                DC.SaveChanges();
                 return DC.SaveChanges().ToString();
             }
             public List<string> GetEnterpriseInfo(string basicid) 
@@ -467,6 +467,16 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             }
 
             return result;
+        }
+        public string GetEnterprisebyEvaluationId(string id) 
+        {
+            string enterpriseid = "";
+            var evaluationData = DC.Set<SmallEntEvaluationBase>().Where(x => x.ID == new Guid(id)).FirstOrDefault();
+            if (evaluationData != null) 
+            {
+                enterpriseid = evaluationData.EnterpriseId;
+            }
+            return enterpriseid;
         }
         #endregion
     }
