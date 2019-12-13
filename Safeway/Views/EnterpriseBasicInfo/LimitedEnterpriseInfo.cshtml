@@ -315,7 +315,7 @@
                                 JSON.stringify(this.basicInfo),
                                 JSON.stringify(this.contactList),
                             ];
-                     axios.post('EnterpriseBasicInfo/EditEnterpriseInfo',parameters)
+                     axios.post('EnterpriseBasicInfo/EditLimitedEnterpriseInfo',parameters)
                     .then(function (response) {
                         this.$notify.success({
                             title: '提示',
@@ -329,8 +329,8 @@
                 },
                 loadData: function ()
                 {
-
-                    this.basicId = @Html.Raw(Json.Serialize(Model.Entity.ID));
+                    let vData =  @Html.Raw(Json.Serialize(ViewData));                   
+                    this.basicId = vData["ID"];
                     axios.get('EnterpriseBasicInfo/GetProvinces')
                         .then(function (r) {
                             this.provinceList = r.data.Data;
@@ -339,10 +339,10 @@
                         console.error(e);
                     });
                     //Load Data
-                    axios.get('EnterpriseBasicInfo/GetEnterpriseInfo?Id=' + this.basicId)
+                    axios.get('EnterpriseBasicInfo/GetLimitedEnterpriseInfo?Id=' + this.basicId)
                         .then(function (r) {
                             this.basicInfo = JSON.parse(r.data.Data[0]);
-                            this.contactList = JSON.parse(r.data.Data[3]);
+                            this.contactList = JSON.parse(r.data.Data[1]);
 
                             this.selectedCompanyType = this.basicInfo.CompanyType.split("/");;
                             this.selectedIndustry = this.basicInfo.Industry.split("/");;

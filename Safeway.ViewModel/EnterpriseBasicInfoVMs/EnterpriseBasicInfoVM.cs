@@ -478,6 +478,41 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
             }
             return enterpriseid;
         }
+
+        public List<string> GetLimitedEnterpriseInfo(string basicId) 
+        {
+            List<string> result = new List<string>();
+            var data = DC.Set<EnterpriseBasicInfo>().Where(x => x.ID == new Guid(basicId)).FirstOrDefault();
+            if (data != null)
+            {
+                var tempresult = JsonConvert.SerializeObject(data);
+                result.Add(tempresult);
+            }
+            var contactlist = DC.Set<EnterpriseContact>().Where(x => x.EnterpriseBasicInfoId == new Guid(basicId)).ToList();
+            if (contactlist != null)
+            {
+                var tempresult = JsonConvert.SerializeObject(contactlist);
+                result.Add(tempresult);
+            }
+            return result;
+        }
+        public string EditLimitedEnterpriseInfo(params string[] parameters)
+        {
+            var basicInfo = new EnterpriseBasicInfo();
+            var contactList = new List<EnterpriseContact>();
+            if (parameters[0] != null && parameters[0].Length > 2 && !string.IsNullOrEmpty(parameters[0]))
+            {
+                basicInfo = JsonConvert.DeserializeObject<EnterpriseBasicInfo>(parameters[0]);
+                DC.Set<EnterpriseBasicInfo>().Update(basicInfo);
+            }
+            if (parameters[1] != null && parameters[1].Length > 2 && !string.IsNullOrEmpty(parameters[1]))
+            {
+                contactList = JsonConvert.DeserializeObject<List<EnterpriseContact>>(parameters[1]);
+                DC.Set<EnterpriseContact>().UpdateRange(contactList);
+            }
+            DC.SaveChanges();
+            return DC.SaveChanges().ToString();
+        }
         #endregion
     }
 }

@@ -322,14 +322,34 @@ namespace Safeway.Controllers
         [ActionDescription("企业基本信息")]
         public IActionResult LimitedEnterpriseInfo(string id) 
         {
-
             var vm = CreateVM<EnterpriseBasicInfoVM>();
             string enterpriseId = vm.GetEnterprisebyEvaluationId(id);
-            var entEvaluationBase = vm.GetEnterpriseInfo(enterpriseId);
             vm.Entity.ID = new Guid(enterpriseId);
             ViewData["ID"] = enterpriseId;
             return PartialView(vm);
 
+        }
+        [HttpGet]
+        public JsonResult GetLimitedEnterpriseInfo(string Id)
+        {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.GetLimitedEnterpriseInfo(Id);
+            return Json(result);
+        }
+        [HttpPost]
+        public ActionResult EditLimitedEnterpriseInfo([FromBody]params string[] parameters)
+        {
+            var vm = CreateVM<EnterpriseBasicInfoVM>();
+            var result = vm.EditLimitedEnterpriseInfo(parameters);
+            if (!ModelState.IsValid)
+            {
+                vm.DoReInit();
+                return PartialView(vm);
+            }
+            else
+            {
+                return FFResult().CloseDialog().RefreshGrid();
+            }
         }
         #endregion
     }
