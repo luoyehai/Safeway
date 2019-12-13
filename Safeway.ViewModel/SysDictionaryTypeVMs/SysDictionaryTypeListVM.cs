@@ -41,17 +41,17 @@ namespace Safeway.ViewModel.SysDictionaryTypeVMs
         public override IOrderedQueryable<SysDictionaryType_View> GetSearchQuery()
         {
             var query = DC.Set<SysDictionaryType>()
-                .CheckContain(Searcher.Code, x=>x.Code)
-                .CheckContain(Searcher.Name, x=>x.Name)
-                .CheckContain(Searcher.ParentCode, x=>x.ParentCode)
+                .CheckContain(Searcher.Code, x => x.Code)
+                .CheckContain(Searcher.Name, x => x.Name)
+                .CheckContain(Searcher.ParentCode, x => x.ParentCode)
                 .Select(x => new SysDictionaryType_View
                 {
-				    ID = x.ID,
+                    ID = x.ID,
                     Code = x.Code,
                     Name = x.Name,
                     ParentCode = x.ParentCode,
                 })
-                .OrderBy(x => x.ID);
+                .OrderBy(x => x.Code);
             return query;
         }
 
