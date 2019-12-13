@@ -333,6 +333,7 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
         public XSSFWorkbook ExportData(string id) 
         {
             var exportdata = DC.Set<SmEntEvaluationTemplate>().FromSql("SmEnt_Get_EvaluationTemplate @baseId = {0}", id).ToList();
+            var baseInfoData = DC.Set<SmEntEvaluationGeneral>().FromSql("SmEnt_Get_EvaluationGeneralInfo @baseId = {0}", id).FirstOrDefault();
             XSSFWorkbook template;
             ISheet templatesheet;
             DataTable templatedata;
@@ -361,7 +362,21 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
                 }
             }
             //define format
-            //set format
+            //define title format
+            XSSFFont header = (XSSFFont)template.CreateFont();
+            header.FontHeightInPoints = (short)14;
+            header.FontName = "宋体";
+            header.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+            XSSFCellStyle headStyle = (XSSFCellStyle)template.CreateCellStyle();
+            headStyle.SetFont(header);
+            headStyle.Alignment = HorizontalAlignment.Left;
+
+            headStyle.FillPattern = FillPattern.SolidForeground;
+            byte[] rgb = new byte[3] { 255, 255, 255 };
+            XSSFColor white = new XSSFColor(rgb);
+            ((XSSFCellStyle)headStyle).SetFillBackgroundColor(white);
+            ((XSSFCellStyle)headStyle).SetFillForegroundColor(white);
+            //define content format
             XSSFFont myFont = (XSSFFont)template.CreateFont();
             myFont.FontHeightInPoints = (short)10.5;
             myFont.FontName = "宋体";
@@ -379,7 +394,25 @@ namespace Safeway.ViewModel.SamllEntEvaluationItemVMs
 
             borderedCellStyle.WrapText = true;
             //Insert into worksheet
+            //Insert  the header
             IRow row;
+            ICell headerCell;
+            row = templatesheet.GetRow(1);
+            headerCell = row.CreateCell(4);
+            headerCell.SetCellValue(String.Format("评审时间:从{0}年{1}月{2}日到{3}年{4}月{5}日",
+                baseInfoData.EvaluationStartDate.Year.ToString(), baseInfoData.EvaluationStartDate.Month.ToString(), baseInfoData.EvaluationStartDate.Day.ToString()
+                , baseInfoData.EvaluationEndDate.Year.ToString(), baseInfoData.EvaluationEndDate.Month.ToString(), baseInfoData.EvaluationEndDate.Day.ToString()));
+            headerCell.CellStyle = headStyle;
+
+            row = templatesheet.GetRow(2);
+            headerCell = row.CreateCell(0);
+            headerCell.SetCellValue(String.Format("评审组组长：{0}",baseInfoData.EvaluationLeader.ToString()));
+            headerCell.CellStyle = headStyle;
+
+            headerCell = row.CreateCell(4);
+            headerCell.SetCellValue(String.Format("评审组成员：{0}", baseInfoData.EvaluationTeamMember.ToString()));
+            headerCell.CellStyle = headStyle;
+
             ICell descriptioncell;
             ICell scorecell;
             for (int i = 0; i < templatedata.Rows.Count-1; i++)
