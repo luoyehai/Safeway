@@ -24,7 +24,7 @@ namespace Safeway.ViewModel.MyTaskVMs
             {
                 this.MakeAction("SmallEntEvaluationBase", "ViewReport", "开始评审", "开始评审",  GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true),
                 this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Details, "详细","", dialogWidth: 800),
-                this.MakeAction("EnterpriseBasicInfo","LimitedEnterpriseInfo","企业信息","企业信息",GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true)
+                //this.MakeAction("EnterpriseBasicInfo","LimitedEnterpriseInfo","企业信息","企业信息",GridActionParameterTypesEnum.SingleId).SetIsRedirect(true).SetShowDialog(false).SetMax(true).SetShowInRow(true).SetHideOnToolBar(true)
                 //this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.Delete, "删除", "",dialogWidth: 800),
                 //this.MakeStandardAction("SmallEntEvaluationBase", GridActionStandardTypesEnum.ExportExcel, "导出","")
             };
@@ -33,7 +33,7 @@ namespace Safeway.ViewModel.MyTaskVMs
         protected override IEnumerable<IGridColumn<MyTask_View>> InitGridHeader()
         {
             return new List<GridColumn<MyTask_View>>{
-                this.MakeGridHeader(x => x.EnterpriseName, width: 150),
+                this.MakeGridHeader(x => x.EnterpriseName, width: 150).SetFormat(EnterpriseInfoFormat),
                 this.MakeGridHeader(x => x.Street),
                 this.MakeGridHeader(x => x.Industry),
                 this.MakeGridHeader(x => x.Scale),
@@ -46,6 +46,14 @@ namespace Safeway.ViewModel.MyTaskVMs
                 this.MakeGridHeader(x => x.Progress).SetFormat(ProgressFormat),
                 this.MakeGridHeader(x => x.ReportFileId).SetFormat(ReportFileIdFormat),
                 this.MakeGridHeaderAction(width: 200)
+            };
+        }
+
+        private List<ColumnFormatInfo> EnterpriseInfoFormat(MyTask_View entity, object val)
+        {
+            return new List<ColumnFormatInfo>
+            {
+                ColumnFormatInfo.MakeDialogButton(ButtonTypesEnum.Link, $"EnterpriseBasicInfo/LimitedEnterpriseInfo/{entity.EnterpriseId}", entity.EnterpriseName, width: 1000, height: 800) 
             };
         }
 
