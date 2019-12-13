@@ -25,6 +25,9 @@ namespace Safeway.Model.ExportTemplate
         public string ContactFax { get; set; }
         public string ContactMobile { get; set; }
         public string ContactEmail { get; set; }
+        public string EvaluationLeader { get; set; }
+        public string EvaluationTeamMember { get; set; }
+        public DateTime EvaluationEndDate { get; set; }
 
     }
 }
