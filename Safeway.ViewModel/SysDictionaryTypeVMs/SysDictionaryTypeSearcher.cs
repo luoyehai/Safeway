@@ -16,8 +16,6 @@ namespace Safeway.ViewModel.SysDictionaryTypeVMs
         public String Code { get; set; }
         [Display(Name = "字典名称")]
         public String Name { get; set; }
-        [Display(Name = "父字典编码")]
-        public String ParentCode { get; set; }
 
         protected override void InitVM()
         {

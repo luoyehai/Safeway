@@ -23,5 +23,8 @@ namespace Safeway.Model.System
 
         [Display(Name = "顺序")]
         public int Sort { get; set; }
+
+        [Display(Name = "子代码")]
+        public string ChildrenCode { get; set; }
     }
 }

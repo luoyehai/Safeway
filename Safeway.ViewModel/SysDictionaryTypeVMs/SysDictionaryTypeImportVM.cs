@@ -16,8 +16,6 @@ namespace Safeway.ViewModel.SysDictionaryTypeVMs
         public ExcelPropety Code_Excel = ExcelPropety.CreateProperty<SysDictionaryType>(x => x.Code);
         [Display(Name = "字典名称")]
         public ExcelPropety Name_Excel = ExcelPropety.CreateProperty<SysDictionaryType>(x => x.Name);
-        [Display(Name = "父字典编码")]
-        public ExcelPropety ParentCode_Excel = ExcelPropety.CreateProperty<SysDictionaryType>(x => x.ParentCode);
 
 	    protected override void InitVM()
         {

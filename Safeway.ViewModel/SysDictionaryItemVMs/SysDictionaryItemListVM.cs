@@ -36,6 +36,7 @@ namespace Safeway.ViewModel.SysDictionaryItemVMs
                 this.MakeGridHeader(x => x.Value),
                 this.MakeGridHeader(x => x.Remark),
                 this.MakeGridHeader(x => x.Sort),
+                this.MakeGridHeader(x => x.ChildrenCode),
                 this.MakeGridHeaderAction(width: 200)
             };
         }
@@ -43,23 +44,26 @@ namespace Safeway.ViewModel.SysDictionaryItemVMs
         public override IOrderedQueryable<SysDictionaryItem_View> GetSearchQuery()
         {
             var query = DC.Set<SysDictionaryItem>()
-                .CheckContain(Searcher.Code, x => x.Code)
-                .CheckContain(Searcher.Name, x => x.Name)
-                .CheckContain(Searcher.Value, x => x.Value)
-                .CheckContain(Searcher.Remark, x => x.Remark)
+                .CheckContain(Searcher.Code, x=>x.Code)
+                .CheckContain(Searcher.Name, x=>x.Name)
+                .CheckContain(Searcher.Value, x=>x.Value)
+                .CheckContain(Searcher.Remark, x=>x.Remark)
+                .CheckEqual(Searcher.Sort, x=>x.Sort)
+                .CheckContain(Searcher.ChildrenCode, x=>x.ChildrenCode)
                 .Select(x => new SysDictionaryItem_View
                 {
-                    ID = x.ID,
+				    ID = x.ID,
                     Code = x.Code,
                     Name = x.Name,
                     Value = x.Value,
                     Remark = x.Remark,
                     Sort = x.Sort,
+                    ChildrenCode = x.ChildrenCode,
                 })
-                .OrderBy(x => x.Code)
-                .ThenBy(x => x.Name);
+                .OrderBy(x => x.ID);
             return query;
         }
+
     }
 
     public class SysDictionaryItem_View : SysDictionaryItem{
