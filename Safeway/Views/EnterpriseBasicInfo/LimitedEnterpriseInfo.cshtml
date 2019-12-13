@@ -1,18 +1,19 @@
 ﻿@model Safeway.ViewModel.EnterpriseBasicInfoVMs.EnterpriseBasicInfoVM
     <wt:form vm="@Model">
-        <wt:row items-per-row="ItemsPerRowEnum.Two">
-            <wt:display field="Entity.ComapanyName" />
-            <wt:display field="Entity.Street" />
-            <wt:display field="Entity.CompanyType" />
-            <wt:display field="Entity.CompanyScale" />
-            <wt:display field="Entity.ForeignCountry" />
-            <wt:display field="Entity.LegalRepresentative" />
-            <wt:display field="Entity.CompanyScale" />
-            <wt:display field="Entity.Industry" />
-            <wt:display field="Entity.NoofEmployees" />
-            <wt:display field="Entity.MainProducts" />
-            <wt:display field="Entity.TermsofTrade" />
+        <wt:row items-per-row="ItemsPerRowEnum.Three">
+            <wt:display field="Entity.ComapanyName" label-width="100" />
+            <wt:display field="Entity.Street" label-width="100" />
+            <wt:display field="Entity.CompanyType" label-width="100" />
+            <wt:display field="Entity.CompanyScale" label-width="100" />
+            <wt:display field="Entity.ForeignCountry" label-width="100" />
+            <wt:display field="Entity.LegalRepresentative" label-width="100" />
+            <wt:display field="Entity.CompanyScale" label-width="100" />
+            <wt:display field="Entity.Industry" label-width="100" />
+            <wt:display field="Entity.NoofEmployees" label-width="100" />
+            <wt:display field="Entity.MainProducts" label-width="100" />
+            <wt:display field="Entity.TermsofTrade" label-width="100" />
         </wt:row>
+        @*<wt:grid vm="@Model.EnterpriseContacts" hidden-checkbox="true" />*@
         <wt:row align=" AlignEnum.Right">
             <wt:closebutton />
         </wt:row>

@@ -53,7 +53,7 @@ namespace Safeway.ViewModel.MyTaskVMs
         {
             return new List<ColumnFormatInfo>
             {
-                ColumnFormatInfo.MakeDialogButton(ButtonTypesEnum.Link, $"EnterpriseBasicInfo/LimitedEnterpriseInfo/{entity.EnterpriseId}", entity.EnterpriseName, width: 1000, height: 800) 
+                ColumnFormatInfo.MakeDialogButton(ButtonTypesEnum.Button, $"EnterpriseBasicInfo/LimitedEnterpriseInfo/{entity.EnterpriseId}", entity.EnterpriseName, width: 1000, height: 600) 
             };
         }
 

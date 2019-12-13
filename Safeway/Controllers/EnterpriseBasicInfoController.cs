@@ -326,10 +326,10 @@ namespace Safeway.Controllers
         [ActionDescription("企业基本信息")]
         public IActionResult LimitedEnterpriseInfo(string id) 
         {
-            var vm = CreateVM<EnterpriseBasicInfoVM>();
-            string enterpriseId = vm.GetEnterprisebyEvaluationId(id);
-            vm.Entity.ID = new Guid(enterpriseId);
-            ViewData["ID"] = enterpriseId;
+            var vm = CreateVM<EnterpriseBasicInfoVM>(id);
+            //string enterpriseId = vm.GetEnterprisebyEvaluationId(id);
+            //vm.Entity.ID = new Guid(enterpriseId);
+            //ViewData["ID"] = enterpriseId;
             return PartialView(vm);
 
         }
