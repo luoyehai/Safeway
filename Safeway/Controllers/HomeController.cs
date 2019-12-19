@@ -79,6 +79,17 @@ namespace Safeway.Controllers
             ViewData["debug"] = ConfigInfo.IsQuickDebug;
             return PartialView();
         }
-
+        [AllRights]
+        [ActionDescription("主页")]
+        public IActionResult HomePage()
+        {
+            return PartialView();
+        }
+        [HttpGet]
+        public JsonResult GetAllDashBoardInfo() 
+        {
+            var vm = CreateVM<IndexVM>();
+            return Json(vm.GetDashboardInfo());
+        }
     }
 }
