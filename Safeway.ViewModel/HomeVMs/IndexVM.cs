@@ -3,6 +3,10 @@ using System.Linq;
 using System.Web;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Core.Extensions;
+using Safeway.Model.SmallEntEvaluation;
+using Safeway.Model.Enterprise;
+using Safeway.Model.Project;
+using Newtonsoft.Json;
 
 namespace Safeway.ViewModel.HomeVMs
 {
@@ -88,6 +92,37 @@ namespace Safeway.ViewModel.HomeVMs
                 }
             }
 
+        }
+        public List<string> GetDashboardInfo() 
+        {
+            List<string> result = new List<string>();
+            var evaluationInfo = DC.Set<SmallEntEvaluationBase>().Where(x => x.IsValid==true).ToList();
+            var enterpriseInfo = DC.Set<EnterpriseBasicInfo>().ToList();
+            var projectInfo = DC.Set<ProjectBasicInfo>().Where(x => x.IsValid == true).ToList();
+            result.Add(JsonConvert.SerializeObject(projectInfo));
+            var evaEnt = (from eva in evaluationInfo
+                              join ent in enterpriseInfo
+                              on eva.EnterpriseId.ToUpper() equals (ent.ID.ToString().ToUpper())
+                              select new
+                              {
+                                  eva,
+                                  ent.ComapanyName,
+                                  ent.Street,
+                              }).ToList();
+            result.Add(JsonConvert.SerializeObject(evaEnt));
+            var evaPro = (from eva in evaluationInfo
+                         join proj in projectInfo
+                         on eva.ProjectId equals proj.ID.ToString()
+                         select new
+                         {
+                             eva,
+                             proj.ProjectName,
+                             proj.ProjectStartDate,
+                             proj.ProjectStatus
+                         }).ToList();
+            result.Add(JsonConvert.SerializeObject(evaPro));
+
+            return result;
         }
 
     }

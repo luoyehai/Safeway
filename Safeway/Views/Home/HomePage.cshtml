@@ -1,0 +1,133 @@
+﻿<div id="dashboard">
+    <el-row>
+        <el-card>
+            <template>
+                <el-carousel :interval="4000" type="card" height="200px">
+                    <el-carousel-item v-for="item in projInfo" :key="item.ID">
+                        <div class="ShowDiv">
+                            <h1>{{item.ProjectName}}</h1>
+                            <el-row class="ShowRow">
+                                <el-col :span="12">
+                                    <h2>开始时间</h2>
+                                </el-col>
+                                <el-col :span="12">
+                                    <h2>{{item.ProjectStartDate}}</h2>
+                                </el-col>
+                            </el-row>
+                            <el-row class="ShowRow">
+                                <el-col :span="12">
+                                    <h2>项目状态</h2>
+                                </el-col>
+                                <el-col :span="12">
+                                    <h2>{{item.ProjectStatus}}</h2>
+                                </el-col>
+                            </el-row>
+                            <el-row class="highlight">
+                                <el-col :span="6">
+                                    <h2>完成企业</h2>
+                                </el-col>
+                                <el-col :span="6">
+                                    <h2> {{item.ProjectStartDate}}</h2>
+                                </el-col>
+                                <el-col :span="6">
+                                    <h2>剩余企业</h2>
+                                </el-col>
+                                <el-col :span="6">
+                                    <h2>{{item.ProjectStartDate}}</h2>
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </el-carousel-item>
+                </el-carousel>
+            </template>
+        </el-card>
+    </el-row>
+    <el-row>
+        <el-col :span="8">
+            <el-card>
+
+            </el-card>
+        </el-col>
+        <el-col :span="8">
+            <el-card>
+
+            </el-card>
+        </el-col>
+        <el-col :span="8">
+            <el-card>
+
+            </el-card>
+        </el-col>
+    </el-row>
+</div>
+<style>
+     .highlight  h2{
+         line-height:40px;
+         background-color:orange;
+         vertical-align:middle;
+    }
+    .ShowRow  h2{
+         line-height:40px;
+         background-color:grey;
+         vertical-align:middle;
+    }
+    .ShowDiv {
+        color:white;
+        text-align:center;
+        background-color:dimgrey;
+}
+
+    .ShowDiv h1 {
+        margin:auto;
+        line-height:51px;
+        vertical-align:middle;
+    }
+    .el-carousel__item h3 {
+        color: #475669;
+        font-size: 14px;
+        opacity: 0.75;
+        line-height: 200px;
+        margin: 0;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+        background-color: #d3dce6;
+    }
+</style>
+<script>
+    var dashboardVM = new Vue({
+        el: '#dashboard',
+        data: {
+            projInfo: [],
+            evaEnt: [],
+            evaProj: []
+        },
+        methods: {
+
+            loadData: function () {
+                 axios.get('Home/GetAllDashBoardInfo')
+                     .then(function (r) {
+                         this.projInfo = JSON.parse(r.data.Data[0]);
+                         this.evaEnt = JSON.parse(r.data.Data[1]);
+                         this.evaProj = JSON.parse(r.data.Data[2]);
+
+                         this.projInfo.map(function (row, index) {
+                             row.ProjectStartDate = row.ProjectStartDate.substring(0, 10);
+                         })
+                    }.bind(this))
+                    .catch(function (e) {
+                        console.error(e);
+                    });
+            }
+
+        },
+        created: function () {
+            this.loadData();
+        }
+
+    })
+</script>
