@@ -64,7 +64,7 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         #endregion
         public string CityItemNames { get; set; }
         public List<string> ProvinceNames { get; set; }
-        //public List<AddressName> CityNames { get; set; }
+        
         public List<string> CityNmaes { get; set; }
         public string City { get; set; }
         public string District { get; set; }
@@ -74,14 +74,11 @@ namespace Safeway.ViewModel.EnterpriseBasicInfoVMs
         public List<AddressName> CityItems { get; set; }
         public EnterpriseBasicInfoVM()
         {
-            // SetInclude(x => x.FinanceInfo, x => x.EnterpriseBusinessinfo, x => x.EnterpriseContacts, x => x.EnterpriserYearYields);
-            //LoadProvince();
-            //LoadEnterpriseInfo();
+
         }
         protected override void InitVM()
         {
-            //LoadProvince();
-            //LoadEnterpriseInfo();
+
         }
 
         public void LoadEnterpriseInfo() 

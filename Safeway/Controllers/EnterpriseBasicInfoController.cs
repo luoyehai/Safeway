@@ -337,6 +337,7 @@ namespace Safeway.Controllers
         public JsonResult GetLimitedEnterpriseInfo(string Id)
         {
             var vm = CreateVM<EnterpriseBasicInfoVM>();
+            //vm.EnterpriseContacts = 
             var result = vm.GetLimitedEnterpriseInfo(Id);
             return Json(result);
         }
