@@ -1,102 +1,225 @@
 ﻿<div id="dashboard">
     <el-row>
-        <el-card>
-            <template>
-                <el-carousel :interval="4000" type="card" height="200px">
-                    <el-carousel-item v-for="item in projInfo" :key="item.ID">
-                        <div class="ShowDiv">
-                            <h1>{{item.ProjectName}}</h1>
-                            <el-row class="ShowRow">
-                                <el-col :span="12">
-                                    <h2>开始时间</h2>
-                                </el-col>
-                                <el-col :span="12">
-                                    <h2>{{item.ProjectStartDate}}</h2>
-                                </el-col>
-                            </el-row>
-                            <el-row class="ShowRow">
-                                <el-col :span="12">
-                                    <h2>项目状态</h2>
-                                </el-col>
-                                <el-col :span="12">
-                                    <h2>{{item.ProjectStatus}}</h2>
-                                </el-col>
-                            </el-row>
-                            <el-row class="highlight">
-                                <el-col :span="6">
-                                    <h2>完成企业</h2>
-                                </el-col>
-                                <el-col :span="6">
-                                    <h2> {{item.ProjectStartDate}}</h2>
-                                </el-col>
-                                <el-col :span="6">
-                                    <h2>剩余企业</h2>
-                                </el-col>
-                                <el-col :span="6">
-                                    <h2>{{item.ProjectStartDate}}</h2>
-                                </el-col>
-                            </el-row>
-                        </div>
-                    </el-carousel-item>
-                </el-carousel>
-            </template>
-        </el-card>
+        <el-col :span="6">
+            <div class="outerBox">
+                <div class="stats-small stats-small--1 card card-small">
+                    <div class="p-0 d-flex card-body">
+                        <el-row>
+                            <el-col :span="10">
+                                <div class="category">
+                                     <h2>小微</h2>
+                                </div>
+                            </el-col>
+                            <el-col :span="14">
+                                <div class="stats-small__data text-center">
+                                    <h6 class="stats-small__value count my-3">234</h6>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </div>
+                </div>
+            </div>
+        </el-col>
+        <el-col :span="6">
+            <div class="outerBox">
+                <div class="stats-small stats-small--1 card card-small">
+                    <div class="p-0 d-flex card-body">
+                        <el-row>
+                            <el-col :span="10">
+                                <div class="category">
+                                    <h2>三级</h2>
+                                </div>
+                            </el-col>
+                            <el-col :span="14">
+                                <div class="stats-small__data text-center">
+                                    <h6 class="stats-small__value count my-3">234</h6>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </div>
+                </div>
+            </div>
+        </el-col>
+        <el-col :span="6">
+            <div class="outerBox">
+                <div class="stats-small stats-small--1 card card-small">
+                    <div class="p-0 d-flex card-body">
+                        <el-row>
+                            <el-col :span="10">
+                                <div class="category">
+                                    <h2>安全诊断</h2>
+                                </div>
+                            </el-col>
+                            <el-col :span="14">
+                                <div class="stats-small__data text-center">
+                                    <h6 class="stats-small__value count my-3">234</h6>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </div>
+                </div>
+            </div>
+        </el-col>
+        <el-col :span="6">
+            <div class="outerBox">
+                <div class="stats-small stats-small--1 card card-small">
+                    <div class="p-0 d-flex card-body">
+                        <el-row>
+                            <el-col :span="10">
+                                <div class="category">
+                                    <h2>安全检查</h2>
+                                </div>
+                            </el-col>
+                            <el-col :span="14">
+                                <div class="stats-small__data text-center">
+                                    <h6 class="stats-small__value count my-3">234</h6>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </div>
+                </div>
+            </div>
+        </el-col>
     </el-row>
+    <br>
     <el-row>
-        <el-col :span="8">
-            <el-card>
-
-            </el-card>
-        </el-col>
-        <el-col :span="8">
-            <el-card>
-
-            </el-card>
-        </el-col>
-        <el-col :span="8">
+        <el-col :span="24">
             <el-card>
 
             </el-card>
         </el-col>
     </el-row>
 </div>
+@*<template>
+        <el-carousel :interval="4000" type="card" height="200px">
+            <el-carousel-item v-for="item in projInfo" :key="item.ID">
+                <div class="ShowDiv">
+                    <h1>{{item.ProjectName}}</h1>
+                    <el-row class="ShowRow">
+                        <el-col :span="12">
+                            <h2>开始时间</h2>
+                        </el-col>
+                        <el-col :span="12">
+                            <h2>{{item.ProjectStartDate}}</h2>
+                        </el-col>
+                    </el-row>
+                    <el-row class="ShowRow">
+                        <el-col :span="12">
+                            <h2>项目状态</h2>
+                        </el-col>
+                        <el-col :span="12">
+                            <h2>{{item.ProjectStatus}}</h2>
+                        </el-col>
+                    </el-row>
+                    <el-row class="highlight">
+                        <el-col :span="6">
+                            <h2>完成企业</h2>
+                        </el-col>
+                        <el-col :span="6">
+                            <h2> {{item.ProjectStartDate}}</h2>
+                        </el-col>
+                        <el-col :span="6">
+                            <h2>剩余企业</h2>
+                        </el-col>
+                        <el-col :span="6">
+                            <h2>{{item.ProjectStartDate}}</h2>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-carousel-item>
+        </el-carousel>
+    </template>*@
 <style>
-     .highlight  h2{
-         line-height:40px;
-         background-color:orange;
-         vertical-align:middle;
-    }
-    .ShowRow  h2{
-         line-height:40px;
-         background-color:grey;
-         vertical-align:middle;
-    }
-    .ShowDiv {
-        color:white;
-        text-align:center;
-        background-color:dimgrey;
+div {
+    display: block;
 }
-
-    .ShowDiv h1 {
-        margin:auto;
-        line-height:51px;
-        vertical-align:middle;
-    }
-    .el-carousel__item h3 {
-        color: #475669;
-        font-size: 14px;
-        opacity: 0.75;
-        line-height: 200px;
-        margin: 0;
-    }
-
-    .el-carousel__item:nth-child(2n) {
-        background-color: #99a9bf;
-    }
-
-    .el-carousel__item:nth-child(2n+1) {
-        background-color: #d3dce6;
-    }
+.outerBox {
+    margin: 1.5rem!important;
+}
+.stats-small {
+    min-height: 8.7rem;
+    overflow: hidden!important;
+}
+.card-small {
+    box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+}
+.card {
+    background-color: #fff;
+    border: none;
+    border-radius: .625rem;
+    box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,.1), 0 0.9375rem 1.40625rem rgba(90,97,105,.1), 0 0.25rem 0.53125rem rgba(90,97,105,.12), 0 0.125rem 0.1875rem rgba(90,97,105,.1);
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: initial;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+body {
+    margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+}
+body {
+    background: #f5f6f8;
+    font-size: 15px;
+}
+body, html {
+    font-weight: 500;
+}
+body {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #5a6169;
+    background-color: #fff;
+}
+.stats-small__label {
+    font-size: .625rem;
+    letter-spacing: .0625rem;
+    color: #818ea3;
+}
+.text-uppercase {
+    text-transform: uppercase!important;
+}
+.stats-small--1 .stats-small__value {
+    font-size: 2.0625rem;
+}
+.stats-small__value {
+    font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.stats-small__data {
+    flex: 1 1;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    max-width: 100%;
+    z-index: 1;
+    margin-top:3.2rem;
+}
+.text-center {
+    text-align: center!important;
+}
+.category {
+    flex: 1 1;
+    display: flex;
+    flex-flow: column;
+    max-width: 100%;
+    z-index: 1;
+    margin-top:3.2rem;
+    margin-left:2rem;
+}
 </style>
 <script>
     var dashboardVM = new Vue({
@@ -109,15 +232,15 @@
         methods: {
 
             loadData: function () {
-                 axios.get('Home/GetAllDashBoardInfo')
-                     .then(function (r) {
-                         this.projInfo = JSON.parse(r.data.Data[0]);
-                         this.evaEnt = JSON.parse(r.data.Data[1]);
-                         this.evaProj = JSON.parse(r.data.Data[2]);
+                axios.get('Home/GetAllDashBoardInfo')
+                    .then(function (r) {
+                        this.projInfo = JSON.parse(r.data.Data[0]);
+                        this.evaEnt = JSON.parse(r.data.Data[1]);
+                        this.evaProj = JSON.parse(r.data.Data[2]);
 
-                         this.projInfo.map(function (row, index) {
-                             row.ProjectStartDate = row.ProjectStartDate.substring(0, 10);
-                         })
+                        this.projInfo.map(function (row, index) {
+                            row.ProjectStartDate = row.ProjectStartDate.substring(0, 10);
+                        })
                     }.bind(this))
                     .catch(function (e) {
                         console.error(e);
