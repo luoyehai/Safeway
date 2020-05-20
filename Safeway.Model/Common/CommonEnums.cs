@@ -32,7 +32,9 @@ namespace Safeway.Model.Common
         [Display(Name = "企业安全生产标准化小微评审")]
         SmallEnterpriseReivew,
         [Display(Name = "企业生产标准化三级评审")]
-        Level3EnterpriseReivew
+        Level3EnterpriseReivew,
+        [Display(Name = "企业安全基础管理检查")]
+        BisicEnterpriseReview
     }
 
     public enum ProjectStatusEnum
@@ -92,8 +94,6 @@ namespace Safeway.Model.Common
         Small,
         [Display(Name = "微型")]
         Mini
-
-
     }
 
     public enum SafetyServiceTypeEnum 

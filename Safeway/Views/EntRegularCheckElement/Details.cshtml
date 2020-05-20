@@ -1,0 +1,14 @@
+﻿@model Safeway.ViewModel.EntRegularCheckElementVMs.EntRegularCheckElementVM
+
+<wt:form vm="@Model">
+<wt:row items-per-row="ItemsPerRowEnum.Two">
+<wt:display field="Entity.ElementName" />
+<wt:display field="Entity.CheckContent" />
+<wt:display field="Entity.CheckPoint" />
+<wt:display field="Entity.Regulations" />
+<wt:display field="Entity.Order" />
+</wt:row>
+    <wt:row align=" AlignEnum.Right">
+        <wt:closebutton />
+    </wt:row>
+</wt:form>

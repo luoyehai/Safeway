@@ -8,6 +8,7 @@ using WalkingTec.Mvvm.Core.Extensions;
 using Safeway.Model.Project;
 using Safeway.Model.Enterprise;
 using Safeway.Model.SmallEntEvaluation;
+using Safeway.Model.BasicEntEvaluation;
 
 namespace Safeway.ViewModel.ProjectBasicInfoVMs
 {
@@ -63,8 +64,9 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
             }).ToList();
         }
 
-        public async Task AddEnterpriseToProject()
+        public async Task AddToSmallEntEvaluationProject()
         {
+            // 小微评审
             var items = new List<SmallEntEvaluationBase>();
             Array.ForEach(SelectedEnterpriseIds, x => {
                 items.Add(new SmallEntEvaluationBase()
@@ -79,6 +81,25 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
                 });
             });
             await DC.Set<SmallEntEvaluationBase>().AddRangeAsync(items);
+            await DC.SaveChangesAsync();
+        }
+
+        public async Task AddToRegularEntReviewProject()
+        {
+            var items = new List<BasicEntEvaluationBase>();
+            Array.ForEach(SelectedEnterpriseIds, x =>
+            {
+                items.Add(new BasicEntEvaluationBase()
+                {
+                    ProjectId = Entity.ID.ToString(),
+                    EnterpriseId = x,
+                    EvluationEnt = "SafeWay",
+                    EvaluationStartDate = Entity.ProjectStartDate == null ? DateTime.Now : (DateTime)Entity.ProjectStartDate,
+                    EvaluationEndDate = Entity.ProjectEndDate == null ? DateTime.Now : (DateTime)Entity.ProjectEndDate,
+                    Status = Model.Common.EvaluationStatus.NotStarted
+                });
+            });
+            await DC.Set<BasicEntEvaluationBase>().AddRangeAsync(items);
             await DC.SaveChangesAsync();
         }
 

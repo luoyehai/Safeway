@@ -1,0 +1,11 @@
+﻿@model Safeway.ViewModel.EntRegularCheckElementVMs.EntRegularCheckElementListVM
+
+<wt:searchpanel vm="@Model" reset-btn="true">
+<wt:row items-per-row="ItemsPerRowEnum.Three">
+<wt:textbox field="Searcher.ElementName" />
+<wt:textbox field="Searcher.CheckContent" />
+<wt:textbox field="Searcher.CheckPoint" />
+<wt:textbox field="Searcher.Regulations" />
+</wt:row>
+</wt:searchpanel>
+<wt:grid vm="@Model" url="/EntRegularCheckElement/Search"/>

@@ -78,8 +78,8 @@ namespace Safeway.ViewModel.ProjectBasicInfoVMs
                     ProjectType = x.ProjectType,
                     ProjectOnwer = x.ProjectOnwer,
                     ProjectMember = x.ProjectMember,
-                    ProjectStartDateStr = ((DateTime)x.ProjectStartDate).ToShortDateFormatString(),
-                    ProjectEndDateStr = ((DateTime)x.ProjectEndDate).ToShortDateFormatString(),
+                    ProjectStartDateStr = x.ProjectStartDate == null ? string.Empty : ((DateTime)x.ProjectStartDate).ToShortDateFormatString(),
+                    ProjectEndDateStr = x.ProjectEndDate == null ? string.Empty : ((DateTime)x.ProjectEndDate).ToShortDateFormatString(),
                     ProjectStatus = x.ProjectStatus,
                 })
                 .OrderBy(x => x.ID);

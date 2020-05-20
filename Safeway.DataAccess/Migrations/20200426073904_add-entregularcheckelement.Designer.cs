@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Safeway.DataAccess;
 
 namespace Safeway.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200426073904_add-entregularcheckelement")]
+    partial class addentregularcheckelement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,9 +256,14 @@ namespace Safeway.DataAccess.Migrations
 
                     b.Property<bool>("IsValid");
 
+                    b.Property<int>("Level");
+
                     b.Property<int>("Order");
 
+                    b.Property<string>("ParentElementId");
+
                     b.Property<string>("Regulations")
+                        .IsRequired()
                         .HasMaxLength(500);
 
                     b.Property<string>("UpdateBy")

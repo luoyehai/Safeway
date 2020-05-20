@@ -11,12 +11,15 @@ using Safeway.Model.SmallEntEvaluation;
 using Safeway.Model.ExportTemplate;
 using Safeway.Model.Project;
 using Safeway.Model.System;
+using Safeway.Model.BasicEntEvaluation;
 
 namespace Safeway.DataAccess
 {
     public class DataContext : FrameworkContext
     {
         public DbSet<EnterpriseReviewElement> EnterpriseReviewElements { get; set; }
+
+        public DbSet<EntRegularCheckElement> EntRegularCheckElement { get; set; }
 
         #region Dictionary
         public DbSet<SysDictionaryType> SysDictionaryTypes { get; set; }
@@ -52,6 +55,14 @@ namespace Safeway.DataAccess
         public DbSet<SmEntEvaluationTemplate> SmEntEvaluationTemplates { get; set; }
         public DbSet<EvaluationTeamInfo> EvaluationTeamInfos { get; set; }
         public DbSet<SmEntEvaluationGeneral> SmEntEvaluationGenerals { get; set; }
+        #endregion
+
+        #region Enterprise regular check 
+        public DbSet<BasicEntEvaluationBase> BasicEntEvaluationBases { get; set; }
+
+        public DbSet<BasicEntEvaluationItem> BasicEntEvaluationItems { get; set; }
+
+        public DbSet<BasicEntEvaluationItemStateTrack> BasicEntEvaluationItemStateTracks { get; set; }
         #endregion
 
         public DataContext(string cs, DBTypeEnum dbtype)

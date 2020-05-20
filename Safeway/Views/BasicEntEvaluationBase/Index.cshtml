@@ -1,0 +1,14 @@
+﻿@model Safeway.ViewModel.BasicEntEvaluationBaseVMs.BasicEntEvaluationBaseListVM
+
+<wt:searchpanel vm="@Model" reset-btn="true">
+<wt:row items-per-row="ItemsPerRowEnum.Three">
+<wt:textbox field="Searcher.ProjectId" />
+<wt:textbox field="Searcher.EnterpriseId" />
+<wt:textbox field="Searcher.EvluationEnt" />
+<wt:datetime field="Searcher.EvaluationStartDate" />
+<wt:datetime field="Searcher.EvaluationEndDate" />
+<wt:textbox field="Searcher.Evaluator" />
+<wt:combobox field="Searcher.Status" empty-text="全部" />
+</wt:row>
+</wt:searchpanel>
+<wt:grid vm="@Model" url="/BasicEntEvaluationBase/Search"/>
